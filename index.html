@@ -9364,6 +9364,10 @@
 
       <input type="hidden" name="budget" id="budgetInput" />
 
+      <label>Nom de la commande <span class="optional-tag">(le sujet en quelques mots, ex : "Vidéo imposteur", "Best-of saison 3"...)</span>
+        <input type="text" name="nomCommande" required placeholder="ex : Vidéo imposteur" />
+      </label>
+
       <label>Décris ton projet
         <textarea name="description" rows="3" required placeholder="Type de contenu, style souhaité, sous-titres ou non, tout ce qui peut m'aider à comprendre ton besoin..."></textarea>
       </label>
@@ -11460,8 +11464,21 @@
         try {
           const res = await fetch(`${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=list&_ts=${Date.now()}`);
           if (!res.ok) throw new Error('fetch-failed');
-          const rows = await res.json();
-          const dataRows = rows.slice(1).filter(r => r[0]);
+          const raw = await res.json();
+          // Le doGet renvoie { success: true, orders: [...] } (déjà sans ligne d'en-tête, voir
+          // l'Apps Script fourni). On accepte aussi l'ancien format "tableau brut avec en-tête"
+          // par sécurité, au cas où une ancienne version du script serait encore déployée.
+          let rows;
+          if (Array.isArray(raw)) {
+            rows = raw.slice(1);
+          } else if (raw && Array.isArray(raw.orders)) {
+            rows = raw.orders;
+          } else if (raw && raw.success === false) {
+            throw new Error(raw.error || 'apps-script-error');
+          } else {
+            throw new Error('unexpected-response-shape');
+          }
+          const dataRows = rows.filter(r => r[0]);
           // Tri par date de création — les plus récentes en premier (colonne D = date, ajoutée auto par l'Apps Script).
           // Les lignes sans date valide (anciennes commandes créées avant cette colonne) sont reléguées en fin de liste.
           dataRows.sort((a, b) => {
@@ -11488,6 +11505,7 @@
           renderAdminOrdersList(dataRows);
           if (!silent) adminStatusNote.textContent = `✅ ${dataRows.length} commande(s) chargée(s)`;
         } catch (err) {
+          console.error('loadAdminOrders a échoué :', err);
           if (!silent) {
             adminOrdersList.innerHTML = '';
             adminStatusNote.textContent = '⚠️ Impossible de charger, vérifie l\'URL Apps Script.';
@@ -11825,6 +11843,7 @@
           adminNewOrderNote.value = '';
           loadAdminOrders();
         } catch (err) {
+          console.error('Création de commande manuelle échouée :', err);
           adminCreateMsg.textContent = '⚠️ Échec, vérifie l\'URL Apps Script et réessaie';
           adminCreateMsg.style.color = '#e28b8b';
         }
@@ -13589,6 +13608,7 @@
 
       const rows = [];
       if (nom) rows.push(['Nom', escapeHtml(nom)]);
+      if (data.get('nomCommande')) rows.push(['🎬 Commande', escapeHtml(data.get('nomCommande'))]);
       if (data.get('contact')) rows.push(['Contact', `${escapeHtml(data.get('reseau'))} · ${escapeHtml(data.get('contact'))}${data.get('reseau') === 'WhatsApp' && data.get('whatsappNumber') ? ' · 📱 ' + escapeHtml(data.get('whatsappNumber')) : ''}`]);
       rows.push(['Format', escapeHtml(formatBreakdown(data))]);
       if (data.get('delai')) rows.push(['Délai', escapeHtml(data.get('delai'))]);
@@ -14394,9 +14414,26 @@
       try {
         if (APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT')) return;
         const url = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=update&orderId=${encodeURIComponent(orderId)}&status=${encodeURIComponent(status)}&note=${encodeURIComponent(note)}&contact=${encodeURIComponent(contact || '')}`;
-        await fetch(url);
+        const res = await fetch(url);
+        const text = await res.text();
+        // La commande reste valable pour le client même si la synchro échoue (elle part quand
+        // même sur Discord) — mais on log l'erreur en console pour pouvoir la repérer en ouvrant
+        // les outils de dev (F12 > Console), plutôt que de le découvrir des semaines plus tard.
+        if (!res.ok || text.trim() === 'Non autorisé') {
+          console.error('Synchro Sheet échouée pour', orderId, '— réponse Apps Script :', text);
+        } else {
+          try {
+            const parsed = JSON.parse(text);
+            if (parsed && parsed.success === false) {
+              console.error('Synchro Sheet échouée pour', orderId, '— erreur Apps Script :', parsed.error);
+            }
+          } catch (parseErr) {
+            console.error('Synchro Sheet : réponse inattendue pour', orderId, '—', text);
+          }
+        }
       } catch (err) {
-        // pas grave : la commande reste visible dans Discord, tu peux toujours l'ajouter à la main dans l'admin
+        console.error('Synchro Sheet : requête échouée pour', orderId, '—', err);
+        // pas grave pour le client : la commande reste visible dans Discord, tu peux toujours l'ajouter à la main dans l'admin
       }
     }
 
@@ -14447,6 +14484,62 @@
     let remoteClientMessages = {};
     let remoteDeliveryLinks = {};
     let remoteSoldeRecu = {};
+
+    // --- Anti-abus du code PREMIERE20 (-20%, réservé à la 1ère commande) ---
+    // Vérifie, à partir du Sheet public (déjà utilisé pour le suivi de commande), si le contact
+    // fourni a déjà une commande passée au statut "✅ Livré" — signe que ce n'est pas sa 1ère
+    // commande. Basé sur la colonne F (contact) du Sheet, qui contient déjà "réseau · @pseudo"
+    // au même format que ce qu'envoie le formulaire (voir syncOrderToAdminSheet).
+    // ⚠️ Ce contrôle tourne côté navigateur, sur des données publiques : quelqu'un de déterminé
+    // pourrait le contourner en modifiant le code source. Il sert avant tout à filtrer les cas
+    // de bonne foi (oubli, changement de pseudo non voulu) et à t'avertir des tentatives, pas à
+    // garantir une sécurité absolue — la validation finale du prix reste entre tes mains, comme
+    // pour les commandes en "Prix libre".
+    async function checkPremiere20Abuse(contactHandle) {
+      const handle = (contactHandle || '').trim().toLowerCase();
+      if (!handle) return { abused: false };
+      try {
+        const bustUrl = STATUS_SHEET_CSV_URL + (STATUS_SHEET_CSV_URL.includes('?') ? '&' : '?') + '_ts=' + Date.now();
+        const res = await fetch(bustUrl, { cache: 'no-store' });
+        if (!res.ok) return { abused: false };
+        const text = await res.text();
+        const rows = parseCsv(text);
+        const match = rows.slice(1).find(r => {
+          const status = (r[1] || '');
+          const contact = (r[5] || '').toLowerCase();
+          return status.indexOf('Livré') !== -1 && contact.includes(handle);
+        });
+        if (match) return { abused: true, previousOrderId: match[0] || '?' };
+        return { abused: false };
+      } catch (err) {
+        // En cas de doute (Sheet injoignable, etc.), on ne bloque jamais une commande légitime :
+        // le code reste appliqué, quitte à vérifier toi-même à la main si besoin.
+        console.error('Vérification anti-abus PREMIERE20 impossible :', err);
+        return { abused: false };
+      }
+    }
+
+    // Alerte Discord dédiée (embed distinct de la notification "nouvelle commande") pour te
+    // prévenir tout de suite qu'un code a été refusé pour cause de réutilisation.
+    async function notifyPromoAbuse(contactLine, orderId, previousOrderId) {
+      try {
+        if (WEBHOOK_URL.includes('COLLE_TON_URL')) return;
+        await fetch(WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            content: "@everyone",
+            embeds: [{
+              title: "⚠️ Code PREMIERE20 refusé (déjà utilisé)",
+              description: `Le contact **${contactLine}** a tenté d'utiliser PREMIERE20 sur la commande **${orderId}**, mais il a déjà une commande livrée (**${previousOrderId}**). Le code n'a pas été appliqué, mais vérifie quand même le prix indiqué avant de valider.`,
+              color: 16753920
+            }]
+          })
+        });
+      } catch (err) {
+        console.error('Alerte anti-abus PREMIERE20 non envoyée :', err);
+      }
+    }
     const sheetSyncReady = !STATUS_SHEET_CSV_URL.includes('COLLE_URL_CSV');
     const lastSyncNote = document.getElementById('lastSyncNote');
 
@@ -14578,6 +14671,7 @@
         <span class="tracking-status ${statusClass}${justChanged ? ' status-pulse' : ''}">${statusIconHtml(liveStatus, 13)}${escapeHtml(stripStatusEmoji(liveStatus))}</span>
         <span class="tracking-id">${escapeHtml(order.id)}</span><br/>
         <strong>${escapeHtml(order.nom)}</strong> (${escapeHtml(order.typeClient || 'Particulier')}) · ${escapeHtml(order.format)} (${escapeHtml(order.quantite)} vidéo${order.quantite > 1 ? 's' : ''})<br/>
+        ${order.nomCommande ? `🎬 ${escapeHtml(order.nomCommande)}<br/>` : ''}
         ${order.urgent ? '⚡ Urgent · ' : ''}${order.commercial ? '💼 Commercial · ' : ''}${order.promoCode ? `🎟️ Code ${escapeHtml(order.promoCode)} · ` : ''}Délai souhaité : ${escapeHtml(order.delai || 'non précisé')}<br/>
         Validité : ${escapeHtml(order.validityStatus || 'non précisée')}<br/>
         Envoyée le ${escapeHtml(order.date)} · Budget indicatif : ${escapeHtml(order.budget || 'non précisé')}
@@ -14912,6 +15006,7 @@
 
         const recapRows = [
           { icon: '👤', label: 'Client', value: `${data.get('nom') || 'non précisé'} (${data.get('typeClient') || 'Particulier'})` },
+          { icon: '🎬', label: 'Nom de la commande', value: data.get('nomCommande') || 'non précisé' },
           { icon: '📩', label: 'Contact', value: contactLine },
           { icon: '🎬', label: 'Format', value: formatBreakdown(data) },
           { icon: '⏱️', label: 'Délai souhaité', value: (data.get('delai') || 'non précisé') + (tagsLine ? ' · ' + tagsLine : '') },
@@ -14953,13 +15048,26 @@
       // Code promo éventuellement appliqué : revalidé ici (et pas juste lu depuis l'input) pour ne
       // marquer la commande comme "avec code" que si le code est bien reconnu dans PROMO_CODES.
       const promoCodeRaw = (data.get('promoCode') || '').trim().toUpperCase();
-      const appliedPromo = PROMO_CODES[promoCodeRaw] || null;
+      let appliedPromo = PROMO_CODES[promoCodeRaw] || null;
       const parrainPseudo = promoCodeRaw === 'PARRAIN10' ? (data.get('parrainPseudo') || '').trim() : '';
       const preuvePaiement = data.get('preuvePaiement');
       const validityStatus = preuvePaiement ? '🟢 Acompte annoncé, à vérifier' : '🔵 Premier contact, acompte à régler avant le début du montage';
 
+      // Anti-abus PREMIERE20 : réservé à la 1ère commande, donc on vérifie que ce contact n'a
+      // pas déjà une commande livrée avant d'appliquer la réduction (voir checkPremiere20Abuse).
+      let promoAbuseInfo = null;
+      if (appliedPromo && promoCodeRaw === 'PREMIERE20') {
+        reserveStatus.style.color = '#888';
+        reserveStatus.textContent = 'Vérification du code promo...';
+        promoAbuseInfo = await checkPremiere20Abuse(data.get('contact'));
+        if (promoAbuseInfo.abused) {
+          appliedPromo = null;
+        }
+      }
+
       const fields = [
         { name: "Nom / pseudo", value: data.get('nom') || 'non précisé' },
+        { name: "🎬 Nom de la commande", value: data.get('nomCommande') || 'non précisé' },
         { name: "Type de client", value: data.get('typeClient') || 'non précisé' },
         { name: "Contact", value: `${data.get('reseau')} · ${data.get('contact')}${data.get('reseau') === 'WhatsApp' && data.get('whatsappNumber') ? ' · 📱 ' + data.get('whatsappNumber') : ''}` },
         { name: "Format souhaité", value: formatBreakdown(data) },
@@ -14968,11 +15076,17 @@
         { name: "Type de collaboration", value: data.get('collaboration') || 'non précisé' },
         { name: "Usage commercial / sponsorisé", value: isCommercial ? '✅ Oui' : 'Non' },
         { name: "Mode urgent", value: isUrgent ? '⚡ Oui' : 'Non' },
-        { name: "Code promo", value: appliedPromo ? `🎟️ ${promoCodeRaw} (${appliedPromo.label})` : 'Aucun' },
+        { name: "Code promo", value: promoAbuseInfo && promoAbuseInfo.abused ? `❌ PREMIERE20 refusé (déjà client, commande ${escapeHtml(promoAbuseInfo.previousOrderId)})` : (appliedPromo ? `🎟️ ${promoCodeRaw} (${appliedPromo.label})` : 'Aucun') },
         { name: "Budget indicatif", value: data.get('budget') || 'Non précisé' },
         { name: "Description", value: data.get('description') },
         { name: "Statut", value: validityStatus }
       ];
+      if (promoAbuseInfo && promoAbuseInfo.abused) {
+        fields.push({
+          name: "⚠️ ANTI-ABUS — prix à revérifier",
+          value: `Ce contact a déjà une commande livrée (${escapeHtml(promoAbuseInfo.previousOrderId)}), donc PREMIERE20 n'a pas été appliqué. Le budget indicatif ci-dessus a été calculé côté client AVANT ce contrôle et inclut peut-être encore la réduction — recalcule le prix toi-même avant de valider.`
+        });
+      }
       if (parrainPseudo) {
         fields.push({ name: "🤝 Parrain à créditer (-10% sur sa prochaine commande)", value: parrainPseudo });
       }
@@ -15018,6 +15132,7 @@
         saveOrder({
           id: orderId,
           nom: data.get('nom') || 'non précisé',
+          nomCommande: data.get('nomCommande') || '',
           typeClient: data.get('typeClient'),
           format: data.get('format'),
           quantite: data.get('quantite') || 1,
@@ -15043,9 +15158,17 @@
         syncOrderToAdminSheet(
           orderId,
           '🟠 Envoyée, en attente de réponse',
-          `${data.get('nom') || 'non précisé'} (${data.get('typeClient') || 'Particulier'}) · ${formatBreakdown(data)} · 💶 ${data.get('budget') || 'non précisé'}${isUrgent ? ' · ⚡ Urgent' : ''}${data.get('dateLivraisonSouhaitee') ? ' · 📅 Voulu le ' + new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR') : ''}${appliedPromo ? ` · 🎟️ Code ${promoCodeRaw}` : ''}${parrainPseudo ? ` · 🤝 Parrain : ${parrainPseudo}` : ''} · via formulaire complet`,
+          `${data.get('nom') || 'non précisé'} (${data.get('typeClient') || 'Particulier'}) · 🎬 ${data.get('nomCommande') || 'non précisé'} · ${formatBreakdown(data)} · 💶 ${data.get('budget') || 'non précisé'}${isUrgent ? ' · ⚡ Urgent' : ''}${data.get('dateLivraisonSouhaitee') ? ' · 📅 Voulu le ' + new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR') : ''}${appliedPromo ? ` · 🎟️ Code ${promoCodeRaw}` : ''}${promoAbuseInfo && promoAbuseInfo.abused ? ` · ⚠️ PREMIERE20 refusé (déjà client, cmd ${promoAbuseInfo.previousOrderId}) — vérifie le prix` : ''}${parrainPseudo ? ` · 🤝 Parrain : ${parrainPseudo}` : ''} · via formulaire complet`,
           `${data.get('reseau') || 'non précisé'} · ${data.get('contact') || 'non précisé'}${data.get('reseau') === 'WhatsApp' && data.get('whatsappNumber') ? ' · 📱 ' + data.get('whatsappNumber') : ''}`
         );
+
+        if (promoAbuseInfo && promoAbuseInfo.abused) {
+          notifyPromoAbuse(
+            `${data.get('reseau') || 'non précisé'} · ${data.get('contact') || 'non précisé'}`,
+            orderId,
+            promoAbuseInfo.previousOrderId
+          );
+        }
 
         playConfirmationFeedback();
         renderOrderHistory();
@@ -15055,6 +15178,7 @@
 
         document.getElementById('confirmationCode').textContent = orderId;
         document.getElementById('confirmationRecap').innerHTML = `
+          🎬 ${escapeHtml(data.get('nomCommande') || 'non précisé')}<br/>
           ${escapeHtml(data.get('format'))} × ${escapeHtml(data.get('quantite') || 1)} ·
           Délai souhaité : ${escapeHtml(data.get('delai') || 'non précisé')}${data.get('dateLivraisonSouhaitee') ? ' · Date voulue : ' + escapeHtml(new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR')) : ''}<br/>
           Budget indicatif : ${escapeHtml(data.get('budget') || 'non précisé')}
