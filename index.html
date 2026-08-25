@@ -5895,6 +5895,50 @@
       line-height: 1.4;
     }
 
+    .admin-note-quickfields-hint {
+      margin-top: 2px;
+      margin-bottom: 6px;
+      font-size: 10px;
+      color: var(--text-faint);
+      font-style: italic;
+      line-height: 1.4;
+    }
+
+    .admin-note-quickfields {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      margin-bottom: 8px;
+    }
+
+    .admin-note-quickfields input,
+    .admin-note-quickfields select {
+      width: 100%;
+      box-sizing: border-box;
+      padding: 6px 8px;
+      background: var(--surface-soft);
+      border: 0.5px solid var(--border-soft);
+      border-radius: 6px;
+      color: var(--text-primary);
+      font-size: 12px;
+      font-family: inherit;
+    }
+
+    .admin-note-qf-sync-btn {
+      grid-column: 1 / -1;
+      padding: 7px 10px;
+      background: #5865F218;
+      border: 0.5px solid #5865F255;
+      border-radius: 6px;
+      color: #8c93ff;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      cursor: pointer;
+    }
+
+    .admin-note-qf-sync-btn:hover { background: #5865F230; }
+
     .admin-order-badges {
       display: flex;
       flex-wrap: wrap;
@@ -5949,6 +5993,12 @@
       color: #7f8bfa;
       background: #7f8bfa18;
       border: 0.5px solid #7f8bfa44;
+    }
+
+    .admin-order-badge-warning {
+      color: #ff6b6b;
+      background: #ff6b6b18;
+      border: 0.5px solid #ff6b6b44;
     }
 
     .admin-relance-btn {
@@ -6167,6 +6217,60 @@
       font-family: 'DM Sans', sans-serif;
       font-size: 12px;
       margin-top: 6px;
+    }
+
+    .admin-input-with-copy {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .admin-input-with-copy .admin-delivery-link-input,
+    .admin-input-with-copy .admin-note-qf-lien {
+      flex: 1;
+      margin-top: 0;
+    }
+
+    .admin-copy-link-btn {
+      flex-shrink: 0;
+      background: var(--surface);
+      border: 0.5px solid #4caf5044;
+      border-radius: 8px;
+      padding: 6px 9px;
+      font-size: 12px;
+      cursor: pointer;
+      color: var(--text);
+      line-height: 1;
+    }
+
+    .admin-copy-link-btn:hover { background: #4caf5018; }
+
+    .admin-open-link-btn {
+      flex-shrink: 0;
+      background: var(--surface);
+      border: 0.5px solid #4c8faf44;
+      border-radius: 8px;
+      padding: 6px 9px;
+      font-size: 12px;
+      cursor: pointer;
+      color: var(--text);
+      line-height: 1;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+    }
+
+    .admin-open-link-btn:hover { background: #4c8faf18; }
+
+    .admin-cancel-lowprice-btn {
+      color: #e28b8b !important;
+    }
+
+    .admin-note-history-details summary { color: #7f8bfa; }
+
+    .admin-toolbar-more-item.admin-author-name-btn {
+      text-align: left;
     }
 
     .admin-hidden-toggle {
@@ -10607,6 +10711,87 @@
         }
         return extractDesiredDeliveryTimestamp(r[2]);
       }
+
+      // --- Champs rapides pour éditer la note privée sans devoir tout retaper. La note est un
+      //     seul texte généré au départ (nom, format, budget, date... concaténés avec " · "), donc
+      //     la modifier à la main pour un seul détail obligeait à retaper toute la phrase. Ici, on
+      //     extrait les morceaux les plus souvent changés dans des petits champs façon formulaire ;
+      //     "🔄 Mettre à jour la note" les réinjecte SEULEMENT à leur emplacement dans le texte
+      //     existant, sans toucher au reste (description, format, etc. restent intacts). La note
+      //     reste éditable librement en dessous pour tout le reste. ---
+      function parseNoteQuickFields(note) {
+        const text = note || '';
+        const nameMatch = /^([^(·]+?)\s*\(([^)]*)\)/.exec(text);
+        const commandeMatch = /🎬\s*([^·]+?)\s*(?:·|$)/.exec(text);
+        const formatMatch = /🎥\s*([^·]+?)\s*(?:·|$)/.exec(text);
+        const budgetMatch = /💶\s*([^·]+?)\s*(?:·|$)/.exec(text);
+        const dateMatch = /📅\s*Voulu le (\d{2})\/(\d{2})\/(\d{4})/.exec(text);
+        const promoMatch = /🎟️\s*Code\s*([^·(]+?)\s*(?:\(|·|$)/.exec(text);
+        const lienMatch = /📁\s*([^·]+?)\s*(?:·|$)/.exec(text);
+        return {
+          nom: nameMatch ? nameMatch[1].trim() : '',
+          typeClient: nameMatch ? nameMatch[2].trim() : 'Particulier',
+          nomCommande: commandeMatch ? commandeMatch[1].trim() : '',
+          format: formatMatch ? formatMatch[1].trim() : '',
+          budget: budgetMatch ? budgetMatch[1].trim() : '',
+          dateVoulue: dateMatch ? `${dateMatch[3]}-${dateMatch[2]}-${dateMatch[1]}` : '',
+          promoCode: promoMatch ? promoMatch[1].trim() : '',
+          lien: lienMatch ? lienMatch[1].trim() : ''
+        };
+      }
+      function rebuildNoteFromQuickFields(note, fields) {
+        let text = note || '';
+        if (/^([^(·]+?)\s*\(([^)]*)\)/.test(text)) {
+          text = text.replace(/^([^(·]+?)\s*\(([^)]*)\)/, `${fields.nom || 'non précisé'} (${fields.typeClient || 'Particulier'})`);
+        } else if (fields.nom) {
+          text = `${fields.nom} (${fields.typeClient || 'Particulier'})${text ? ' · ' + text : ''}`;
+        }
+        if (/🎬\s*[^·]+/.test(text)) {
+          text = text.replace(/🎬\s*[^·]+/, `🎬 ${fields.nomCommande || 'non précisé'}`);
+        } else if (fields.nomCommande) {
+          text += ` · 🎬 ${fields.nomCommande}`;
+        }
+        if (/🎥\s*[^·]+/.test(text)) {
+          text = text.replace(/🎥\s*[^·]+/, `🎥 ${fields.format || 'non précisé'}`);
+        } else if (fields.format) {
+          text += ` · 🎥 ${fields.format}`;
+        }
+        if (/💶\s*[^·]+/.test(text)) {
+          text = text.replace(/💶\s*[^·]+/, `💶 ${fields.budget || 'non précisé'}`);
+        } else if (fields.budget) {
+          text += ` · 💶 ${fields.budget}`;
+        }
+        if (/📅\s*Voulu le \d{2}\/\d{2}\/\d{4}/.test(text)) {
+          if (fields.dateVoulue) {
+            const d = new Date(fields.dateVoulue + 'T00:00:00');
+            text = text.replace(/📅\s*Voulu le \d{2}\/\d{2}\/\d{4}/, `📅 Voulu le ${d.toLocaleDateString('fr-FR')}`);
+          } else {
+            text = text.replace(/\s*·?\s*📅\s*Voulu le \d{2}\/\d{2}\/\d{4}/, '');
+          }
+        } else if (fields.dateVoulue) {
+          const d = new Date(fields.dateVoulue + 'T00:00:00');
+          text += ` · 📅 Voulu le ${d.toLocaleDateString('fr-FR')}`;
+        }
+        if (/🎟️\s*Code\s*[^·(]+/.test(text)) {
+          if (fields.promoCode) {
+            text = text.replace(/🎟️\s*Code\s*[^·(]+/, `🎟️ Code ${fields.promoCode.trim()} `);
+          } else {
+            text = text.replace(/\s*·?\s*🎟️\s*Code\s*[^·]+/, '');
+          }
+        } else if (fields.promoCode) {
+          text += ` · 🎟️ Code ${fields.promoCode.trim()}`;
+        }
+        if (/📁\s*[^·]+/.test(text)) {
+          if (fields.lien) {
+            text = text.replace(/📁\s*[^·]+/, `📁 ${fields.lien.trim()}`);
+          } else {
+            text = text.replace(/\s*·?\s*📁\s*[^·]+/, '');
+          }
+        } else if (fields.lien) {
+          text += ` · 📁 ${fields.lien.trim()}`;
+        }
+        return text;
+      }
       const adminDeliveryDateFromInput = document.getElementById('adminDeliveryDateFromInput');
       const adminDeliveryDateToInput = document.getElementById('adminDeliveryDateToInput');
       const adminDeliveryDateFilterResetBtn = document.getElementById('adminDeliveryDateFilterResetBtn');
@@ -10988,6 +11173,14 @@
               }
 
               select.dataset.prevStatus = select.value;
+
+              // --- Historique local des notes : on n'enregistre une entrée que si le texte a
+              // réellement changé depuis le dernier enregistrement, pour ne pas polluer d'entrées
+              // identiques à chaque clic sur "Enregistrer". ---
+              if (noteInput && noteInput.value !== noteInput.dataset.prevNote) {
+                pushNoteHistory(orderId, noteInput.value);
+                noteInput.dataset.prevNote = noteInput.value;
+              }
             } catch (err) {
               msg.textContent = '⚠️ Échec, réessaie';
               msg.style.color = '#e28b8b';
@@ -11017,6 +11210,104 @@
             input.value = btn.dataset.template || '';
             saveMsgDraft(orderId, input.value);
             input.focus();
+          });
+        });
+
+        // --- Boutons "📋 Copier" à côté du lien des rushs et du lien de livraison : un clic copie
+        // directement la valeur du champ visé (data-copy-target pointe vers sa classe CSS), plutôt
+        // que d'avoir à sélectionner le texte à la main. Feedback visuel bref (✅) sur le bouton lui-même.
+        adminOrdersList.querySelectorAll('.admin-copy-link-btn').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const orderId = btn.dataset.orderId;
+            const target = adminOrdersList.querySelector(`.${btn.dataset.copyTarget}[data-order-id="${orderId}"]`);
+            const value = target ? target.value.trim() : '';
+            if (!value) return;
+            const original = btn.textContent;
+            try {
+              if (navigator.clipboard && navigator.clipboard.writeText) {
+                await navigator.clipboard.writeText(value);
+              } else {
+                // Repli pour les contextes où l'API Clipboard n'est pas dispo (ex : http non sécurisé)
+                target.select();
+                document.execCommand('copy');
+              }
+              btn.textContent = '✅';
+            } catch (err) {
+              btn.textContent = '❌';
+            }
+            setTimeout(() => { btn.textContent = original; }, 1200);
+          });
+        });
+
+        // --- Boutons "↗️ Ouvrir" à côté du lien des rushs et du lien de livraison : ouvre
+        // directement l'URL dans un nouvel onglet, sans avoir à copier-coller à la main. ---
+        adminOrdersList.querySelectorAll('.admin-open-link-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const orderId = btn.dataset.orderId;
+            const target = adminOrdersList.querySelector(`.${btn.dataset.openTarget}[data-order-id="${orderId}"]`);
+            const value = target ? target.value.trim() : '';
+            if (!value) return;
+            const url = /^https?:\/\//i.test(value) ? value : `https://${value}`;
+            window.open(url, '_blank', 'noopener');
+          });
+        });
+
+        // --- Bouton rapide "❌ Annuler (prix trop bas)" : visible uniquement quand le badge "💶 Prix
+        // à vérifier" est affiché. Pré-remplit le statut, la raison dans la note privée et le message
+        // client, mais n'enregistre rien tout seul — il faut toujours cliquer "Enregistrer" ensuite,
+        // pour garder une chance de vérifier avant que ce soit définitif. ---
+        adminOrdersList.querySelectorAll('.admin-cancel-lowprice-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const orderId = btn.dataset.orderId;
+            if (!confirm(`Annuler ${orderId} et préparer un message expliquant au client que le prix proposé est trop faible ?\n\nRien n'est enregistré tout de suite : vérifie les champs pré-remplis puis clique "Enregistrer".`)) return;
+            const select = adminOrdersList.querySelector(`.admin-status-select[data-order-id="${orderId}"]`);
+            const noteInput = adminOrdersList.querySelector(`.admin-order-note-input[data-order-id="${orderId}"]`);
+            const clientMessageInput = adminOrdersList.querySelector(`.admin-client-message-input[data-order-id="${orderId}"]`);
+            const icon = document.getElementById(`statusIcon-${orderId}`);
+            if (select) select.value = '❌ Annulée';
+            if (icon) icon.innerHTML = statusIconHtml('❌ Annulée');
+            if (noteInput) {
+              const alreadyNoted = /❌ Motif d'annulation/.test(noteInput.value);
+              if (!alreadyNoted) {
+                const expected = btn.dataset.expected;
+                const tag = `❌ Motif d'annulation : prix proposé jugé trop faible${expected ? ` (≈ ${expected}€ attendu)` : ''}`;
+                noteInput.value = noteInput.value ? `${noteInput.value} — ${tag}` : tag;
+              }
+            }
+            if (clientMessageInput) {
+              clientMessageInput.value = "Ta commande a été annulée : le prix proposé était trop faible par rapport à ce que demande ce format. N'hésite pas à recréer une commande avec un prix plus juste, je serai ravi de m'en occuper !";
+              saveMsgDraft(orderId, clientMessageInput.value);
+            }
+            const msg = document.getElementById(`adminMsg-${orderId}`);
+            if (msg) { msg.textContent = '👀 Vérifie les champs pré-remplis, puis clique "Enregistrer" pour confirmer.'; msg.style.color = 'var(--text-tertiary)'; }
+          });
+        });
+
+        adminOrdersList.querySelectorAll('.admin-note-qf-sync-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const orderId = btn.dataset.orderId;
+            const noteInput = adminOrdersList.querySelector(`.admin-order-note-input[data-order-id="${orderId}"]`);
+            const nomInput = adminOrdersList.querySelector(`.admin-note-qf-nom[data-order-id="${orderId}"]`);
+            const typeSelect = adminOrdersList.querySelector(`.admin-note-qf-type[data-order-id="${orderId}"]`);
+            const commandeInput = adminOrdersList.querySelector(`.admin-note-qf-commande[data-order-id="${orderId}"]`);
+            const formatInput = adminOrdersList.querySelector(`.admin-note-qf-format[data-order-id="${orderId}"]`);
+            const budgetInput = adminOrdersList.querySelector(`.admin-note-qf-budget[data-order-id="${orderId}"]`);
+            const dateInput = adminOrdersList.querySelector(`.admin-note-qf-date[data-order-id="${orderId}"]`);
+            const promoInput = adminOrdersList.querySelector(`.admin-note-qf-promo[data-order-id="${orderId}"]`);
+            const lienInput = adminOrdersList.querySelector(`.admin-note-qf-lien[data-order-id="${orderId}"]`);
+            if (!noteInput) return;
+            noteInput.value = rebuildNoteFromQuickFields(noteInput.value, {
+              nom: nomInput ? nomInput.value.trim() : '',
+              typeClient: typeSelect ? typeSelect.value : 'Particulier',
+              nomCommande: commandeInput ? commandeInput.value.trim() : '',
+              format: formatInput ? formatInput.value.trim() : '',
+              budget: budgetInput ? budgetInput.value.trim() : '',
+              dateVoulue: dateInput ? dateInput.value : '',
+              promoCode: promoInput ? promoInput.value.trim() : '',
+              lien: lienInput ? lienInput.value.trim() : ''
+            });
+            btn.textContent = '✅ Note mise à jour';
+            setTimeout(() => { btn.textContent = '🔄 Mettre à jour la note'; }, 1500);
           });
         });
 
@@ -11197,6 +11488,73 @@
         return AUTO_TAG_RULES.filter(rule => rule.keywords.some(kw => text.includes(kw)));
       }
 
+      // --- Alerte "rushs manquants" : signale une commande dont l'acompte est reçu (statut à
+      // "💳 Acompte reçu" ou plus avancé, hors livré/annulé) mais dont le lien des rushs (champ
+      // rapide 📁 dans la note) est toujours vide, plusieurs jours après — pour ne jamais démarrer
+      // (ou rester bloqué sur) un montage sans les fichiers sources.
+      // ⚠️ Repère honnête, pas garanti à 100% : on ne connaît le moment précis où l'acompte a été
+      // reçu que si le changement de statut a été fait DEPUIS CET APPAREIL (même mini-timeline
+      // locale que plus haut, voir pushStatusHistory). Si ce n'est pas le cas (Sheet modifié à la
+      // main, statut changé depuis un autre appareil...), on retombe sur la date de création de la
+      // commande comme approximation la plus proche disponible.
+      const MISSING_RUSHS_THRESHOLD_HOURS = 48; // 2 jours
+      function getAcompteReceivedTimestamp(r) {
+        const history = getStatusHistory(r[0]);
+        const entry = history.find(h => statusCategory(h.status || '') === 'inProgress');
+        if (entry) return entry.at;
+        return r[3] ? new Date(r[3]).getTime() : null;
+      }
+      function missingRushsBadge(r, noteFields) {
+        if (statusCategory(r[1] || '') !== 'inProgress') return null; // pas encore d'acompte, ou déjà livré/annulé
+        if (noteFields.lien) return null; // lien déjà renseigné
+        const since = getAcompteReceivedTimestamp(r);
+        if (!since || isNaN(since)) return null;
+        if ((Date.now() - since) / 3600000 < MISSING_RUSHS_THRESHOLD_HOURS) return null;
+        return { key: 'missing-rushs', html: '📁 Rushs manquants', cls: 'admin-order-badge-warning' };
+      }
+
+      // --- Alerte "prix à vérifier" : compare le budget noté (champ rapide 💶) à ce que donnerait
+      // le calcul automatique du site pour le même format/la même quantité (mêmes règles que le
+      // calculateur public : pack dégressif, majorations urgent ⚡/commercial 💼 détectées dans la
+      // note, code promo 🎟️). Ne signale que les écarts significatifs — utile pour rattraper une
+      // erreur de saisie ou un prix à négocier, pas pour interdire un prix ajusté à la main : si
+      // l'écart est volontaire, ignore simplement le badge.
+      // Ne s'applique pas à "Prix libre" (déjà volontairement libre), à "Les deux" (mix court+long,
+      // pas un calcul unique fiable), ni aux abonnements (prix fixe mensuel, rien à comparer par
+      // commande) — dans ces cas le badge ne peut pas s'afficher, faute de calcul de référence fiable.
+      const PRICE_MISMATCH_THRESHOLD = 0.15; // 15% d'écart toléré avant d'afficher le badge
+      function computeExpectedPrice(noteFields, r) {
+        const formatMatch = /^(.*?)\s*×\s*(\d+)$/.exec(noteFields.format || '');
+        if (!formatMatch) return null;
+        const formatKey = formatMatch[1].trim();
+        const qty = parseInt(formatMatch[2], 10);
+        if (!qty || formatKey === 'Prix libre' || formatKey === 'Les deux' || SUBSCRIPTION_TIERS[formatKey]) return null;
+        const unit = PRICE_FIXED[formatKey];
+        if (!unit) return null; // format non reconnu (texte modifié à la main dans le champ rapide) : on ne devine pas
+        let total = unit * qty;
+        const bundle = BUNDLE_DISCOUNTS.find(b => qty >= b.minQty);
+        if (bundle) total *= bundle.rate;
+        const text = `${r[2] || ''} ${r[4] || ''}`;
+        if (text.includes('💼')) total *= COMMERCIAL_SURCHARGE;
+        if (text.includes('⚡')) total *= URGENT_SURCHARGE;
+        if (noteFields.promoCode) {
+          const promo = PROMO_CODES[noteFields.promoCode.trim().toUpperCase()];
+          if (promo) total *= promo.rate;
+        }
+        return roundToFive(total);
+      }
+      function priceMismatchBadge(r, noteFields) {
+        const expected = computeExpectedPrice(noteFields, r);
+        if (expected == null) return null;
+        const budgetMatch = /(\d+(?:[.,]\d+)?)/.exec(noteFields.budget || '');
+        if (!budgetMatch) return null;
+        const actual = parseFloat(budgetMatch[1].replace(',', '.'));
+        if (!actual || isNaN(actual)) return null;
+        const diff = Math.abs(actual - expected) / expected;
+        if (diff < PRICE_MISMATCH_THRESHOLD) return null;
+        return { key: 'price-mismatch', html: `💶 Prix à vérifier (≈ ${expected}€ attendu)`, cls: 'admin-order-badge-warning' };
+      }
+
       function formatOrderDate(dateStr) {
         if (!dateStr) return '';
         const d = new Date(dateStr);
@@ -11264,6 +11622,70 @@
             </details>`;
       }
 
+      // --- Historique local des notes (qui a changé quoi) : même principe honnête que l'historique
+      // des statuts juste au-dessus — uniquement les changements faits depuis CET appareil admin, à
+      // partir de maintenant. "Qui" repose sur un nom que tu choisis toi-même (voir adminAuthorNameBtn
+      // dans la barre d'outils), utile si vous êtes plusieurs à intervenir sur l'admin. ---
+      const NOTE_HISTORY_KEY = 'michyy_note_history';
+      const ADMIN_AUTHOR_KEY = 'michyy_admin_author_name';
+      function getAdminAuthorName() {
+        try { return localStorage.getItem(ADMIN_AUTHOR_KEY) || ''; } catch (e) { return ''; }
+      }
+      function setAdminAuthorName(name) {
+        try { localStorage.setItem(ADMIN_AUTHOR_KEY, name); } catch (e) { /* ignore */ }
+      }
+      function getNoteHistory(orderId) {
+        try {
+          const all = JSON.parse(localStorage.getItem(NOTE_HISTORY_KEY) || '{}');
+          return all[orderId] || [];
+        } catch (e) { return []; }
+      }
+      function pushNoteHistory(orderId, value) {
+        try {
+          const all = JSON.parse(localStorage.getItem(NOTE_HISTORY_KEY) || '{}');
+          if (!all[orderId]) all[orderId] = [];
+          all[orderId].push({ value, author: getAdminAuthorName() || 'Toi', at: Date.now() });
+          if (all[orderId].length > 20) all[orderId] = all[orderId].slice(-20);
+          localStorage.setItem(NOTE_HISTORY_KEY, JSON.stringify(all));
+        } catch (e) { /* ignore */ }
+      }
+      function noteHistoryHtml(orderId) {
+        const entries = getNoteHistory(orderId);
+        if (entries.length === 0) return '';
+        const itemsHtml = entries.slice().reverse().map(e => `
+              <div class="admin-timeline-item">
+                <span class="admin-timeline-dot"></span>
+                <span class="admin-timeline-content">
+                  <span class="admin-timeline-status">👤 ${escapeHtml(e.author)} — ${escapeHtml(e.value) || '(note vidée)'}</span>
+                  <span class="admin-timeline-time">${new Date(e.at).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</span>
+                </span>
+              </div>`).join('');
+        return `
+            <details class="admin-timeline-details admin-note-history-details">
+              <summary class="admin-timeline-summary">📝 Historique des notes (${entries.length})</summary>
+              <div class="admin-timeline-list">${itemsHtml}</div>
+              <p class="admin-timeline-note">Suivi local à cet appareil uniquement : seuls les changements de note enregistrés depuis ce navigateur, à partir d'aujourd'hui, apparaissent ici.</p>
+            </details>`;
+      }
+
+      // --- Alerte "code promo déjà utilisé" : repère quand le même code promo (champ rapide 🎟️)
+      // apparaît dans la note de plusieurs commandes portant le même nom/pseudo (champ rapide, en
+      // début de note). Comme pour le prix à vérifier : un repère pour toi, pas un blocage
+      // automatique — un client peut légitimement changer de pseudo, ou le nom peut être mal
+      // renseigné, donc c'est à vérifier avant d'agir. ---
+      function promoReuseBadge(r, noteFields, allRows) {
+        const code = (noteFields.promoCode || '').trim().toUpperCase();
+        const nom = (noteFields.nom || '').trim().toLowerCase();
+        if (!code || !nom) return null;
+        const otherUse = (allRows || []).find(other => {
+          if (other[0] === r[0]) return false;
+          const of = parseNoteQuickFields(other[2] || '');
+          return (of.promoCode || '').trim().toUpperCase() === code && (of.nom || '').trim().toLowerCase() === nom;
+        });
+        if (!otherUse) return null;
+        return { key: 'promo-reuse', html: `🎟️ Code "${escapeHtml(code)}" déjà utilisé par ce client (commande ${escapeHtml(otherUse[0])})`, cls: 'admin-order-badge-warning' };
+      }
+
       // --- Signal unique "à traiter en priorité" : fusionne ce qui était avant deux mécanismes
       // séparés (badge "⏰ À relancer" basé sur le délai + tag "🔥 Urgent" basé sur un mot-clé
       // détecté). Les deux répondaient en fait à la même question ("est-ce que je dois m'en
@@ -11295,6 +11717,7 @@
         const orderId = escapeHtml(r[0]);
         const currentStatus = escapeHtml(r[1] || '');
         const currentNote = escapeHtml(r[2] || '');
+        const noteFields = parseNoteQuickFields(r[2] || '');
         const createdDate = formatOrderDate(r[3]);
         const savedClientMessage = r[4] || '';
         const draftClientMessage = getMsgDraft(r[0]);
@@ -11309,8 +11732,15 @@
         const stale = isStaleOrder(r);
         const autoTags = detectAutoTags(r).filter(t => t.key !== 'urgent');
         const attention = attentionBadge(r);
+        const missingRushs = missingRushsBadge(r, noteFields);
+        const priceIssue = priceMismatchBadge(r, noteFields);
+        const promoReuse = promoReuseBadge(r, noteFields, lastAdminOrders);
+        const expectedPriceForCancel = computeExpectedPrice(noteFields, r);
         const badgeEntries = [
           ...(attention ? [attention] : []),
+          ...(missingRushs ? [missingRushs] : []),
+          ...(priceIssue ? [priceIssue] : []),
+          ...(promoReuse ? [promoReuse] : []),
           ...autoTags.map(t => ({ key: `tag:${t.key}`, html: `${autoTagIconHtml(t)} ${t.label}`, cls: 'admin-order-badge-tag' }))
         ];
         const badgesHtml = badgeEntries.map(b => {
@@ -11338,6 +11768,7 @@
                 <button type="button" class="admin-save-btn" data-order-id="${orderId}">Enregistrer</button>
                 <button type="button" class="admin-duplicate-btn" data-order-id="${orderId}" title="Créer une nouvelle commande à partir de celle-ci">🔁 Dupliquer</button>
                 ${stale ? `<button type="button" class="admin-relance-btn" data-order-id="${orderId}" data-contact="${contact}" title="Copie un message de relance prêt à envoyer">📋 Copier un message de relance</button>` : ''}
+                ${priceIssue ? `<button type="button" class="admin-cancel-lowprice-btn" data-order-id="${orderId}" data-expected="${expectedPriceForCancel != null ? expectedPriceForCancel : ''}" title="Annule la commande et prépare un message expliquant au client que le prix proposé est trop faible">❌ Annuler (prix trop bas)</button>` : ''}
               </div>
             </div>
             <span class="admin-order-note-label admin-client-message-label">💬 Message pour le client (visible dans son suivi de commande)${hasDraft ? '<span class="admin-draft-indicator">📝 Brouillon non enregistré</span>' : ''}</span>
@@ -11349,9 +11780,31 @@
               <summary class="admin-card-details-summary">Détails${contact ? ` · 📇 ${contact}` : ''}</summary>
               <div class="admin-card-details-content">
                 <span class="admin-order-note-label">📝 Note privée (visible seulement ici)</span>
-                <input type="text" class="admin-order-note-input" data-order-id="${orderId}" value="${currentNote}" placeholder="ex : relancé le 12/08, client difficile..." />
+                <p class="admin-note-quickfields-hint">Champs rapides — modifie un seul détail sans retaper toute la note, puis clique "Mettre à jour la note" pour le réinjecter dedans (le reste du texte ne bouge pas) :</p>
+                <div class="admin-note-quickfields">
+                  <input type="text" class="admin-note-qf-nom" data-order-id="${orderId}" placeholder="Nom / pseudo" value="${escapeHtml(noteFields.nom)}" />
+                  <select class="admin-note-qf-type" data-order-id="${orderId}">
+                    ${['Particulier', 'Streamer', 'Créateur de contenu', 'Team esport', 'Entreprise'].map(t => `<option value="${t}" ${t === noteFields.typeClient ? 'selected' : ''}>${t}</option>`).join('')}
+                  </select>
+                  <input type="text" class="admin-note-qf-commande" data-order-id="${orderId}" placeholder="🎬 Nom de la commande" value="${escapeHtml(noteFields.nomCommande)}" />
+                  <input type="text" class="admin-note-qf-format" data-order-id="${orderId}" placeholder="🎥 Format / type de vidéo (ex : Format court × 3)" value="${escapeHtml(noteFields.format)}" />
+                  <input type="text" class="admin-note-qf-budget" data-order-id="${orderId}" placeholder="💶 Budget (ex : 60€)" value="${escapeHtml(noteFields.budget)}" />
+                  <input type="date" class="admin-note-qf-date" data-order-id="${orderId}" value="${noteFields.dateVoulue}" title="📅 Date de livraison voulue par le client" />
+                  <input type="text" class="admin-note-qf-promo" data-order-id="${orderId}" placeholder="🎟️ Code promo (ex : PREMIERE20)" value="${escapeHtml(noteFields.promoCode)}" />
+                  <div class="admin-input-with-copy">
+                    <input type="text" class="admin-note-qf-lien" data-order-id="${orderId}" placeholder="📁 Lien des rushs" value="${escapeHtml(noteFields.lien)}" />
+                    <button type="button" class="admin-copy-link-btn" data-copy-target="admin-note-qf-lien" data-order-id="${orderId}" title="Copier le lien des rushs">📋</button>
+                    <button type="button" class="admin-open-link-btn" data-open-target="admin-note-qf-lien" data-order-id="${orderId}" title="Ouvrir les rushs dans un nouvel onglet">↗️ Ouvrir les rushs</button>
+                  </div>
+                  <button type="button" class="admin-note-qf-sync-btn" data-order-id="${orderId}">🔄 Mettre à jour la note</button>
+                </div>
+                <input type="text" class="admin-order-note-input" data-order-id="${orderId}" data-prev-note="${currentNote}" value="${currentNote}" placeholder="ex : relancé le 12/08, client difficile..." />
                 <span class="admin-order-note-label admin-delivery-link-label">🔗 Lien de livraison (rush / fichier final : Drive, WeTransfer...)</span>
-                <input type="text" class="admin-delivery-link-input" data-order-id="${orderId}" value="${currentDeliveryLink}" placeholder="https://..." />
+                <div class="admin-input-with-copy">
+                  <input type="text" class="admin-delivery-link-input" data-order-id="${orderId}" value="${currentDeliveryLink}" placeholder="https://..." />
+                  <button type="button" class="admin-copy-link-btn" data-copy-target="admin-delivery-link-input" data-order-id="${orderId}" title="Copier le lien de livraison">📋</button>
+                  <button type="button" class="admin-open-link-btn" data-open-target="admin-delivery-link-input" data-order-id="${orderId}" title="Ouvrir le lien de livraison dans un nouvel onglet">↗️ Ouvrir</button>
+                </div>
                 <label class="admin-solde-toggle${currentSoldeRecu ? ' is-checked' : ''}">
                   <input type="checkbox" class="admin-solde-recu-checkbox" data-order-id="${orderId}" ${currentSoldeRecu ? 'checked' : ''} />
                   ✅ Solde (50% restant) bien reçu — tant que ça n'est pas coché, le client ne voit pas le lien ci-dessus, seulement un message l'informant qu'il s'affichera une fois le solde réglé et validé.
@@ -11360,6 +11813,7 @@
                 <input type="date" class="admin-delivery-date-input" data-order-id="${orderId}" value="${currentAdminDeliveryDate}" />
                 <p class="admin-delivery-date-hint">Laisse vide pour garder la date du client (si renseignée) dans le filtre "📦 Livraison souhaitée entre..." ci-dessus. Remplis ce champ si tu décales la commande à une autre date que tu choisis toi-même — ça remplace la date du client partout où elle est utilisée (filtre, export CSV).</p>
                 ${timelineHtml(r)}
+                ${noteHistoryHtml(r[0])}
               </div>
             </details>
             <p class="admin-save-msg" id="adminMsg-${orderId}"></p>
@@ -11787,6 +12241,22 @@
         applyAdminTheme();
       });
 
+      // Nom affiché dans l'historique des notes (qui a changé quoi) — utile si vous êtes plusieurs
+      // à intervenir sur l'admin. Stocké localement à cet appareil, comme le reste des historiques.
+      const adminAuthorNameBtn = document.getElementById('adminAuthorNameBtn');
+      function updateAuthorNameLabel() {
+        const name = getAdminAuthorName();
+        adminAuthorNameBtn.textContent = name ? `👤 Ton nom : ${name}` : '👤 Définir ton nom (historique des notes)';
+      }
+      updateAuthorNameLabel();
+      adminAuthorNameBtn.addEventListener('click', () => {
+        const current = getAdminAuthorName();
+        const name = prompt('Ton nom, affiché dans l\'historique des notes quand tu modifies une commande depuis cet appareil (utile si vous êtes plusieurs sur l\'admin) :', current);
+        if (name === null) return;
+        setAdminAuthorName(name.trim());
+        updateAuthorNameLabel();
+      });
+
       // Densité d'affichage des cartes de commande : "compact" ou "confortable" (par défaut)
       const adminDensityToggleBtn = document.getElementById('adminDensityToggleBtn');
       let adminCompact = localStorage.getItem('michyy_admin_density') === 'compact';
@@ -11848,6 +12318,105 @@
           adminCreateMsg.style.color = '#e28b8b';
         }
         adminCreateOrderBtn.disabled = false;
+      });
+
+      // --- Gestion des codes promo créés depuis l'admin (🎟️ Codes promo, onglet Outils) : liste,
+      // création/mise à jour (upsert par nom de code) et suppression. Les codes créés ici sont
+      // automatiquement repris par PROMO_CODES (voir refreshDynamicPromoCodes) pour le calculateur
+      // public ET pour la vérification "prix à vérifier" plus haut. ---
+      const adminPromoCodeName = document.getElementById('adminPromoCodeName');
+      const adminPromoCodeReduction = document.getElementById('adminPromoCodeReduction');
+      const adminPromoCodeDuration = document.getElementById('adminPromoCodeDuration');
+      const adminPromoCodeExpirationField = document.getElementById('adminPromoCodeExpirationField');
+      const adminPromoCodeExpiration = document.getElementById('adminPromoCodeExpiration');
+      const adminCreatePromoBtn = document.getElementById('adminCreatePromoBtn');
+      const adminPromoMsg = document.getElementById('adminPromoMsg');
+      const adminPromoList = document.getElementById('adminPromoList');
+
+      adminPromoCodeDuration.addEventListener('change', () => {
+        adminPromoCodeExpirationField.style.display = adminPromoCodeDuration.value === 'ephemeral' ? '' : 'none';
+      });
+
+      async function loadPromoCodesAdmin() {
+        adminPromoList.innerHTML = '<p class="info-text" style="font-size: 12px;">Chargement...</p>';
+        try {
+          const url = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=promoList`;
+          const res = await fetch(url);
+          const data = await res.json();
+          if (!data.success || !Array.isArray(data.codes)) throw new Error('promo-list-failed');
+          if (data.codes.length === 0) {
+            adminPromoList.innerHTML = '<p class="info-text" style="font-size: 12px;">Aucun code créé depuis l\'admin pour l\'instant (PREMIERE20 et PARRAIN10 restent actifs, ils sont intégrés au site).</p>';
+            return;
+          }
+          const now = Date.now();
+          adminPromoList.innerHTML = data.codes.map(c => {
+            const expired = c.expiration && new Date(c.expiration).getTime() < now;
+            const expirationLabel = c.expiration
+              ? `expire le ${new Date(c.expiration).toLocaleDateString('fr-FR')}${expired ? ' — expiré' : ''}`
+              : 'définitif';
+            return `
+              <div class="admin-engagement-row">
+                <span>🎟️ <strong>${escapeHtml(c.code)}</strong> — -${escapeHtml(String(c.reduction))}% · ${expirationLabel}</span>
+                <button type="button" class="admin-promo-delete-btn filter-reset-btn" data-code="${escapeHtml(c.code)}">✕ Supprimer</button>
+              </div>`;
+          }).join('');
+          adminPromoList.querySelectorAll('.admin-promo-delete-btn').forEach(btn => {
+            btn.addEventListener('click', async () => {
+              const code = btn.dataset.code;
+              if (!confirm(`Supprimer le code promo ${code} ? Il ne sera plus utilisable après la prochaine actualisation de la page par les visiteurs.`)) return;
+              btn.disabled = true;
+              try {
+                const delUrl = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=promoDelete&code=${encodeURIComponent(code)}`;
+                const delRes = await fetch(delUrl);
+                const delData = await delRes.json();
+                if (!delData.success) throw new Error('promo-delete-failed');
+                delete PROMO_CODES[code];
+                loadPromoCodesAdmin();
+              } catch (err) {
+                alert(`Échec de la suppression de ${code}, réessaie.`);
+                btn.disabled = false;
+              }
+            });
+          });
+        } catch (err) {
+          adminPromoList.innerHTML = '<p class="info-text" style="font-size: 12px;">⚠️ Échec du chargement, vérifie l\'URL Apps Script et réessaie.</p>';
+        }
+      }
+
+      adminCreatePromoBtn.addEventListener('click', async () => {
+        const code = adminPromoCodeName.value.trim().toUpperCase();
+        const reduction = parseInt(adminPromoCodeReduction.value, 10);
+        const isEphemeral = adminPromoCodeDuration.value === 'ephemeral';
+        const expiration = isEphemeral ? adminPromoCodeExpiration.value : '';
+        if (!code) { adminPromoMsg.textContent = '⚠️ Donne un nom au code'; adminPromoMsg.style.color = '#e28b8b'; return; }
+        if (!reduction || reduction < 1 || reduction > 99) { adminPromoMsg.textContent = '⚠️ Réduction invalide (1 à 99)'; adminPromoMsg.style.color = '#e28b8b'; return; }
+        if (isEphemeral && !expiration) { adminPromoMsg.textContent = '⚠️ Choisis une date d\'expiration, ou passe en "Définitif"'; adminPromoMsg.style.color = '#e28b8b'; return; }
+        adminCreatePromoBtn.disabled = true;
+        adminPromoMsg.textContent = 'Enregistrement...';
+        adminPromoMsg.style.color = 'var(--text-tertiary)';
+        try {
+          const url = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=promoCreate&code=${encodeURIComponent(code)}&reduction=${encodeURIComponent(reduction)}&expiration=${encodeURIComponent(expiration)}`;
+          const res = await fetch(url);
+          const data = await res.json();
+          if (!data.success) throw new Error(data.error || 'promo-create-failed');
+          PROMO_CODES[code] = { rate: 1 - (reduction / 100), label: `Code ${code} (-${reduction}%${expiration ? ', temporaire' : ''})` };
+          adminPromoMsg.textContent = `✅ Code ${code} enregistré`;
+          adminPromoMsg.style.color = '#8be28b';
+          adminPromoCodeName.value = '';
+          adminPromoCodeReduction.value = '';
+          adminPromoCodeExpiration.value = '';
+          loadPromoCodesAdmin();
+        } catch (err) {
+          adminPromoMsg.textContent = '⚠️ Échec, vérifie l\'URL Apps Script et réessaie';
+          adminPromoMsg.style.color = '#e28b8b';
+        }
+        adminCreatePromoBtn.disabled = false;
+      });
+
+      document.querySelectorAll('.admin-subtab-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (btn.dataset.adminSubtab === 'outils') loadPromoCodesAdmin();
+        });
       });
     }
 
@@ -13916,6 +14485,37 @@
       'PREMIERE20': { rate: 0.80, label: 'Code PREMIERE20 (-20%, 1ère commande)' },
       'PARRAIN10': { rate: 0.90, label: 'Code PARRAIN10 (-10%, parrainage)' }
     };
+
+    // --- Codes promo créés depuis l'admin (voir onglet "🛠️ Outils" > "🎟️ Codes promo") : chargés
+    // depuis le Sheet au démarrage de la page et fusionnés dans PROMO_CODES ci-dessus (mêmes règles
+    // pour tout le monde : le calculateur public et la vérification "prix à vérifier" de l'admin
+    // utilisent tous les deux ce même objet). Les codes expirés sont ignorés automatiquement.
+    // Si l'appel échoue (Apps Script pas encore configuré, etc.), on retombe silencieusement sur les
+    // deux codes fixes ci-dessus — jamais bloquant pour le reste du site.
+    async function refreshDynamicPromoCodes() {
+      try {
+        const url = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=promoList`;
+        const res = await fetch(url);
+        const data = await res.json();
+        if (!data.success || !Array.isArray(data.codes)) return;
+        const now = Date.now();
+        data.codes.forEach(c => {
+          if (!c.code) return;
+          if (c.expiration && new Date(c.expiration).getTime() < now) return; // expiré : on l'ignore
+          PROMO_CODES[c.code] = {
+            rate: 1 - (c.reduction / 100),
+            label: `Code ${c.code} (-${c.reduction}%${c.expiration ? ', temporaire' : ''})`
+          };
+        });
+        // Si le champ code promo est déjà rempli (ou un brouillon en cours), on réévalue avec les
+        // codes fraîchement chargés — sinon un code créé récemment semblerait "inconnu" tant que la
+        // page n'est pas rechargée.
+        if (typeof updatePriceEstimate === 'function' && promoCodeInput && promoCodeInput.value.trim()) {
+          updatePriceEstimate();
+        }
+      } catch (err) { /* pas grave, on garde les codes fixes ci-dessus */ }
+    }
+    refreshDynamicPromoCodes();
     const promoCodeInput = document.getElementById('promoCodeInput');
     const promoCodeStatus = document.getElementById('promoCodeStatus');
     const parrainPseudoField = document.getElementById('parrainPseudoField');
@@ -14742,7 +15342,7 @@
             };
             localStorage.setItem('michyy_orders', JSON.stringify(orders));
           }
-          trackingInput.value = orderId;
+          trackingInput.value = '';
           renderOrderHistory();
         });
       });
@@ -15158,7 +15758,7 @@
         syncOrderToAdminSheet(
           orderId,
           '🟠 Envoyée, en attente de réponse',
-          `${data.get('nom') || 'non précisé'} (${data.get('typeClient') || 'Particulier'}) · 🎬 ${data.get('nomCommande') || 'non précisé'} · ${formatBreakdown(data)} · 💶 ${data.get('budget') || 'non précisé'}${isUrgent ? ' · ⚡ Urgent' : ''}${data.get('dateLivraisonSouhaitee') ? ' · 📅 Voulu le ' + new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR') : ''}${appliedPromo ? ` · 🎟️ Code ${promoCodeRaw}` : ''}${promoAbuseInfo && promoAbuseInfo.abused ? ` · ⚠️ PREMIERE20 refusé (déjà client, cmd ${promoAbuseInfo.previousOrderId}) — vérifie le prix` : ''}${parrainPseudo ? ` · 🤝 Parrain : ${parrainPseudo}` : ''} · via formulaire complet`,
+          `${data.get('nom') || 'non précisé'} (${data.get('typeClient') || 'Particulier'}) · 🎬 ${data.get('nomCommande') || 'non précisé'} · 🎥 ${formatBreakdown(data)} · 💶 ${data.get('budget') || 'non précisé'}${isUrgent ? ' · ⚡ Urgent' : ''}${data.get('dateLivraisonSouhaitee') ? ' · 📅 Voulu le ' + new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR') : ''}${appliedPromo ? ` · 🎟️ Code ${promoCodeRaw}` : ''}${promoAbuseInfo && promoAbuseInfo.abused ? ` · ⚠️ PREMIERE20 refusé (déjà client, cmd ${promoAbuseInfo.previousOrderId}) — vérifie le prix` : ''}${parrainPseudo ? ` · 🤝 Parrain : ${parrainPseudo}` : ''}${data.get('driveLink') ? ` · 📁 ${data.get('driveLink')}` : ''} · via formulaire complet`,
           `${data.get('reseau') || 'non précisé'} · ${data.get('contact') || 'non précisé'}${data.get('reseau') === 'WhatsApp' && data.get('whatsappNumber') ? ' · 📱 ' + data.get('whatsappNumber') : ''}`
         );
 
@@ -15217,7 +15817,11 @@
             setTimeout(() => { codeEl.textContent = original; }, 1200);
           });
         };
-        trackingInput.value = orderId;
+        // Le champ de suivi reste vide (et non pré-rempli avec ce numéro) pour que "Historique de
+        // mes demandes" continue d'afficher TOUTES les commandes de ce client, pas seulement la
+        // dernière — le code de suivi reste de toute façon visible et copiable juste au-dessus.
+        trackingInput.value = '';
+        renderOrderHistory();
 
         // Toujours proposer les deux raccourcis de contact rapide (Discord + Twitter/X),
         // peu importe le réseau choisi dans le formulaire — certains clients aiment avoir le choix.
@@ -15659,6 +16263,7 @@
           <button type="button" id="adminThemeToggleBtn" class="admin-toolbar-more-item">🌙 Thème admin</button>
           <button type="button" id="adminDensityToggleBtn" class="admin-toolbar-more-item">📏 Vue compacte</button>
           <button type="button" id="adminDiagnosticBtn" class="admin-toolbar-more-item">🔍 Diagnostic configuration <span class="admin-toolbar-more-shortcut">Ctrl+D</span></button>
+          <button type="button" id="adminAuthorNameBtn" class="admin-toolbar-more-item admin-author-name-btn"></button>
         </div>
       </div>
       <span id="adminStatusNote" class="sync-note"></span>
@@ -15774,6 +16379,34 @@
             </label>
             <button type="button" id="adminCreateOrderBtn" class="price-estimate-btn">Créer la commande</button>
             <p id="adminCreateMsg" class="admin-save-msg"></p>
+          </div>
+        </details>
+
+        <details class="more-options admin-promo-group" id="adminPromoDetails">
+          <summary class="more-options-summary">
+            <span class="more-options-summary-label">🎟️ Codes promo</span>
+            <span class="more-options-summary-hint">(créer, lister, supprimer — éphémères ou permanents)</span>
+          </summary>
+          <div class="more-options-content">
+            <p class="admin-note-quickfields-hint">PREMIERE20 (-20%) et PARRAIN10 (-10%) sont intégrés au site et toujours actifs. Les codes ci-dessous s'ajoutent à ceux-là.</p>
+            <label>Nom du code
+              <input type="text" id="adminPromoCodeName" placeholder="ex : ETE2026" style="text-transform: uppercase;" />
+            </label>
+            <label>Réduction (%)
+              <input type="number" id="adminPromoCodeReduction" min="1" max="99" placeholder="ex : 15" />
+            </label>
+            <label>Durée
+              <select id="adminPromoCodeDuration">
+                <option value="permanent">Définitif</option>
+                <option value="ephemeral">Éphémère (jusqu'à une date)</option>
+              </select>
+            </label>
+            <label id="adminPromoCodeExpirationField" style="display: none;">Expire le
+              <input type="date" id="adminPromoCodeExpiration" />
+            </label>
+            <button type="button" id="adminCreatePromoBtn" class="price-estimate-btn">Créer / mettre à jour le code</button>
+            <p id="adminPromoMsg" class="admin-save-msg"></p>
+            <div id="adminPromoList" class="admin-engagement-list"></div>
           </div>
         </details>
       </div>
