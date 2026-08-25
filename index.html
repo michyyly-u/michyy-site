@@ -5388,6 +5388,24 @@
     .admin-client-message-label { color: #ff9a00; }
     .admin-delivery-link-label { color: #4caf50; margin-top: 10px; }
 
+    /* --- Case "solde reçu" : débloque le lien de livraison côté client. Volontairement distincte
+         du champ lien lui-même pour bien matérialiser que remplir le lien ne suffit pas. --- */
+    .admin-solde-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: 8px;
+      padding: 8px 10px;
+      background: var(--surface-soft);
+      border: 0.5px solid var(--border-soft);
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+    .admin-solde-toggle input[type="checkbox"] { flex-shrink: 0; }
+    .admin-solde-toggle.is-checked { border-color: #4caf5055; color: #6fcf73; }
+
     .admin-client-message-input {
       width: 100%;
       background: var(--surface);
@@ -5865,6 +5883,16 @@
       font-size: 10px;
       color: var(--text-faint);
       font-style: italic;
+    }
+
+    .admin-delivery-date-label { color: #8c93ff; margin-top: 10px; }
+
+    .admin-delivery-date-hint {
+      margin-top: 4px;
+      font-size: 10px;
+      color: var(--text-faint);
+      font-style: italic;
+      line-height: 1.4;
     }
 
     .admin-order-badges {
@@ -6505,6 +6533,37 @@
     .order-tracking-result .tracking-card-hidden {
       opacity: 0.55;
     }
+
+    .order-tracking-result .tracking-locked-delivery {
+      margin-top: 10px;
+      padding: 8px 10px;
+      background: #5865F214;
+      border: 0.5px solid #5865F244;
+      border-radius: 8px;
+      font-size: 12px;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .order-tracking-result .tracking-locked-delivery strong { color: #8c93ff; }
+
+    .order-tracking-result .tracking-pay-solde-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 8px;
+      padding: 8px 14px;
+      background: #ffd23c18;
+      border: 0.5px solid #ffd23c55;
+      border-radius: 999px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      color: #ffd23c;
+      text-decoration: none;
+    }
+
+    .order-tracking-result .tracking-pay-solde-btn:hover { background: #ffd23c28; }
 
     .order-tracking-result .tracking-remote-note {
       font-size: 11px;
@@ -10022,19 +10081,23 @@
     //       const clientMessage = e.parameter.clientMessage || '';
     //       const contact = e.parameter.contact || '';
     //       const deliveryLink = e.parameter.deliveryLink || '';
+    //       const soldeRecu = e.parameter.soldeRecu || '';
+    //       const dateLivraisonAdmin = e.parameter.dateLivraisonAdmin || '';
     //       const data = sheet.getDataRange().getValues();
     //       let rowIndex = -1;
     //       for (let i = 1; i < data.length; i++) {
     //         if (String(data[i][0]) === orderId) { rowIndex = i + 1; break; }
     //       }
     //       if (rowIndex === -1) {
-    //         sheet.appendRow([orderId, status, note, new Date(), clientMessage, contact, deliveryLink]);
+    //         sheet.appendRow([orderId, status, note, new Date(), clientMessage, contact, deliveryLink, soldeRecu, dateLivraisonAdmin]);
     //       } else {
     //         sheet.getRange(rowIndex, 2).setValue(status);
     //         sheet.getRange(rowIndex, 3).setValue(note);
     //         sheet.getRange(rowIndex, 5).setValue(clientMessage);
     //         if (contact) sheet.getRange(rowIndex, 6).setValue(contact);
     //         sheet.getRange(rowIndex, 7).setValue(deliveryLink);
+    //         sheet.getRange(rowIndex, 8).setValue(soldeRecu); // colonne H — "oui" si le solde a été validé, vide sinon
+    //         sheet.getRange(rowIndex, 9).setValue(dateLivraisonAdmin); // colonne I — AAAA-MM-JJ, date redéfinie par toi (vide = on garde celle du client)
     //       }
     //       return jsonOut({ success: true });
     //     }
@@ -10079,8 +10142,8 @@
     //      accès "Tout le monde"). Si tu régénères une nouvelle URL, remplace celle collée
     //      dans APPS_SCRIPT_URL plus haut.
     //   4. Vérifie que ORDERS_SHEET_NAME (dans le script) correspond bien au nom réel
-    //      de ton onglet de commandes (colonnes A→G : orderId, status, note, date,
-    //      clientMessage, contact, deliveryLink).
+    //      de ton onglet de commandes (colonnes A→I : orderId, status, note, date,
+    //      clientMessage, contact, deliveryLink, soldeRecu, dateLivraisonAdmin).
     // 🔧 Colle ici le lien normal de ton Google Sheet (celui que tu utilises pour l'ouvrir/l'éditer à la main)
     const ADMIN_SHEET_URL = 'https://docs.google.com/spreadsheets/d/13jPRPQUOe8JNkxzkv_PIUE98iJz3hS2NSrEFDnT2bhE/edit?usp=sharing';
 
@@ -10109,7 +10172,35 @@
     // l'écrire dans la colonne G — par exemple :
     //   var deliveryLink = e.parameter.deliveryLink || '';
     //   sheet.getRange(row, 7).setValue(deliveryLink); // colonne G
-    // Le client verra alors un bouton de téléchargement directement dans son suivi de commande.
+    // Le client verra alors un bouton de téléchargement directement dans son suivi de commande —
+    // mais uniquement si la case "solde reçu" ci-dessous est cochée (voir juste après).
+
+    // ⚠️ IMPORTANT — nouveau champ "solde reçu" (colonne H du Sheet), pour ne débloquer le lien de
+    // livraison qu'une fois le solde (les 50% restants, dus à la livraison) réglé ET vérifié par
+    // tes soins. Tant que la case "✅ Solde (50% restant) bien reçu" n'est pas cochée dans une
+    // carte de commande, le client voit un message l'informant que le lien s'affichera une fois le
+    // solde payé et validé — jamais le lien lui-même, même si tu l'as déjà collé dans le champ
+    // au-dessus. Ce fichier envoie maintenant un paramètre `soldeRecu` ("oui" ou vide) à l'Apps
+    // Script quand tu cliques "Enregistrer". Comme pour deliveryLink, ton script doit lire ce
+    // paramètre et l'écrire dans la colonne H — par exemple :
+    //   var soldeRecu = e.parameter.soldeRecu || '';
+    //   sheet.getRange(row, 8).setValue(soldeRecu); // colonne H
+    // Si ton script ignore ce paramètre, la case s'affichera dans l'admin mais le lien restera
+    // verrouillé côté client même une fois cochée, tant que le script n'est pas mis à jour.
+
+    // ⚠️ IMPORTANT — nouveau champ "date de livraison redéfinie par toi" (colonne I du Sheet) :
+    // par défaut, le filtre "📦 Livraison souhaitée entre..." et l'export CSV utilisent la date que
+    // le client a choisie dans le formulaire (embarquée dans la note). Si tu décales une commande à
+    // la main (autre créneau, priorité changée...), remplis le champ "📅 Date de livraison prévue
+    // (redéfinie par toi)" dans la carte de la commande : cette date remplace alors celle du client
+    // partout où elle est utilisée. Laisse ce champ vide pour garder la date du client telle quelle.
+    // Ce fichier envoie maintenant un paramètre `dateLivraisonAdmin` (format AAAA-MM-JJ, ou vide) à
+    // l'Apps Script quand tu cliques "Enregistrer". Ton script doit lire ce paramètre et l'écrire
+    // dans la colonne I — par exemple :
+    //   var dateLivraisonAdmin = e.parameter.dateLivraisonAdmin || '';
+    //   sheet.getRange(row, 9).setValue(dateLivraisonAdmin); // colonne I
+    // Si ton script ignore ce paramètre, le champ s'affichera dans l'admin mais la date que tu
+    // saisis n'aura aucun effet sur le filtre/export tant que le script n'est pas mis à jour.
 
     // ⚠️ IMPORTANT — suppression définitive d'une commande (bouton 🗑️ dans le panneau admin) :
     // ce fichier appelle maintenant une nouvelle action `action=delete&orderId=...` quand tu cliques
@@ -10441,6 +10532,7 @@
         { label: 'Livré, merci !', text: 'C\'est livré ! Merci beaucoup pour ta confiance 🙂' },
         { label: 'Acompte reçu', text: 'Acompte bien reçu, je démarre le montage dès que possible.' },
         { label: 'En cours de montage', text: 'Ta commande est en cours de montage, je te tiens au courant.' },
+        { label: 'File d\'attente (passer devant)', text: 'Une commande est actuellement devant la tienne dans mon planning. Si tu veux passer devant, c\'est possible en passant en mode urgent (+30% sur le tarif) — dis-moi si ça t\'intéresse et je réorganise l\'ordre.' },
       ];
 
       // Lien direct vers le Sheet, pour éditer en masse quand une ligne par ligne prend trop de temps
@@ -10484,6 +10576,45 @@
         adminDateFromInput.value = '';
         adminDateToInput.value = '';
         updateDateFilterResetVisibility();
+        renderAdminOrdersList(lastAdminOrders);
+      });
+
+      // --- Filtre par date de livraison SOUHAITÉE (celle choisie par le client dans le calendrier
+      //     du formulaire), différente de la date de création (colonne D). Cette date n'a pas sa
+      //     propre colonne dans le Sheet : elle est déjà embarquée dans la note (colonne C) sous la
+      //     forme "📅 Voulu le JJ/MM/AAAA" (voir syncOrderToAdminSheet au moment de la réservation).
+      //     On l'extrait donc par une petite regex plutôt que de demander une modif d'Apps Script. ---
+      function extractDesiredDeliveryTimestamp(note) {
+        const match = /Voulu le (\d{2})\/(\d{2})\/(\d{4})/.exec(note || '');
+        if (!match) return null;
+        const d = new Date(`${match[3]}-${match[2]}-${match[1]}T00:00:00`);
+        return isNaN(d.getTime()) ? null : d.getTime();
+      }
+      // --- Date "redéfinie par toi" (colonne I, format AAAA-MM-JJ posé par un <input type="date">) :
+      //     quand tu décales une commande à la main dans le planning (indépendamment de ce que le
+      //     client avait demandé au départ), cette date prend le dessus sur celle du formulaire pour
+      //     le filtre ci-dessous et pour l'export CSV. Si tu ne l'as jamais touchée, on retombe sur
+      //     la date souhaitée par le client (ou rien si le client n'en avait pas indiqué). ---
+      function getEffectiveDeliveryTimestamp(r) {
+        const override = (r[8] || '').trim();
+        if (override) {
+          const d = new Date(override + 'T00:00:00');
+          if (!isNaN(d.getTime())) return d.getTime();
+        }
+        return extractDesiredDeliveryTimestamp(r[2]);
+      }
+      const adminDeliveryDateFromInput = document.getElementById('adminDeliveryDateFromInput');
+      const adminDeliveryDateToInput = document.getElementById('adminDeliveryDateToInput');
+      const adminDeliveryDateFilterResetBtn = document.getElementById('adminDeliveryDateFilterResetBtn');
+      function updateDeliveryDateFilterResetVisibility() {
+        adminDeliveryDateFilterResetBtn.style.display = (adminDeliveryDateFromInput.value || adminDeliveryDateToInput.value) ? 'inline-flex' : 'none';
+      }
+      adminDeliveryDateFromInput.addEventListener('change', () => { updateDeliveryDateFilterResetVisibility(); renderAdminOrdersList(lastAdminOrders); });
+      adminDeliveryDateToInput.addEventListener('change', () => { updateDeliveryDateFilterResetVisibility(); renderAdminOrdersList(lastAdminOrders); });
+      adminDeliveryDateFilterResetBtn.addEventListener('click', () => {
+        adminDeliveryDateFromInput.value = '';
+        adminDeliveryDateToInput.value = '';
+        updateDeliveryDateFilterResetVisibility();
         renderAdminOrdersList(lastAdminOrders);
       });
 
@@ -10667,7 +10798,7 @@
         for (const orderId of ids) {
           const row = lastAdminOrders.find(r => r[0] === orderId) || [];
           try {
-            const url = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=update&orderId=${encodeURIComponent(orderId)}&status=${encodeURIComponent(newStatus)}&note=${encodeURIComponent(row[2] || '')}&clientMessage=${encodeURIComponent(row[4] || '')}&deliveryLink=${encodeURIComponent(row[6] || '')}`;
+            const url = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=update&orderId=${encodeURIComponent(orderId)}&status=${encodeURIComponent(newStatus)}&note=${encodeURIComponent(row[2] || '')}&clientMessage=${encodeURIComponent(row[4] || '')}&deliveryLink=${encodeURIComponent(row[6] || '')}&soldeRecu=${encodeURIComponent(row[7] || '')}&dateLivraisonAdmin=${encodeURIComponent(row[8] || '')}`;
             const res = await fetch(url);
             const data = await res.json();
             if (!data.success) failed++;
@@ -10739,15 +10870,19 @@
             const noteInput = adminOrdersList.querySelector(`.admin-order-note-input[data-order-id="${orderId}"]`);
             const clientMessageInput = adminOrdersList.querySelector(`.admin-client-message-input[data-order-id="${orderId}"]`);
             const deliveryLinkInput = adminOrdersList.querySelector(`.admin-delivery-link-input[data-order-id="${orderId}"]`);
+            const soldeRecuCheckbox = adminOrdersList.querySelector(`.admin-solde-recu-checkbox[data-order-id="${orderId}"]`);
+            const deliveryDateInput = adminOrdersList.querySelector(`.admin-delivery-date-input[data-order-id="${orderId}"]`);
             const originalRow = lastAdminOrders.find(r => r[0] === orderId) || [];
             const status = select ? select.value : (originalRow[1] || '');
             const note = noteInput ? noteInput.value : (originalRow[2] || '');
             const clientMessage = clientMessageInput ? clientMessageInput.value : (originalRow[4] || '');
             const contact = originalRow[5] || '';
             const deliveryLink = deliveryLinkInput ? deliveryLinkInput.value : (originalRow[6] || '');
+            const soldeRecu = soldeRecuCheckbox ? (soldeRecuCheckbox.checked ? 'oui' : '') : (originalRow[7] || '');
+            const dateLivraisonAdmin = deliveryDateInput ? deliveryDateInput.value : (originalRow[8] || '');
             if (msg) { msg.textContent = 'Renommage en cours...'; msg.style.color = 'var(--text-tertiary)'; }
             try {
-              const createUrl = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=update&orderId=${encodeURIComponent(cleanNewId)}&status=${encodeURIComponent(status)}&note=${encodeURIComponent(note)}&clientMessage=${encodeURIComponent(clientMessage)}&contact=${encodeURIComponent(contact)}&deliveryLink=${encodeURIComponent(deliveryLink)}`;
+              const createUrl = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=update&orderId=${encodeURIComponent(cleanNewId)}&status=${encodeURIComponent(status)}&note=${encodeURIComponent(note)}&clientMessage=${encodeURIComponent(clientMessage)}&contact=${encodeURIComponent(contact)}&deliveryLink=${encodeURIComponent(deliveryLink)}&soldeRecu=${encodeURIComponent(soldeRecu)}&dateLivraisonAdmin=${encodeURIComponent(dateLivraisonAdmin)}`;
               const createRes = await fetch(createUrl);
               const createData = await createRes.json();
               if (!createData.success) throw new Error('rename-create-failed');
@@ -10809,7 +10944,9 @@
             msg.style.color = 'var(--text-tertiary)';
             try {
               const deliveryLinkInput = adminOrdersList.querySelector(`.admin-delivery-link-input[data-order-id="${orderId}"]`);
-              const url = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=update&orderId=${encodeURIComponent(orderId)}&status=${encodeURIComponent(select.value)}&note=${encodeURIComponent(noteInput.value)}&clientMessage=${encodeURIComponent(clientMessageInput ? clientMessageInput.value : '')}&deliveryLink=${encodeURIComponent(deliveryLinkInput ? deliveryLinkInput.value : '')}`;
+              const soldeRecuCheckbox = adminOrdersList.querySelector(`.admin-solde-recu-checkbox[data-order-id="${orderId}"]`);
+              const deliveryDateInput = adminOrdersList.querySelector(`.admin-delivery-date-input[data-order-id="${orderId}"]`);
+              const url = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=update&orderId=${encodeURIComponent(orderId)}&status=${encodeURIComponent(select.value)}&note=${encodeURIComponent(noteInput.value)}&clientMessage=${encodeURIComponent(clientMessageInput ? clientMessageInput.value : '')}&deliveryLink=${encodeURIComponent(deliveryLinkInput ? deliveryLinkInput.value : '')}&soldeRecu=${encodeURIComponent(soldeRecuCheckbox && soldeRecuCheckbox.checked ? 'oui' : '')}&dateLivraisonAdmin=${encodeURIComponent(deliveryDateInput ? deliveryDateInput.value : '')}`;
               const res = await fetch(url);
               const data = await res.json();
               if (!data.success) throw new Error('update-failed');
@@ -10858,6 +10995,13 @@
         adminOrdersList.querySelectorAll('.admin-client-message-input').forEach(input => {
           input.addEventListener('input', () => {
             saveMsgDraft(input.dataset.orderId, input.value);
+          });
+        });
+
+        adminOrdersList.querySelectorAll('.admin-solde-recu-checkbox').forEach(cb => {
+          cb.addEventListener('change', () => {
+            const toggle = cb.closest('.admin-solde-toggle');
+            if (toggle) toggle.classList.toggle('is-checked', cb.checked);
           });
         });
 
@@ -11154,6 +11298,10 @@
         const currentClientMessage = escapeHtml(hasDraft ? draftClientMessage : savedClientMessage);
         const contact = escapeHtml(r[5] || '');
         const currentDeliveryLink = escapeHtml(r[6] || '');
+        const currentSoldeRecu = r[7] === 'oui';
+        const currentAdminDeliveryDate = escapeHtml(r[8] || '');
+        const clientWantedTs = extractDesiredDeliveryTimestamp(r[2]);
+        const clientWantedLabel = clientWantedTs ? new Date(clientWantedTs).toLocaleDateString('fr-FR') : null;
         const stale = isStaleOrder(r);
         const autoTags = detectAutoTags(r).filter(t => t.key !== 'urgent');
         const attention = attentionBadge(r);
@@ -11200,6 +11348,13 @@
                 <input type="text" class="admin-order-note-input" data-order-id="${orderId}" value="${currentNote}" placeholder="ex : relancé le 12/08, client difficile..." />
                 <span class="admin-order-note-label admin-delivery-link-label">🔗 Lien de livraison (rush / fichier final : Drive, WeTransfer...)</span>
                 <input type="text" class="admin-delivery-link-input" data-order-id="${orderId}" value="${currentDeliveryLink}" placeholder="https://..." />
+                <label class="admin-solde-toggle${currentSoldeRecu ? ' is-checked' : ''}">
+                  <input type="checkbox" class="admin-solde-recu-checkbox" data-order-id="${orderId}" ${currentSoldeRecu ? 'checked' : ''} />
+                  ✅ Solde (50% restant) bien reçu — tant que ça n'est pas coché, le client ne voit pas le lien ci-dessus, seulement un message l'informant qu'il s'affichera une fois le solde réglé et validé.
+                </label>
+                <span class="admin-order-note-label admin-delivery-date-label">📅 Date de livraison prévue (redéfinie par toi)${clientWantedLabel ? ` · le client avait demandé le ${clientWantedLabel}` : ' · le client n\'avait pas indiqué de date'}</span>
+                <input type="date" class="admin-delivery-date-input" data-order-id="${orderId}" value="${currentAdminDeliveryDate}" />
+                <p class="admin-delivery-date-hint">Laisse vide pour garder la date du client (si renseignée) dans le filtre "📦 Livraison souhaitée entre..." ci-dessus. Remplis ce champ si tu décales la commande à une autre date que tu choisis toi-même — ça remplace la date du client partout où elle est utilisée (filtre, export CSV).</p>
                 ${timelineHtml(r)}
               </div>
             </details>
@@ -11224,6 +11379,17 @@
             if (isNaN(createdAt)) return false;
             if (dateFrom && createdAt < dateFrom) return false;
             if (dateTo && createdAt > dateTo) return false;
+            return true;
+          });
+        }
+        const deliveryDateFrom = adminDeliveryDateFromInput.value ? new Date(adminDeliveryDateFromInput.value + 'T00:00:00').getTime() : null;
+        const deliveryDateTo = adminDeliveryDateToInput.value ? new Date(adminDeliveryDateToInput.value + 'T23:59:59').getTime() : null;
+        if (deliveryDateFrom || deliveryDateTo) {
+          filtered = filtered.filter(r => {
+            const wanted = getEffectiveDeliveryTimestamp(r);
+            if (wanted === null) return false;
+            if (deliveryDateFrom && wanted < deliveryDateFrom) return false;
+            if (deliveryDateTo && wanted > deliveryDateTo) return false;
             return true;
           });
         }
@@ -11468,6 +11634,17 @@
             return true;
           });
         }
+        const deliveryDateFromCsv = adminDeliveryDateFromInput.value ? new Date(adminDeliveryDateFromInput.value + 'T00:00:00').getTime() : null;
+        const deliveryDateToCsv = adminDeliveryDateToInput.value ? new Date(adminDeliveryDateToInput.value + 'T23:59:59').getTime() : null;
+        if (deliveryDateFromCsv || deliveryDateToCsv) {
+          rows = rows.filter(r => {
+            const wanted = getEffectiveDeliveryTimestamp(r);
+            if (wanted === null) return false;
+            if (deliveryDateFromCsv && wanted < deliveryDateFromCsv) return false;
+            if (deliveryDateToCsv && wanted > deliveryDateToCsv) return false;
+            return true;
+          });
+        }
         if (searchVal) {
           rows = rows.filter(r => (r[0] || '').toLowerCase().includes(searchVal) || (r[2] || '').toLowerCase().includes(searchVal));
         }
@@ -11484,13 +11661,13 @@
       });
 
       // --- Diagnostic configuration : un seul bouton global (au lieu d'un par carte comme avant)
-      // pour vérifier d'un coup pourquoi messages client / liens de livraison / suppression peuvent
-      // ne pas fonctionner. Deux causes possibles et différentes, souvent confondues :
-      //  1) Le Sheet ne PUBLIE pas encore les colonnes E à G (Fichier > Partager > Publier sur le
+      // pour vérifier d'un coup pourquoi messages client / liens de livraison / validation du solde /
+      // suppression peuvent ne pas fonctionner. Deux causes possibles et différentes, souvent confondues :
+      //  1) Le Sheet ne PUBLIE pas encore les colonnes E à H (Fichier > Partager > Publier sur le
       //     web — la plage publiée reste souvent figée à ce qu'elle était au moment de la 1ère
       //     publication, même si des colonnes sont ajoutées après).
-      //  2) L'Apps Script ne les ÉCRIT pas (paramètres clientMessage/deliveryLink pas encore gérés
-      //     dans action=update, ou action=delete pas encore ajoutée du tout).
+      //  2) L'Apps Script ne les ÉCRIT pas (paramètres clientMessage/deliveryLink/soldeRecu pas
+      //     encore gérés dans action=update, ou action=delete pas encore ajoutée du tout).
       // Ce diagnostic ne peut tester que la 1ère cause en lisant le CSV ; pour la 2nde, impossible
       // de savoir à distance sans risquer une vraie écriture — d'où les instructions de code fournies.
       async function runAdminDiagnostic() {
@@ -11508,10 +11685,11 @@
           const colCount = rows.reduce((max, r) => Math.max(max, r.length), 0);
           const hasAnyMessage = rows.slice(1).some(r => (r[4] || '').trim());
           const hasAnyLink = rows.slice(1).some(r => (r[6] || '').trim());
+          const hasAnySoldeRecu = rows.slice(1).some(r => (r[7] || '').trim());
 
-          lines.push(colCount >= 7
-            ? `✅ Le Sheet publie ${colCount} colonnes (au moins A à G), la plage publiée est suffisante.`
-            : `❌ Le Sheet ne publie que ${colCount} colonne${colCount > 1 ? 's' : ''} — il en faut au moins 7 (A à G) pour que messages et liens de livraison fonctionnent. Va dans Fichier > Partager > Publier sur le web, et republie en incluant toutes les colonnes jusqu'à G (souvent la plage reste figée à l'ancienne publication même après avoir ajouté des colonnes).`);
+          lines.push(colCount >= 8
+            ? `✅ Le Sheet publie ${colCount} colonnes (au moins A à H), la plage publiée est suffisante.`
+            : `❌ Le Sheet ne publie que ${colCount} colonne${colCount > 1 ? 's' : ''} — il en faut au moins 8 (A à H) pour que messages, liens de livraison et validation du solde fonctionnent. Va dans Fichier > Partager > Publier sur le web, et republie en incluant toutes les colonnes jusqu'à H (souvent la plage reste figée à l'ancienne publication même après avoir ajouté des colonnes).`);
 
           if (colCount >= 7) {
             lines.push(hasAnyMessage
@@ -11520,6 +11698,11 @@
             lines.push(hasAnyLink
               ? '✅ Au moins un lien de livraison est bien présent dans le Sheet publié.'
               : '⚠️ Aucun lien de livraison trouvé, soit tu n\'en as pas encore enregistré, soit ton Apps Script n\'écrit pas encore le paramètre "deliveryLink" en colonne G.');
+          }
+          if (colCount >= 8) {
+            lines.push(hasAnySoldeRecu
+              ? '✅ Au moins une commande a bien "oui" en colonne H (solde validé) dans le Sheet publié.'
+              : 'ℹ️ Aucune commande avec le solde validé pour l\'instant dans le Sheet publié — normal si tu n\'as encore coché la case "Solde bien reçu" sur aucune commande. Si tu l\'as déjà cochée et enregistrée sans que ça apparaisse ici, ton Apps Script n\'écrit sans doute pas encore le paramètre "soldeRecu" en colonne H.');
           }
 
           lines.push('ℹ️ La suppression (bouton 🗑️) ne peut pas être testée sans risquer une vraie suppression. Si elle échoue, c\'est que ton Apps Script ne gère pas encore l\'action "delete", le code exact à ajouter est en commentaire dans ce fichier, juste avant les instructions sur "clientMessage".');
@@ -14263,6 +14446,7 @@
     let remoteStatuses = {};
     let remoteClientMessages = {};
     let remoteDeliveryLinks = {};
+    let remoteSoldeRecu = {};
     const sheetSyncReady = !STATUS_SHEET_CSV_URL.includes('COLLE_URL_CSV');
     const lastSyncNote = document.getElementById('lastSyncNote');
 
@@ -14278,6 +14462,7 @@
         const map = {};
         const messageMap = {};
         const deliveryMap = {};
+        const soldeMap = {};
         rows.slice(1).forEach(r => {
           const id = (r[0] || '').trim().toUpperCase();
           const status = (r[1] || '').trim();
@@ -14291,10 +14476,15 @@
           // ⚠️ Nécessite que l'Apps Script accepte et écrive le paramètre "deliveryLink" dans cette colonne.
           const deliveryLink = (r[6] || '').trim();
           if (id && deliveryLink) deliveryMap[id] = deliveryLink;
+          // Colonne H (index 7) : "oui" une fois le solde (50% restant) reçu ET validé par l'admin.
+          // Tant que ce n'est pas "oui", le lien de livraison ci-dessus reste caché côté client,
+          // même s'il est déjà rempli — voir trackingCardHtml plus bas.
+          if (id) soldeMap[id] = (r[7] || '').trim().toLowerCase() === 'oui';
         });
         remoteStatuses = map;
         remoteClientMessages = messageMap;
         remoteDeliveryLinks = deliveryMap;
+        remoteSoldeRecu = soldeMap;
         if (lastSyncNote) {
           const now = new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
           lastSyncNote.textContent = `✅ Statuts synchronisés à ${now}`;
@@ -14338,6 +14528,21 @@
       const statusClass = isCancelled ? 'status-cancelled' : (isConfirmed ? 'status-confirmed' : 'status-sent');
       const clientMessage = remoteClientMessages[order.id.toUpperCase()] || '';
       const deliveryLink = remoteDeliveryLinks[order.id.toUpperCase()] || '';
+      const isSoldeRecu = !!remoteSoldeRecu[order.id.toUpperCase()];
+
+      // Le lien de livraison ne s'affiche jamais tant que le solde (50% restant, dû à la
+      // livraison) n'a pas été coché comme reçu par l'admin — même si le champ est déjà rempli
+      // côté Sheet. Tant que ce n'est pas le cas, on explique pourquoi plutôt que de rien afficher.
+      const soldeAmount = order.budget ? roundToFive((parseInt(order.budget, 10) || 0) * 0.5) : 0;
+      const paySoldeUrl = soldeAmount > 0
+        ? `https://www.paypal.com/paypalme/Michyyly/${soldeAmount}`
+        : 'https://www.paypal.com/paypalme/Michyyly';
+      const deliveryLinkHtml = deliveryLink
+        ? (isSoldeRecu
+            ? `<a class="tracking-delivery-btn" href="${escapeHtml(deliveryLink)}" target="_blank" rel="noopener">📥 Télécharger tes fichiers</a>`
+            : `<div class="tracking-locked-delivery">🔒 <strong>Ton fichier est prêt !</strong> Le lien de téléchargement s'affichera ici dès que le solde (50% restant, dû à la livraison) sera réglé et que j'aurai validé la réception du paiement.<br/>
+                <a class="tracking-pay-solde-btn" href="${paySoldeUrl}" target="_blank" rel="noopener">💳 Régler le solde${soldeAmount > 0 ? ` (${soldeAmount}€)` : ''}</a></div>`)
+        : '';
 
       // Pulse uniquement si on avait déjà vu cette commande avec un statut différent
       // (pas au tout premier affichage, sinon tout pulserait à chaque chargement de page)
@@ -14349,13 +14554,20 @@
         // Commande retrouvée uniquement via le Sheet public (pas dans le stockage local de ce
         // navigateur) : on n'a que le statut + message + lien de livraison, pas les détails du
         // formulaire d'origine. On propose de la rajouter au suivi local pour la retrouver facilement.
+        // Pas de budget dispo ici (commande non retrouvée localement), donc pas de montant de solde
+        // calculable : le bouton de paiement pointe simplement vers le profil PayPal sans montant.
         return `
         <div class="tracking-card">
           <span class="tracking-status ${statusClass}${justChanged ? ' status-pulse' : ''}">${statusIconHtml(liveStatus, 13)}${escapeHtml(stripStatusEmoji(liveStatus))}</span>
           <span class="tracking-id">${escapeHtml(order.id)}</span>
           <p class="tracking-remote-note">🔎 Retrouvée à distance : les détails du formulaire d'origine ne sont pas dispo ici (seulement le statut, le message et le lien de livraison éventuels).</p>
           ${clientMessage ? `<div class="tracking-client-message">💬 <strong>Message de Michyy :</strong> ${escapeHtml(clientMessage)}</div>` : ''}
-          ${deliveryLink ? `<a class="tracking-delivery-btn" href="${escapeHtml(deliveryLink)}" target="_blank" rel="noopener">📥 Télécharger tes fichiers</a>` : ''}
+          ${deliveryLink
+            ? (isSoldeRecu
+                ? `<a class="tracking-delivery-btn" href="${escapeHtml(deliveryLink)}" target="_blank" rel="noopener">📥 Télécharger tes fichiers</a>`
+                : `<div class="tracking-locked-delivery">🔒 <strong>Ton fichier est prêt !</strong> Le lien de téléchargement s'affichera ici dès que le solde (50% restant, dû à la livraison) sera réglé et que j'aurai validé la réception du paiement.<br/>
+                    <a class="tracking-pay-solde-btn" href="https://www.paypal.com/paypalme/Michyyly" target="_blank" rel="noopener">💳 Régler le solde</a></div>`)
+            : ''}
           <button type="button" class="tracking-add-local-btn" data-order-id="${escapeHtml(order.id)}">➕ Ajouter à mon suivi local (pour la retrouver facilement la prochaine fois)</button>
         </div>`;
       }
@@ -14370,7 +14582,7 @@
         Validité : ${escapeHtml(order.validityStatus || 'non précisée')}<br/>
         Envoyée le ${escapeHtml(order.date)} · Budget indicatif : ${escapeHtml(order.budget || 'non précisé')}
         ${clientMessage ? `<div class="tracking-client-message">💬 <strong>Message de Michyy :</strong> ${escapeHtml(clientMessage)}</div>` : ''}
-        ${deliveryLink ? `<a class="tracking-delivery-btn" href="${escapeHtml(deliveryLink)}" target="_blank" rel="noopener">📥 Télécharger tes fichiers</a>` : ''}
+        ${deliveryLinkHtml}
         ${isDelivered && !opts.hidden ? `
         <div class="tracking-review-zone" data-order-id="${escapeHtml(order.id)}">
           <button type="button" class="tracking-review-btn sound-on-click">⭐ Laisser un avis sur ce montage</button>
@@ -15354,6 +15566,14 @@
           <input type="date" id="adminDateToInput" class="admin-date-input" />
         </label>
         <button type="button" id="adminDateFilterResetBtn" class="filter-reset-btn" style="display: none;">✕ Effacer les dates</button>
+      </div>
+      <div class="admin-date-filter-row">
+        <label class="admin-date-filter-label">📦 Livraison souhaitée entre
+          <input type="date" id="adminDeliveryDateFromInput" class="admin-date-input" />
+          <span>et</span>
+          <input type="date" id="adminDeliveryDateToInput" class="admin-date-input" />
+        </label>
+        <button type="button" id="adminDeliveryDateFilterResetBtn" class="filter-reset-btn" style="display: none;">✕ Effacer les dates</button>
       </div>
       <div id="adminBulkBar" class="admin-bulk-bar" style="display: none;">
         <span id="adminBulkCount"></span>
