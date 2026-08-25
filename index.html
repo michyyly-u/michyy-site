@@ -2591,71 +2591,6 @@
       gap: 10px;
     }
 
-    /* --- Section "Avant / Après" : reprend .result-card comme grammaire de carte (bordure gauche
-         colorée) avec un accent orange pour rester dans la même famille chromatique que le reste du
-         site (rouge/orange), et affiche le VRAI montage livré à droite (thumbnail + lien) — seul le
-         côté "avant" est décrit en texte, volontairement, plutôt que d'inventer une fausse vidéo brute. --- */
-    .before-after-grid {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      margin-top: 16px;
-    }
-    .before-after-card {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 12px;
-      background: var(--surface-soft);
-      border: 0.5px solid var(--border-soft);
-      border-left: 3px solid #ff9a0088;
-      border-radius: 12px;
-      padding: 14px;
-      align-items: center;
-    }
-    @media (min-width: 640px) {
-      .before-after-card { grid-template-columns: 1fr auto 1fr; }
-    }
-    .before-after-side-label {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-      color: var(--text-faint);
-      margin-bottom: 4px;
-      display: block;
-    }
-    .before-after-before p {
-      font-size: 12.5px;
-      line-height: 1.5;
-      color: var(--text-tertiary);
-      margin: 0;
-    }
-    .before-after-arrow {
-      display: none;
-      font-size: 18px;
-      color: var(--text-faint);
-      text-align: center;
-    }
-    @media (min-width: 640px) {
-      .before-after-arrow { display: block; }
-    }
-    .before-after-after img {
-      width: 100%;
-      border-radius: 8px;
-      display: block;
-      margin-bottom: 6px;
-    }
-    .before-after-after a {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 12px;
-      color: var(--text-secondary);
-      text-decoration: none;
-      border-bottom: 1px solid var(--border-soft);
-    }
-    .before-after-after a:hover { color: var(--text); border-color: var(--text-faint); }
-
     .guarantee-card-text a {
       color: inherit;
       text-decoration: underline;
@@ -8896,64 +8831,6 @@
 
   </section>
 
-  <section id="avant-apres" class="full-section before-after-section reveal">
-    <div class="info-header">
-      <div class="section-divider">
-        <div class="section-divider-line"></div>
-        <span class="section-divider-text">Avant / Après</span>
-        <div class="section-divider-line"></div>
-      </div>
-      <div class="info-title">Ce que le montage change</div>
-    </div>
-    <p class="info-text">
-      Le rendu final ne dit pas tout sur le travail effectué en amont. Voici, en mots, ce qui change entre le rush brut reçu et la vidéo livrée — sur de vrais montages du portfolio ci-dessus.
-    </p>
-
-    <!-- 🔧 Descriptions "Avant" génériques par type de contenu (pas de détails inventés propres à
-         CE projet précis) — le lien et la miniature "Après" pointent eux vers de vrais montages
-         déjà présents dans le portfolio. Personnalise le texte "Avant" si tu veux des détails
-         spécifiques à chaque projet (durée du rush reçu, nombre de prises, etc.). -->
-    <div class="before-after-grid">
-      <div class="before-after-card">
-        <div class="before-after-before">
-          <span class="before-after-side-label">🎬 Avant (rush reçu)</span>
-          <p>Plusieurs heures de VOD esport brutes, aucun découpage, silences entre les temps forts, son de jeu non équilibré avec les voix.</p>
-        </div>
-        <span class="before-after-arrow">→</span>
-        <div class="before-after-after">
-          <span class="before-after-side-label">✅ Après (livré)</span>
-          <img src="https://img.youtube.com/vi/brCloZQp_Es/hqdefault.jpg" loading="lazy" alt="Miniature du montage final : SOLOQ OU SCRIM ? La KCorp s'amuse sur le ladder européen" />
-          <a href="https://youtu.be/brCloZQp_Es?si=NZ7dnnZcgl97oWsm" target="_blank" rel="noopener">Voir le montage complet →</a>
-        </div>
-      </div>
-
-      <div class="before-after-card">
-        <div class="before-after-before">
-          <span class="before-after-side-label">🎬 Avant (rush reçu)</span>
-          <p>Plusieurs sessions de road trip et de scrims non triées, aucune structure narrative, moments forts noyés dans les temps morts.</p>
-        </div>
-        <span class="before-after-arrow">→</span>
-        <div class="before-after-after">
-          <span class="before-after-side-label">✅ Après (livré)</span>
-          <img src="https://img.youtube.com/vi/Zt0km__7rco/hqdefault.jpg" loading="lazy" alt="Miniature du montage final : Recap Esport — KCorp Road Trip & ENC" />
-          <a href="https://youtu.be/Zt0km__7rco?si=qFWwCpvRWi3DFoEs" target="_blank" rel="noopener">Voir le montage complet →</a>
-        </div>
-      </div>
-
-      <div class="before-after-card">
-        <div class="before-after-before">
-          <span class="before-after-side-label">🎬 Avant (rush reçu)</span>
-          <p>Gameplay brut sans réaction cam synchronisée, rythme de coupe absent, aucune accroche identifiée dans les 30 premières secondes.</p>
-        </div>
-        <span class="before-after-arrow">→</span>
-        <div class="before-after-after">
-          <span class="before-after-side-label">✅ Après (livré)</span>
-          <img src="https://img.youtube.com/vi/p9eMLJUqTm0/hqdefault.jpg" loading="lazy" alt="Miniature du montage final : JE TEST LA NOUVELLE META AKIMBO DE LA SAISON 5" />
-          <a href="https://youtu.be/p9eMLJUqTm0?si=eYsneR5IMUG0YH82" target="_blank" rel="noopener">Voir le montage complet →</a>
-        </div>
-      </div>
-    </div>
-  </section>
 
   <section id="resultats" class="full-section results-section reveal">
     <div class="info-header">
@@ -9289,6 +9166,12 @@
         <span class="delay-estimate-label">⏱️ Délai estimé</span>
         <span class="delay-estimate-value" id="delayEstimateText" aria-live="polite"></span>
       </div>
+
+      <label class="form-advanced">📅 Date à laquelle tu veux recevoir la vidéo <span class="optional-tag">(optionnel, indicatif)</span>
+        <input type="date" name="dateLivraisonSouhaitee" id="dateLivraisonInput" />
+        <button type="button" class="info-tip-btn" aria-label="Plus d'informations sur la date souhaitée" data-tip="Choisis une date si tu as une échéance précise (sortie de vidéo, event, deadline client...). C'est une préférence, pas un engagement automatique : je confirme si c'est jouable avec le mode urgent ou non selon mon planning au moment de la demande.">?</button>
+      </label>
+      <p class="note-aside form-advanced" id="dateLivraisonHint" aria-live="polite"></p>
 
       <label class="checkbox-label form-advanced">
         <input type="checkbox" name="usageCommercial" id="usageCommercialCheck" />
@@ -10015,10 +9898,10 @@
     // avec un vrai visiteur. Change cette clé pour autre chose de personnel, puis va sur :
     // tonsite.com?admin=TA_CLE
     // ⚠️ Cette clé ne protège QUE l'affichage du panneau sur cette page — les vraies données de
-    // commandes sont maintenant protégées séparément par le proxy Netlify (netlify/functions/
-    // sheets-proxy.js) et son propre secret côté serveur. Les deux protections sont indépendantes
-    // et nécessaires : quelqu'un qui devine ADMIN_KEY voit juste apparaître le panneau vide tant
-    // qu'il n'a pas aussi accès au vrai secret Apps Script (jamais exposé côté client).
+    // commandes sont protégées séparément par le secret Apps Script (voir APPS_SCRIPT_SECRET et
+    // le code Apps Script un peu plus bas). Les deux protections sont indépendantes et utiles :
+    // quelqu'un qui devine ADMIN_KEY voit juste apparaître le panneau vide tant qu'il n'a pas
+    // aussi le bon secret Apps Script.
     // 🔒 Clé générée aléatoirement le 23/08/2026 — l'ancienne ('jlmichyy2026') était devinable
     // (pseudo + année) et est à considérer comme grillée. Mets celle-ci en favori :
     // tonsite.com?admin=irGyBO89iyAVoN1aHuzf — et régénères-en une nouvelle de temps en temps
@@ -10091,31 +9974,31 @@
     // --- Panneau admin : visible uniquement avec la bonne clé dans l'URL, personne d'autre ne peut y accéder ---
     // (clé ADMIN_KEY déclarée plus haut, avant le tracking d'engagement)
     //
-    // 🔒 SÉCURITÉ — passe désormais par une fonction serverless Netlify (netlify/functions/
+    // 🔒 SÉCURITÉ — passe par une fonction serverless Netlify (netlify/functions/
     // sheets-proxy.js, livrée à côté de ce fichier) plutôt que d'appeler Google Apps Script
-    // directement depuis le navigateur. Avant, l'URL Apps Script ET le secret étaient tous les
-    // deux visibles en clair dans ce fichier (Ctrl+U) : n'importe qui pouvait les copier et lire
-    // ou modifier TOUTES les commandes (noms, contacts, budgets...) sans passer par le site. Le
-    // vrai secret et la vraie URL Apps Script vivent maintenant uniquement dans les variables
-    // d'environnement Netlify (GOOGLE_SCRIPT_URL, GOOGLE_SCRIPT_SECRET) — jamais envoyées au
-    // navigateur. Voir netlify/functions/README.md pour la configuration complète.
+    // directement depuis le navigateur. L'URL Apps Script ET le secret ne sont jamais visibles
+    // en clair dans ce fichier (Ctrl+U) : ils vivent uniquement dans les variables
+    // d'environnement Netlify (GOOGLE_SCRIPT_URL, GOOGLE_SCRIPT_SECRET). Ne marche que si le
+    // site est déployé via GitHub ou la CLI Netlify (pas en simple glisser-déposer).
     const APPS_SCRIPT_URL = '/.netlify/functions/sheets-proxy';
 
     // ⚠️⚠️⚠️ SÉCURITÉ — LIRE AVANT DE METTRE EN LIGNE ⚠️⚠️⚠️
     // Le secret ne transite plus jamais par le navigateur (voir plus haut) : il est lu depuis
     // la variable d'environnement Netlify GOOGLE_SCRIPT_SECRET par la fonction sheets-proxy.js,
-    // qui l'ajoute elle-même à l'appel Apps Script avant de le transmettre. Ce champ ne sert
-    // donc plus qu'à garder le code des autres fonctions inchangé plus bas (elles continuent
-    // d'ajouter ?secret=... à l'URL par habitude, mais la valeur est ignorée par le proxy).
+    // qui l'ajoute elle-même à l'appel Apps Script avant de le transmettre — et écrase toute
+    // valeur envoyée depuis ce fichier. Ce champ ne sert donc plus qu'à garder le code des
+    // autres fonctions inchangé plus bas (elles continuent d'ajouter ?secret=... à l'URL par
+    // habitude, mais la valeur ci-dessous est ignorée par le proxy).
     //
     // Colle quand même ce code dans ton Apps Script (Extensions → Apps Script, remplace tout) —
     // il vérifie le secret CÔTÉ SERVEUR GOOGLE, en défense supplémentaire même si quelqu'un
     // devinait un jour l'URL de ta fonction Netlify :
+    const APPS_SCRIPT_SECRET = '';
     //
     // ============================================================================
     // const SECRET = 'f1a9892a9e8281fc8b84dee9fe84b1ea8597eca548c14cc0'; // 🔧 nouveau secret,
-    //   généré car l'ancien a été exposé côté client — colle la MÊME valeur dans la variable
-    //   d'environnement Netlify GOOGLE_SCRIPT_SECRET (voir netlify/functions/README.md).
+    //   généré car l'ancien a été exposé côté client — colle la MÊME valeur dans la constante
+    //   APPS_SCRIPT_SECRET plus haut dans ce fichier.
     // const ORDERS_SHEET_NAME = 'Commandes'; // 🔧 adapte si ton onglet a un autre nom
     //
     // function doGet(e) {
@@ -10193,16 +10076,11 @@
     // ============================================================================
     //
     //   3. Déploie → Nouveau déploiement → Application web (exécuter en tant que toi,
-    //      accès "Tout le monde"). Comme l'ancienne URL a pu fuiter, redéploie sous une
-    //      NOUVELLE URL plutôt que de mettre à jour l'ancienne.
-    //   4. Colle cette nouvelle URL Apps Script (PAS le secret) dans la variable
-    //      d'environnement Netlify GOOGLE_SCRIPT_URL — jamais dans ce fichier HTML.
-    //   5. Vérifie que ORDERS_SHEET_NAME (dans le script) correspond bien au nom réel
+    //      accès "Tout le monde"). Si tu régénères une nouvelle URL, remplace celle collée
+    //      dans APPS_SCRIPT_URL plus haut.
+    //   4. Vérifie que ORDERS_SHEET_NAME (dans le script) correspond bien au nom réel
     //      de ton onglet de commandes (colonnes A→G : orderId, status, note, date,
     //      clientMessage, contact, deliveryLink).
-    // Détail complet dans netlify/functions/README.md.
-    const APPS_SCRIPT_SECRET = '';
-
     // 🔧 Colle ici le lien normal de ton Google Sheet (celui que tu utilises pour l'ouvrir/l'éditer à la main)
     const ADMIN_SHEET_URL = 'https://docs.google.com/spreadsheets/d/13jPRPQUOe8JNkxzkv_PIUE98iJz3hS2NSrEFDnT2bhE/edit?usp=sharing';
 
@@ -11813,8 +11691,6 @@
     const SECTIONS_ENABLED = {
       apropos: true,      // 🔧 "À propos" : bio générique à personnaliser (voir #apropos), mais activée par
                           // défaut car aucun chiffre inventé dedans — rien de trompeur à corriger avant publication
-      'avant-apres': true, // 🔧 Textes "Avant" génériques par type de contenu, "Après" = vrais montages du
-                            // portfolio — activée par défaut pour la même raison que ci-dessus
       resultats: false,  // 🔧 DÉSACTIVÉ : chiffres encore 100% d'exemple (+140%, +2400, x3) — repasse à `true`
                           // seulement une fois que tu as remplacé les 3 cartes par de vrais résultats clients
                           // (voir #resultats plus bas dans le HTML pour éditer le texte)
@@ -13118,11 +12994,11 @@
     }
     updateResponseDelay();
 
-    // 🔒 Appelle désormais la fonction serverless Netlify netlify/functions/notify-discord.js,
-    // qui transmet le message à ton vrai webhook Discord — celui-ci n'est plus jamais visible
-    // dans le code source de la page. Configuration : variable d'environnement Netlify
-    // DISCORD_WEBHOOK_URL (Site settings → Environment variables). Détails dans
-    // netlify/functions/README.md.
+    // 🔒 Appelle la fonction serverless Netlify netlify/functions/notify-discord.js, qui
+    // transmet le message à ton vrai webhook Discord — celui-ci n'est jamais visible dans le
+    // code source de la page. Configuration : variable d'environnement Netlify
+    // DISCORD_WEBHOOK_URL (Site settings → Environment variables). Ne marche que si le site est
+    // déployé via GitHub ou la CLI Netlify (pas en simple glisser-déposer d'un fichier seul).
     const WEBHOOK_URL = "/.netlify/functions/notify-discord";
 
     // --- Envoi du formulaire "liste d'attente" : réutilise le même webhook Discord que les vraies
@@ -13533,6 +13409,7 @@
       if (data.get('contact')) rows.push(['Contact', `${escapeHtml(data.get('reseau'))} · ${escapeHtml(data.get('contact'))}${data.get('reseau') === 'WhatsApp' && data.get('whatsappNumber') ? ' · 📱 ' + escapeHtml(data.get('whatsappNumber')) : ''}`]);
       rows.push(['Format', escapeHtml(formatBreakdown(data))]);
       if (data.get('delai')) rows.push(['Délai', escapeHtml(data.get('delai'))]);
+      if (data.get('dateLivraisonSouhaitee')) rows.push(['📅 Date voulue', escapeHtml(new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR'))]);
       if (document.getElementById('urgentCheck').checked) rows.push(['⚡', 'Mode urgent']);
       if (priceEstimateValue) rows.push(['Estimation', `${priceEstimateValue.dataset.total || 'non précisé'}€`]);
       if (data.get('driveLink')) rows.push(['Rushs', '✅ lien fourni']);
@@ -13975,6 +13852,7 @@
       customPriceInput.addEventListener('input', () => {
         if (customPriceLabel) customPriceLabel.textContent = `${customPriceInput.value} €`;
         updatePriceEstimate();
+        updateLiveRecap();
       });
     }
 
@@ -14132,7 +14010,7 @@
       if (!urgent && delaiPref === 'Sous 2-3 jours' && chosen[1] > 3) {
         text += ' : pour tenir ce délai, pense au mode urgent ⚡';
       } else if (!urgent && delaiPref === 'Dès que possible' && chosen[0] > 0) {
-        text += ' : le mode urgent ⚡ te met en priorité immédiate';
+        text += ' : active le mode urgent ⚡ pour passer en priorité immédiate';
       }
       delayEstimateText.innerHTML = text;
     }
@@ -14144,11 +14022,58 @@
     quantiteLongInput.addEventListener('input', updateDelayEstimate);
     updateDelayEstimate();
 
+    // --- Date de livraison souhaitée : calendrier optionnel permettant au client d'indiquer
+    // quand il aimerait recevoir sa vidéo. Purement indicatif (pas un engagement ferme) : on
+    // compare la date choisie à la fourchette de délai estimée (DELAY_RANGES) pour prévenir le
+    // client tout de suite si sa date semble trop serrée, avant même l'envoi de la demande.
+    const dateLivraisonInput = document.getElementById('dateLivraisonInput');
+    const dateLivraisonHint = document.getElementById('dateLivraisonHint');
+    if (dateLivraisonInput) {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const minDate = new Date(today);
+      minDate.setDate(minDate.getDate() + 1);
+      dateLivraisonInput.min = minDate.toISOString().slice(0, 10);
+
+      function updateDateLivraisonHint() {
+        if (!dateLivraisonHint) return;
+        if (!dateLivraisonInput.value) { dateLivraisonHint.textContent = ''; return; }
+        const chosen = new Date(dateLivraisonInput.value + 'T00:00:00');
+        if (isNaN(chosen.getTime())) { dateLivraisonHint.textContent = ''; return; }
+        const daysUntil = Math.round((chosen - today) / 86400000);
+        if (daysUntil < 0) {
+          dateLivraisonHint.textContent = '⚠️ Cette date est déjà passée, choisis-en une autre.';
+          return;
+        }
+        const range = DELAY_RANGES[formatSelect.value] || DELAY_RANGES['Long (YouTube / Best-of)'];
+        const chosenRange = urgentCheck.checked ? range.urgent : range.normal;
+        const dateLabel = chosen.toLocaleDateString('fr-FR', { day: 'numeric', month: 'long' });
+        let text = `📅 Soit dans ${daysUntil} jour${daysUntil > 1 ? 's' : ''} (${dateLabel}).`;
+        if (daysUntil < chosenRange[0]) {
+          text += ' ⚠️ Plus court que mon délai habituel pour ce format — active le mode urgent ⚡ ou contacte-moi directement pour vérifier que c\'est jouable.';
+        } else {
+          text += ' ✅ Compatible avec mon délai habituel pour ce format.';
+        }
+        dateLivraisonHint.textContent = text;
+      }
+      dateLivraisonInput.addEventListener('change', updateDateLivraisonHint);
+      formatSelect.addEventListener('change', updateDateLivraisonHint);
+      urgentCheck.addEventListener('change', updateDateLivraisonHint);
+      updateDateLivraisonHint();
+    }
+
     formatSelect.addEventListener('change', updatePriceEstimate);
     quantiteInput.addEventListener('input', updatePriceEstimate);
     quantiteCourtInput.addEventListener('input', updatePriceEstimate);
     quantiteLongInput.addEventListener('input', updatePriceEstimate);
     usageCommercialCheck.addEventListener('change', updatePriceEstimate);
+    // Même correctif que pour le curseur de quantité et "Prix libre" : garantit que l'aperçu en
+    // direct reste synchronisé même si ces champs venaient à ne pas propager leur événement
+    // jusqu'au formulaire (voir commentaire détaillé plus haut sur ce type de bug).
+    formatSelect.addEventListener('change', updateLiveRecap);
+    quantiteCourtInput.addEventListener('input', updateLiveRecap);
+    quantiteLongInput.addEventListener('input', updateLiveRecap);
+    usageCommercialCheck.addEventListener('change', updateLiveRecap);
     urgentCheck.addEventListener('change', updatePriceEstimate);
     const depositAmount = document.getElementById('depositAmount');
     const depositPaypalBtn = document.getElementById('depositPaypalBtn');
@@ -14720,6 +14645,7 @@
             <tr><td>Contact</td><td>${escapeHtml(data.get('reseau'))} · ${escapeHtml(data.get('contact') || 'non précisé')}${data.get('reseau') === 'WhatsApp' && data.get('whatsappNumber') ? ' · 📱 ' + escapeHtml(data.get('whatsappNumber')) : ''}</td></tr>
             <tr><td>Format</td><td>${escapeHtml(formatBreakdown(data))}</td></tr>
             <tr><td>Délai souhaité</td><td>${escapeHtml(data.get('delai') || 'non précisé')}</td></tr>
+            ${data.get('dateLivraisonSouhaitee') ? `<tr><td>Date de réception voulue</td><td>${escapeHtml(new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR'))}</td></tr>` : ''}
             <tr><td>Type de collaboration</td><td>${escapeHtml(data.get('collaboration') || 'non précisé')}</td></tr>
             <tr><td>Usage commercial</td><td>${data.get('usageCommercial') === 'on' ? 'Oui (+15%)' : 'Non'}</td></tr>
             <tr><td>Mode urgent</td><td>${data.get('urgent') === 'on' ? 'Oui (+30%)' : 'Non'}</td></tr>
@@ -14777,6 +14703,7 @@
           { icon: '📩', label: 'Contact', value: contactLine },
           { icon: '🎬', label: 'Format', value: formatBreakdown(data) },
           { icon: '⏱️', label: 'Délai souhaité', value: (data.get('delai') || 'non précisé') + (tagsLine ? ' · ' + tagsLine : '') },
+          ...(data.get('dateLivraisonSouhaitee') ? [{ icon: '📅', label: 'Date voulue', value: new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR') }] : []),
           { icon: '💶', label: 'Budget indicatif', value: data.get('budget') || 'non précisé' },
           { icon: '💳', label: 'Preuve de paiement', value: preuvePreview || '⚠️ non fournie pour le moment', warn: !preuvePreview },
           { icon: '📁', label: 'Lien des rushs', value: data.get('driveLink') || '⚠️ non fourni', warn: !data.get('driveLink') },
@@ -14825,6 +14752,7 @@
         { name: "Contact", value: `${data.get('reseau')} · ${data.get('contact')}${data.get('reseau') === 'WhatsApp' && data.get('whatsappNumber') ? ' · 📱 ' + data.get('whatsappNumber') : ''}` },
         { name: "Format souhaité", value: formatBreakdown(data) },
         { name: "Délai souhaité", value: data.get('delai') || 'non précisé' },
+        { name: "📅 Date de réception voulue", value: data.get('dateLivraisonSouhaitee') ? new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR') : 'non précisée' },
         { name: "Type de collaboration", value: data.get('collaboration') || 'non précisé' },
         { name: "Usage commercial / sponsorisé", value: isCommercial ? '✅ Oui' : 'Non' },
         { name: "Mode urgent", value: isUrgent ? '⚡ Oui' : 'Non' },
@@ -14883,6 +14811,7 @@
           quantite: data.get('quantite') || 1,
           budget: data.get('budget'),
           delai: data.get('delai') || 'non précisé',
+          dateLivraisonSouhaitee: data.get('dateLivraisonSouhaitee') || '',
           commercial: isCommercial,
           urgent: isUrgent,
           promoCode: appliedPromo ? promoCodeRaw : '',
@@ -14902,7 +14831,7 @@
         syncOrderToAdminSheet(
           orderId,
           '🟠 Envoyée, en attente de réponse',
-          `${data.get('nom') || 'non précisé'} (${data.get('typeClient') || 'Particulier'}) · ${formatBreakdown(data)} · 💶 ${data.get('budget') || 'non précisé'}${isUrgent ? ' · ⚡ Urgent' : ''}${appliedPromo ? ` · 🎟️ Code ${promoCodeRaw}` : ''}${parrainPseudo ? ` · 🤝 Parrain : ${parrainPseudo}` : ''} · via formulaire complet`,
+          `${data.get('nom') || 'non précisé'} (${data.get('typeClient') || 'Particulier'}) · ${formatBreakdown(data)} · 💶 ${data.get('budget') || 'non précisé'}${isUrgent ? ' · ⚡ Urgent' : ''}${data.get('dateLivraisonSouhaitee') ? ' · 📅 Voulu le ' + new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR') : ''}${appliedPromo ? ` · 🎟️ Code ${promoCodeRaw}` : ''}${parrainPseudo ? ` · 🤝 Parrain : ${parrainPseudo}` : ''} · via formulaire complet`,
           `${data.get('reseau') || 'non précisé'} · ${data.get('contact') || 'non précisé'}${data.get('reseau') === 'WhatsApp' && data.get('whatsappNumber') ? ' · 📱 ' + data.get('whatsappNumber') : ''}`
         );
 
@@ -14915,7 +14844,7 @@
         document.getElementById('confirmationCode').textContent = orderId;
         document.getElementById('confirmationRecap').innerHTML = `
           ${escapeHtml(data.get('format'))} × ${escapeHtml(data.get('quantite') || 1)} ·
-          Délai souhaité : ${escapeHtml(data.get('delai') || 'non précisé')}<br/>
+          Délai souhaité : ${escapeHtml(data.get('delai') || 'non précisé')}${data.get('dateLivraisonSouhaitee') ? ' · Date voulue : ' + escapeHtml(new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR')) : ''}<br/>
           Budget indicatif : ${escapeHtml(data.get('budget') || 'non précisé')}
         `;
         document.getElementById('confirmationNext').textContent = `📩 Je te recontacte sous 24h sur ${data.get('reseau')}.`;
@@ -15256,6 +15185,14 @@
           updateDelayEstimate();
           updateFormProgress();
           saveDraft();
+          // 🔧 Corrige un bug d'affichage : cliquer un bouton de format met bien à jour le prix
+          // en interne (updatePriceEstimate ci-dessus), mais ne déclenche aucun événement DOM
+          // natif sur le formulaire (contrairement à un vrai clic clavier/souris sur un <select>
+          // ou un slider) — le panneau "Aperçu en direct" à droite, qui s'actualise via les
+          // événements 'input'/'change' du formulaire, restait donc figé sur l'ancien prix
+          // jusqu'au prochain changement ailleurs (ex. le curseur de quantité). On l'appelle
+          // ici directement pour qu'il se mette à jour instantanément, comme le reste.
+          updateLiveRecap();
         });
       });
 
@@ -15263,6 +15200,11 @@
         updatePriceEstimate();
         updateDelayEstimate();
         updateFormProgress();
+        // Même correctif que pour les boutons de format juste au-dessus : sans cet appel
+        // explicite, le panneau "Aperçu en direct" ne se met à jour qu'au prochain événement
+        // ailleurs sur le formulaire, donnant l'impression que le prix reste figé pendant
+        // qu'on glisse ce curseur.
+        updateLiveRecap();
       });
 
       // Exposée pour que restoreDraftIfAny() puisse resynchroniser les boutons après avoir
@@ -15567,7 +15509,6 @@
     <a href="#hero" class="section-nav-dot" data-section="hero" aria-label="Aller à l'accueil"><span class="section-nav-tooltip">Accueil</span></a>
     <a href="#apropos" class="section-nav-dot" data-section="apropos" aria-label="Aller à la section à propos"><span class="section-nav-tooltip">À propos</span></a>
     <a href="#portfolio" class="section-nav-dot" data-section="portfolio" aria-label="Aller au portfolio"><span class="section-nav-tooltip">Portfolio</span></a>
-    <a href="#avant-apres" class="section-nav-dot" data-section="avant-apres" aria-label="Aller à la section avant/après"><span class="section-nav-tooltip">Avant/Après</span></a>
     <a href="#resultats" class="section-nav-dot" data-section="resultats" aria-label="Aller aux résultats obtenus"><span class="section-nav-tooltip">Résultats</span></a>
     <a href="#process" class="section-nav-dot" data-section="process" aria-label="Aller au process"><span class="section-nav-tooltip">Process</span></a>
     <a href="#reservation" class="section-nav-dot" data-section="reservation" aria-label="Aller à la réservation"><span class="section-nav-tooltip">Réserver</span></a>
