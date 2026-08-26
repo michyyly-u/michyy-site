@@ -5106,6 +5106,12 @@
       border-top: 0.5px solid var(--border);
     }
 
+    .order-tracking-faq {
+      margin-top: 18px;
+    }
+    .order-tracking-faq .faq-item-body p { margin: 0 0 10px; }
+    .order-tracking-faq .faq-item-body p:last-child { margin-bottom: 0; }
+
     .order-tracking-row {
       display: flex;
       gap: 8px;
@@ -5795,6 +5801,23 @@
       box-shadow: 0 0 0 2px #5865F233;
     }
 
+    .admin-order-card-pinned {
+      border-color: #ffd54fbb;
+      background: linear-gradient(180deg, #ffd54f14, transparent 40%), var(--surface-soft);
+    }
+
+    .admin-pin-btn {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 12px;
+      opacity: 0.4;
+      padding: 2px 4px;
+      margin-left: auto;
+    }
+    .admin-pin-btn:hover { opacity: 1; }
+    .admin-pin-btn.is-pinned { opacity: 1; filter: drop-shadow(0 0 2px #ffd54f); }
+
     .admin-daily-summary {
       font-family: 'DM Sans', sans-serif;
       font-size: 13px;
@@ -5938,6 +5961,24 @@
     }
 
     .admin-note-qf-sync-btn:hover { background: #5865F230; }
+
+    .admin-copy-tracking-link-btn {
+      display: block;
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 7px 10px;
+      background: #3ddc8418;
+      border: 0.5px solid #3ddc8455;
+      border-radius: 6px;
+      color: #3ddc84;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .admin-copy-tracking-link-btn:hover { background: #3ddc8430; }
 
     .admin-order-badges {
       display: flex;
@@ -6202,10 +6243,136 @@
       font-size: 12px;
       opacity: 0.45;
       padding: 2px 4px;
-      margin-left: auto;
     }
 
     .admin-hide-btn:hover { opacity: 1; }
+
+    /* --- Tri manuel des commandes : flèches ▲▼ sur chaque carte + ligne du bouton de bascule --- */
+    .admin-order-move {
+      display: inline-flex;
+      flex-direction: column;
+      gap: 1px;
+      margin-right: 2px;
+    }
+    .admin-order-move-up,
+    .admin-order-move-down {
+      background: var(--surface-soft);
+      border: 1px solid var(--border-color, #ffffff22);
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 9px;
+      line-height: 1;
+      padding: 2px 4px;
+      color: var(--text);
+      opacity: 0.7;
+    }
+    .admin-order-move-up:hover,
+    .admin-order-move-down:hover { opacity: 1; }
+
+    .admin-manual-sort-row {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin: 6px 0;
+    }
+    #adminManualSortToggleBtn.admin-manual-sort-active {
+      border-color: #ffb02099;
+      color: #ffb020;
+    }
+    .admin-manual-sort-hint {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      color: var(--text-faint);
+    }
+
+    /* --- Tags personnalisés --- */
+    .admin-custom-tags {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 4px;
+      margin: 6px 0;
+    }
+    .admin-custom-tag-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: #8a5cf622;
+      border: 1px solid #8a5cf655;
+      color: #b39dff;
+      border-radius: 20px;
+      padding: 2px 8px;
+      font-size: 11px;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .admin-custom-tag-remove {
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      color: inherit;
+      opacity: 0.6;
+      font-size: 10px;
+      padding: 0;
+    }
+    .admin-custom-tag-remove:hover { opacity: 1; }
+    .admin-custom-tag-input {
+      background: transparent;
+      border: 1px dashed var(--border-color, #ffffff33);
+      border-radius: 20px;
+      color: var(--text);
+      font-size: 11px;
+      padding: 2px 8px;
+      width: 70px;
+    }
+    .admin-custom-tag-input:focus { width: 120px; outline: none; border-style: solid; }
+
+    /* --- Fiche client regroupée --- */
+    .admin-clients-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .admin-client-card {
+      border: 1px solid var(--border-color, #ffffff22);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .admin-client-card-header {
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      background: var(--surface-soft);
+      border: none;
+      cursor: pointer;
+      padding: 10px 12px;
+      text-align: left;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+    }
+    .admin-client-card-header:hover { background: #ffffff11; }
+    .admin-client-name { font-weight: 600; font-size: 13px; }
+    .admin-client-stats { font-size: 11px; color: var(--text-faint); white-space: nowrap; }
+    .admin-client-orders {
+      list-style: none;
+      margin: 0;
+      padding: 6px 12px;
+    }
+    .admin-client-order-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 11px;
+      padding: 4px 0;
+      border-top: 1px solid var(--border-color, #ffffff14);
+    }
+    .admin-client-order-row:first-child { border-top: none; }
+    .admin-client-order-id { font-family: monospace; opacity: 0.85; }
+    .admin-client-order-status { color: var(--text-faint); flex: 1; text-align: center; }
+    .admin-client-order-date { color: var(--text-faint); white-space: nowrap; }
 
     .admin-delivery-link-input {
       width: 100%;
@@ -6802,6 +6969,7 @@
     .mini-toc-dot--tarifs { background: #6fcf73; }
     .mini-toc-dot--portfolio { background: #ff9a00; }
     .mini-toc-dot--process { background: #7c3cff; }
+    .mini-toc-dot--conseils { background: #14b8a6; }
     .mini-toc-dot--reservation { background: #ff3c3c; }
     .mini-toc-dot--faq,
     .mini-toc-dot--conditions { background: var(--text-faint); }
@@ -6883,6 +7051,8 @@
       padding: 14px 18px;
       margin-top: 10px;
     }
+
+    .conseils-articles { margin-top: 6px; }
 
     .faq-item summary {
       cursor: pointer;
@@ -7884,6 +8054,7 @@
       <a href="#portfolio"><span class="mini-toc-dot mini-toc-dot--portfolio" aria-hidden="true"></span>Portfolio</a>
       <a href="#tarifs"><span class="mini-toc-dot mini-toc-dot--tarifs" aria-hidden="true"></span>Tarifs</a>
       <a href="#process"><span class="mini-toc-dot mini-toc-dot--process" aria-hidden="true"></span>Process</a>
+      <a href="#conseils"><span class="mini-toc-dot mini-toc-dot--conseils" aria-hidden="true"></span>Conseils</a>
       <a href="#reservation"><span class="mini-toc-dot mini-toc-dot--reservation" aria-hidden="true"></span>Réserver</a>
       <a href="#faq"><span class="mini-toc-dot mini-toc-dot--faq" aria-hidden="true"></span>FAQ</a>
       <a href="#conditions"><span class="mini-toc-dot mini-toc-dot--conditions" aria-hidden="true"></span>Conditions</a>
@@ -9130,6 +9301,37 @@
     </div>
   </div>
 
+  <section id="conseils" class="full-section conseils-section reveal">
+    <div class="info-header">
+      <div class="section-divider">
+        <div class="section-divider-line"></div>
+        <span class="section-divider-text">Conseils</span>
+        <div class="section-divider-line"></div>
+      </div>
+      <div class="info-title">Conseils avant de commander</div>
+    </div>
+    <p class="info-text">Quelques repères pour un montage plus rapide et un meilleur résultat, avant même de remplir le formulaire.</p>
+
+    <div class="conseils-articles">
+      <details class="faq-item conseils-article" id="conseil-rushs">
+        <summary>📁 Comment préparer tes rushs pour un montage rapide</summary>
+        <p>Envoie tes fichiers dans leur qualité d'origine (jamais recompressés ou passés par une story/messagerie qui écrase la qualité), triés par prise si possible, et dans un seul lien de partage (Drive, WeTransfer, SwissTransfer) avec un accès ouvert pendant toute la durée du montage. Précise aussi les passages à garder ou à éviter si tu as déjà une idée : ça évite un aller-retour de correction et ça accélère la livraison de la première version.</p>
+      </details>
+      <details class="faq-item conseils-article" id="conseil-format">
+        <summary>📼 Format court ou format long : lequel choisir ?</summary>
+        <p>Le format court (TikTok/Reels/Shorts, 9:16) vise la découverte : rythme rapide, accroche dans les 3 premières secondes, sous-titres quasi obligatoires. Le format long (YouTube, 16:9) laisse plus de place à la narration et à la rétention sur la durée. Si ton contenu a besoin d'être vu en entier pour avoir du sens (tuto, vlog, interview), pars sur du long ; s'il tient en une idée forte et rapide à saisir, le court fonctionne mieux et coûte généralement moins cher à produire.</p>
+      </details>
+      <details class="faq-item conseils-article" id="conseil-delai">
+        <summary>⏳ Combien de temps prévoir pour un montage professionnel</summary>
+        <p>Le délai dépend surtout de la quantité de rushs à trier et du niveau de finition demandé (étalonnage, sound design, motion design). Un format court avec des rushs déjà propres se monte plus vite qu'un format long avec plusieurs heures de brut à visionner. Prévoir large plutôt que serré laisse aussi de la marge pour les retouches : mieux vaut une vidéo livrée un peu en avance qu'un montage bâclé pour tenir un délai trop court.</p>
+      </details>
+      <details class="faq-item conseils-article" id="conseil-erreurs">
+        <summary>⚠️ 3 erreurs qui retardent la livraison de ta vidéo</summary>
+        <p>1) Envoyer les rushs après avoir passé commande plutôt qu'en même temps, ce qui décale d'autant le début du montage. 2) Donner une consigne vague ("fais quelque chose de sympa") plutôt qu'une référence concrète (lien vers une vidéo dans le style voulu), ce qui multiplie les allers-retours de correction. 3) Attendre plusieurs jours avant de valider ou de demander une retouche sur la première version envoyée, ce qui repousse d'autant la livraison finale.</p>
+      </details>
+    </div>
+  </section>
+
   <section id="reservation" class="full-section reserve-section reveal">
     <div class="info-header">
       <div class="section-divider">
@@ -9151,7 +9353,7 @@
     <details id="disponibilites" class="more-options reservation-availability">
       <summary class="more-options-summary">
         <span class="more-options-summary-label">📅 Voir mes disponibilités ce mois-ci</span>
-        <span class="more-options-summary-hint">Aperçu visuel des jours complets — mise à jour manuelle, pas une réservation automatique</span>
+        <span class="more-options-summary-hint">Calculé à partir des commandes en cours — indicatif, pas une réservation automatique</span>
       </summary>
       <div class="more-options-content">
         <div class="availability-calendar">
@@ -9166,8 +9368,9 @@
           </div>
         </div>
         <p class="availability-calendar-note">
-          💡 Un jour marqué "libre" n'est pas bloqué tant que ta commande n'est pas confirmée. Pour une date précise,
-          le plus sûr reste de me contacter directement.
+          💡 Les jours "complets" sont calculés à partir du nombre de commandes en cours visant déjà cette date de
+          livraison — un jour marqué "libre" n'est pas bloqué tant que ta commande n'est pas confirmée. Pour une date
+          précise, le plus sûr reste de me contacter directement.
         </p>
       </div>
     </details>
@@ -9330,11 +9533,15 @@
         <span class="delay-estimate-value" id="delayEstimateText" aria-live="polite"></span>
       </div>
 
-      <label class="form-advanced">📅 Date à laquelle tu veux recevoir la vidéo <span class="optional-tag">(optionnel, indicatif)</span>
-        <input type="date" name="dateLivraisonSouhaitee" id="dateLivraisonInput" />
-        <button type="button" class="info-tip-btn" aria-label="Plus d'informations sur la date souhaitée" data-tip="Choisis une date si tu as une échéance précise (sortie de vidéo, event, deadline client...). C'est une préférence, pas un engagement automatique : je confirme si c'est jouable avec le mode urgent ou non selon mon planning au moment de la demande.">?</button>
+      <!-- Volontairement PAS en .form-advanced (comme le code promo et le parrainage juste avant) :
+           la date de livraison souhaitée est désormais obligatoire pour remplir correctement le
+           calendrier de disponibilité (une commande sans date ne peut pas y occuper le bon nombre
+           de jours) — elle doit donc rester visible et bloquante même en mode express. -->
+      <label>📅 Date à laquelle tu veux recevoir la vidéo <span class="optional-tag">(obligatoire)</span>
+        <input type="date" name="dateLivraisonSouhaitee" id="dateLivraisonInput" required />
+        <button type="button" class="info-tip-btn" aria-label="Plus d'informations sur la date souhaitée" data-tip="Choisis la date à laquelle tu veux recevoir ta vidéo (sortie, event, deadline...). C'est une préférence, pas un engagement automatique : je confirme si c'est jouable avec le mode urgent ou non selon mon planning au moment de la demande. Cette date sert aussi à mon calendrier de disponibilité, d'où son caractère obligatoire.">?</button>
       </label>
-      <p class="note-aside form-advanced" id="dateLivraisonHint" aria-live="polite"></p>
+      <p class="note-aside" id="dateLivraisonHint" aria-live="polite"></p>
 
       <label class="checkbox-label form-advanced">
         <input type="checkbox" name="usageCommercial" id="usageCommercialCheck" />
@@ -9626,6 +9833,18 @@
       </div>
       <p id="lastSyncNote" class="sync-note"></p>
       <div id="trackingResult" class="order-tracking-result"></div>
+
+      <details class="faq-item order-tracking-faq" id="faq-apres-commande">
+        <summary>❓ Après la commande : comment ça se passe ?</summary>
+        <div class="faq-item-body">
+          <p><strong>Comment suivre ma commande ?</strong><br/>
+          Le statut ci-dessus se met à jour automatiquement dès que je fais une modification de mon côté — pas besoin de me redemander où ça en est. Le bouton "🔄 Actualiser" force une vérification immédiate si tu penses qu'un changement récent n'est pas encore affiché.</p>
+          <p><strong>Je n'ai pas de réponse depuis plus de 24h, que faire ?</strong><br/>
+          Si ta commande reste au statut "🟠 Envoyée" plus de 24h sans que l'acompte n'ait été réglé, elle passe automatiquement en "Expirée" ici — ce n'est pas définitif, ça veut juste dire que je n'ai pas encore traité ta demande. Recontacte-moi directement sur le réseau que tu as indiqué, ou recrée une commande si tu préfères repartir de zéro.</p>
+          <p><strong>Comment payer le solde restant ?</strong><br/>
+          Le lien de paiement du solde (50% restant, dû à la livraison) apparaît directement ici, dans le suivi de ta commande, une fois le montage terminé — inutile de me le redemander, il se débloque automatiquement à ce moment-là.</p>
+        </div>
+      </details>
     </div>
   </section>
 
@@ -10347,9 +10566,15 @@
       { test: s => s.includes('Envoyée'), color: '#ff9a00', paths: '<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/>' },
       { test: s => s.includes('acompte') && s.includes('attente'), color: '#ffd23c', paths: '<path d="M6 2h12M6 22h12M8 2c0 4.5 3 6 4 8-1 2-4 3.5-4 8M16 2c0 4.5-3 6-4 8 1 2 4 3.5 4 8"/>' },
       { test: s => s.includes('Acompte reçu'), color: '#5865F2', paths: '<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>' },
+      { test: s => s.includes('file d\'attente'), color: '#c9a24a', paths: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>' },
+      { test: s => s.includes('En pause'), color: '#9b9b9b', paths: '<rect x="7" y="5" width="3" height="14" rx="1"/><rect x="14" y="5" width="3" height="14" rx="1"/>' },
       { test: s => s.includes('montage'), color: '#ff3c3c', paths: '<path d="M3 8l2.5-4h3l-2 4M9 8l2-4h3l-2 4M15 8l2-4h3l-1.5 4"/><rect x="3" y="8" width="18" height="12" rx="1.5"/>' },
+      { test: s => s.includes('Modifications demandées'), color: '#ff8fa3', paths: '<path d="M3 12a9 9 0 1 1 3 6.7"/><path d="M3 21v-5h5"/>' },
       { test: s => s.includes('relecture'), color: '#7f8bfa', paths: '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/>' },
+      { test: s => s.includes('solde'), color: '#3cc8dc', paths: '<circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 9.5c0-1.4 1.3-2.5 3-2.5s3 1.1 3 2.5-1.3 2-3 2.5-3 1.1-3 2.5 1.3 2.5 3 2.5 3-1.1 3-2.5"/>' },
+      { test: s => s.includes('envoi en cours'), color: '#3ddc84', paths: '<path d="M3 12h14M12 6l6 6-6 6"/><path d="M3 5v14"/>' },
       { test: s => s.includes('Livré'), color: '#3ddc84', paths: '<circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 5-5"/>' },
+      { test: s => s.includes('Litige'), color: '#ff5c5c', paths: '<path d="M12 2 2 20h20L12 2z"/><path d="M12 9v5"/><circle cx="12" cy="17" r="0.5" fill="#ff5c5c"/>' },
       { test: s => s.includes('Annulée') || s.includes('Expirée'), color: '#e28b8b', paths: '<circle cx="12" cy="12" r="9"/><path d="M9 9l6 6M15 9l-6 6"/>' },
     ];
     function statusIconHtml(status, size) {
@@ -10403,7 +10628,8 @@
       const adminSubtabBtns = document.querySelectorAll('.admin-subtab-btn');
       const adminSubtabPanels = {
         stats: document.getElementById('adminSubtabStats'),
-        outils: document.getElementById('adminSubtabOutils')
+        outils: document.getElementById('adminSubtabOutils'),
+        clients: document.getElementById('adminSubtabClients')
       };
       function activateAdminSubtab(name) {
         adminSubtabBtns.forEach(b => b.classList.toggle('active', b.dataset.adminSubtab === name));
@@ -10627,9 +10853,16 @@
         '🟠 Envoyée, en attente de réponse',
         '🟡 En attente de l\'acompte',
         '💳 Acompte reçu',
+        '🕓 En file d\'attente',
         '🎬 En cours de montage',
+        '⏸️ En pause (en attente d\'infos client)',
         '🔍 En relecture / retouches',
+        '🔁 Modifications demandées',
+        '💰 En attente du solde',
+        '📤 Prête, envoi en cours',
         '✅ Livré',
+        '⚠️ Litige / réclamation',
+        '⌛ Expirée (pas de réponse)',
         '❌ Annulée'
       ];
 
@@ -10678,6 +10911,8 @@
         adminDateFilterResetBtn.style.display = (adminDateFromInput.value || adminDateToInput.value) ? 'inline-flex' : 'none';
       }
       adminProgressFilter.addEventListener('change', () => renderAdminOrdersList(lastAdminOrders));
+      const adminTagFilter = document.getElementById('adminTagFilter');
+      adminTagFilter.addEventListener('change', () => renderAdminOrdersList(lastAdminOrders));
       adminDateFromInput.addEventListener('change', () => { updateDateFilterResetVisibility(); renderAdminOrdersList(lastAdminOrders); });
       adminDateToInput.addEventListener('change', () => { updateDateFilterResetVisibility(); renderAdminOrdersList(lastAdminOrders); });
       adminDateFilterResetBtn.addEventListener('click', () => {
@@ -10810,7 +11045,7 @@
       // Regroupement des statuts en 3 grandes catégories pour le tableau de bord
       function statusCategory(status) {
         if (status.includes('Livré')) return 'delivered';
-        if (status.includes('Annulée')) return 'cancelled';
+        if (status.includes('Annulée') || status.includes('Expirée')) return 'cancelled';
         if (status.includes('attente') || status === '') return 'pending';
         return 'inProgress';
       }
@@ -10887,12 +11122,80 @@
             </div>
           </div>
           <div class="admin-stat-group">
+            <div class="admin-stat-group-label">À venir</div>
+            <div class="admin-stat-group-grid">
+              <div class="admin-stat-card admin-stat-today" title="Somme des budgets indiqués par les clients (champ rapide 💶) pour les commandes encore en attente ou en cours — une estimation d'après ce qui a été déclaré, pas un montant facturé ni garanti."><span class="admin-stat-number">${Math.round(computeProjectedRevenue(dataRows))}€</span><span class="admin-stat-label">💰 Revenu prévisionnel</span></div>
+            </div>
+          </div>
+          <div class="admin-stat-group">
             <div class="admin-stat-group-label">Ce mois</div>
             <div class="admin-stat-group-grid">
-              <div class="admin-stat-card" title="Commandes reçues ce mois-ci avec le code PREMIERE20 appliqué (détecté dans la note de commande), pour suivre l'efficacité de l'offre"><span class="admin-stat-number">${countPromoUsageThisMonth(dataRows, 'PREMIERE20')}</span><span class="admin-stat-label">🎟️ PREMIERE20 ce mois</span></div>
+              ${Object.keys(PROMO_CODES).sort().map(code => `<div class="admin-stat-card" title="Commandes reçues ce mois-ci avec le code ${escapeHtml(code)} appliqué (détecté dans la note de commande), pour suivre l'efficacité de l'offre"><span class="admin-stat-number">${countPromoUsageThisMonth(dataRows, code)}</span><span class="admin-stat-label">🎟️ ${escapeHtml(code)} ce mois</span></div>`).join('')}
             </div>
           </div>
         `;
+      }
+
+      // --- Fiche client regroupée : regroupe les commandes d'un même client (par nom/pseudo,
+      // ou par contact si le nom n'est pas renseigné) pour voir en un coup d'œil son historique
+      // et ce qu'il a déjà dépensé. Le montant est une estimation d'après les budgets déclarés
+      // (même source que le revenu prévisionnel ci-dessus), pas un total facturé réel. ---
+      const adminClientsList = document.getElementById('adminClientsList');
+      function buildClientGroups(dataRows) {
+        const groups = new Map();
+        dataRows.forEach(r => {
+          const noteFields = parseNoteQuickFields(r[2] || '');
+          const rawName = (noteFields.nom || '').trim();
+          const contact = (r[5] || '').trim();
+          const key = rawName ? `nom:${rawName.toLowerCase()}` : (contact ? `contact:${contact.toLowerCase()}` : null);
+          if (!key) return; // pas assez d'info pour rattacher cette commande à un client
+          if (!groups.has(key)) {
+            groups.set(key, { displayName: rawName || contact || 'Client sans nom', orders: [] });
+          }
+          groups.get(key).orders.push(r);
+        });
+        return Array.from(groups.values()).map(g => {
+          const totalSpent = g.orders
+            .filter(r => statusCategory(r[1] || '') !== 'cancelled')
+            .reduce((sum, r) => sum + (parseBudgetAmount(parseNoteQuickFields(r[2] || '')) || 0), 0);
+          return { ...g, totalSpent, count: g.orders.length };
+        }).sort((a, b) => b.count - a.count || b.totalSpent - a.totalSpent);
+      }
+      function renderClientsList(dataRows) {
+        if (!adminClientsList) return;
+        const groups = buildClientGroups(dataRows);
+        if (groups.length === 0) {
+          adminClientsList.innerHTML = '<p class="info-text">Aucun client identifiable pour l\'instant (le nom ou le contact renseigné dans la note sert à regrouper les commandes).</p>';
+          return;
+        }
+        adminClientsList.innerHTML = groups.map(g => {
+          const ordersHtml = g.orders
+            .slice()
+            .sort((a, b) => {
+              const da = a[3] ? new Date(a[3]).getTime() : 0;
+              const db = b[3] ? new Date(b[3]).getTime() : 0;
+              return db - da;
+            })
+            .map(r => `<li class="admin-client-order-row"><span class="admin-client-order-id">${escapeHtml(r[0])}</span><span class="admin-client-order-status">${escapeHtml(r[1] || '')}</span><span class="admin-client-order-date">${formatOrderDate(r[3]) || '—'}</span></li>`)
+            .join('');
+          return `
+            <div class="admin-client-card">
+              <button type="button" class="admin-client-card-header" data-client-search="${escapeHtml(g.displayName)}" title="Cliquer pour retrouver ces commandes dans l'onglet Commandes">
+                <span class="admin-client-name">${escapeHtml(g.displayName)}</span>
+                <span class="admin-client-stats">${g.count} commande${g.count > 1 ? 's' : ''} · ~${Math.round(g.totalSpent)}€</span>
+              </button>
+              <ul class="admin-client-orders">${ordersHtml}</ul>
+            </div>`;
+        }).join('');
+      }
+      if (adminClientsList) {
+        adminClientsList.addEventListener('click', (e) => {
+          const btn = e.target.closest('.admin-client-card-header');
+          if (!btn) return;
+          adminSearchInput.value = btn.dataset.clientSearch;
+          activateAdminTab('commandes');
+          renderAdminOrdersList(lastAdminOrders);
+        });
       }
 
       // --- Compteur "commandes traitées aujourd'hui" : repère de productivité simple, basé sur le
@@ -11037,6 +11340,28 @@
             if (cb.checked) selectedOrderIds.add(orderId);
             else selectedOrderIds.delete(orderId);
             updateBulkBar();
+          });
+        });
+
+        adminOrdersList.querySelectorAll('.admin-order-move-up').forEach(btn => {
+          btn.addEventListener('click', () => moveOrderManual(btn.dataset.orderId, 'up'));
+        });
+        adminOrdersList.querySelectorAll('.admin-order-move-down').forEach(btn => {
+          btn.addEventListener('click', () => moveOrderManual(btn.dataset.orderId, 'down'));
+        });
+
+        adminOrdersList.querySelectorAll('.admin-custom-tag-remove').forEach(btn => {
+          btn.addEventListener('click', () => {
+            removeCustomTag(btn.dataset.orderId, btn.dataset.tag);
+            renderAdminOrdersList(lastAdminOrders);
+          });
+        });
+        adminOrdersList.querySelectorAll('.admin-custom-tag-input').forEach(input => {
+          input.addEventListener('keydown', (e) => {
+            if (e.key !== 'Enter') return;
+            e.preventDefault();
+            addCustomTag(input.dataset.orderId, input.value);
+            renderAdminOrdersList(lastAdminOrders);
           });
         });
 
@@ -11283,6 +11608,24 @@
           });
         });
 
+        // --- Bouton "🔗 Copier le lien de suivi" : construit un lien direct vers le suivi de cette
+        // commande (?commande=ID, voir openDirectTrackingLink) et le copie dans le presse-papier,
+        // prêt à coller dans un mail/DM au client.
+        adminOrdersList.querySelectorAll('.admin-copy-tracking-link-btn').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const orderId = btn.dataset.orderId;
+            const url = `${window.location.origin}${window.location.pathname}?commande=${encodeURIComponent(orderId)}`;
+            try {
+              await navigator.clipboard.writeText(url);
+              const original = btn.textContent;
+              btn.textContent = '✅ Lien copié !';
+              setTimeout(() => { btn.textContent = original; }, 1800);
+            } catch (err) {
+              prompt('Copie ce lien manuellement :', url);
+            }
+          });
+        });
+
         adminOrdersList.querySelectorAll('.admin-note-qf-sync-btn').forEach(btn => {
           btn.addEventListener('click', () => {
             const orderId = btn.dataset.orderId;
@@ -11333,6 +11676,37 @@
               btn.disabled = false;
               btn.textContent = originalContent;
             }
+          });
+        });
+
+        adminOrdersList.querySelectorAll('.admin-invoice-btn').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const orderId = btn.dataset.orderId;
+            const row = lastAdminOrders.find(rr => rr[0] === orderId);
+            if (!row) return;
+            const alreadyGenerated = !!getInvoiceHistory()[orderId];
+            if (alreadyGenerated && !confirm(`Une facture a déjà été générée pour ${orderId} depuis cet appareil. Regénérer quand même ?`)) return;
+            const original = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = '⏳ Génération...';
+            try {
+              const success = await generateInvoicePdf(row);
+              if (success) {
+                recordInvoiceGenerated(orderId);
+                renderAdminOrdersList(lastAdminOrders);
+                return; // le ré-rendu remplace déjà ce bouton, inutile de réactiver l'ancien
+              }
+            } finally {
+              btn.disabled = false;
+              btn.textContent = original;
+            }
+          });
+        });
+
+        adminOrdersList.querySelectorAll('.admin-pin-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            togglePinnedOrder(btn.dataset.orderId);
+            renderAdminOrdersList(lastAdminOrders);
           });
         });
 
@@ -11446,7 +11820,7 @@
       const ARCHIVE_DAYS = 30;
       function isArchivable(r) {
         const status = r[1] || '';
-        if (!status.includes('Livré')) return false;
+        if (!status.includes('Livré') && !status.includes('Annulée') && !status.includes('Expirée')) return false;
         if (!r[3]) return false;
         const createdAt = new Date(r[3]).getTime();
         if (isNaN(createdAt)) return false;
@@ -11483,6 +11857,80 @@
       function autoTagIconHtml(rule) {
         return `<svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="${rule.color}" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${rule.paths}</svg>`;
       }
+      // --- Historique local des factures générées (cet appareil) : évite de regénérer une facture
+      // par erreur sans s'en rendre compte, en affichant un petit badge "🧾 Facture générée le
+      // JJ/MM" sur la carte une fois qu'une génération a réussi. Même principe que les autres
+      // historiques locaux (statuts, notes) — pas une preuve comptable, juste un repère pour toi.
+      const INVOICE_HISTORY_KEY = 'michyy_invoice_history';
+      function getInvoiceHistory() {
+        try { return JSON.parse(localStorage.getItem(INVOICE_HISTORY_KEY) || '{}'); } catch (e) { return {}; }
+      }
+      function recordInvoiceGenerated(orderId) {
+        try {
+          const all = getInvoiceHistory();
+          all[orderId] = Date.now();
+          localStorage.setItem(INVOICE_HISTORY_KEY, JSON.stringify(all));
+        } catch (e) { /* ignore */ }
+      }
+
+      // --- Facture / reçu PDF : généré entièrement côté navigateur (jsPDF, chargé à la demande
+      // seulement — pas au chargement de la page — pour ne pas alourdir le site pour rien) à
+      // partir des champs déjà présents dans la note (nom, format, budget...). Reste un document
+      // indicatif, pas un document comptable officiel — le dit explicitement en pied de page.
+      function loadJsPDF() {
+        return new Promise((resolve, reject) => {
+          if (window.jspdf && window.jspdf.jsPDF) return resolve(window.jspdf.jsPDF);
+          const script = document.createElement('script');
+          script.src = 'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js';
+          script.onload = () => (window.jspdf && window.jspdf.jsPDF) ? resolve(window.jspdf.jsPDF) : reject(new Error('jspdf-shape-unexpected'));
+          script.onerror = () => reject(new Error('jspdf-load-failed'));
+          document.head.appendChild(script);
+        });
+      }
+      async function generateInvoicePdf(r) {
+        const orderId = r[0];
+        let JsPDFCtor;
+        try {
+          JsPDFCtor = await loadJsPDF();
+        } catch (e) {
+          alert("Impossible de charger le générateur de PDF (bibliothèque externe injoignable). Vérifie ta connexion et réessaie.");
+          return false;
+        }
+        const noteFields = parseNoteQuickFields(r[2] || '');
+        const budgetMatch = /(\d+(?:[.,]\d+)?)/.exec(noteFields.budget || '');
+        const amount = budgetMatch ? budgetMatch[1].replace(',', '.') : null;
+        const emissionDate = new Date().toLocaleDateString('fr-FR');
+        const doc = new JsPDFCtor();
+        doc.setFontSize(20);
+        doc.text('Reçu de commande', 20, 22);
+        doc.setFontSize(10);
+        doc.setTextColor(120);
+        doc.text('Michyy — Montage vidéo', 20, 29);
+        doc.setTextColor(0);
+        doc.setFontSize(11);
+        let y = 45;
+        const line = (label, value) => { doc.text(`${label} : ${value || 'Non précisé'}`, 20, y); y += 8; };
+        line('Commande', orderId);
+        line("Date d'émission", emissionDate);
+        line('Client', `${noteFields.nom || 'Non précisé'} (${noteFields.typeClient || 'Particulier'})`);
+        line('Prestation', `${noteFields.format || 'Montage vidéo'}${noteFields.nomCommande ? ' — ' + noteFields.nomCommande : ''}`);
+        if (noteFields.dateVoulue) {
+          line('Livraison souhaitée', new Date(noteFields.dateVoulue + 'T00:00:00').toLocaleDateString('fr-FR'));
+        }
+        line('Statut de la commande', r[1] || '');
+        y += 4;
+        doc.setFontSize(15);
+        doc.text(`Montant : ${amount ? amount + ' €' : 'à préciser manuellement'}`, 20, y);
+        doc.setFontSize(8);
+        doc.setTextColor(140);
+        doc.text(
+          "Document généré automatiquement à partir des informations enregistrées pour cette commande (note interne, budget indicatif) — ce n'est pas un document comptable officiel.",
+          20, 280, { maxWidth: 170 }
+        );
+        doc.save(`recu-${orderId}.pdf`);
+        return true;
+      }
+
       function detectAutoTags(r) {
         const text = `${r[2] || ''} ${r[4] || ''}`.toLowerCase();
         return AUTO_TAG_RULES.filter(rule => rule.keywords.some(kw => text.includes(kw)));
@@ -11553,6 +12001,27 @@
         const diff = Math.abs(actual - expected) / expected;
         if (diff < PRICE_MISMATCH_THRESHOLD) return null;
         return { key: 'price-mismatch', html: `💶 Prix à vérifier (≈ ${expected}€ attendu)`, cls: 'admin-order-badge-warning' };
+      }
+
+      // --- Revenu prévisionnel : somme des budgets indiqués par les clients (champ rapide 💶,
+      // même regex que priceMismatchBadge ci-dessus) pour les commandes encore en attente ou en
+      // cours — PAS pour celles déjà livrées (déjà encaissées, donc pas "à venir") ni annulées.
+      // C'est une estimation basée sur ce que le client a déclaré, pas un montant facturé ni
+      // garanti — pareil que les autres approximations déjà présentes dans ce panneau (prix
+      // attendu, etc.). ---
+      function parseBudgetAmount(noteFields) {
+        const budgetMatch = /(\d+(?:[.,]\d+)?)/.exec(noteFields.budget || '');
+        if (!budgetMatch) return null;
+        const val = parseFloat(budgetMatch[1].replace(',', '.'));
+        return isNaN(val) ? null : val;
+      }
+      function computeProjectedRevenue(dataRows) {
+        return dataRows.reduce((sum, r) => {
+          const cat = statusCategory(r[1] || '');
+          if (cat !== 'pending' && cat !== 'inProgress') return sum;
+          const amount = parseBudgetAmount(parseNoteQuickFields(r[2] || ''));
+          return sum + (amount || 0);
+        }, 0);
       }
 
       function formatOrderDate(dateStr) {
@@ -11668,6 +12137,132 @@
             </details>`;
       }
 
+      // --- Tri manuel des commandes : par défaut la liste reste triée automatiquement (priorité
+      // aux commandes qui ont besoin d'attention, voir needsAttention plus bas). En activant ce
+      // mode, tu peux réordonner les commandes toi-même avec les flèches ▲▼ sur chaque carte — la
+      // position choisie est mémorisée localement (cet appareil) et reprise à chaque rafraîchissement,
+      // que la commande ait besoin d'attention ou non. ---
+      const MANUAL_ORDER_KEY = 'michyy_admin_manual_order';
+      const MANUAL_SORT_ENABLED_KEY = 'michyy_admin_manual_sort_enabled';
+      function getManualOrder() {
+        try { return JSON.parse(localStorage.getItem(MANUAL_ORDER_KEY) || '[]'); } catch (e) { return []; }
+      }
+      function setManualOrder(arr) {
+        try { localStorage.setItem(MANUAL_ORDER_KEY, JSON.stringify(arr)); } catch (e) { /* ignore */ }
+      }
+      function isManualSortEnabled() {
+        try { return localStorage.getItem(MANUAL_SORT_ENABLED_KEY) === '1'; } catch (e) { return false; }
+      }
+      function setManualSortEnabled(v) {
+        try { localStorage.setItem(MANUAL_SORT_ENABLED_KEY, v ? '1' : '0'); } catch (e) { /* ignore */ }
+      }
+      // Complète/nettoie la liste mémorisée avec les commandes actuellement connues : les nouvelles
+      // commandes (jamais positionnées manuellement) sont ajoutées à la fin, celles qui n'existent
+      // plus (supprimées) sont retirées.
+      function getCleanedManualOrder() {
+        const knownIds = lastAdminOrders.map(r => r[0]);
+        let order = getManualOrder();
+        if (order.length === 0) return knownIds.slice();
+        order = order.filter(id => knownIds.includes(id));
+        knownIds.forEach(id => { if (!order.includes(id)) order.push(id); });
+        return order;
+      }
+      function sortByManualOrder(rows) {
+        const order = getManualOrder();
+        const idx = new Map(order.map((id, i) => [id, i]));
+        return rows.slice().sort((a, b) => {
+          const ai = idx.has(a[0]) ? idx.get(a[0]) : Infinity;
+          const bi = idx.has(b[0]) ? idx.get(b[0]) : Infinity;
+          return ai - bi;
+        });
+      }
+      function cssEscapeSafe(id) {
+        return (window.CSS && CSS.escape) ? CSS.escape(id) : id.replace(/["\\]/g, '\\$&');
+      }
+      // Échange la position (dans la liste mémorisée complète) d'une commande avec sa voisine
+      // affichée à l'écran (au-dessus ou en dessous) — respecte donc l'ordre visuel même si des
+      // filtres masquent d'autres commandes entre les deux.
+      function moveOrderManual(orderId, direction) {
+        const btn = adminOrdersList.querySelector(`.admin-order-move-${direction}[data-order-id="${cssEscapeSafe(orderId)}"]`);
+        const card = btn ? btn.closest('.admin-order-card') : null;
+        if (!card) return;
+        const sibling = direction === 'up' ? card.previousElementSibling : card.nextElementSibling;
+        if (!sibling || !sibling.classList || !sibling.classList.contains('admin-order-card')) return;
+        const siblingIdEl = sibling.querySelector('.admin-order-id');
+        const siblingId = siblingIdEl ? siblingIdEl.textContent.trim() : null;
+        if (!siblingId) return;
+        const order = getCleanedManualOrder();
+        const i1 = order.indexOf(orderId);
+        const i2 = order.indexOf(siblingId);
+        if (i1 === -1 || i2 === -1) return;
+        [order[i1], order[i2]] = [order[i2], order[i1]];
+        setManualOrder(order);
+        renderAdminOrdersList(lastAdminOrders);
+      }
+
+      // --- Tags personnalisés : en plus des étiquettes auto-détectées (urgent, prix à vérifier...),
+      // tu peux ajouter tes propres mots-clés libres sur une commande (ex : "VIP", "collab", "à
+      // refaire") et filtrer la liste dessus. Mémorisé localement à cet appareil, comme le reste
+      // des historiques/réglages de ce panneau. ---
+      // --- Épingler une commande : force sa remontée tout en haut de la liste, quel que soit le
+      // tri actif (manuel ou priorité) — pratique pour une urgence ponctuelle sans avoir à
+      // réorganiser tout le tri manuel. Mémorisé localement à cet appareil, comme le reste des
+      // réglages de ce panneau (tags, historique...).
+      const PINNED_ORDERS_KEY = 'michyy_admin_pinned_orders';
+      function getPinnedOrders() {
+        try { return JSON.parse(localStorage.getItem(PINNED_ORDERS_KEY) || '[]'); } catch (e) { return []; }
+      }
+      function isPinned(orderId) { return getPinnedOrders().includes(orderId); }
+      function togglePinnedOrder(orderId) {
+        const pinned = getPinnedOrders();
+        const idx = pinned.indexOf(orderId);
+        if (idx === -1) pinned.push(orderId); else pinned.splice(idx, 1);
+        try { localStorage.setItem(PINNED_ORDERS_KEY, JSON.stringify(pinned)); } catch (e) { /* ignore */ }
+      }
+
+      const CUSTOM_TAGS_KEY = 'michyy_admin_custom_tags';
+      function getAllCustomTags() {
+        try { return JSON.parse(localStorage.getItem(CUSTOM_TAGS_KEY) || '{}'); } catch (e) { return {}; }
+      }
+      function getCustomTags(orderId) {
+        const all = getAllCustomTags();
+        return all[orderId] || [];
+      }
+      function setCustomTags(orderId, tags) {
+        try {
+          const all = getAllCustomTags();
+          if (tags.length === 0) delete all[orderId];
+          else all[orderId] = tags;
+          localStorage.setItem(CUSTOM_TAGS_KEY, JSON.stringify(all));
+        } catch (e) { /* ignore */ }
+      }
+      function addCustomTag(orderId, tag) {
+        const clean = tag.trim();
+        if (!clean) return;
+        const tags = getCustomTags(orderId);
+        if (!tags.some(t => t.toLowerCase() === clean.toLowerCase())) {
+          tags.push(clean);
+          setCustomTags(orderId, tags);
+        }
+      }
+      function removeCustomTag(orderId, tag) {
+        setCustomTags(orderId, getCustomTags(orderId).filter(t => t !== tag));
+      }
+      function customTagsHtml(orderId) {
+        const tags = getCustomTags(orderId);
+        const chips = tags.map(t => `<span class="admin-custom-tag-chip">🏷️ ${escapeHtml(t)}<button type="button" class="admin-custom-tag-remove" data-order-id="${orderId}" data-tag="${escapeHtml(t)}" title="Retirer ce tag">✕</button></span>`).join('');
+        return `<div class="admin-custom-tags">${chips}<input type="text" class="admin-custom-tag-input" data-order-id="${orderId}" placeholder="+ tag" maxlength="24" /></div>`;
+      }
+      function updateTagFilterOptions() {
+        if (!adminTagFilter) return;
+        const allTags = new Set();
+        lastAdminOrders.forEach(r => getCustomTags(r[0]).forEach(t => allTags.add(t)));
+        const current = adminTagFilter.value;
+        adminTagFilter.innerHTML = '<option value="">Tous les tags</option>' +
+          Array.from(allTags).sort((a, b) => a.localeCompare(b, 'fr')).map(t => `<option value="${escapeHtml(t)}">🏷️ ${escapeHtml(t)}</option>`).join('');
+        if (allTags.has(current)) adminTagFilter.value = current;
+      }
+
       // --- Alerte "code promo déjà utilisé" : repère quand le même code promo (champ rapide 🎟️)
       // apparaît dans la note de plusieurs commandes portant le même nom/pseudo (champ rapide, en
       // début de note). Comme pour le prix à vérifier : un repère pour toi, pas un blocage
@@ -11736,11 +12331,17 @@
         const priceIssue = priceMismatchBadge(r, noteFields);
         const promoReuse = promoReuseBadge(r, noteFields, lastAdminOrders);
         const expectedPriceForCancel = computeExpectedPrice(noteFields, r);
+        const invoiceGeneratedAt = getInvoiceHistory()[r[0]];
         const badgeEntries = [
           ...(attention ? [attention] : []),
           ...(missingRushs ? [missingRushs] : []),
           ...(priceIssue ? [priceIssue] : []),
           ...(promoReuse ? [promoReuse] : []),
+          ...(invoiceGeneratedAt ? [{
+            key: 'invoice-generated',
+            html: `🧾 Facture générée le ${new Date(invoiceGeneratedAt).toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' })}`,
+            cls: 'admin-order-badge-tag'
+          }] : []),
           ...autoTags.map(t => ({ key: `tag:${t.key}`, html: `${autoTagIconHtml(t)} ${t.label}`, cls: 'admin-order-badge-tag' }))
         ];
         const badgesHtml = badgeEntries.map(b => {
@@ -11749,15 +12350,21 @@
           return `<span class="admin-order-badge ${b.cls}${isNew ? ' admin-badge-new' : ''}">${b.html}</span>`;
         }).join('');
         return `
-          <div class="admin-order-card${stale ? ' admin-order-card-stale' : ''}">
+          <div class="admin-order-card${stale ? ' admin-order-card-stale' : ''}${isPinned(r[0]) ? ' admin-order-card-pinned' : ''}">
             <div class="admin-order-header">
+              ${isManualSortEnabled() ? `<span class="admin-order-move">
+                <button type="button" class="admin-order-move-up" data-order-id="${orderId}" title="Monter cette commande">▲</button>
+                <button type="button" class="admin-order-move-down" data-order-id="${orderId}" title="Descendre cette commande">▼</button>
+              </span>` : ''}
               <input type="checkbox" class="admin-order-checkbox" data-order-id="${orderId}" ${selectedOrderIds.has(r[0]) ? 'checked' : ''} aria-label="Sélectionner cette commande pour une action groupée" />
               <span class="admin-order-id">${orderId}</span>
               <button type="button" class="admin-rename-btn" data-order-id="${orderId}" title="Modifier l'identifiant de cette commande">✏️</button>
               ${createdDate ? `<span class="admin-order-date">📅 ${createdDate}</span>` : ''}
+              <button type="button" class="admin-pin-btn${isPinned(r[0]) ? ' is-pinned' : ''}" data-order-id="${orderId}" title="${isPinned(r[0]) ? 'Désépingler cette commande' : 'Épingler cette commande tout en haut de la liste, quel que soit le tri'}">📌</button>
               <button type="button" class="admin-hide-btn" data-order-id="${orderId}" title="Supprimer définitivement cette commande (ligne effacée du Sheet, irréversible)">🗑️</button>
             </div>
             ${badgesHtml ? `<div class="admin-order-badges">${badgesHtml}</div>` : ''}
+            ${customTagsHtml(r[0])}
             <div class="admin-order-row admin-order-actions">
               <span class="admin-status-icon" id="statusIcon-${orderId}" aria-hidden="true">${statusIconHtml(currentStatus)}</span>
               <select class="admin-status-select" data-order-id="${orderId}" data-prev-status="${currentStatus}" data-created-at="${escapeHtml(r[3] || '')}">
@@ -11767,6 +12374,7 @@
               <div class="admin-actions-menu">
                 <button type="button" class="admin-save-btn" data-order-id="${orderId}">Enregistrer</button>
                 <button type="button" class="admin-duplicate-btn" data-order-id="${orderId}" title="Créer une nouvelle commande à partir de celle-ci">🔁 Dupliquer</button>
+                <button type="button" class="admin-invoice-btn" data-order-id="${orderId}" title="Générer un reçu PDF simple à partir des infos de cette commande">🧾 Facture PDF</button>
                 ${stale ? `<button type="button" class="admin-relance-btn" data-order-id="${orderId}" data-contact="${contact}" title="Copie un message de relance prêt à envoyer">📋 Copier un message de relance</button>` : ''}
                 ${priceIssue ? `<button type="button" class="admin-cancel-lowprice-btn" data-order-id="${orderId}" data-expected="${expectedPriceForCancel != null ? expectedPriceForCancel : ''}" title="Annule la commande et prépare un message expliquant au client que le prix proposé est trop faible">❌ Annuler (prix trop bas)</button>` : ''}
               </div>
@@ -11779,6 +12387,7 @@
             <details class="admin-card-details">
               <summary class="admin-card-details-summary">Détails${contact ? ` · 📇 ${contact}` : ''}</summary>
               <div class="admin-card-details-content">
+                ${contact ? `<button type="button" class="admin-copy-tracking-link-btn" data-order-id="${orderId}" title="Copie un lien direct vers le suivi de cette commande, à envoyer par mail/DM au client">🔗 Copier le lien de suivi</button>` : ''}
                 <span class="admin-order-note-label">📝 Note privée (visible seulement ici)</span>
                 <p class="admin-note-quickfields-hint">Champs rapides — modifie un seul détail sans retaper toute la note, puis clique "Mettre à jour la note" pour le réinjecter dedans (le reste du texte ne bouge pas) :</p>
                 <div class="admin-note-quickfields">
@@ -11821,14 +12430,19 @@
       }
 
       function renderAdminOrdersList(dataRows) {
+        updateTagFilterOptions();
         const filterVal = adminStatusFilter.value;
         const progressVal = adminProgressFilter.value;
+        const tagVal = adminTagFilter.value;
         const searchVal = adminSearchInput.value.trim().toLowerCase();
         const dateFrom = adminDateFromInput.value ? new Date(adminDateFromInput.value + 'T00:00:00').getTime() : null;
         const dateTo = adminDateToInput.value ? new Date(adminDateToInput.value + 'T23:59:59').getTime() : null;
         let filtered = filterVal ? dataRows.filter(r => (r[1] || '') === filterVal) : dataRows;
         if (progressVal) {
           filtered = filtered.filter(r => statusCategory(r[1] || '') === progressVal);
+        }
+        if (tagVal) {
+          filtered = filtered.filter(r => getCustomTags(r[0]).includes(tagVal));
         }
         if (dateFrom || dateTo) {
           filtered = filtered.filter(r => {
@@ -11860,18 +12474,33 @@
         if (filtered.length === 0) {
           adminOrdersList.innerHTML = `<p class="info-text">${dataRows.length === 0 ? 'Aucune commande dans le Sheet pour l\'instant.' : 'Aucune commande ne correspond à ces filtres.'}</p>`;
         } else {
-          const active = filtered.filter(r => !isArchivable(r));
+          let active = filtered.filter(r => !isArchivable(r));
           const archived = filtered.filter(isArchivable);
 
-          // Tri prioritaire suggéré : les commandes qui ont besoin d'attention remontent en tête
-          // (tri stable, donc l'ordre chronologique existant est conservé au sein d'un même niveau
-          // de priorité). Même critère que le badge affiché sur la carte (voir needsAttention) —
-          // avant, le tri ne regardait que le mot-clé "urgent" alors que le badge regardait aussi
-          // le délai dépassé ; les deux utilisent maintenant exactement la même règle.
+          if (isManualSortEnabled()) {
+            // Tri manuel : respecte l'ordre choisi à la main (flèches ▲▼ sur les cartes),
+            // mémorisé localement sur cet appareil.
+            active = sortByManualOrder(active);
+          } else {
+            // Tri prioritaire suggéré : les commandes qui ont besoin d'attention remontent en tête
+            // (tri stable, donc l'ordre chronologique existant est conservé au sein d'un même niveau
+            // de priorité). Même critère que le badge affiché sur la carte (voir needsAttention) —
+            // avant, le tri ne regardait que le mot-clé "urgent" alors que le badge regardait aussi
+            // le délai dépassé ; les deux utilisent maintenant exactement la même règle.
+            active.sort((a, b) => {
+              const aAttn = needsAttention(a) ? 0 : 1;
+              const bAttn = needsAttention(b) ? 0 : 1;
+              return aAttn - bAttn;
+            });
+          }
+
+          // Épingle : quel que soit le tri ci-dessus (manuel ou priorité), les commandes épinglées
+          // remontent toujours en tête. Tri stable, donc l'ordre choisi juste avant est conservé
+          // pour le reste.
           active.sort((a, b) => {
-            const aAttn = needsAttention(a) ? 0 : 1;
-            const bAttn = needsAttention(b) ? 0 : 1;
-            return aAttn - bAttn;
+            const aPinned = isPinned(a[0]) ? 0 : 1;
+            const bPinned = isPinned(b[0]) ? 0 : 1;
+            return aPinned - bPinned;
           });
 
           let html = active.length
@@ -11957,6 +12586,7 @@
           renderDashboard(dataRows);
           renderDailySummary(dataRows);
           renderAdminOrdersList(dataRows);
+          renderClientsList(dataRows);
           if (!silent) adminStatusNote.textContent = `✅ ${dataRows.length} commande(s) chargée(s)`;
         } catch (err) {
           console.error('loadAdminOrders a échoué :', err);
@@ -12271,6 +12901,23 @@
         applyAdminDensity();
       });
 
+      // Tri manuel des commandes : bascule entre le tri automatique (urgence en premier) et un
+      // ordre choisi à la main via les flèches ▲▼ affichées sur chaque carte en mode actif.
+      const adminManualSortToggleBtn = document.getElementById('adminManualSortToggleBtn');
+      const adminManualSortHint = document.getElementById('adminManualSortHint');
+      function applyManualSortToggleLabel() {
+        const on = isManualSortEnabled();
+        adminManualSortToggleBtn.textContent = on ? '⚡ Revenir au tri automatique' : '🔀 Réorganiser manuellement';
+        adminManualSortToggleBtn.classList.toggle('admin-manual-sort-active', on);
+        adminManualSortHint.style.display = on ? '' : 'none';
+      }
+      applyManualSortToggleLabel();
+      adminManualSortToggleBtn.addEventListener('click', () => {
+        setManualSortEnabled(!isManualSortEnabled());
+        applyManualSortToggleLabel();
+        renderAdminOrdersList(lastAdminOrders);
+      });
+
       // Repli/dépli des groupes du panneau stats (résumé du jour / dashboard / engagement) : état
       // mémorisé par groupe dans localStorage, pour que le panneau reste gérable même en ajoutant
       // d'autres compteurs plus tard (chaque groupe se replie indépendamment des autres).
@@ -12478,16 +13125,24 @@
     });
 
     // --- Calendrier de disponibilité (details#disponibilites, dans la section #reservation) ---
-    // 🔧 Jours du mois EN COURS où tu n'acceptes plus de nouvelles commandes (numéro du jour, 1-31).
-    // Mets à jour cette liste à la main quand ton planning se remplit. Ça n'annule aucune commande
-    // existante et ne bloque rien automatiquement : c'est juste une information pour les visiteurs
-    // avant qu'ils réservent. Laisse le tableau vide ([]) si tout le mois est ouvert.
-    const BUSY_DAYS_THIS_MONTH = [];
+    // 🔧 Repli manuel : jours du mois EN COURS où tu n'acceptes plus de nouvelles commandes (numéro
+    // du jour, 1-31). N'est utilisé QUE si le calcul automatique ci-dessous échoue (Apps Script pas
+    // encore configuré pour l'action "publicDeliveryDates", hors ligne...). Laisse vide ([]) sinon.
+    const MANUAL_BUSY_DAYS_THIS_MONTH = [];
+    // Rempli automatiquement (voir loadAutoBusyDays plus bas) à partir du nombre de commandes en
+    // cours qui souhaitent une livraison à telle date — reflète ta charge réelle sans mise à jour
+    // à la main. null tant que le calcul n'a pas encore abouti (repli sur la liste manuelle).
+    let AUTO_BUSY_DAYS_THIS_MONTH = null;
+    // 🔧 Nombre de commandes actives qui recouvrent le même jour (du jour de la commande jusqu'à sa
+    // date de livraison souhaitée, pas juste le jour J) à partir duquel ce jour est considéré
+    // complet. Ajuste selon ta capacité réelle de montage simultané.
+    const MAX_ORDERS_PER_DELIVERY_DAY = 2;
 
     function renderAvailabilityCalendar() {
       const monthEl = document.getElementById('availabilityCalendarMonth');
       const gridEl = document.getElementById('availabilityCalendarGrid');
       if (!monthEl || !gridEl) return;
+      const busyDays = AUTO_BUSY_DAYS_THIS_MONTH || MANUAL_BUSY_DAYS_THIS_MONTH;
 
       const now = new Date();
       const year = now.getFullYear();
@@ -12510,13 +13165,78 @@
       for (let d = 1; d <= daysInMonth; d++) {
         const classes = ['availability-calendar-day'];
         if (d < today) classes.push('is-past');
-        else if (d === today) classes.push('is-today', BUSY_DAYS_THIS_MONTH.includes(d) ? 'is-busy' : 'is-free');
-        else classes.push(BUSY_DAYS_THIS_MONTH.includes(d) ? 'is-busy' : 'is-free');
+        else if (d === today) classes.push('is-today', busyDays.includes(d) ? 'is-busy' : 'is-free');
+        else classes.push(busyDays.includes(d) ? 'is-busy' : 'is-free');
         html += `<span class="${classes.join(' ')}">${d}</span>`;
       }
       gridEl.innerHTML = html;
     }
     renderAvailabilityCalendar();
+
+    // --- Calcul automatique des jours chargés à partir des commandes réellement en cours.
+    // ⚠️ Nécessite l'action "publicDeliveryDates" côté Apps Script (voir apps-script-a-jour.gs) —
+    // elle ne renvoie QUE des dates (rien de privé : pas de nom, contact, note...), une par commande
+    // encore active (ni livrée, ni annulée, ni expirée). Tant que cette action n'existe pas côté
+    // script, le calendrier reste sur le repli manuel ci-dessus (MANUAL_BUSY_DAYS_THIS_MONTH) —
+    // jamais d'erreur visible pour les visiteurs.
+    //
+    // Chaque commande active occupe le calendrier depuis AUJOURD'HUI jusqu'à sa date de livraison
+    // souhaitée (pas seulement le jour J) — une commande en cours avec échéance dans 5 jours mobilise
+    // de la place tous les jours d'ici là, pas juste le dernier. Un jour est marqué complet dès que
+    // le nombre de commandes actives qui le recouvrent atteint MAX_ORDERS_PER_DELIVERY_DAY. Dès
+    // qu'une commande est livrée ou annulée, elle disparaît de la liste renvoyée par le script au
+    // prochain appel — les jours qu'elle occupait redeviennent donc libres automatiquement, sans
+    // action manuelle de ta part.
+    function loadAutoBusyDays() {
+      if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT')) return;
+      const CACHE_KEY = 'michyy_busy_days_cache';
+      const CACHE_TTL_MS = 3600000; // 1h — plus court que le badge d'activité, la charge change vite
+
+      function computeAndRender(dates) {
+        const now = new Date();
+        const todayMidnight = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+        const year = now.getFullYear();
+        const month = now.getMonth();
+        const counts = {};
+        dates.forEach(iso => {
+          const target = new Date(iso + 'T00:00:00');
+          if (isNaN(target.getTime()) || target < todayMidnight) return; // date passée : n'occupe plus rien
+          // Marque chaque jour entre aujourd'hui et la date voulue (inclus) comme occupé par cette
+          // commande — borné au mois affiché, seul mois pour lequel le calendrier a une grille.
+          for (let d = new Date(todayMidnight); d <= target; d.setDate(d.getDate() + 1)) {
+            if (d.getFullYear() !== year || d.getMonth() !== month) continue;
+            const day = d.getDate();
+            counts[day] = (counts[day] || 0) + 1;
+          }
+        });
+        AUTO_BUSY_DAYS_THIS_MONTH = Object.keys(counts)
+          .filter(day => counts[day] >= MAX_ORDERS_PER_DELIVERY_DAY)
+          .map(Number);
+        renderAvailabilityCalendar();
+      }
+
+      try {
+        const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
+        if (cached && cached.at && (Date.now() - cached.at) < CACHE_TTL_MS && Array.isArray(cached.dates)) {
+          computeAndRender(cached.dates);
+          return;
+        }
+      } catch (e) { /* cache corrompu — on ignore et on refait un appel */ }
+
+      fetch(`${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=publicDeliveryDates&_ts=${Date.now()}`)
+        .then(res => res.json())
+        .then(data => {
+          if (!data || !data.success || !Array.isArray(data.dates)) return;
+          try { localStorage.setItem(CACHE_KEY, JSON.stringify({ dates: data.dates, at: Date.now() })); } catch (e) { /* ignore */ }
+          computeAndRender(data.dates);
+        })
+        .catch(() => { /* action pas encore ajoutée côté script, ou hors ligne — repli manuel silencieux */ });
+    }
+    // Différé (setTimeout 0) plutôt qu'appelé directement ici : à cet endroit du script,
+    // STATUS_SHEET_CSV_URL et consorts ne sont pas encore tous initialisés plus bas dans le
+    // fichier — un setTimeout(…, 0) laisse le script fini de s'exécuter avant de lancer l'appel.
+    setTimeout(loadAutoBusyDays, 0);
+
 
     // 🔧 Statistique affichée sous le badge — modifie ce nombre à la main quand tu veux
     const MONTHLY_EDITS_COUNT = 12;
@@ -13771,6 +14491,15 @@
     // DISCORD_WEBHOOK_URL (Site settings → Environment variables). Ne marche que si le site est
     // déployé via GitHub ou la CLI Netlify (pas en simple glisser-déposer d'un fichier seul).
     const WEBHOOK_URL = "/.netlify/functions/notify-discord";
+
+    // 🔔 Alerte Telegram en plus de Discord ci-dessus — même principe de sécurité (fonction
+    // serverless Netlify netlify/functions/notify-telegram.js, à ajouter à côté de
+    // notify-discord.js) : le token du bot et le chat_id ne sont jamais visibles dans ce fichier,
+    // ils vivent uniquement dans les variables d'environnement Netlify TELEGRAM_BOT_TOKEN et
+    // TELEGRAM_CHAT_ID. Optionnelle et non-bloquante (voir plus bas) : si elle n'est pas
+    // configurée ou échoue, la commande est quand même enregistrée normalement (Discord reste la
+    // confirmation principale).
+    const TELEGRAM_URL = "/.netlify/functions/notify-telegram";
 
     // --- Envoi du formulaire "liste d'attente" : réutilise le même webhook Discord que les vraies
     // commandes (WEBHOOK_URL ci-dessus), avec un titre distinct pour ne pas confondre les deux dans
@@ -15095,9 +15824,22 @@
     // de bonne foi (oubli, changement de pseudo non voulu) et à t'avertir des tentatives, pas à
     // garantir une sécurité absolue — la validation finale du prix reste entre tes mains, comme
     // pour les commandes en "Prix libre".
-    async function checkPremiere20Abuse(contactHandle) {
+    // --- Anti-abus code promo : vérifie qu'un même contact OU un même nom n'a pas déjà utilisé ce
+    // code auparavant, avant d'appliquer la réduction. Deux règles distinctes :
+    //  - PREMIERE20 (réservé à la 1ère commande) : "abusé" dès qu'une commande précédente de ce
+    //    contact ou ce nom est passée au statut "Livré", code utilisé ou non à l'époque.
+    //  - Tout autre code (fixe ou créé depuis l'admin) : "abusé" si ce même code a déjà été
+    //    appliqué sur une commande précédente de ce contact ou ce nom, quel que soit son statut.
+    // Vérifie par contact (colonne F) ET par nom (extrait de la note, colonne C) : un même client
+    // qui change juste de pseudo Discord/WhatsApp entre deux commandes reste ainsi détecté.
+    // ⚠️ Ce contrôle tourne côté navigateur, sur des données publiques : quelqu'un de déterminé
+    // pourrait le contourner en modifiant le code source. Il sert avant tout à filtrer les cas de
+    // bonne foi et à t'avertir des tentatives, pas à garantir une sécurité absolue.
+    async function checkPromoAbuse(code, contactHandle, nom) {
+      const upperCode = (code || '').trim().toUpperCase();
       const handle = (contactHandle || '').trim().toLowerCase();
-      if (!handle) return { abused: false };
+      const name = (nom || '').trim().toLowerCase();
+      if (!handle && !name) return { abused: false };
       try {
         const bustUrl = STATUS_SHEET_CSV_URL + (STATUS_SHEET_CSV_URL.includes('?') ? '&' : '?') + '_ts=' + Date.now();
         const res = await fetch(bustUrl, { cache: 'no-store' });
@@ -15107,21 +15849,26 @@
         const match = rows.slice(1).find(r => {
           const status = (r[1] || '');
           const contact = (r[5] || '').toLowerCase();
-          return status.indexOf('Livré') !== -1 && contact.includes(handle);
+          const note = r[2] || '';
+          const pastNom = (parseNoteQuickFields(note).nom || '').toLowerCase();
+          const sameClient = (handle && contact.includes(handle)) || (name && pastNom && pastNom === name);
+          if (!sameClient) return false;
+          if (upperCode === 'PREMIERE20') return status.indexOf('Livré') !== -1;
+          return note.toUpperCase().includes(`CODE ${upperCode}`);
         });
         if (match) return { abused: true, previousOrderId: match[0] || '?' };
         return { abused: false };
       } catch (err) {
         // En cas de doute (Sheet injoignable, etc.), on ne bloque jamais une commande légitime :
         // le code reste appliqué, quitte à vérifier toi-même à la main si besoin.
-        console.error('Vérification anti-abus PREMIERE20 impossible :', err);
+        console.error('Vérification anti-abus code promo impossible :', err);
         return { abused: false };
       }
     }
 
     // Alerte Discord dédiée (embed distinct de la notification "nouvelle commande") pour te
     // prévenir tout de suite qu'un code a été refusé pour cause de réutilisation.
-    async function notifyPromoAbuse(contactLine, orderId, previousOrderId) {
+    async function notifyPromoAbuse(contactLine, orderId, previousOrderId, code) {
       try {
         if (WEBHOOK_URL.includes('COLLE_TON_URL')) return;
         await fetch(WEBHOOK_URL, {
@@ -15130,14 +15877,14 @@
           body: JSON.stringify({
             content: "@everyone",
             embeds: [{
-              title: "⚠️ Code PREMIERE20 refusé (déjà utilisé)",
-              description: `Le contact **${contactLine}** a tenté d'utiliser PREMIERE20 sur la commande **${orderId}**, mais il a déjà une commande livrée (**${previousOrderId}**). Le code n'a pas été appliqué, mais vérifie quand même le prix indiqué avant de valider.`,
+              title: `⚠️ Code ${code} refusé (déjà utilisé)`,
+              description: `Le contact **${contactLine}** a tenté d'utiliser ${code} sur la commande **${orderId}**, mais ce code (ou une commande livrée, pour PREMIERE20) est déjà associé à ce contact/nom (commande **${previousOrderId}**). Le code n'a pas été appliqué, mais vérifie quand même le prix indiqué avant de valider.`,
               color: 16753920
             }]
           })
         });
       } catch (err) {
-        console.error('Alerte anti-abus PREMIERE20 non envoyée :', err);
+        console.error('Alerte anti-abus code promo non envoyée :', err);
       }
     }
     const sheetSyncReady = !STATUS_SHEET_CSV_URL.includes('COLLE_URL_CSV');
@@ -15467,6 +16214,24 @@
     fetchRemoteStatuses().then(renderOrderHistory);
     renderOrderHistory();
 
+    // --- Lien direct de suivi (?commande=CMD-XXXXX) : permet d'envoyer un lien "voir ma commande"
+    // par mail/DM, qui ouvre directement le suivi sur cette commande précise. Fonctionne même si la
+    // commande n'est pas dans l'historique local de cet appareil (via remoteStatuses, déjà utilisé
+    // pour la recherche manuelle ci-dessus). Le statut peut mettre quelques secondes à apparaître
+    // le temps que fetchRemoteStatuses() se termine — d'où le second appel après coup.
+    (function openDirectTrackingLink() {
+      const directParams = new URLSearchParams(window.location.search);
+      const directOrderId = (directParams.get('commande') || '').trim().toUpperCase();
+      if (!directOrderId) return;
+      trackingInput.value = directOrderId;
+      renderOrderHistory();
+      fetchRemoteStatuses().then(renderOrderHistory);
+      const trackingSection = document.querySelector('.order-tracking');
+      if (trackingSection) {
+        setTimeout(() => trackingSection.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150);
+      }
+    })();
+
     // Réinitialise l'historique local (commandes + anciennes stats) stocké sur cet appareil —
     // sauf le numéro de la dernière commande (LAST_ORDER_ID_KEY), qui reste volontairement visible
     // dans l'aperçu ci-dessus : c'était le vrai problème remonté, plus moyen de retrouver son numéro
@@ -15653,13 +16418,14 @@
       const preuvePaiement = data.get('preuvePaiement');
       const validityStatus = preuvePaiement ? '🟢 Acompte annoncé, à vérifier' : '🔵 Premier contact, acompte à régler avant le début du montage';
 
-      // Anti-abus PREMIERE20 : réservé à la 1ère commande, donc on vérifie que ce contact n'a
-      // pas déjà une commande livrée avant d'appliquer la réduction (voir checkPremiere20Abuse).
+      // Anti-abus code promo : vérifie que ce contact OU ce nom n'a pas déjà utilisé ce même code
+      // avant (règle spécifique en plus pour PREMIERE20, réservé à la 1ère commande — voir
+      // checkPromoAbuse). S'applique à tous les codes reconnus, fixes ou créés depuis l'admin.
       let promoAbuseInfo = null;
-      if (appliedPromo && promoCodeRaw === 'PREMIERE20') {
+      if (appliedPromo) {
         reserveStatus.style.color = '#888';
         reserveStatus.textContent = 'Vérification du code promo...';
-        promoAbuseInfo = await checkPremiere20Abuse(data.get('contact'));
+        promoAbuseInfo = await checkPromoAbuse(promoCodeRaw, data.get('contact'), data.get('nom'));
         if (promoAbuseInfo.abused) {
           appliedPromo = null;
         }
@@ -15676,7 +16442,7 @@
         { name: "Type de collaboration", value: data.get('collaboration') || 'non précisé' },
         { name: "Usage commercial / sponsorisé", value: isCommercial ? '✅ Oui' : 'Non' },
         { name: "Mode urgent", value: isUrgent ? '⚡ Oui' : 'Non' },
-        { name: "Code promo", value: promoAbuseInfo && promoAbuseInfo.abused ? `❌ PREMIERE20 refusé (déjà client, commande ${escapeHtml(promoAbuseInfo.previousOrderId)})` : (appliedPromo ? `🎟️ ${promoCodeRaw} (${appliedPromo.label})` : 'Aucun') },
+        { name: "Code promo", value: promoAbuseInfo && promoAbuseInfo.abused ? `❌ ${promoCodeRaw} refusé (déjà utilisé, commande ${escapeHtml(promoAbuseInfo.previousOrderId)})` : (appliedPromo ? `🎟️ ${promoCodeRaw} (${appliedPromo.label})` : 'Aucun') },
         { name: "Budget indicatif", value: data.get('budget') || 'Non précisé' },
         { name: "Description", value: data.get('description') },
         { name: "Statut", value: validityStatus }
@@ -15684,7 +16450,7 @@
       if (promoAbuseInfo && promoAbuseInfo.abused) {
         fields.push({
           name: "⚠️ ANTI-ABUS — prix à revérifier",
-          value: `Ce contact a déjà une commande livrée (${escapeHtml(promoAbuseInfo.previousOrderId)}), donc PREMIERE20 n'a pas été appliqué. Le budget indicatif ci-dessus a été calculé côté client AVANT ce contrôle et inclut peut-être encore la réduction — recalcule le prix toi-même avant de valider.`
+          value: `Ce contact ou ce nom a déjà utilisé le code ${escapeHtml(promoCodeRaw)} (ou déjà une commande livrée, pour PREMIERE20) — commande ${escapeHtml(promoAbuseInfo.previousOrderId)}. Le code n'a pas été appliqué. Le budget indicatif ci-dessus a été calculé côté client AVANT ce contrôle et inclut peut-être encore la réduction — recalcule le prix toi-même avant de valider.`
         });
       }
       if (parrainPseudo) {
@@ -15729,6 +16495,17 @@
         });
         if (!res.ok) throw new Error('send-failed');
 
+        // Ping Telegram en parallèle, jamais bloquant : contrairement au ping Discord ci-dessus
+        // qui est la confirmation principale (si elle échoue, la commande n'est pas enregistrée),
+        // un souci ici ne doit pas empêcher la commande d'être prise en compte.
+        fetch(TELEGRAM_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            text: `📥 Nouvelle demande de montage\n👤 ${data.get('nom') || 'non précisé'} (${data.get('typeClient') || 'Particulier'})\n🎬 ${data.get('nomCommande') || 'non précisé'}\n🎥 ${formatBreakdown(data)}\n💶 ${data.get('budget') || 'non précisé'}\n📩 ${data.get('reseau') || 'non précisé'} · ${data.get('contact') || 'non précisé'}\n🔖 ${orderId}`
+          })
+        }).catch(() => { /* jamais bloquant, voir commentaire ci-dessus */ });
+
         saveOrder({
           id: orderId,
           nom: data.get('nom') || 'non précisé',
@@ -15758,7 +16535,7 @@
         syncOrderToAdminSheet(
           orderId,
           '🟠 Envoyée, en attente de réponse',
-          `${data.get('nom') || 'non précisé'} (${data.get('typeClient') || 'Particulier'}) · 🎬 ${data.get('nomCommande') || 'non précisé'} · 🎥 ${formatBreakdown(data)} · 💶 ${data.get('budget') || 'non précisé'}${isUrgent ? ' · ⚡ Urgent' : ''}${data.get('dateLivraisonSouhaitee') ? ' · 📅 Voulu le ' + new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR') : ''}${appliedPromo ? ` · 🎟️ Code ${promoCodeRaw}` : ''}${promoAbuseInfo && promoAbuseInfo.abused ? ` · ⚠️ PREMIERE20 refusé (déjà client, cmd ${promoAbuseInfo.previousOrderId}) — vérifie le prix` : ''}${parrainPseudo ? ` · 🤝 Parrain : ${parrainPseudo}` : ''}${data.get('driveLink') ? ` · 📁 ${data.get('driveLink')}` : ''} · via formulaire complet`,
+          `${data.get('nom') || 'non précisé'} (${data.get('typeClient') || 'Particulier'}) · 🎬 ${data.get('nomCommande') || 'non précisé'} · 🎥 ${formatBreakdown(data)} · 💶 ${data.get('budget') || 'non précisé'}${isUrgent ? ' · ⚡ Urgent' : ''}${data.get('dateLivraisonSouhaitee') ? ' · 📅 Voulu le ' + new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR') : ''}${appliedPromo ? ` · 🎟️ Code ${promoCodeRaw}` : ''}${promoAbuseInfo && promoAbuseInfo.abused ? ` · ⚠️ ${promoCodeRaw} refusé (déjà utilisé, cmd ${promoAbuseInfo.previousOrderId}) — vérifie le prix` : ''}${parrainPseudo ? ` · 🤝 Parrain : ${parrainPseudo}` : ''}${data.get('driveLink') ? ` · 📁 ${data.get('driveLink')}` : ''} · via formulaire complet`,
           `${data.get('reseau') || 'non précisé'} · ${data.get('contact') || 'non précisé'}${data.get('reseau') === 'WhatsApp' && data.get('whatsappNumber') ? ' · 📱 ' + data.get('whatsappNumber') : ''}`
         );
 
@@ -15766,7 +16543,8 @@
           notifyPromoAbuse(
             `${data.get('reseau') || 'non précisé'} · ${data.get('contact') || 'non précisé'}`,
             orderId,
-            promoAbuseInfo.previousOrderId
+            promoAbuseInfo.previousOrderId,
+            promoCodeRaw
           );
         }
 
@@ -16288,6 +17066,9 @@
         <option value="delivered">✅ Livrées</option>
         <option value="cancelled">❌ Annulées</option>
       </select>
+      <select id="adminTagFilter" class="admin-status-filter">
+        <option value="">Tous les tags</option>
+      </select>
       <div class="admin-date-filter-row">
         <label class="admin-date-filter-label">📅 Créées entre
           <input type="date" id="adminDateFromInput" class="admin-date-input" />
@@ -16304,6 +17085,10 @@
         </label>
         <button type="button" id="adminDeliveryDateFilterResetBtn" class="filter-reset-btn" style="display: none;">✕ Effacer les dates</button>
       </div>
+      <div class="admin-manual-sort-row">
+        <button type="button" id="adminManualSortToggleBtn" class="paypal-quick-btn paypal-quick-btn-secondary">🔀 Réorganiser manuellement</button>
+        <span id="adminManualSortHint" class="admin-manual-sort-hint" style="display: none;">Utilise les flèches ▲▼ sur chaque carte pour choisir sa place. Le tri automatique (urgence en premier) est suspendu tant que ce mode est actif.</span>
+      </div>
       <div id="adminBulkBar" class="admin-bulk-bar" style="display: none;">
         <span id="adminBulkCount"></span>
         <select id="adminBulkStatusSelect"></select>
@@ -16318,6 +17103,7 @@
       <div class="admin-subtab-row">
         <button type="button" class="admin-subtab-btn active" data-admin-subtab="stats">📊 Stats</button>
         <button type="button" class="admin-subtab-btn" data-admin-subtab="outils">🛠️ Outils</button>
+        <button type="button" class="admin-subtab-btn" data-admin-subtab="clients">👤 Clients</button>
       </div>
 
       <div id="adminSubtabStats" class="admin-subtab-panel">
@@ -16410,6 +17196,14 @@
           </div>
         </details>
       </div>
+
+      <div id="adminSubtabClients" class="admin-subtab-panel" style="display: none;">
+        <p class="info-text" style="font-size: 12px;">
+          Les commandes sont regroupées par nom/pseudo (champ rapide 👤), ou par contact si le nom n'est pas renseigné.
+          Le montant dépensé est une estimation d'après les budgets indiqués, hors commandes annulées.
+        </p>
+        <div id="adminClientsList" class="admin-clients-list"></div>
+      </div>
     </div>
 
 
@@ -16488,6 +17282,7 @@
     <a href="#portfolio" class="section-nav-dot" data-section="portfolio" aria-label="Aller au portfolio"><span class="section-nav-tooltip">Portfolio</span></a>
     <a href="#resultats" class="section-nav-dot" data-section="resultats" aria-label="Aller aux résultats obtenus"><span class="section-nav-tooltip">Résultats</span></a>
     <a href="#process" class="section-nav-dot" data-section="process" aria-label="Aller au process"><span class="section-nav-tooltip">Process</span></a>
+    <a href="#conseils" class="section-nav-dot" data-section="conseils" aria-label="Aller aux conseils"><span class="section-nav-tooltip">Conseils</span></a>
     <a href="#reservation" class="section-nav-dot" data-section="reservation" aria-label="Aller à la réservation"><span class="section-nav-tooltip">Réserver</span></a>
     <a href="#faq" class="section-nav-dot" data-section="faq" aria-label="Aller à la FAQ"><span class="section-nav-tooltip">FAQ</span></a>
     <a href="#avis" class="section-nav-dot" data-section="avis" aria-label="Aller aux avis"><span class="section-nav-tooltip">Avis</span></a>
