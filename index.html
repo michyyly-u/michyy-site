@@ -19,22 +19,10 @@
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://michyy.netlify.app" />
   <link rel="canonical" href="https://michyy.netlify.app/" />
-  <!-- Vignette affichée sur Discord/Twitter/DM/etc. quand le lien du site est partagé.
-       ⚠️ Pointe vers og-image.png à la racine du site (fichier fourni séparément, à uploader
-       sur Netlify à côté de index.html) — PAS un data URI base64 : la plupart des scrapers
-       sociaux (Discord, X, Facebook) rejettent les data URI pour og:image et n'affichent alors
-       aucun aperçu. Si tu changes de nom de domaine, mets aussi à jour og:url ci-dessus. -->
-  <meta property="og:image" content="https://michyy.netlify.app/og-image.png" />
-  <meta property="og:image:width" content="1200" />
-  <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="Michyy — Monteur vidéo, monogramme M sur fond dégradé rouge-orange" />
 
-  <!-- Twitter Card : passé de "summary" (petite vignette carrée) à "summary_large_image" pour que
-       l'image ci-dessus s'affiche en grand sur X/Twitter, pas juste en miniature à côté du texte. -->
-  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Michyy · Monteur vidéo" />
   <meta name="twitter:description" content="Montage vidéo formats courts et longs : TikTok, Reels, YouTube, best-of. Devis sous 24h." />
-  <meta name="twitter:image" content="https://michyy.netlify.app/og-image.png" />
 
   <!-- Favicon (monogramme "M" en dégradé, cohérent avec l'avatar du site) -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ff3c3c'/%3E%3Cstop offset='1' stop-color='%23ff9a00'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='44' font-family='Arial, sans-serif' font-weight='800' font-size='36' fill='white' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E" />
@@ -289,6 +277,27 @@
     }
 
     .footer-legal-link:hover { opacity: 1; text-decoration: underline; }
+
+    /* --- Lien "Signaler un problème" du footer : même style discret que .footer-legal-link,
+       mais bouton (pas <a>) puisqu'il ouvre la modale bug existante plutôt qu'une ancre.
+       Séparé du formulaire de commande pour capter les retours (bug, faute, lien cassé) sans
+       qu'ils se perdent dans une DM ou parasitent la demande de montage. --- */
+    .footer-report-link {
+      display: block;
+      font-size: 11px;
+      color: var(--text-faint);
+      text-decoration: none;
+      background: none;
+      border: none;
+      margin: 8px auto 0;
+      padding: 0;
+      opacity: 0.75;
+      cursor: pointer;
+      font-family: inherit;
+      transition: opacity 0.15s;
+    }
+
+    .footer-report-link:hover { opacity: 1; text-decoration: underline; }
 
     .back-to-full {
       display: none;
@@ -5227,6 +5236,18 @@
     }
     .deposit-note-copy-btn:hover { border-color: var(--text-tertiary); color: var(--text); }
     .deposit-note-small { font-size: 11.5px; margin-top: 4px; }
+
+    /* --- Variante discrète du bouton ci-dessus, pour le lien "déjà réglé l'acompte autrement" :
+       cas rare, ne doit pas rivaliser visuellement avec le CTA PayPal juste au-dessus. --- */
+    .deposit-note-copy-btn-secondary {
+      background: transparent;
+      border-color: transparent;
+      color: var(--text-faint);
+      font-size: 11.5px;
+      padding: 4px 0;
+      opacity: 0.8;
+    }
+    .deposit-note-copy-btn-secondary:hover { opacity: 1; border-color: transparent; text-decoration: underline; }
     .confirmation-next-step-paypal-col .deposit-paypal-btn {
       width: 100%;
     }
@@ -5476,6 +5497,55 @@
 
     .admin-stat-card.admin-stat-today .admin-stat-number { color: #3ddc84; }
     .admin-stat-card.admin-stat-today .admin-stat-label { color: #6fcf73; }
+
+    /* --- Vue "Prochains 7 jours" (voir renderNext7DaysPanel) : une ligne par jour avec une barre de
+       charge, plutôt que des .admin-stat-card en grille — plus lisible pour comparer 7 jours d'un
+       coup d'œil qu'une grille de chiffres isolés. --- */
+    .next7-day-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 0;
+      border-bottom: 0.5px solid var(--border-soft);
+    }
+    .next7-day-row:last-child { border-bottom: none; }
+    .next7-day-label {
+      width: 78px;
+      flex-shrink: 0;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+    }
+    .next7-day-label-today { color: #7f8bfa; }
+    .next7-day-bar-track {
+      flex-grow: 1;
+      height: 8px;
+      background: var(--surface-soft);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .next7-day-bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 0.2s;
+    }
+    .next7-day-count {
+      width: 90px;
+      flex-shrink: 0;
+      text-align: right;
+      font-size: 11px;
+      color: var(--text-tertiary);
+    }
+    .next7-day-extra-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 0;
+      font-size: 12px;
+    }
+    .next7-day-extra-row.is-overdue { color: #e2685f; }
+    .next7-day-extra-row.is-undated { color: var(--text-tertiary); }
 
     /* --- Tracking local d'engagement (temps jusqu'au 1er focus formulaire) --- */
     .admin-engagement-actions {
@@ -5787,6 +5857,12 @@
       background: #eceafe;
       border-color: #7f8bfa66;
       color: #4b3fa1;
+    }
+    .draft-resume-saved-at {
+      display: inline-block;
+      margin-top: 2px;
+      font-size: 11px;
+      opacity: 0.7;
     }
     .draft-resume-continue-btn {
       background: #7f8bfa;
@@ -6200,6 +6276,90 @@
       color: var(--text-faint);
       font-style: italic;
     }
+
+    /* --- Versions du lien de livraison (voir deliveryVersionsHtml) : même gabarit visuel que la
+         mini timeline juste au-dessus (.admin-timeline-*), pour rester cohérent avec le reste des
+         détails repliables d'une carte de commande. --- */
+    .admin-delivery-versions { margin-top: 10px; }
+    .admin-delivery-versions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .admin-delivery-version-row {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 8px;
+      border: 0.5px solid var(--border-soft);
+      border-radius: 8px;
+      font-size: 11px;
+    }
+    .admin-delivery-version-row.is-active {
+      border-color: #3ddc8466;
+      background: #3ddc8412;
+    }
+    .admin-delivery-version-label {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+    .admin-delivery-version-url {
+      flex: 1;
+      min-width: 100px;
+      color: var(--text-faint);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .admin-delivery-version-activate-btn,
+    .admin-delivery-version-delete-btn {
+      background: none;
+      border: 0.5px solid var(--border-soft);
+      border-radius: 999px;
+      padding: 3px 9px;
+      font-size: 10px;
+      color: var(--text-tertiary);
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .admin-delivery-version-activate-btn:hover,
+    .admin-delivery-version-delete-btn:hover { color: var(--text); border-color: var(--text-tertiary); }
+    .admin-delivery-version-add-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .admin-delivery-version-label-input,
+    .admin-delivery-version-url-input {
+      flex: 1;
+      min-width: 100px;
+      box-sizing: border-box;
+      background: var(--surface);
+      border: 0.5px solid var(--border-soft);
+      border-radius: 8px;
+      padding: 6px 8px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+    }
+    .admin-delivery-version-add-btn {
+      background: #7f8bfa22;
+      border: 0.5px solid #7f8bfa66;
+      border-radius: 999px;
+      padding: 6px 12px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      color: #a5aefc;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .admin-delivery-version-add-btn:hover { background: #7f8bfa38; }
 
     .admin-delivery-date-label { color: #8c93ff; margin-top: 10px; }
 
@@ -7238,6 +7398,61 @@
     .order-tracking-result .tracking-feedback-history p {
       margin-top: 6px;
       line-height: 1.5;
+    }
+
+    /* --- Notif par email sur changement de statut : même gabarit visuel que le bloc "retouches"
+         juste au-dessus (input + bouton pill + statut en dessous), replié derrière un simple lien
+         pour ne pas alourdir une carte de suivi déjà chargée d'infos. --- */
+    .tracking-email-notify {
+      margin-top: 10px;
+    }
+    .tracking-email-notify-toggle {
+      background: none;
+      border: none;
+      padding: 0;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 11px;
+      color: #a5aefc;
+      cursor: pointer;
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+    .tracking-email-notify-form {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .tracking-email-notify-input {
+      flex: 1;
+      min-width: 160px;
+      box-sizing: border-box;
+      background: var(--surface);
+      border: 0.5px solid var(--border-soft);
+      border-radius: 8px;
+      padding: 8px 10px;
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 12px;
+    }
+    .tracking-email-notify-send-btn {
+      background: #7f8bfa22;
+      border: 0.5px solid #7f8bfa66;
+      border-radius: 999px;
+      padding: 7px 14px;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      color: #a5aefc;
+      cursor: pointer;
+      white-space: nowrap;
+    }
+    .tracking-email-notify-send-btn:hover { background: #7f8bfa38; }
+    .tracking-email-notify-status {
+      width: 100%;
+      font-size: 11px;
+      margin-top: 4px;
+      min-height: 14px;
     }
 
     .order-tracking-result .tracking-pay-solde-btn {
@@ -10205,17 +10420,16 @@
             💡 <strong>SwissTransfer</strong> est la meilleure option pour tes rushs (50 Go gratuits, aucun compte requis), parfait pour les fichiers vidéo volumineux.
           </p>
 
-          <details class="more-options preuve-paiement-toggle">
-            <summary class="more-options-summary">
-              <span class="more-options-summary-label">💳 Tu as déjà réglé l'acompte ?</span>
-              <span class="more-options-summary-hint">(rare au premier envoi — à ajouter seulement si c'est déjà fait)</span>
-            </summary>
-            <div class="more-options-content">
-              <label>Preuve de paiement de l'acompte
-                <input type="text" name="preuvePaiement" placeholder="ex : https://imgur.com/... vers une capture d'écran du reçu PayPal" />
-              </label>
-            </div>
-          </details>
+          <!-- Le champ visible "Preuve de paiement de l'acompte" a été retiré du formulaire initial :
+               quasi personne n'a déjà payé au moment d'envoyer sa toute première demande, et il
+               alourdissait le formulaire pour un cas rare. Il vit maintenant uniquement dans la
+               confirmation post-envoi (#confirmationNext, lien "déjà réglé l'acompte") pour ceux qui
+               sont dans ce cas précis. On garde un champ caché du même nom pour ne rien casser côté
+               back (colonne du Sheet, agrégation du message Discord) ni côté PayPal intégré : le
+               bouton PayPal AVANT envoi (#paypalButtonContainer, voir renderPaypalButton) continue de
+               le préremplir automatiquement avec la référence de transaction si jamais quelqu'un paie
+               avant de soumettre le formulaire. -->
+          <input type="hidden" name="preuvePaiement" />
         </div>
       </div>
 
@@ -10306,6 +10520,11 @@
               <button type="button" id="copyDepositNoteBtn" class="deposit-note-copy-btn">📋 Copier un message pour la note PayPal</button>
               <p class="deposit-note note-aside deposit-note-small">⚠️ Indique bien ton <strong>numéro de commande</strong> dans le champ "Ajouter une note" de PayPal en payant — sinon je ne peux pas relier ton paiement à ta commande.</p>
               <div id="paypalButtonContainerConfirm" class="paypal-sdk-button-container"></div>
+              <!-- Cas rare : acompte déjà réglé autrement (virement, espèces, avant cet envoi...)
+                   avant même de voir ce bouton. Plutôt qu'un champ dans le formulaire initial (que
+                   quasi personne n'utilise au premier envoi), ce lien post-envoi couvre le cas
+                   ponctuel où ça arrive vraiment, avec le numéro de commande déjà sous la main. -->
+              <button type="button" id="alreadyPaidLinkBtn" class="deposit-note-copy-btn deposit-note-copy-btn-secondary">💳 Déjà réglé l'acompte autrement ? Préviens-moi</button>
             </div>
           </div>
         </div>
@@ -10444,6 +10663,7 @@
         <button type="button" class="filter-btn faq-theme-filter-btn" data-theme-filter="abonnement">🔄 Abonnement</button>
         <button type="button" class="filter-btn faq-theme-filter-btn" data-theme-filter="delais">⏳ Délais</button>
         <button type="button" class="filter-btn faq-theme-filter-btn" data-theme-filter="revisions">🔁 Révisions</button>
+        <button type="button" class="filter-btn faq-theme-filter-btn" data-theme-filter="suivi">📦 Suivi de commande</button>
         <button type="button" class="filter-btn faq-theme-filter-btn" data-theme-filter="technique">🛠️ Technique</button>
         <!-- 🔧 Simplification : "Confiance" (2 questions) et "Après livraison" (3 questions) fusionnés
              en un seul thème — chacun pris séparément était trop maigre pour justifier son propre
@@ -10457,6 +10677,10 @@
         <a href="#faq-format">📼 Format livré</a>
         <a href="#faq-delais">⏳ Délais de livraison / soir &amp; week-end</a>
         <a href="#faq-revisions">🔁 Révisions incluses</a>
+        <a href="#faq-suivi-statut-bloque">📦 Statut bloqué</a>
+        <a href="#faq-suivi-retouche-facturee">🔁 Retouche facturée</a>
+        <a href="#faq-suivi-hors-ligne">🌙 Envoi hors ligne</a>
+        <a href="#faq-suivi-notif-email">🔔 Notif par email</a>
         <a href="#faq-annulation">❌ Annulation</a>
         <a href="#faq-devis">⏱️ Délai devis</a>
         <a href="#faq-prixfixe">💰 Prix fixe</a>
@@ -10579,6 +10803,34 @@
       <details class="faq-item" id="faq-refonte" data-theme="revisions">
         <summary>Que se passe-t-il si je demande une révision hors du cadre inclus ?</summary>
         <p>Ça arrive, et ce n'est pas un problème en soi : si tu veux changer totalement l'angle ou la structure d'un montage déjà validé, ou repartir sur une base différente, on en discute d'abord ensemble pour cadrer ce que tu veux vraiment. Selon l'ampleur du changement, ça peut donner lieu à un supplément (traité comme un nouveau montage partiel) plutôt qu'à une révision gratuite classique : toujours annoncé et validé avec toi avant d'être facturé, jamais en surprise sur la facture finale.</p>
+      </details>
+        </div>
+      </details>
+
+      <details class="more-options faq-theme-group" id="faqGroupSuivi" data-group-theme="suivi">
+        <summary class="more-options-summary">
+          <span class="more-options-summary-label">📦 Suivi de commande</span>
+          <span class="more-options-summary-hint">(4 questions)</span>
+        </summary>
+        <div class="more-options-content">
+      <details class="faq-item" id="faq-suivi-statut-bloque" data-theme="suivi">
+        <summary>Pourquoi mon statut n'a pas bougé ?</summary>
+        <p>Le statut se met à jour automatiquement dès que je fais une modification de mon côté — pas besoin de me redemander où ça en est. Quelques raisons courantes à un statut qui semble figé : je n'ai pas encore traité ta demande (surtout si elle est arrivée hors des heures actives, voir la question juste en dessous), ta commande attend son tour dans le planning (statut "🕓 En file d'attente"), ou l'acompte n'a pas encore été détecté comme réglé de mon côté. Le bouton "🔄 Actualiser" en haut du suivi force une vérification immédiate si tu penses qu'un changement récent n'est pas encore affiché. Si ta commande reste au statut "🟠 Envoyée" plus de 24h sans acompte réglé, elle passe automatiquement en "Expirée" — ce n'est pas définitif, recontacte-moi simplement si tu veux la relancer.</p>
+      </details>
+
+      <details class="faq-item" id="faq-suivi-retouche-facturee" data-theme="suivi">
+        <summary>C'est quoi une retouche facturée ?</summary>
+        <p><strong>5 retouches sont incluses</strong> par vidéo, décomptées automatiquement à chaque envoi via le formulaire "Message pour le client" de ton suivi (un envoi = une retouche). Au-delà de la 5e, chaque retouche supplémentaire est facturée <strong>10€</strong> — jamais en surprise : le compteur affiché dans ton suivi ("🔁 Retouche X sur 5 incluses") te montre en temps réel où tu en es, et je ne facture rien sans te le dire clairement avant. Voir aussi la question sur les <a href="#faq-revisions" class="inline-link">révisions incluses</a> pour le détail de ce qui est couvert.</p>
+      </details>
+
+      <details class="faq-item" id="faq-suivi-hors-ligne" data-theme="suivi">
+        <summary>J'envoie ma demande hors des heures actives, ça sert à quelque chose ?</summary>
+        <p>Oui, complètement — envoyer ta demande hors ligne ne la met pas de côté ni ne la retarde artificiellement. Elle est bien reçue et traitée dès la réouverture, exactement comme si tu l'avais envoyée en pleine journée. Le badge "🌙 Hors ligne" et le rappel affiché au-dessus du bouton d'envoi indiquent juste le délai de réponse attendu, pas une raison d'attendre pour envoyer.</p>
+      </details>
+
+      <details class="faq-item" id="faq-suivi-notif-email" data-theme="suivi">
+        <summary>Je peux être prévenu par email quand mon statut change ?</summary>
+        <p>Oui, si tu préfères ne pas revenir vérifier manuellement : un lien "🔔 Recevoir un email à chaque changement" est disponible directement dans le suivi de ta commande, une fois qu'elle existe. Renseigne simplement l'adresse à laquelle tu veux être prévenu — c'est utilisé uniquement pour cette notification, pas ajouté à une liste de diffusion ni partagé.</p>
       </details>
         </div>
       </details>
@@ -10918,6 +11170,7 @@
   <footer class="site-footer">
     <a class="portfolio-link" id="portfolioOnlyLink" href="?portfolio=1" style="display: none;">Voir la version portfolio uniquement ↗</a>
     <a class="footer-legal-link" href="#confidentialite">Mentions légales & confidentialité</a>
+    <button type="button" class="footer-report-link" id="footerReportBtn">Signaler un problème (bug, faute, lien cassé)</button>
   </footer>
 
   <script>
@@ -11233,6 +11486,24 @@
     //   sheet.getRange(row, 9).setValue(dateLivraisonAdmin); // colonne I
     // Si ton script ignore ce paramètre, le champ s'affichera dans l'admin mais la date que tu
     // saisis n'aura aucun effet sur le filtre/export tant que le script n'est pas mis à jour.
+
+    // ⚠️ IMPORTANT — notif email client sur changement de statut (lien "🔔 Recevoir un email..."
+    // dans le suivi de commande) : ce fichier envoie une nouvelle action `action=emailNotifyOptIn
+    // &orderId=...&email=...` quand un client s'inscrit. Deux briques à ajouter toi-même côté Apps
+    // Script pour que ça fonctionne de bout en bout (rien n'est envoyé tant que ce n'est pas fait,
+    // le lien échoue juste silencieusement côté client) :
+    //   1. Enregistrer l'inscription dans un onglet dédié (ex: "NotifEmail"), une ligne par
+    //      commande :
+    //        if (action === 'emailNotifyOptIn') {
+    //          var notifSheet = ss.getSheetByName('NotifEmail') || ss.insertSheet('NotifEmail');
+    //          notifSheet.appendRow([e.parameter.orderId, e.parameter.email, new Date()]);
+    //          return jsonOut({ success: true });
+    //        }
+    //   2. Envoyer réellement l'email quand le statut change : le plus simple est un déclencheur
+    //      "À la modification" (installable trigger onEdit) sur l'onglet Commandes, qui regarde si
+    //      la colonne B (statut) vient de changer, cherche l'orderId correspondant dans "NotifEmail",
+    //      et appelle MailApp.sendEmail(email, sujet, message) si une adresse est trouvée. Sans ce
+    //      2e trigger, les inscriptions sont bien enregistrées mais aucun email ne part jamais.
 
     // ⚠️ IMPORTANT — suppression définitive d'une commande (bouton 🗑️ dans le panneau admin) :
     // ce fichier appelle maintenant une nouvelle action `action=delete&orderId=...` quand tu cliques
@@ -11854,6 +12125,7 @@
             <div class="admin-stat-group-label">Alertes</div>
             <div class="admin-stat-group-grid">
               <div class="admin-stat-card admin-stat-urgent"><span class="admin-stat-number">${stale}</span><span class="admin-stat-label">En attente +24h ⚠️</span></div>
+              <div class="admin-stat-card admin-stat-urgent" title="Rappels posés via 'Dupliquer + rappel' dont la date programmée est passée"><span class="admin-stat-number">${countDuePauseReminders(dataRows)}</span><span class="admin-stat-label">Rappels dus ⏰</span></div>
             </div>
           </div>
           <div class="admin-stat-group">
@@ -11921,7 +12193,160 @@
         });
       }
 
-      // --- Fiche client regroupée : regroupe les commandes d'un même client (par nom/pseudo,
+      // --- Rappels programmés (voir setPauseReminder/PAUSE_REMINDERS_KEY) : compte et liste les
+      // rappels posés depuis cet appareil, en distinguant ceux dont la date est déjà passée. ---
+      function countDuePauseReminders(dataRows) {
+        const reminders = getPauseReminders();
+        const now = Date.now();
+        return Object.keys(reminders).filter(id => reminders[id] <= now).length;
+      }
+      function renderPauseRemindersPanel(dataRows) {
+        const panel = document.getElementById('adminPauseRemindersList');
+        if (!panel) return;
+        const reminders = getPauseReminders();
+        const ids = Object.keys(reminders);
+        if (ids.length === 0) {
+          panel.innerHTML = `<p class="info-text">Aucun rappel programmé pour l'instant.</p>`;
+          return;
+        }
+        const now = Date.now();
+        const rowsById = {};
+        dataRows.forEach(r => { rowsById[r[0]] = r; });
+        panel.innerHTML = ids
+          .sort((a, b) => reminders[a] - reminders[b])
+          .map(orderId => {
+            const dueAt = reminders[orderId];
+            const isDue = dueAt <= now;
+            const r = rowsById[orderId];
+            const currentStatus = r ? (r[1] || '') : '';
+            return `
+              <div class="admin-stat-card admin-litige-history-card" style="align-items: flex-start; text-align: left;">
+                <span class="admin-stat-label">${escapeHtml(orderId)}</span>
+                <span class="admin-stat-label" style="color: ${isDue ? '#ff9a00' : 'var(--text-tertiary)'};">${isDue ? '⏰ Dû' : '⏳ Prévu'} le ${new Date(dueAt).toLocaleDateString('fr-FR')}</span>
+                ${currentStatus ? `<span class="tracking-status status-sent" style="margin-top: 4px;">${statusIconHtml(currentStatus, 12)}${escapeHtml(stripStatusEmoji(currentStatus))}</span>` : ''}
+                <div style="display: flex; gap: 6px; margin-top: 6px;">
+                  <button type="button" class="filter-reset-btn admin-pause-reminder-goto" data-order-id="${escapeHtml(orderId)}">🔗 Voir</button>
+                  <button type="button" class="filter-reset-btn admin-pause-reminder-clear" data-order-id="${escapeHtml(orderId)}">✕ Effacer</button>
+                </div>
+              </div>`;
+          }).join('');
+        panel.querySelectorAll('.admin-pause-reminder-goto').forEach(b => {
+          b.addEventListener('click', () => {
+            adminSearchInput.value = b.dataset.orderId;
+            activateAdminTab('commandes');
+            renderAdminOrdersList(lastAdminOrders);
+          });
+        });
+        panel.querySelectorAll('.admin-pause-reminder-clear').forEach(b => {
+          b.addEventListener('click', () => {
+            clearPauseReminder(b.dataset.orderId);
+            renderPauseRemindersPanel(lastAdminOrders);
+          });
+        });
+      }
+
+      // --- Charge de travail (voir computeWorkloadSummary) : total pondéré + répartition par
+      // format, avec un repère qualitatif (Léger/Normal/Chargé/Surchargé) basé sur des seuils
+      // ajustables — pas une science exacte, juste de quoi repérer une surcharge qui vient AVANT
+      // qu'elle ne soit déjà là, plutôt que de la constater une fois le planning explosé. ---
+      const WORKLOAD_THRESHOLDS = { normal: 8, high: 16 }; // 🔧 ajuste selon ton rythme réel (en "unités Court")
+      function workloadLevel(total) {
+        if (total <= WORKLOAD_THRESHOLDS.normal) return { label: '🟢 Léger', color: '#8be28b' };
+        if (total <= WORKLOAD_THRESHOLDS.high) return { label: '🟡 Chargé', color: '#ffb020' };
+        return { label: '🔴 Surchargé', color: '#e2685f' };
+      }
+      function renderWorkloadPanel(dataRows) {
+        const panel = document.getElementById('adminWorkloadPanel');
+        if (!panel) return;
+        const { total, byFormat } = computeWorkloadSummary(dataRows);
+        const level = workloadLevel(total);
+        const formatEntries = Object.keys(byFormat).sort((a, b) => byFormat[b].weight - byFormat[a].weight);
+        const breakdownHtml = formatEntries.length
+          ? formatEntries.map(key => {
+              const f = byFormat[key];
+              return `
+                <div class="admin-stat-card" style="align-items: flex-start; text-align: left;">
+                  <span class="admin-stat-label">${escapeHtml(key)}</span>
+                  <span class="admin-stat-number" style="font-size: 18px;">${f.weight.toFixed(1)}</span>
+                  <span class="admin-stat-label">${f.orders} commande${f.orders > 1 ? 's' : ''} · ${f.videos} vidéo${f.videos > 1 ? 's' : ''}</span>
+                </div>`;
+            }).join('')
+          : `<p class="info-text">Aucune commande en attente ou en cours pour l'instant.</p>`;
+        panel.innerHTML = `
+          <div class="admin-stat-card admin-stat-today" style="margin-bottom: 10px;">
+            <span class="admin-stat-number" style="color: ${level.color};">${total.toFixed(1)}</span>
+            <span class="admin-stat-label">unités de charge (≈ ${total.toFixed(1)} montage${total >= 2 ? 's' : ''} "Court" équivalents) · ${level.label}</span>
+          </div>
+          <div class="admin-stat-group-grid">${breakdownHtml}</div>
+        `;
+      }
+
+      // --- Vue "Prochains 7 jours" : croise la charge de travail (computeOrderWorkload, voir
+      // juste au-dessus) avec la date de livraison voulue par le client (noteFields.dateVoulue),
+      // jour par jour — pour repérer une journée qui déborde avant qu'elle n'arrive plutôt que de
+      // le découvrir une fois dessus. Seuils À AJUSTER selon ta cadence réelle : ceux du total
+      // (WORKLOAD_THRESHOLDS) sont pensés pour l'ensemble des commandes en cours, pas pour une
+      // seule journée, d'où des seuils séparés ici, plus bas. ---
+      const DAILY_WORKLOAD_THRESHOLDS = { normal: 3, high: 6 }; // 🔧 ajuste selon ta cadence quotidienne réelle
+      function dailyWorkloadLevel(total) {
+        if (total <= 0) return { color: 'var(--border-soft)' };
+        if (total <= DAILY_WORKLOAD_THRESHOLDS.normal) return { color: '#8be28b' };
+        if (total <= DAILY_WORKLOAD_THRESHOLDS.high) return { color: '#ffb020' };
+        return { color: '#e2685f' };
+      }
+      function computeNext7DaysWorkload(dataRows) {
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        const days = [];
+        for (let i = 0; i < 7; i++) {
+          const d = new Date(today);
+          d.setDate(d.getDate() + i);
+          const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+          days.push({ date: d, key, total: 0, orders: [] });
+        }
+        const dayMap = new Map(days.map(d => [d.key, d]));
+        const todayKey = days[0].key;
+        const undated = { total: 0, orders: [] };
+        const overdue = { total: 0, orders: [] };
+        dataRows.forEach(r => {
+          const { weight } = computeOrderWorkload(r);
+          if (weight <= 0) return; // ni en attente ni en cours : ne compte pas dans la charge à venir
+          const noteFields = parseNoteQuickFields(r[2] || '');
+          if (!noteFields.dateVoulue) { undated.total += weight; undated.orders.push(r); return; }
+          const bucket = dayMap.get(noteFields.dateVoulue);
+          if (bucket) { bucket.total += weight; bucket.orders.push(r); }
+          else if (noteFields.dateVoulue < todayKey) { overdue.total += weight; overdue.orders.push(r); }
+          // dates au-delà de 7 jours : volontairement hors champ de cette vue rapprochée
+        });
+        return { days, undated, overdue };
+      }
+      function renderNext7DaysPanel(dataRows) {
+        const panel = document.getElementById('adminNext7DaysPanel');
+        if (!panel) return;
+        const { days, undated, overdue } = computeNext7DaysWorkload(dataRows);
+        const maxTotal = Math.max(1, ...days.map(d => d.total), overdue.total);
+        const dayNames = ['dim.', 'lun.', 'mar.', 'mer.', 'jeu.', 'ven.', 'sam.'];
+        const rowsHtml = days.map((d, i) => {
+          const level = dailyWorkloadLevel(d.total);
+          const pct = Math.min(100, Math.round((d.total / maxTotal) * 100));
+          const label = i === 0 ? "Aujourd'hui" : `${dayNames[d.date.getDay()]} ${String(d.date.getDate()).padStart(2, '0')}/${String(d.date.getMonth() + 1).padStart(2, '0')}`;
+          return `
+            <div class="next7-day-row">
+              <span class="next7-day-label${i === 0 ? ' next7-day-label-today' : ''}">${label}</span>
+              <span class="next7-day-bar-track"><span class="next7-day-bar-fill" style="width: ${pct}%; background: ${level.color};"></span></span>
+              <span class="next7-day-count">${d.total > 0 ? `${d.total.toFixed(1)} · ${d.orders.length} cmd${d.orders.length > 1 ? 's' : ''}` : '—'}</span>
+            </div>`;
+        }).join('');
+        const overdueHtml = overdue.orders.length
+          ? `<div class="next7-day-extra-row is-overdue"><span>⚠️ Date voulue déjà dépassée</span><span>${overdue.total.toFixed(1)} · ${overdue.orders.length} cmd${overdue.orders.length > 1 ? 's' : ''}</span></div>`
+          : '';
+        const undatedHtml = undated.orders.length
+          ? `<div class="next7-day-extra-row is-undated"><span>📭 Sans date de livraison précisée</span><span>${undated.total.toFixed(1)} · ${undated.orders.length} cmd${undated.orders.length > 1 ? 's' : ''}</span></div>`
+          : '';
+        panel.innerHTML = rowsHtml + overdueHtml + undatedHtml;
+      }
+
+
       // ou par contact si le nom n'est pas renseigné) pour voir en un coup d'œil son historique
       // et ce qu'il a déjà dépensé. Le montant est une estimation d'après les budgets déclarés
       // (même source que le revenu prévisionnel ci-dessus), pas un total facturé réel. ---
@@ -12508,6 +12933,49 @@
           });
         });
 
+        // --- Versions du lien de livraison (voir deliveryVersionsHtml) ---
+        adminOrdersList.querySelectorAll('.admin-delivery-version-add-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const orderId = btn.dataset.orderId;
+            const labelInput = adminOrdersList.querySelector(`.admin-delivery-version-label-input[data-order-id="${orderId}"]`);
+            const urlInput = adminOrdersList.querySelector(`.admin-delivery-version-url-input[data-order-id="${orderId}"]`);
+            const url = urlInput ? urlInput.value.trim() : '';
+            if (!url) {
+              urlInput.focus();
+              return;
+            }
+            const label = labelInput ? labelInput.value.trim() : '';
+            addDeliveryVersion(orderId, label, url);
+            renderAdminOrdersList(lastAdminOrders);
+          });
+        });
+        adminOrdersList.querySelectorAll('.admin-delivery-version-activate-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const orderId = btn.dataset.orderId;
+            const index = Number(btn.dataset.index);
+            const version = getDeliveryVersions(orderId)[index];
+            if (!version) return;
+            const deliveryLinkInput = adminOrdersList.querySelector(`.admin-delivery-link-input[data-order-id="${orderId}"]`);
+            if (deliveryLinkInput) {
+              deliveryLinkInput.value = version.url;
+              deliveryLinkInput.focus();
+            }
+            const msg = document.getElementById(`adminMsg-${orderId}`);
+            if (msg) {
+              msg.textContent = `"${version.label || 'Cette version'}" copiée dans le champ lien — clique "Enregistrer" pour la rendre réellement active.`;
+              msg.style.color = 'var(--text-tertiary)';
+            }
+          });
+        });
+        adminOrdersList.querySelectorAll('.admin-delivery-version-delete-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const orderId = btn.dataset.orderId;
+            const index = Number(btn.dataset.index);
+            removeDeliveryVersion(orderId, index);
+            renderAdminOrdersList(lastAdminOrders);
+          });
+        });
+
         adminOrdersList.querySelectorAll('.admin-duplicate-btn').forEach(btn => {
           btn.addEventListener('click', async () => {
             const orderId = btn.dataset.orderId;
@@ -12529,6 +12997,44 @@
                 msg.textContent = `✅ Nouvelle commande ${newOrderId} créée`;
                 msg.style.color = '#8be28b';
               }
+              loadAdminOrders();
+            } catch (err) {
+              if (msg) {
+                msg.textContent = '⚠️ Échec de la duplication, réessaie';
+                msg.style.color = '#e28b8b';
+              }
+              btn.disabled = false;
+            }
+          });
+        });
+
+        // --- "Dupliquer + rappel" (voir bouton dans orderCardHtml, uniquement sur les commandes
+        // "En pause") : même duplication que ci-dessus, plus un rappel local programmé sur la
+        // commande ORIGINALE (celle pour laquelle tu attends encore une réponse), pas sur la
+        // copie — c'est elle qu'il faut relancer si rien ne bouge. ---
+        adminOrdersList.querySelectorAll('.admin-duplicate-reminder-btn').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const orderId = btn.dataset.orderId;
+            if (!confirm(`Dupliquer ${orderId} et programmer un rappel local dans ${PAUSE_ALERT_DAYS} jours si toujours sans réponse ?`)) return;
+            const msg = document.getElementById(`adminMsg-${orderId}`);
+            btn.disabled = true;
+            if (msg) {
+              msg.textContent = 'Duplication en cours...';
+              msg.style.color = 'var(--text-tertiary)';
+            }
+            const newOrderId = generateManualOrderId();
+            try {
+              const note = `Dupliqué depuis ${orderId}`;
+              const url = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=update&orderId=${encodeURIComponent(newOrderId)}&status=${encodeURIComponent(ADMIN_STATUS_OPTIONS[1])}&note=${encodeURIComponent(note)}`;
+              const res = await fetch(url);
+              const data = await res.json();
+              if (!data.success) throw new Error('duplicate-failed');
+              setPauseReminder(orderId, Date.now() + PAUSE_ALERT_DAYS * 24 * 3600000);
+              if (msg) {
+                msg.textContent = `✅ Nouvelle commande ${newOrderId} créée · rappel programmé sur ${orderId}`;
+                msg.style.color = '#8be28b';
+              }
+              renderPauseRemindersPanel(lastAdminOrders);
               loadAdminOrders();
             } catch (err) {
               if (msg) {
@@ -12822,6 +13328,59 @@
         }, 0);
       }
 
+      // --- Charge de travail pondérée par format : un "Business/Sponsorisé" ou un "Complexe/Esport"
+      // prend nettement plus de temps de montage qu'un "Court" — les compter à l'identique donnerait
+      // une fausse impression de charge légère si le planning est plein de formats longs. Les poids
+      // ci-dessous sont une estimation à ajuster toi-même selon ton ressenti réel (pas mesurés,
+      // juste une base de départ raisonnable, calée sur l'écart de temps constaté entre formats) —
+      // 1 unité ≈ le temps d'un montage "Court" ; à toi de retoucher les nombres si ton expérience
+      // dit autre chose. ---
+      const WORKLOAD_WEIGHTS = {
+        'Court (TikTok / Reels)': 1,
+        'Long (YouTube / Best-of)': 3,
+        'Long Complexe / Esport': 5,
+        'Business / Sponsorisé': 4,
+      };
+      const WORKLOAD_FALLBACK_WEIGHT = 1; // format non reconnu (texte modifié à la main, "Prix libre") : on suppose l'équivalent d'un Court plutôt que de fausser le total en l'ignorant
+      function computeOrderWorkload(r) {
+        const status = r[1] || '';
+        const cat = statusCategory(status);
+        if (cat !== 'pending' && cat !== 'inProgress') return { weight: 0, formatKey: null, qty: 0 };
+        const noteFields = parseNoteQuickFields(r[2] || '');
+        const formatMatch = /^(.*?)\s*×\s*(\d+)$/.exec(noteFields.format || '');
+        if (!formatMatch) return { weight: WORKLOAD_FALLBACK_WEIGHT, formatKey: 'Non précisé', qty: 1 };
+        const formatKey = formatMatch[1].trim();
+        const qty = Math.max(1, parseInt(formatMatch[2], 10) || 1);
+        if (formatKey === 'Les deux') {
+          // Pas de détail court/long séparé dans ce champ : on prend la moyenne des deux poids,
+          // à défaut de mieux — reste une estimation, pas un calcul précis.
+          const avg = (WORKLOAD_WEIGHTS['Court (TikTok / Reels)'] + WORKLOAD_WEIGHTS['Long (YouTube / Best-of)']) / 2;
+          return { weight: avg * qty, formatKey, qty };
+        }
+        if (SUBSCRIPTION_TIERS[formatKey]) {
+          // Un abonnement = son quota de vidéos courtes/mois, indépendamment de la quantité affichée dans le champ.
+          const videos = SUBSCRIPTION_TIERS[formatKey].videos;
+          return { weight: WORKLOAD_WEIGHTS['Court (TikTok / Reels)'] * videos, formatKey, qty: videos };
+        }
+        const weight = WORKLOAD_WEIGHTS[formatKey];
+        return { weight: (weight != null ? weight : WORKLOAD_FALLBACK_WEIGHT) * qty, formatKey, qty };
+      }
+      function computeWorkloadSummary(dataRows) {
+        const byFormat = {};
+        let total = 0;
+        dataRows.forEach(r => {
+          const { weight, formatKey, qty } = computeOrderWorkload(r);
+          if (weight <= 0) return;
+          total += weight;
+          const key = formatKey || 'Non précisé';
+          if (!byFormat[key]) byFormat[key] = { weight: 0, orders: 0, videos: 0 };
+          byFormat[key].weight += weight;
+          byFormat[key].orders += 1;
+          byFormat[key].videos += qty;
+        });
+        return { total, byFormat };
+      }
+
       function formatOrderDate(dateStr) {
         if (!dateStr) return '';
         const d = new Date(dateStr);
@@ -12843,6 +13402,60 @@
       }
       function clearMsgDraft(orderId) {
         try { localStorage.removeItem(ADMIN_MSG_DRAFT_PREFIX + orderId); } catch (e) { /* ignore */ }
+      }
+
+      // --- Versions du lien de livraison (local à cet appareil) : le Sheet ne garde qu'un seul
+      // lien de livraison par commande (colonne G), donc "choisir quelle version rendre" se fait
+      // ici en local — plusieurs versions nommées (ex: "v1", "v2 corrigée", "finale") sont
+      // gardées en mémoire sur cet appareil, et "Rendre active" copie simplement l'URL choisie
+      // dans le champ "Lien de livraison" normal : c'est ce champ, une fois "Enregistrer" cliqué,
+      // qui part réellement dans le Sheet et devient visible côté client. Rien de magique côté
+      // serveur, juste une aide pour ne pas perdre les liens des versions précédentes. ---
+      const DELIVERY_VERSIONS_KEY = 'michyy_delivery_versions';
+      function getDeliveryVersions(orderId) {
+        try {
+          const all = JSON.parse(localStorage.getItem(DELIVERY_VERSIONS_KEY) || '{}');
+          return all[orderId] || [];
+        } catch (e) { return []; }
+      }
+      function addDeliveryVersion(orderId, label, url) {
+        try {
+          const all = JSON.parse(localStorage.getItem(DELIVERY_VERSIONS_KEY) || '{}');
+          if (!all[orderId]) all[orderId] = [];
+          all[orderId].push({ label, url, addedAt: Date.now() });
+          localStorage.setItem(DELIVERY_VERSIONS_KEY, JSON.stringify(all));
+        } catch (e) { /* ignore */ }
+      }
+      function removeDeliveryVersion(orderId, index) {
+        try {
+          const all = JSON.parse(localStorage.getItem(DELIVERY_VERSIONS_KEY) || '{}');
+          if (!all[orderId]) return;
+          all[orderId].splice(index, 1);
+          localStorage.setItem(DELIVERY_VERSIONS_KEY, JSON.stringify(all));
+        } catch (e) { /* ignore */ }
+      }
+      function deliveryVersionsHtml(orderId, currentDeliveryLink) {
+        const versions = getDeliveryVersions(orderId);
+        const versionsListHtml = versions.length
+          ? versions.map((v, i) => `
+              <div class="admin-delivery-version-row${v.url === currentDeliveryLink ? ' is-active' : ''}" data-order-id="${escapeHtml(orderId)}" data-index="${i}">
+                <span class="admin-delivery-version-label">${v.url === currentDeliveryLink ? '✅ ' : ''}${escapeHtml(v.label || `Version ${i + 1}`)}</span>
+                <span class="admin-delivery-version-url" title="${escapeHtml(v.url)}">${escapeHtml(v.url)}</span>
+                <button type="button" class="admin-delivery-version-activate-btn" data-order-id="${escapeHtml(orderId)}" data-index="${i}" title="Copier cette URL dans le champ 'Lien de livraison' ci-dessus (pense à cliquer Enregistrer ensuite)">▶️ Rendre active</button>
+                <button type="button" class="admin-delivery-version-delete-btn" data-order-id="${escapeHtml(orderId)}" data-index="${i}" title="Retirer cette version de la liste (n'affecte pas le lien déjà enregistré)">🗑️</button>
+              </div>`).join('')
+          : `<p class="info-text" style="font-size: 11px;">Aucune version enregistrée pour l'instant.</p>`;
+        return `
+          <details class="admin-delivery-versions" data-order-id="${escapeHtml(orderId)}">
+            <summary class="admin-timeline-summary">🗂️ Versions du rendu (${versions.length})</summary>
+            <div class="admin-delivery-versions-list">${versionsListHtml}</div>
+            <div class="admin-delivery-version-add-row">
+              <input type="text" class="admin-delivery-version-label-input" data-order-id="${escapeHtml(orderId)}" placeholder="Nom (ex: v2 corrigée)" maxlength="60" />
+              <input type="text" class="admin-delivery-version-url-input" data-order-id="${escapeHtml(orderId)}" placeholder="https://..." />
+              <button type="button" class="admin-delivery-version-add-btn" data-order-id="${escapeHtml(orderId)}">➕ Ajouter cette version</button>
+            </div>
+            <p class="admin-timeline-note">Local à cet appareil, comme l'historique des statuts. "Rendre active" ne fait que remplir le champ ci-dessus — le clic sur "Enregistrer" reste nécessaire pour que ce soit réellement la version envoyée au client.</p>
+          </details>`;
       }
 
       // --- Historique local des changements de statut (mini timeline par commande) ---
@@ -12887,6 +13500,57 @@
               <div class="admin-timeline-list">${itemsHtml}</div>
               <p class="admin-timeline-note">Suivi local à cet appareil uniquement : seuls les changements de statut faits depuis ce navigateur, à partir d'aujourd'hui, apparaissent ici.</p>
             </details>`;
+      }
+
+      // --- Alerte "en pause depuis trop longtemps" + rappels programmés : distincte du "à
+      // relancer" générique (isStaleOrder, calé sur l'acompte), pensée spécifiquement pour le
+      // statut "⏸️ En pause (en attente d'infos client)". S'appuie sur le même historique local
+      // que la mini timeline (STATUS_HISTORY_KEY) pour savoir depuis quand la commande est en
+      // pause — honnête sur sa limite : si le passage en pause a été fait depuis un autre
+      // appareil ou avant l'activation du suivi, on retombe sur la date de création (moins
+      // précis, mais mieux que rien). ---
+      const PAUSE_ALERT_DAYS = 3;
+      function pausedSinceTimestamp(r) {
+        const orderId = r[0];
+        const history = getStatusHistory(orderId).filter(h => (h.status || '').includes('En pause'));
+        if (history.length > 0) return history[history.length - 1].at;
+        if (r[3]) {
+          const createdAt = new Date(r[3]).getTime();
+          if (!isNaN(createdAt)) return createdAt;
+        }
+        return null;
+      }
+      function isPausedTooLong(r) {
+        const status = r[1] || '';
+        if (!status.includes('En pause')) return false;
+        const since = pausedSinceTimestamp(r);
+        if (since === null) return false;
+        return (Date.now() - since) / (24 * 3600000) > PAUSE_ALERT_DAYS;
+      }
+      function daysSincePaused(r) {
+        const since = pausedSinceTimestamp(r);
+        return since === null ? null : Math.floor((Date.now() - since) / (24 * 3600000));
+      }
+
+      // --- Rappels programmés (local à cet appareil) : posés via le bouton "🔁 Dupliquer + rappel"
+      // sur une commande en pause, pour repenser à relancer le client sans devoir s'en souvenir soi-même. ---
+      const PAUSE_REMINDERS_KEY = 'michyy_pause_reminders';
+      function getPauseReminders() {
+        try { return JSON.parse(localStorage.getItem(PAUSE_REMINDERS_KEY) || '{}'); } catch (e) { return {}; }
+      }
+      function setPauseReminder(orderId, dueAt) {
+        try {
+          const all = getPauseReminders();
+          all[orderId] = dueAt;
+          localStorage.setItem(PAUSE_REMINDERS_KEY, JSON.stringify(all));
+        } catch (e) { /* ignore */ }
+      }
+      function clearPauseReminder(orderId) {
+        try {
+          const all = getPauseReminders();
+          delete all[orderId];
+          localStorage.setItem(PAUSE_REMINDERS_KEY, JSON.stringify(all));
+        } catch (e) { /* ignore */ }
       }
 
       // --- Historique local des notes (qui a changé quoi) : même principe honnête que l'historique
@@ -13092,6 +13756,17 @@
       function needsAttention(r) {
         return isStaleOrder(r) || isUrgentKeyword(r);
       }
+      // --- "Depuis quand" pour le badge urgent (détecté) : utile pour prioriser entre deux
+      // commandes urgentes, même logique/honnêteté que pausedSinceTimestamp ci-dessus. Le mot-clé
+      // "urgent" n'est pas un changement de statut daté, donc pas d'historique local précis
+      // disponible ici : on retombe directement sur la date de création de la commande (r[3])
+      // comme meilleure approximation, plutôt que de laisser croire à une précision qu'on n'a pas.
+      function daysSinceUrgentDetected(r) {
+        if (!r[3]) return null;
+        const createdAt = new Date(r[3]).getTime();
+        if (isNaN(createdAt)) return null;
+        return Math.floor((Date.now() - createdAt) / (24 * 3600000));
+      }
       function attentionBadge(r) {
         if (isStaleOrder(r)) {
           // Priorité au libellé "délai dépassé" quand les deux raisons sont vraies en même temps :
@@ -13101,7 +13776,11 @@
         }
         if (isUrgentKeyword(r)) {
           const urgentRule = AUTO_TAG_RULES.find(t => t.key === 'urgent');
-          return { key: 'attention', html: `${autoTagIconHtml(urgentRule)} ${urgentRule.label}`, cls: 'admin-order-badge-stale' };
+          const daysSince = daysSinceUrgentDetected(r);
+          // Même format que le badge "⏸️ En pause depuis Xj" : "aujourd'hui" plutôt que "depuis 0j"
+          // pour rester lisible sur une commande toute fraîche.
+          const sinceLabel = daysSince === null ? '' : (daysSince === 0 ? ' (détecté aujourd\'hui)' : ` (détecté depuis ${daysSince}j)`);
+          return { key: 'attention', html: `${autoTagIconHtml(urgentRule)} Urgent${sinceLabel}`, cls: 'admin-order-badge-stale' };
         }
         return null;
       }
@@ -13123,6 +13802,7 @@
         const clientWantedTs = extractDesiredDeliveryTimestamp(r[2]);
         const clientWantedLabel = clientWantedTs ? new Date(clientWantedTs).toLocaleDateString('fr-FR') : null;
         const stale = isStaleOrder(r);
+        const pausedTooLong = isPausedTooLong(r);
         const autoTags = detectAutoTags(r).filter(t => t.key !== 'urgent');
         const attention = attentionBadge(r);
         const missingRushs = missingRushsBadge(r, noteFields);
@@ -13132,6 +13812,7 @@
         const invoiceGeneratedAt = getInvoiceHistory()[r[0]];
         const badgeEntries = [
           ...(attention ? [attention] : []),
+          ...(pausedTooLong ? [{ key: 'paused-too-long', html: `⏸️ En pause depuis ${daysSincePaused(r)}j, sans réponse`, cls: 'admin-order-badge-stale' }] : []),
           ...(noteFields.difficulte === 'Difficile' ? [{ key: 'difficulte', html: '🔴 Client difficile', cls: 'admin-order-badge-warning' }] : []),
           ...(missingRushs ? [missingRushs] : []),
           ...(priceIssue ? [priceIssue] : []),
@@ -13174,6 +13855,7 @@
               <div class="admin-actions-menu">
                 <button type="button" class="admin-save-btn" data-order-id="${orderId}">Enregistrer</button>
                 <button type="button" class="admin-duplicate-btn" data-order-id="${orderId}" title="Créer une nouvelle commande à partir de celle-ci">🔁 Dupliquer</button>
+                ${currentStatus.includes('En pause') ? `<button type="button" class="admin-duplicate-reminder-btn" data-order-id="${orderId}" title="Duplique cette commande et programme un rappel local dans ${PAUSE_ALERT_DAYS} jours si toujours sans réponse">🔁⏰ Dupliquer + rappel (${PAUSE_ALERT_DAYS}j)</button>` : ''}
                 <button type="button" class="admin-invoice-btn" data-order-id="${orderId}" title="Générer un reçu PDF simple à partir des infos de cette commande">🧾 Facture PDF</button>
                 ${stale ? `<button type="button" class="admin-relance-btn" data-order-id="${orderId}" data-contact="${contact}" title="Copie un message de relance prêt à envoyer">📋 Copier un message de relance</button>` : ''}
                 ${priceIssue ? `<button type="button" class="admin-cancel-lowprice-btn" data-order-id="${orderId}" data-expected="${expectedPriceForCancel != null ? expectedPriceForCancel : ''}" title="Annule la commande et prépare un message expliquant au client que le prix proposé est trop faible">❌ Annuler (prix trop bas)</button>` : ''}
@@ -13221,6 +13903,7 @@
                   <button type="button" class="admin-copy-link-btn" data-copy-target="admin-delivery-link-input" data-order-id="${orderId}" title="Copier le lien de livraison">📋</button>
                   <button type="button" class="admin-open-link-btn" data-open-target="admin-delivery-link-input" data-order-id="${orderId}" title="Ouvrir le lien de livraison dans un nouvel onglet">↗️ Ouvrir</button>
                 </div>
+                ${deliveryVersionsHtml(r[0], r[6] || '')}
                 <label class="admin-solde-toggle${currentSoldeRecu ? ' is-checked' : ''}">
                   <input type="checkbox" class="admin-solde-recu-checkbox" data-order-id="${orderId}" ${currentSoldeRecu ? 'checked' : ''} />
                   ✅ Solde (50% restant) bien reçu — tant que ça n'est pas coché, le client ne voit pas le lien ci-dessus, seulement un message l'informant qu'il s'affichera une fois le solde réglé et validé.
@@ -13392,6 +14075,9 @@
           lastAdminOrders = dataRows;
           renderDashboard(dataRows);
           renderLitigeHistoryPanel(dataRows);
+          renderPauseRemindersPanel(dataRows);
+          renderWorkloadPanel(dataRows);
+          renderNext7DaysPanel(dataRows);
           renderDailySummary(dataRows);
           renderAdminOrdersList(dataRows);
           renderClientsList(dataRows);
@@ -13734,6 +14420,18 @@
         applyManualSortToggleLabel();
         renderAdminOrdersList(lastAdminOrders);
       });
+
+      // Copie le lien de la page publique "Statut du service" (voir /statut.html)
+      const adminCopyStatusLinkBtn = document.getElementById('adminCopyStatusLinkBtn');
+      if (adminCopyStatusLinkBtn) {
+        adminCopyStatusLinkBtn.addEventListener('click', () => {
+          copyToClipboard(`${window.location.origin}/statut.html`).then(() => {
+            const original = adminCopyStatusLinkBtn.textContent;
+            adminCopyStatusLinkBtn.textContent = '✅ Copié !';
+            setTimeout(() => { adminCopyStatusLinkBtn.textContent = original; }, 1800);
+          }).catch(() => { /* presse-papier indisponible, pas grave */ });
+        });
+      }
 
       // Repli/dépli des groupes du panneau stats (résumé du jour / dashboard / engagement) : état
       // mémorisé par groupe dans localStorage, pour que le panneau reste gérable même en ajoutant
@@ -14223,10 +14921,11 @@
     const bugReportFabBtn = document.getElementById('bugReportFabBtn');
     const bugReportModalOverlay = document.getElementById('bugReportModalOverlay');
     const bugReportModalCloseBtn = document.getElementById('bugReportModalCloseBtn');
-    // 🔧 Réservé à toi : visible uniquement avec ?admin=TA_CLE dans l'URL (même clé que le panneau
-    // admin), pour ne pas exposer un mode d'affichage alternatif à tous les visiteurs — 99% d'entre
-    // eux n'en ont pas besoin. Utilise-le pour générer/copier le lien ?portfolio=1 quand tu veux
-    // partager uniquement le portfolio (ex : à un prospect qui n'a besoin que de voir ton travail).
+    const footerReportBtn = document.getElementById('footerReportBtn');
+    // 🔧 Réservé à toi : le bouton flottant 🐞 reste un raccourci admin (visible uniquement avec
+    // ?admin=TA_CLE), pour ne pas dupliquer un CTA flottant en plus de tous ceux déjà présents.
+    // Le lien "Signaler un problème" du footer (#footerReportBtn, toujours visible, tous
+    // visiteurs) ouvre la même modale — c'est lui le point d'entrée public.
     if (bugReportFabBtn && urlParams.get('admin') === ADMIN_KEY) {
       bugReportFabBtn.style.display = '';
     }
@@ -14234,7 +14933,7 @@
     if (portfolioOnlyLink && urlParams.get('admin') === ADMIN_KEY) {
       portfolioOnlyLink.style.display = '';
     }
-    if (bugReportFabBtn && bugReportModalOverlay) {
+    if (bugReportModalOverlay) {
       const openBugReportModal = () => {
         bugReportModalOverlay.classList.add('open');
         const textarea = bugReportModalOverlay.querySelector('textarea[name="bugDescription"]');
@@ -14243,7 +14942,8 @@
       const closeBugReportModal = () => {
         bugReportModalOverlay.classList.remove('open');
       };
-      bugReportFabBtn.addEventListener('click', openBugReportModal);
+      if (bugReportFabBtn) bugReportFabBtn.addEventListener('click', openBugReportModal);
+      if (footerReportBtn) footerReportBtn.addEventListener('click', openBugReportModal);
       if (bugReportModalCloseBtn) bugReportModalCloseBtn.addEventListener('click', closeBugReportModal);
       bugReportModalOverlay.addEventListener('click', (e) => {
         if (e.target === bugReportModalOverlay) closeBugReportModal();
@@ -15624,18 +16324,37 @@
       });
       draftSuspended = false;
       const savedDate = new Date(draft.savedAt).toLocaleString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
+
+      // Recalcule tout AVANT de construire le texte des bannières (et non après) : le prix et la
+      // quantité affichés viennent ainsi du calcul fait avec les tarifs ACTUELS, pas d'une valeur
+      // figée au moment de la sauvegarde — utile si les tarifs ont changé entre-temps (voir
+      // TARIFS_LAST_UPDATE), le brouillon reste donc toujours fiable, même après plusieurs jours.
+      updateFormProgress();
+      if (window.syncMiniCalcButtons) window.syncMiniCalcButtons();
+      toggleFormatQty();
+      updatePriceEstimate();
+      updateDelayEstimate();
+      expandFormIfAdvancedDataPresent();
+
+      // Résumé concret (format + quantité + prix) plutôt qu'un simple "un brouillon existe" : la
+      // personne se souvient tout de suite de ce qu'elle était en train de commander, sans avoir à
+      // rouvrir mentalement le formulaire — ça change vraiment la probabilité qu'elle reprenne là
+      // où elle s'était arrêtée plutôt que d'abandonner pour de bon.
+      const formatValue = draft.values.format || '';
+      const formatShort = formatValue.split(' (')[0];
+      const qtyLabel = miniCalcQtyLabel ? miniCalcQtyLabel.textContent : '';
+      const priceLabel = priceEstimateValue ? priceEstimateValue.textContent : '';
+      const projectHint = formatShort
+        ? ` — ${escapeHtml(formatShort)}${qtyLabel ? `, ${escapeHtml(qtyLabel)}` : ''}${priceLabel ? ` (${escapeHtml(priceLabel)} environ)` : ''}`
+        : '';
+
       draftBannerText.textContent = `📝 Brouillon restauré (enregistré le ${savedDate}).`;
       draftBanner.style.display = 'flex';
       if (draftResumeBanner && draftResumeText) {
         const nameHint = draft.values.nom ? ` de ${draft.values.nom}` : '';
-        draftResumeText.textContent = `📝 Tu as une demande de montage${nameHint} en cours, pas encore envoyée (enregistrée le ${savedDate}).`;
+        draftResumeText.innerHTML = `📝 Tu as une demande de montage${escapeHtml(nameHint)} en cours, pas encore envoyée${projectHint}<br/><span class="draft-resume-saved-at">Enregistrée le ${savedDate}</span>`;
         draftResumeBanner.style.display = 'flex';
       }
-      updateFormProgress();
-      updatePriceEstimate();
-      updateDelayEstimate();
-      if (window.syncMiniCalcButtons) window.syncMiniCalcButtons();
-      expandFormIfAdvancedDataPresent();
     }
 
     draftDiscardBtn.addEventListener('click', () => {
@@ -16965,6 +17684,33 @@
     let lastKnownTrackingStatuses = {};
     let showHiddenClientOrders = false;
 
+    // --- Inscription locale à la notif email (voir aussi le bloc "⚠️ IMPORTANT — notif email
+    // client" plus haut pour l'action Apps Script correspondante) : mémorise juste, sur cet
+    // appareil, qu'une demande d'inscription a déjà été envoyée pour cette commande, pour ne pas
+    // réafficher le formulaire à chaque visite. Ne reflète pas un état réel côté serveur (pas de
+    // moyen de le vérifier depuis le front), donc reste modifiable si besoin de se réinscrire.
+    const EMAIL_NOTIFY_KEY_PREFIX = 'michyy_email_notify:';
+    function getEmailNotifyOptIn(orderId) {
+      try { return localStorage.getItem(EMAIL_NOTIFY_KEY_PREFIX + orderId) || ''; } catch (e) { return ''; }
+    }
+    function setEmailNotifyOptIn(orderId, email) {
+      try { localStorage.setItem(EMAIL_NOTIFY_KEY_PREFIX + orderId, email); } catch (e) { /* ignore */ }
+    }
+    function emailNotifyHtml(orderId) {
+      const optedIn = getEmailNotifyOptIn(orderId);
+      return `
+        <div class="tracking-email-notify" data-order-id="${escapeHtml(orderId)}">
+          ${optedIn
+            ? `<p class="tracking-email-notify-status" style="color: #8be28b;">🔔 Email de notif activé pour ${escapeHtml(optedIn)} — <button type="button" class="tracking-email-notify-toggle">changer</button></p>`
+            : `<button type="button" class="tracking-email-notify-toggle">🔔 Recevoir un email à chaque changement de statut</button>`}
+          <div class="tracking-email-notify-form" style="display: none;">
+            <input type="email" class="tracking-email-notify-input" maxlength="200" placeholder="ton@email.com" value="${escapeHtml(optedIn)}" />
+            <button type="button" class="tracking-email-notify-send-btn">Activer</button>
+            <p class="tracking-email-notify-status"></p>
+          </div>
+        </div>`;
+    }
+
     function trackingCardHtml(order, opts) {
       opts = opts || {};
       let liveStatus = remoteStatuses[order.id.toUpperCase()] || order.status;
@@ -17057,6 +17803,7 @@
                     <a class="tracking-pay-solde-btn" href="https://www.paypal.com/paypalme/Michyyly" target="_blank" rel="noopener">💳 Régler le solde</a></div>`)
             : ''}
           ${revisionFormHtml}
+          ${!isDelivered && !isCancelled ? emailNotifyHtml(order.id) : ''}
           <button type="button" class="tracking-add-local-btn" data-order-id="${escapeHtml(order.id)}">➕ Ajouter à mon suivi local (pour la retrouver facilement la prochaine fois)</button>
         </div>`;
       }
@@ -17075,6 +17822,7 @@
         ${clientMessage ? `<div class="tracking-client-message">💬 <strong>Message de Michyy :</strong> ${escapeHtml(clientMessage)}</div>` : ''}
         ${deliveryLinkHtml}
         ${revisionFormHtml}
+        ${!isDelivered && !isCancelled && !opts.hidden ? emailNotifyHtml(order.id) : ''}
         ${isDelivered && !opts.hidden ? `
         <div class="tracking-review-zone" data-order-id="${escapeHtml(order.id)}">
           <button type="button" class="tracking-review-btn sound-on-click">⭐ Laisser un avis sur ce montage</button>
@@ -17238,6 +17986,53 @@
             linkInput.value = '';
           } catch (err) {
             statusEl.textContent = '⚠️ Échec de l\'envoi, réessaie ou contacte Michyy directement.';
+            statusEl.style.color = '#e28b8b';
+          }
+          btn.disabled = false;
+        });
+      });
+
+      // --- Notif email (voir emailNotifyHtml) : le lien déplie le petit formulaire, le bouton
+      // "Activer" envoie l'inscription à l'Apps Script (action emailNotifyOptIn, voir le bloc
+      // "⚠️ IMPORTANT" plus haut dans le fichier pour ce qu'il reste à ajouter côté script) et
+      // mémorise localement l'adresse pour ne pas réafficher le formulaire à la prochaine visite. ---
+      trackingResult.querySelectorAll('.tracking-email-notify-toggle').forEach(toggle => {
+        toggle.addEventListener('click', () => {
+          const zone = toggle.closest('.tracking-email-notify');
+          const form = zone.querySelector('.tracking-email-notify-form');
+          form.style.display = form.style.display === 'none' ? 'flex' : 'none';
+        });
+      });
+      trackingResult.querySelectorAll('.tracking-email-notify-send-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const zone = btn.closest('.tracking-email-notify');
+          const orderId = zone.dataset.orderId;
+          const emailInput = zone.querySelector('.tracking-email-notify-input');
+          const statusEl = zone.querySelector('.tracking-email-notify-form .tracking-email-notify-status');
+          const email = emailInput.value.trim();
+          if (!email || !email.includes('@')) {
+            statusEl.textContent = '⚠️ Renseigne une adresse email valide.';
+            statusEl.style.color = '#e28b8b';
+            return;
+          }
+          if (APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT')) {
+            statusEl.textContent = '⚠️ Envoi indisponible pour le moment, contacte Michyy directement.';
+            statusEl.style.color = '#e28b8b';
+            return;
+          }
+          btn.disabled = true;
+          statusEl.textContent = 'Inscription en cours...';
+          statusEl.style.color = 'var(--text-tertiary)';
+          try {
+            const url = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=emailNotifyOptIn&orderId=${encodeURIComponent(orderId)}&email=${encodeURIComponent(email)}`;
+            const res = await fetch(url);
+            const data = await res.json();
+            if (!data.success) throw new Error(data.error || 'send-failed');
+            setEmailNotifyOptIn(orderId, email);
+            statusEl.textContent = '✅ Tu seras prévenu par email à chaque changement de statut.';
+            statusEl.style.color = '#8be28b';
+          } catch (err) {
+            statusEl.textContent = '⚠️ Échec de l\'inscription, réessaie ou contacte Michyy directement.';
             statusEl.style.color = '#e28b8b';
           }
           btn.disabled = false;
@@ -17477,7 +18272,11 @@
           { icon: '⏱️', label: 'Délai souhaité', value: (data.get('delai') || 'non précisé') + (tagsLine ? ' · ' + tagsLine : '') },
           ...(data.get('dateLivraisonSouhaitee') ? [{ icon: '📅', label: 'Date voulue', value: new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR') }] : []),
           { icon: '💶', label: 'Budget indicatif', value: data.get('budget') || 'non précisé' },
-          { icon: '💳', label: 'Preuve de paiement', value: preuvePreview || '⚠️ non fournie pour le moment', warn: !preuvePreview },
+          // La ligne "Preuve de paiement" n'a de sens que si elle a une valeur (ex : PayPal payé
+          // avant l'envoi via #paypalButtonContainer) — plus de champ visible pour la remplir dans
+          // le formulaire initial, donc plus d'avertissement "non fournie" permanent et non pertinent
+          // pour les 99% de cas où personne n'a encore payé à ce stade.
+          ...(preuvePreview ? [{ icon: '💳', label: 'Preuve de paiement', value: preuvePreview }] : []),
           { icon: '📁', label: 'Lien des rushs', value: data.get('driveLink') || '⚠️ non fourni', warn: !data.get('driveLink') },
           { icon: '📝', label: 'Description', value: descriptionPreview || 'non précisé' }
         ];
@@ -17708,6 +18507,23 @@
               const original = copyDepositNoteBtn.textContent;
               copyDepositNoteBtn.textContent = '✅ Message copié, colle-le dans la note PayPal !';
               setTimeout(() => { copyDepositNoteBtn.textContent = original; }, 2500);
+            });
+          };
+        }
+
+        // Cas rare "acompte déjà réglé autrement" (virement, espèces, avant cet envoi...) : plutôt
+        // qu'un champ dans le formulaire initial, on copie un message prêt à coller (avec le numéro
+        // de commande, indispensable pour relier le paiement) puis on ouvre Discord — canal le plus
+        // rapide indiqué ailleurs sur le site (voir section "Où me trouver").
+        const alreadyPaidLinkBtn = document.getElementById('alreadyPaidLinkBtn');
+        if (alreadyPaidLinkBtn) {
+          alreadyPaidLinkBtn.onclick = () => {
+            const noteText = `Salut, j'ai déjà réglé l'acompte de ma commande ${orderId} (${data.get('nom') || ''}), voici la preuve de paiement :`;
+            copyToClipboard(noteText).then(() => {
+              const original = alreadyPaidLinkBtn.textContent;
+              alreadyPaidLinkBtn.textContent = '✅ Message copié, colle-le sur Discord avec ta preuve !';
+              setTimeout(() => { alreadyPaidLinkBtn.textContent = original; }, 3000);
+              window.open('https://discord.com/users/jlmichyy', '_blank', 'noopener');
             });
           };
         }
@@ -18302,6 +19118,58 @@
           </div>
         </details>
 
+        <details class="more-options admin-stats-group" id="adminGroupWorkload">
+          <summary class="more-options-summary">
+            <span class="more-options-summary-label">⚙️ Charge de travail</span>
+            <span class="more-options-summary-hint">(pondérée par format, pour anticiper une surcharge)</span>
+          </summary>
+          <div class="more-options-content">
+            <p class="admin-timeline-note">
+              Compte les commandes en attente ou en cours, pondérées selon le format (un "Business" ou un
+              "Complexe/Esport" pèse plus lourd qu'un "Court" — voir WORKLOAD_WEIGHTS dans le code pour
+              ajuster les poids à ta réalité). Estimation basée sur le champ format/quantité de la note,
+              pas un calcul exact.
+            </p>
+            <div id="adminWorkloadPanel" class="admin-dashboard"></div>
+          </div>
+        </details>
+
+        <details class="more-options admin-stats-group" id="adminGroupStatusPage">
+          <summary class="more-options-summary">
+            <span class="more-options-summary-label">🔗 Page "Statut du service"</span>
+            <span class="more-options-summary-hint">(lien à mettre en bio Discord/X/TikTok)</span>
+          </summary>
+          <div class="more-options-content">
+            <p class="admin-timeline-note">
+              Page publique autonome (<code>/statut.html</code>, séparée de ce fichier) qui affiche juste
+              en ligne/hors ligne, délai de réponse estimé et dernière vidéo livrée — pensée pour un lien
+              en bio qui va droit à l'essentiel plutôt que de renvoyer vers toute la page d'accueil.
+              ⚠️ Duplique quelques réglages (heures actives, affluence) : voir le commentaire de
+              maintenance en haut de ce fichier séparé si tu changes l'un de ces réglages ici.
+            </p>
+            <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+              <button type="button" id="adminCopyStatusLinkBtn" class="paypal-quick-btn paypal-quick-btn-secondary">📋 Copier le lien</button>
+              <a href="/statut.html" target="_blank" rel="noopener" class="paypal-quick-btn paypal-quick-btn-secondary">↗️ Ouvrir la page</a>
+            </div>
+          </div>
+        </details>
+
+        <details class="more-options admin-stats-group" id="adminGroupNext7Days">
+          <summary class="more-options-summary">
+            <span class="more-options-summary-label">📅 Prochains 7 jours</span>
+            <span class="more-options-summary-hint">(charge croisée avec les dates de livraison voulues)</span>
+          </summary>
+          <div class="more-options-content">
+            <p class="admin-timeline-note">
+              Croise la charge de travail ci-dessus (⚙️) avec la date de livraison voulue indiquée par
+              chaque client, jour par jour sur la semaine à venir — pour repérer un jour qui déborde
+              AVANT qu'il n'arrive, plutôt que de le découvrir une fois dessus. N'inclut que les
+              commandes encore en attente ou en cours (les livrées/annulées ne comptent pas).
+            </p>
+            <div id="adminNext7DaysPanel" class="admin-dashboard"></div>
+          </div>
+        </details>
+
         <details class="more-options admin-stats-group" id="adminGroupLitigeHistory">
           <summary class="more-options-summary">
             <span class="more-options-summary-label">⚠️ Historique des litiges</span>
@@ -18316,6 +19184,21 @@
               ni de visibilité sur ce qui a été géré ailleurs (autre appareil, modification directe du Sheet).
             </p>
             <div id="adminLitigeHistoryList" class="admin-dashboard"></div>
+          </div>
+        </details>
+
+        <details class="more-options admin-stats-group" id="adminGroupPauseReminders">
+          <summary class="more-options-summary">
+            <span class="more-options-summary-label">⏰ Rappels programmés</span>
+            <span class="more-options-summary-hint">(commandes en pause, cet appareil)</span>
+          </summary>
+          <div class="more-options-content">
+            <p class="admin-timeline-note">
+              Rappels posés via le bouton "🔁 Dupliquer + rappel" sur une commande "⏸️ En pause" —
+              repasse ici de temps en temps pour voir lesquels sont dus. Local à cet appareil, comme
+              l'historique des statuts.
+            </p>
+            <div id="adminPauseRemindersList" class="admin-dashboard"></div>
           </div>
         </details>
 
