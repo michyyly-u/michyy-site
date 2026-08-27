@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Statut · Michyy</title>
+<meta name="description" content="Statut en direct : en ligne ou non, délai de réponse actuel, dernière vidéo livrée." />
+<meta name="robots" content="noindex" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet" />
+<!--
+  🔧 PAGE AUTONOME, VOLONTAIREMENT SÉPARÉE de index.html — faite pour un lien en bio
+  Discord/X/TikTok qui va droit à l'essentiel, sans charger toute la page d'accueil.
+
+  ⚠️ MAINTENANCE : cette page duplique quelques réglages présents dans index.html, parce que
+  les deux fichiers sont indépendants (pas de source commune côté client). Si tu changes l'un
+  des réglages suivants dans index.html, reporte le même changement ici pour que les deux
+  pages restent cohérentes :
+    - ACTIVE_START / ACTIVE_END (heures actives, ligne ~30 ci-dessous)
+    - AFFLUENCE_LEVEL / AFFLUENCE_CONFIG (ligne ~35 ci-dessous)
+    - APPS_SCRIPT_URL (ligne ~45 ci-dessous, doit être IDENTIQUE à celle d'index.html)
+-->
+<style>
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background: #0b0b0e;
+    color: #f2f2f2;
+    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+  .card {
+    width: 100%;
+    max-width: 380px;
+    background: #15151a;
+    border: 1px solid #ffffff14;
+    border-radius: 18px;
+    padding: 28px 24px;
+    text-align: center;
+  }
+  .name {
+    font-family: 'Syne', 'DM Sans', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    margin: 0 0 2px;
+  }
+  .subtitle {
+    font-size: 12px;
+    color: #9a9aa4;
+    margin: 0 0 20px;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    padding: 8px 18px;
+    border-radius: 24px;
+    background: #3ddc3d1a;
+    color: #3ddc3d;
+    margin-bottom: 18px;
+  }
+  .badge.offline { background: #ffffff14; color: #9a9aa4; }
+  .badge-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #3ddc3d;
+    box-shadow: 0 0 6px #3ddc3d99;
+  }
+  .badge.offline .badge-dot { background: #9a9aa4; box-shadow: none; }
+  .row {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 12px;
+    padding: 12px 0;
+    border-top: 1px solid #ffffff0f;
+    text-align: left;
+  }
+  .row-label { font-size: 12px; color: #9a9aa4; }
+  .row-value { font-size: 13px; font-weight: 600; text-align: right; }
+  .cta {
+    display: block;
+    margin-top: 22px;
+    background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+    color: #fff;
+    text-decoration: none;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 13px;
+    padding: 12px;
+    border-radius: 24px;
+  }
+  .back-link {
+    display: block;
+    margin-top: 12px;
+    font-size: 12px;
+    color: #9a9aa4;
+    text-decoration: underline;
+  }
+</style>
+</head>
+<body>
+  <div class="card">
+    <p class="name">Michyy</p>
+    <p class="subtitle">Statut du service, en direct</p>
+
+    <span id="onlineBadge" class="badge">
+      <span class="badge-dot"></span>
+      <span id="onlineBadgeText">…</span>
+    </span>
+
+    <div class="row">
+      <span class="row-label">⏱️ Délai de réponse estimé</span>
+      <span class="row-value" id="delayValue">…</span>
+    </div>
+    <div class="row">
+      <span class="row-label">📊 Affluence actuelle</span>
+      <span class="row-value" id="affluenceValue">…</span>
+    </div>
+    <div class="row">
+      <span class="row-label">✅ Dernière vidéo livrée</span>
+      <span class="row-value" id="lastDeliveryValue">—</span>
+    </div>
+
+    <a href="/#reservation" class="cta">📅 Réserver un montage</a>
+    <a href="/" class="back-link">← Voir le site complet</a>
+  </div>
+
+<script>
+  // ⚠️ Dupliqué depuis index.html — voir le commentaire de maintenance en haut du fichier.
+  const ACTIVE_START = 9;
+  const ACTIVE_END = 23;
+  const AFFLUENCE_LEVEL = 'moderate'; // 'low' | 'moderate' | 'high'
+  const AFFLUENCE_CONFIG = {
+    low: 'Affluence faible, places disponibles',
+    moderate: 'Affluence modérée cette semaine',
+    high: 'Affluence élevée, délais un peu plus longs'
+  };
+  const APPS_SCRIPT_URL = '/.netlify/functions/sheets-proxy'; // doit être identique à index.html
+  const APPS_SCRIPT_SECRET = ''; // doit être identique à index.html
+
+  function isCurrentlyActive(hour = new Date().getHours()) {
+    return hour >= ACTIVE_START && hour < ACTIVE_END;
+  }
+
+  const active = isCurrentlyActive();
+  const badgeEl = document.getElementById('onlineBadge');
+  const badgeTextEl = document.getElementById('onlineBadgeText');
+  badgeEl.classList.toggle('offline', !active);
+  badgeTextEl.textContent = active ? 'En ligne' : 'Hors ligne';
+
+  const hour = new Date().getHours();
+  let delayText;
+  if (active) {
+    delayText = 'Sous quelques heures';
+  } else {
+    const hoursUntilActive = (ACTIVE_START - hour + 24) % 24 || 24;
+    delayText = `Sous ~${hoursUntilActive}h (hors ligne)`;
+  }
+  document.getElementById('delayValue').textContent = delayText;
+  document.getElementById('affluenceValue').textContent = AFFLUENCE_CONFIG[AFFLUENCE_LEVEL] || AFFLUENCE_CONFIG.moderate;
+
+  // "Dernière vidéo livrée" — même action Apps Script publique et sans donnée privée que sur
+  // index.html (voir le badge "vu récemment" dans index.html pour le code Apps Script exact à
+  // ajouter côté doGet si ce n'est pas déjà fait ; tant que l'action n'existe pas, cette ligne
+  // reste simplement sur "—", sans erreur visible).
+  if (APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT')) {
+    fetch(`${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=publicRecentDeliveries&_ts=${Date.now()}`)
+      .then(res => res.json())
+      .then(data => {
+        if (!data || !data.success || !Array.isArray(data.deliveries) || data.deliveries.length === 0) return;
+        const mostRecent = data.deliveries
+          .map(d => new Date(d).getTime())
+          .filter(t => !isNaN(t))
+          .sort((a, b) => b - a)[0];
+        if (!mostRecent) return;
+        const diffMs = Date.now() - mostRecent;
+        const diffH = Math.round(diffMs / 3600000);
+        const text = diffH < 1 ? "à l'instant" : diffH < 24 ? `il y a ${diffH} h` : `il y a ${Math.round(diffH / 24)} j`;
+        document.getElementById('lastDeliveryValue').textContent = text;
+      })
+      .catch(() => { /* action pas encore configurée côté Apps Script, ou hors ligne — jamais bloquant */ });
+  }
+</script>
+</body>
+</html>
