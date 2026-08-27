@@ -3,25 +3,34 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Statut · Michyy</title>
-<meta name="description" content="Statut en direct : en ligne ou non, délai de réponse actuel, dernière vidéo livrée." />
+<title>Statut du service — Michyy</title>
+<meta name="description" content="En ligne ou hors ligne, délai actuel, charge des prochains jours et dernière livraison — en un coup d'œil." />
 <meta name="robots" content="noindex" />
-<link rel="preconnect" href="https://fonts.googleapis.com" />
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:wght@400;600&display=swap" rel="stylesheet" />
 <!--
-  🔧 PAGE AUTONOME, VOLONTAIREMENT SÉPARÉE de index.html — faite pour un lien en bio
-  Discord/X/TikTok qui va droit à l'essentiel, sans charger toute la page d'accueil.
+  Page volontairement séparée de index.html (pas un ?statut=1 sur la grosse page) : pensée pour un
+  lien de bio Discord/X — un chargement minimal, sans tout le reste du site derrière. Elle ne fait
+  AUCUN nouveau calcul métier : elle relit les mêmes constantes publiques (déclarées hors de
+  `if (isAdminUnlocked)` dans index.html — DELAY_RANGES, ACTIVE_START/END, AVAILABLE,
+  SLOTS_AVAILABLE_THIS_WEEK, AFFLUENCE_LEVEL, WORKLOAD_WEIGHTS, DAILY_WORKLOAD_THRESHOLDS) et
+  interroge les MÊMES actions Apps Script déjà utilisées par index.html (publicDeliveryDates,
+  publicRecentDeliveries — aucune nouvelle action à ajouter côté script).
 
-  ⚠️ MAINTENANCE : cette page duplique quelques réglages présents dans index.html, parce que
-  les deux fichiers sont indépendants (pas de source commune côté client). Si tu changes l'un
-  des réglages suivants dans index.html, reporte le même changement ici pour que les deux
-  pages restent cohérentes :
-    - ACTIVE_START / ACTIVE_END (heures actives, ligne ~30 ci-dessous)
-    - AFFLUENCE_LEVEL / AFFLUENCE_CONFIG (ligne ~35 ci-dessous)
-    - APPS_SCRIPT_URL (ligne ~45 ci-dessous, doit être IDENTIQUE à celle d'index.html)
+  ⚠️ MAINTENANCE : les constantes ci-dessous (bloc "CONFIG PUBLIQUE") sont dupliquées depuis
+  index.html plutôt qu'importées, parce que ce sont deux fichiers HTML autonomes sans bundler. Si tu
+  changes AVAILABLE, SLOTS_AVAILABLE_THIS_WEEK, DELAY_RANGES, ACTIVE_START/END, AFFLUENCE_LEVEL,
+  WORKLOAD_WEIGHTS ou DAILY_WORKLOAD_THRESHOLDS dans index.html, reporte le même changement ici —
+  sinon cette page peut afficher un statut différent de celui du site principal.
 -->
 <style>
+  :root {
+    --bg: radial-gradient(ellipse 1200px 800px at 50% -10%, #1a1410 0%, #0a0a0a 45%, #050505 100%);
+    --surface: #131313;
+    --border-soft: #2a2a2a;
+    --text: #ffffff;
+    --text-secondary: #999999;
+    --text-tertiary: #828282;
+    --text-faint: #828282;
+  }
   * { box-sizing: border-box; }
   body {
     margin: 0;
@@ -30,166 +39,393 @@
     align-items: center;
     justify-content: center;
     padding: 24px;
-    background: #0b0b0e;
-    color: #f2f2f2;
+    background: var(--bg);
     font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
+    color: var(--text);
   }
-  .card {
+  .status-card {
+    max-width: 420px;
     width: 100%;
-    max-width: 380px;
-    background: #15151a;
-    border: 1px solid #ffffff14;
-    border-radius: 18px;
-    padding: 28px 24px;
+    background: var(--surface);
+    border: 0.5px solid var(--border-soft);
+    border-radius: 20px;
+    padding: 30px 26px;
     text-align: center;
   }
-  .name {
-    font-family: 'Syne', 'DM Sans', sans-serif;
-    font-weight: 800;
-    font-size: 22px;
-    margin: 0 0 2px;
-  }
-  .subtitle {
-    font-size: 12px;
-    color: #9a9aa4;
-    margin: 0 0 20px;
-  }
-  .badge {
+  .status-brand {
     display: inline-flex;
     align-items: center;
-    gap: 8px;
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 15px;
-    padding: 8px 18px;
-    border-radius: 24px;
-    background: #3ddc3d1a;
-    color: #3ddc3d;
-    margin-bottom: 18px;
-  }
-  .badge.offline { background: #ffffff14; color: #9a9aa4; }
-  .badge-dot {
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #3ddc3d;
-    box-shadow: 0 0 6px #3ddc3d99;
-  }
-  .badge.offline .badge-dot { background: #9a9aa4; box-shadow: none; }
-  .row {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 12px;
-    padding: 12px 0;
-    border-top: 1px solid #ffffff0f;
-    text-align: left;
-  }
-  .row-label { font-size: 12px; color: #9a9aa4; }
-  .row-value { font-size: 13px; font-weight: 600; text-align: right; }
-  .cta {
-    display: block;
-    margin-top: 22px;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
     background: linear-gradient(135deg, #ff3c3c, #ff9a00);
     color: #fff;
-    text-decoration: none;
-    font-family: 'Syne', sans-serif;
-    font-weight: 700;
-    font-size: 13px;
-    padding: 12px;
-    border-radius: 24px;
+    font-weight: 800;
+    font-size: 20px;
+    margin-bottom: 14px;
   }
-  .back-link {
+  .status-title {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0 0 18px;
+  }
+  .status-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-size: 16px;
+    font-weight: 600;
+  }
+  .status-dot {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    background: #3ddc84;
+    box-shadow: 0 0 8px #3ddc8488;
+  }
+  .status-dot.busy {
+    background: var(--text-faint);
+    box-shadow: none;
+  }
+  .status-subline {
+    font-size: 12.5px;
+    color: var(--text-tertiary);
+    margin: 4px 0 20px;
+  }
+  .status-block {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 14px 0;
+    border-top: 0.5px solid var(--border-soft);
+    text-align: left;
+  }
+  .status-block-label {
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--text-faint);
+  }
+  .status-block-value {
+    font-size: 14px;
+  }
+  .status-delays {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .status-delay-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;
+    color: var(--text-secondary);
+  }
+  .status-waitlist-note {
+    font-size: 13px;
+    color: var(--text-secondary);
+    margin: 0;
+  }
+  /* --- Mini graphique "charge des 7 prochains jours" : uniquement des couleurs (🟢🟡🔴⚪), jamais
+       de détail de commande — c'est tout l'intérêt de cette version "publique" par rapport à la vue
+       admin "Prochains 7 jours" (qui montre les formats attendus par jour, réservée à l'admin). --- */
+  .status-week-chart {
+    display: flex;
+    justify-content: space-between;
+    gap: 6px;
+  }
+  .status-week-day {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+  }
+  .status-week-day-label {
+    font-size: 10px;
+    color: var(--text-faint);
+  }
+  .status-week-day-bar {
+    width: 100%;
+    height: 22px;
+    border-radius: 6px;
+    background: var(--border-soft);
+  }
+  .status-updated {
+    font-size: 11px;
+    color: var(--text-faint);
+    margin: 16px 0 18px;
+  }
+  .status-cta {
     display: block;
-    margin-top: 12px;
-    font-size: 12px;
-    color: #9a9aa4;
-    text-decoration: underline;
+    text-decoration: none;
+    font-size: 13.5px;
+    font-weight: 600;
+    padding: 11px;
+    border-radius: 10px;
+    margin-top: 8px;
+    background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+    color: #fff;
+  }
+  .status-cta-secondary {
+    background: transparent;
+    border: 0.5px solid var(--border-soft);
+    color: var(--text-secondary);
   }
 </style>
 </head>
 <body>
-  <div class="card">
-    <p class="name">Michyy</p>
-    <p class="subtitle">Statut du service, en direct</p>
+  <div class="status-card">
+    <div class="status-brand">M</div>
+    <h1 class="status-title">Statut du service</h1>
 
-    <span id="onlineBadge" class="badge">
-      <span class="badge-dot"></span>
-      <span id="onlineBadgeText">…</span>
-    </span>
+    <div class="status-row">
+      <span id="statusDot" class="status-dot"></span>
+      <span id="statusOnline">…</span>
+    </div>
+    <p id="statusSubline" class="status-subline">…</p>
 
-    <div class="row">
-      <span class="row-label">⏱️ Délai de réponse estimé</span>
-      <span class="row-value" id="delayValue">…</span>
-    </div>
-    <div class="row">
-      <span class="row-label">📊 Affluence actuelle</span>
-      <span class="row-value" id="affluenceValue">…</span>
-    </div>
-    <div class="row">
-      <span class="row-label">✅ Dernière vidéo livrée</span>
-      <span class="row-value" id="lastDeliveryValue">—</span>
+    <div class="status-block">
+      <span class="status-block-label">📦 Acceptation de commandes</span>
+      <span id="statusAvailability" class="status-block-value">…</span>
     </div>
 
-    <a href="/#reservation" class="cta">📅 Réserver un montage</a>
-    <a href="/" class="back-link">← Voir le site complet</a>
+    <div class="status-block">
+      <span class="status-block-label">⏱️ Délai actuel estimé (hors urgent)</span>
+      <div id="statusDelays" class="status-delays">…</div>
+    </div>
+
+    <div class="status-block">
+      <span class="status-block-label">📆 Charge des 7 prochains jours</span>
+      <div id="statusWeekChart" class="status-week-chart"></div>
+    </div>
+
+    <div class="status-block">
+      <span class="status-block-label">🚚 Dernière livraison</span>
+      <span id="statusLastDelivery" class="status-block-value">Pas d'info disponible pour le moment</span>
+    </div>
+
+    <p class="status-updated" id="statusUpdated"></p>
+
+    <a href="/" class="status-cta">Voir le site complet →</a>
+    <a href="/#reservation" class="status-cta status-cta-secondary">📅 Réserver un montage</a>
   </div>
 
-<script>
-  // ⚠️ Dupliqué depuis index.html — voir le commentaire de maintenance en haut du fichier.
-  const ACTIVE_START = 9;
-  const ACTIVE_END = 23;
-  const AFFLUENCE_LEVEL = 'moderate'; // 'low' | 'moderate' | 'high'
-  const AFFLUENCE_CONFIG = {
-    low: 'Affluence faible, places disponibles',
-    moderate: 'Affluence modérée cette semaine',
-    high: 'Affluence élevée, délais un peu plus longs'
-  };
-  const APPS_SCRIPT_URL = '/.netlify/functions/sheets-proxy'; // doit être identique à index.html
-  const APPS_SCRIPT_SECRET = ''; // doit être identique à index.html
+  <script>
+    // ============================================================
+    // CONFIG PUBLIQUE — dupliquée depuis index.html, voir avertissement de maintenance en tête de fichier.
+    // ============================================================
+    const APPS_SCRIPT_URL = '/.netlify/functions/sheets-proxy';
+    const APPS_SCRIPT_SECRET = '';
 
-  function isCurrentlyActive(hour = new Date().getHours()) {
-    return hour >= ACTIVE_START && hour < ACTIVE_END;
-  }
+    const AVAILABLE = true;
+    const SLOTS_AVAILABLE_THIS_WEEK = 2;
+    const AFFLUENCE_LEVEL = 'moderate';
+    const isReallyFull = !AVAILABLE || !SLOTS_AVAILABLE_THIS_WEEK || SLOTS_AVAILABLE_THIS_WEEK <= 0;
+    const isFullyBooked = isReallyFull || AFFLUENCE_LEVEL === 'high';
 
-  const active = isCurrentlyActive();
-  const badgeEl = document.getElementById('onlineBadge');
-  const badgeTextEl = document.getElementById('onlineBadgeText');
-  badgeEl.classList.toggle('offline', !active);
-  badgeTextEl.textContent = active ? 'En ligne' : 'Hors ligne';
+    const ACTIVE_START = 9;
+    const ACTIVE_END = 23;
+    function isCurrentlyActive(hour = new Date().getHours()) {
+      return hour >= ACTIVE_START && hour < ACTIVE_END;
+    }
 
-  const hour = new Date().getHours();
-  let delayText;
-  if (active) {
-    delayText = 'Sous quelques heures';
-  } else {
-    const hoursUntilActive = (ACTIVE_START - hour + 24) % 24 || 24;
-    delayText = `Sous ~${hoursUntilActive}h (hors ligne)`;
-  }
-  document.getElementById('delayValue').textContent = delayText;
-  document.getElementById('affluenceValue').textContent = AFFLUENCE_CONFIG[AFFLUENCE_LEVEL] || AFFLUENCE_CONFIG.moderate;
+    const DELAY_RANGES = {
+      'Court (TikTok / Reels)': { normal: [0, 2], urgent: [0, 1] },
+      'Long (YouTube / Best-of)': { normal: [3, 7], urgent: [1, 3] },
+      'Long Complexe / Esport': { normal: [4, 9], urgent: [2, 5] },
+      'Business / Sponsorisé': { normal: [4, 9], urgent: [2, 5] }
+    };
+    function daysLabel(days) {
+      if (days === 7) return '1 semaine';
+      if (days > 0 && days % 7 === 0) return `${days / 7} semaines`;
+      return `${days} jour${days > 1 ? 's' : ''}`;
+    }
 
-  // "Dernière vidéo livrée" — même action Apps Script publique et sans donnée privée que sur
-  // index.html (voir le badge "vu récemment" dans index.html pour le code Apps Script exact à
-  // ajouter côté doGet si ce n'est pas déjà fait ; tant que l'action n'existe pas, cette ligne
-  // reste simplement sur "—", sans erreur visible).
-  if (APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT')) {
-    fetch(`${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=publicRecentDeliveries&_ts=${Date.now()}`)
-      .then(res => res.json())
-      .then(data => {
-        if (!data || !data.success || !Array.isArray(data.deliveries) || data.deliveries.length === 0) return;
-        const mostRecent = data.deliveries
-          .map(d => new Date(d).getTime())
-          .filter(t => !isNaN(t))
-          .sort((a, b) => b - a)[0];
+    const WORKLOAD_WEIGHTS = {
+      'Court (TikTok / Reels)': 1,
+      'Long (YouTube / Best-of)': 3,
+      'Long Complexe / Esport': 5,
+      'Business / Sponsorisé': 4
+    };
+    const WORKLOAD_FALLBACK_WEIGHT = 1;
+    const DAILY_WORKLOAD_THRESHOLDS = { normal: 3, high: 6 };
+    function dailyWorkloadLevel(total) {
+      if (total <= 0) return '#3a3a3a';       // ⚪ rien de prévu
+      if (total <= DAILY_WORKLOAD_THRESHOLDS.normal) return '#8be28b'; // 🟢
+      if (total <= DAILY_WORKLOAD_THRESHOLDS.high) return '#ffb020';   // 🟡
+      return '#e2685f';                       // 🔴
+    }
+    function formatFieldWeight(formatField) {
+      const m = /^(.*?)\s*×\s*(\d+)$/.exec(formatField || '');
+      if (!m) return WORKLOAD_FALLBACK_WEIGHT;
+      const formatKey = m[1].trim();
+      const qty = Math.max(1, parseInt(m[2], 10) || 1);
+      if (formatKey === 'Les deux') {
+        const avg = (WORKLOAD_WEIGHTS['Court (TikTok / Reels)'] + WORKLOAD_WEIGHTS['Long (YouTube / Best-of)']) / 2;
+        return avg * qty;
+      }
+      const w = WORKLOAD_WEIGHTS[formatKey];
+      return (w != null ? w : WORKLOAD_FALLBACK_WEIGHT) * qty;
+    }
+    // ============================================================
+
+    const dot = document.getElementById('statusDot');
+    const onlineText = document.getElementById('statusOnline');
+    const subline = document.getElementById('statusSubline');
+    const availabilityEl = document.getElementById('statusAvailability');
+    const delaysEl = document.getElementById('statusDelays');
+    const weekChartEl = document.getElementById('statusWeekChart');
+    const lastDeliveryEl = document.getElementById('statusLastDelivery');
+    const updatedEl = document.getElementById('statusUpdated');
+
+    const hour = new Date().getHours();
+    const online = isCurrentlyActive(hour);
+    dot.classList.toggle('busy', !online);
+    onlineText.textContent = online ? '🟢 En ligne' : '🌙 Hors ligne';
+    subline.textContent = online
+      ? 'Réponse sous quelques heures en moyenne.'
+      : `Réponse estimée sous ${(ACTIVE_START - hour + 24) % 24 || 24}h.`;
+
+    if (!AVAILABLE) {
+      availabilityEl.textContent = '🔴 Complet cette semaine';
+    } else if (isFullyBooked) {
+      availabilityEl.textContent = isReallyFull
+        ? "🔴 Complet, liste d'attente active"
+        : '🟡 Affluence élevée, délais rallongés';
+    } else if (SLOTS_AVAILABLE_THIS_WEEK > 0) {
+      availabilityEl.textContent = `🟢 Accepte de nouvelles commandes (${SLOTS_AVAILABLE_THIS_WEEK} créneau${SLOTS_AVAILABLE_THIS_WEEK > 1 ? 'x' : ''} dispo cette semaine)`;
+    } else {
+      availabilityEl.textContent = '🟢 Accepte de nouvelles commandes';
+    }
+
+    if (isFullyBooked) {
+      delaysEl.innerHTML = `<p class="status-waitlist-note">Liste d'attente active — je recontacte dès qu'un créneau se libère plutôt que de promettre une date.</p>`;
+    } else {
+      const rows = [
+        ['Court (TikTok/Reels)', DELAY_RANGES['Court (TikTok / Reels)']],
+        ['Long (YouTube/Best-of)', DELAY_RANGES['Long (YouTube / Best-of)']],
+        ['Complexe/Esport', DELAY_RANGES['Long Complexe / Esport']],
+        ['Business/Sponsorisé', DELAY_RANGES['Business / Sponsorisé']]
+      ];
+      delaysEl.innerHTML = rows.map(([label, range]) => `
+        <div class="status-delay-row">
+          <span>${label}</span>
+          <span>${daysLabel(range.normal[0])} – ${daysLabel(range.normal[1])}</span>
+        </div>
+      `).join('');
+    }
+
+    // --- Charge des 7 prochains jours : réutilise l'action "publicDeliveryDates" déjà documentée
+    // dans index.html (rien de nouveau côté Apps Script). Même clé de cache que index.html
+    // (michyy_busy_days_cache) : si le visiteur a chargé l'une des deux pages récemment, l'autre
+    // profite du même cache plutôt que de refaire un appel réseau. ---
+    (function renderWeekChart() {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const dayLabels = Array.from({ length: 7 }, (_, i) => {
+        const d = new Date(today);
+        d.setDate(d.getDate() + i);
+        return i === 0 ? "Auj." : i === 1 ? 'Dem.' : d.toLocaleDateString('fr-FR', { weekday: 'short' }).replace('.', '');
+      });
+
+      function draw(dayWorkload) {
+        weekChartEl.innerHTML = dayLabels.map((label, i) => {
+          const d = new Date(today);
+          d.setDate(d.getDate() + i);
+          const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+          const color = dailyWorkloadLevel((dayWorkload && dayWorkload[key]) || 0);
+          return `
+            <div class="status-week-day">
+              <span class="status-week-day-label">${label}</span>
+              <span class="status-week-day-bar" style="background:${color};"></span>
+            </div>`;
+        }).join('');
+      }
+
+      // Repli immédiat : chart neutre (tout gris) le temps que les vraies données arrivent, jamais
+      // de graphique vide/cassé pendant le chargement.
+      draw(null);
+
+      if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT')) return;
+      const CACHE_KEY = 'michyy_busy_days_cache';
+      const CACHE_TTL_MS = 3600000; // 1h — même durée que index.html
+
+      function computeFromDates(dates) {
+        const dayWorkload = {};
+        (dates || []).forEach(item => {
+          const iso = typeof item === 'string' ? item : item && item.date;
+          if (!iso) return;
+          const weight = (item && typeof item === 'object' && item.format) ? formatFieldWeight(item.format) : 1;
+          dayWorkload[iso] = (dayWorkload[iso] || 0) + weight;
+        });
+        draw(dayWorkload);
+      }
+
+      try {
+        const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
+        if (cached && cached.at && (Date.now() - cached.at) < CACHE_TTL_MS && Array.isArray(cached.dates)) {
+          computeFromDates(cached.dates);
+          return;
+        }
+      } catch (e) { /* cache corrompu — on ignore et on refait un appel */ }
+
+      fetch(`${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=publicDeliveryDates&_ts=${Date.now()}`)
+        .then(res => res.json())
+        .then(data => {
+          if (!data || !data.success || !Array.isArray(data.dates)) return;
+          try { localStorage.setItem(CACHE_KEY, JSON.stringify({ dates: data.dates, at: Date.now() })); } catch (e) { /* ignore */ }
+          computeFromDates(data.dates);
+        })
+        .catch(() => { /* action pas encore ajoutée côté script, ou hors ligne — chart reste neutre, jamais d'erreur visible */ });
+    })();
+
+    // --- Dernière livraison : même action "publicRecentDeliveries" + même clé de cache que
+    // index.html, pour la même raison (cache partagé entre les deux pages). ---
+    (function renderLastDelivery() {
+      if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT')) return;
+      const CACHE_KEY = 'michyy_recent_deliveries_cache';
+      const CACHE_TTL_MS = 3 * 3600000;
+
+      function formatRelative(ts) {
+        const diffMin = Math.round((Date.now() - ts) / 60000);
+        if (diffMin < 1) return "à l'instant";
+        if (diffMin < 60) return `il y a ${diffMin} min`;
+        const diffH = Math.round(diffMin / 60);
+        if (diffH < 24) return `il y a ${diffH} h`;
+        const diffJ = Math.round(diffH / 24);
+        if (diffJ > 30) return null;
+        return `il y a ${diffJ} j`;
+      }
+
+      function showResult(deliveries) {
+        if (!Array.isArray(deliveries) || deliveries.length === 0) return;
+        const mostRecent = deliveries.map(d => new Date(d).getTime()).filter(t => !isNaN(t)).sort((a, b) => b - a)[0];
         if (!mostRecent) return;
-        const diffMs = Date.now() - mostRecent;
-        const diffH = Math.round(diffMs / 3600000);
-        const text = diffH < 1 ? "à l'instant" : diffH < 24 ? `il y a ${diffH} h` : `il y a ${Math.round(diffH / 24)} j`;
-        document.getElementById('lastDeliveryValue').textContent = text;
-      })
-      .catch(() => { /* action pas encore configurée côté Apps Script, ou hors ligne — jamais bloquant */ });
-  }
-</script>
+        const relative = formatRelative(mostRecent);
+        if (relative) lastDeliveryEl.textContent = relative;
+      }
+
+      try {
+        const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
+        if (cached && cached.at && (Date.now() - cached.at) < CACHE_TTL_MS) {
+          showResult(cached.deliveries);
+          return;
+        }
+      } catch (e) { /* cache corrompu — on ignore et on refait un appel */ }
+
+      fetch(`${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=publicRecentDeliveries&_ts=${Date.now()}`)
+        .then(res => res.json())
+        .then(data => {
+          if (!data || !data.success || !Array.isArray(data.deliveries)) return;
+          try { localStorage.setItem(CACHE_KEY, JSON.stringify({ deliveries: data.deliveries, at: Date.now() })); } catch (e) { /* ignore */ }
+          showResult(data.deliveries);
+        })
+        .catch(() => { /* action pas encore ajoutée côté script, ou hors ligne — jamais bloquant */ });
+    })();
+
+    updatedEl.textContent = `Mis à jour à l'instant (${new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })})`;
+  </script>
 </body>
 </html>
