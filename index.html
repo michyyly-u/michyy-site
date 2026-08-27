@@ -4428,6 +4428,21 @@
       margin: 14px 0 20px;
     }
 
+    /* --- Alerte de surcharge sur le champ "date de livraison souhaitée" (#dateLivraisonInput) :
+       même code couleur que dailyWorkloadLevel côté admin (jaune = chargé, rouge = complet) —
+       "grise" visuellement le champ (fond assombri, bordure teintée) plutôt que de bloquer la
+       saisie, le client reste libre de choisir cette date quand même. Voir updateDateLivraisonHint. */
+    #dateLivraisonInput.is-heavy-day {
+      border-color: #ffb02066;
+      background: #ffb02012;
+    }
+    #dateLivraisonInput.is-full-day {
+      border-color: #e2685f77;
+      background: #e2685f14;
+    }
+    #dateLivraisonHint.is-heavy-day { color: #d99a3d; }
+    #dateLivraisonHint.is-full-day { color: #e2685f; }
+
     .reserve-duplicate:hover { color: var(--text); border-color: var(--text-faint); }
 
     .reserve-status {
@@ -4547,6 +4562,17 @@
       border-radius: 8px;
       padding: 8px 12px;
       line-height: 1.5;
+    }
+
+    .bonus-options {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      background: var(--surface-soft);
+      border: 0.5px solid var(--border-soft);
+      border-radius: 10px;
+      padding: 12px 14px;
+      margin-top: 6px;
     }
 
     .more-options {
@@ -5356,10 +5382,44 @@
       align-items: center;
       text-align: center;
       gap: 10px;
-      padding: 60px 20px;
-      max-width: 320px;
-      margin: 0 auto;
+      padding: 32px 20px;
+      max-width: 340px;
+      margin: 40px auto;
+      position: relative;
+      z-index: 2;
+      background: var(--surface);
+      border: 0.5px solid var(--border-soft);
+      border-radius: 16px;
+      box-shadow: 0 10px 40px #00000055;
     }
+    /* --- Fond "flouté" décoratif derrière le formulaire de code : de fausses cartes de stats/
+         commandes (skeleton) donnent l'impression que le panneau admin est bien là mais illisible
+         tant que le code n'est pas entré, plutôt qu'un simple écran vide. Contenu 100% factice —
+         aucune vraie donnée n'est chargée avant le déverrouillage (l'appel à l'API ne part qu'après),
+         donc rien de sensible n'est jamais réellement affiché ni flouté ici. --- */
+    .admin-lock-wrapper {
+      position: relative;
+      min-height: 420px;
+    }
+    .admin-lock-fake-bg {
+      position: absolute;
+      inset: 0;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      padding: 20px;
+      filter: blur(9px);
+      opacity: 0.6;
+      pointer-events: none;
+      user-select: none;
+    }
+    .admin-lock-fake-card {
+      background: var(--surface-soft);
+      border: 0.5px solid var(--border-soft);
+      border-radius: 12px;
+      height: 74px;
+    }
+    .admin-lock-fake-card:nth-child(3n+1) { background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); }
     .admin-lock-icon { font-size: 36px; }
     .admin-lock-title {
       font-family: 'Syne', sans-serif;
@@ -5465,6 +5525,27 @@
       border-radius: 12px;
       padding: 12px 14px;
       text-align: center;
+      position: relative;
+    }
+
+    .admin-stat-edit-btn {
+      position: absolute;
+      top: 4px;
+      right: 4px;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      font-size: 11px;
+      opacity: 0.35;
+      padding: 2px;
+      line-height: 1;
+    }
+    .admin-stat-edit-btn:hover { opacity: 1; }
+    .admin-stat-override-badge {
+      display: inline-block;
+      font-size: 9px;
+      color: #ffb020;
+      margin-top: 2px;
     }
 
     .admin-stat-number {
@@ -6433,6 +6514,40 @@
 
     .admin-copy-tracking-link-btn:hover { background: #3ddc8430; }
 
+    /* --- Lien de pré-remplissage personnalisé (bouton "🔗👤" + QR, voir buildPrefillLink) : même
+       gabarit que .admin-copy-tracking-link-btn mais teinte orange pour rester visuellement distinct
+       (lien de SUIVI = vert, lien de PRÉ-REMPLISSAGE = orange) et éviter toute confusion entre les
+       deux quand on scanne rapidement une carte. --- */
+    .admin-prefill-link-row {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+    .admin-copy-prefill-link-btn,
+    .admin-toggle-qr-btn {
+      padding: 7px 10px;
+      background: #ff9a0018;
+      border: 0.5px solid #ff9a0055;
+      border-radius: 6px;
+      color: #ff9a00;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 11px;
+      cursor: pointer;
+      text-align: center;
+    }
+    .admin-copy-prefill-link-btn { flex: 1; }
+    .admin-copy-prefill-link-btn:hover,
+    .admin-toggle-qr-btn:hover { background: #ff9a0030; }
+    .admin-prefill-qr {
+      margin-bottom: 10px;
+      padding: 10px;
+      background: #fff;
+      border-radius: 8px;
+      width: fit-content;
+    }
+    .admin-prefill-qr img { display: block; }
+
     .admin-order-badges {
       display: flex;
       flex-wrap: wrap;
@@ -6779,6 +6894,15 @@
       width: 70px;
     }
     .admin-custom-tag-input:focus { width: 120px; outline: none; border-style: solid; }
+    .admin-custom-tag-status-quick {
+      background: transparent;
+      border: 1px dashed var(--border-color, #ffffff33);
+      border-radius: 20px;
+      color: var(--text);
+      font-size: 11px;
+      padding: 2px 6px;
+      max-width: 110px;
+    }
 
     /* --- Fiche client regroupée --- */
     .admin-clients-list {
@@ -7607,6 +7731,7 @@
     .mini-toc-dot--portfolio { background: #ff9a00; }
     .mini-toc-dot--process { background: #7c3cff; }
     .mini-toc-dot--conseils { background: #14b8a6; }
+    .mini-toc-dot--ressources { background: #a78bfa; }
     .mini-toc-dot--dm { background: #ec4899; }
     .mini-toc-dot--reservation { background: #ff3c3c; }
     .mini-toc-dot--faq,
@@ -7691,6 +7816,47 @@
     }
 
     .conseils-articles { margin-top: 6px; }
+
+    .ressources-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-top: 16px;
+    }
+    .ressources-card {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      background: var(--surface-soft);
+      border: 0.5px solid var(--border-soft);
+      border-radius: 14px;
+      padding: 18px;
+    }
+    .ressources-card-icon { font-size: 24px; }
+    .ressources-card-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text);
+    }
+    .ressources-card-text {
+      font-size: 12.5px;
+      color: var(--text-tertiary);
+      line-height: 1.5;
+      flex: 1;
+    }
+    .ressources-card-link {
+      margin-top: 8px;
+      align-self: flex-start;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      color: #fff;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      padding: 8px 14px;
+      border-radius: 8px;
+      text-decoration: none;
+    }
 
     /* --- Section "Ce qu'on me demande souvent en DM" : bulles façon messagerie, volontairement
        différentes visuellement des .faq-item (accordéon formel) pour donner l'impression d'un
@@ -8744,6 +8910,7 @@
       <a href="#tarifs"><span class="mini-toc-dot mini-toc-dot--tarifs" aria-hidden="true"></span>Tarifs</a>
       <a href="#process"><span class="mini-toc-dot mini-toc-dot--process" aria-hidden="true"></span>Process</a>
       <a href="#conseils"><span class="mini-toc-dot mini-toc-dot--conseils" aria-hidden="true"></span>Conseils</a>
+      <a href="#ressources"><span class="mini-toc-dot mini-toc-dot--ressources" aria-hidden="true"></span>Ressources</a>
       <a href="#reservation"><span class="mini-toc-dot mini-toc-dot--reservation" aria-hidden="true"></span>Réserver</a>
       <a href="#faq"><span class="mini-toc-dot mini-toc-dot--faq" aria-hidden="true"></span>FAQ</a>
       <a href="#dm-questions"><span class="mini-toc-dot mini-toc-dot--dm" aria-hidden="true"></span>En vrai</a>
@@ -9038,7 +9205,7 @@
     </details>
 
     <div class="format-block" id="tarifs">
-      <p class="tarifs-guarantee-banner"><span class="tarifs-guarantee-banner-icon">🛡️</span> Pas satisfait du premier jet ? <strong>5 révisions incluses par vidéo</strong> — au-delà, +10€ par retouche supplémentaire.</p>
+      <p class="tarifs-guarantee-banner"><span class="tarifs-guarantee-banner-icon">🛡️</span> Pas satisfait du premier jet ? <strong>5 révisions incluses par vidéo</strong> — au-delà, +10€ tous les 3 retouches supplémentaires (par lot, pas à l'unité).</p>
       <div class="tarifs-intro-badges">
         <p class="delivered-counter" id="deliveredCounter"><strong><span id="deliveredCounterNumber">…</span></strong> vidéos livrées</p>
         <!-- La remise -20% première commande est déjà annoncée en badge dans le hero
@@ -9336,7 +9503,7 @@
         <div class="guarantee-card">
           <span class="guarantee-card-icon">🔁</span>
           <span class="guarantee-card-title">5 révisions incluses</span>
-          <span class="guarantee-card-text">Pas satisfait du premier jet ? Je retouche jusqu'à 5 fois par vidéo sans supplément. Au-delà, chaque retouche supplémentaire est facturée 10€.</span>
+          <span class="guarantee-card-text">Pas satisfait du premier jet ? Je retouche jusqu'à 5 fois par vidéo sans supplément. Au-delà, chaque lot de 3 retouches supplémentaires est facturé 10€.</span>
         </div>
         <div class="guarantee-card">
           <span class="guarantee-card-icon">💶</span>
@@ -9481,7 +9648,7 @@
       <li class="highlight-term"><span class="terms-icon">💳</span> Acompte de 50% demandé avant le début du montage, solde à régler dès ta première retouche demandée (pas besoin d'attendre la livraison finale) : une sécurité pour les deux parties.</li>
       <li><span class="terms-icon">⏱️</span> Format court livré le jour même, sous 2 jours max.</li>
       <li><span class="terms-icon">📅</span> Format long livré sous 1 semaine max (variable selon la quantité de travail).</li>
-      <li><span class="terms-icon">🔁</span> 5 révisions incluses par vidéo, dans le cadre du brief initial. Au-delà, +10€ par retouche supplémentaire.</li>
+      <li><span class="terms-icon">🔁</span> 5 révisions incluses par vidéo, dans le cadre du brief initial. Au-delà, +10€ tous les 3 retouches supplémentaires.</li>
       <li><span class="terms-icon">🧾</span> Facture disponible sur demande.</li>
       <li><span class="terms-icon terms-icon-paypal-svg"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAIAAAAlC+aJAAAFOklEQVR42u2ZTYhkZxWG3/d8t6q6u35CeuxM7EzsmZAhySJOhtgGjajZKASyUAhBXIZsQhYi7gIiZCOCC9euXLhQd2IUFAISNwoSfxAGDTETunt6Zrqnq7unu37uPed1cWt62swspqv6JwP3W1XB/S7n+c457znnu5SE+3kZ7vNVAVQAFUAFUAFUABVABVAB3Mcrm/wVZUNOctSYE9BdnpEEItFEETwsAB7/PODhydInAiAkIz9cuv7dH/yKAkEHZTDQAqFwMyIS0lSj9vjZT73w5fNffe4JgB5KxpMHcI+U7De//9u33/jZqQdbRaGgQBKgACAoiIQUyN2t5p9/+uz3v/PSsxc+U+69FW08yRy4srbdnGlMN+uFx90MGeUESQB//cfKy6/99CdvffOlr188FD8cAsDlpc2QCikU1J0G6fYPsd2ayt1ff/MXD862vrR4PkI2GcNEMkojgI+W1iwzC93N+o8HrLvXMtKyN3/09k5vQGJCFbEJ1BNGFu7L1zZqWYp72wTKHe3W9KX/LP/uD/8kGeEn5QEB2Nzsbd7o1ZLd20GyTIlwT5befudfAMh0Yh4AsLq+3d3pWWbQwfS3Ua+9f3mtP8jNOEkQTQIgAFdWbuz084MnomjsDQbDfi4B0EkAAAA+WNoYFrIDCzmN2HWt50FCJxJCpclLq+sZ0kErkYBMsdXofOudlas7Q4Kh4wcgASytdFM6eDknImd94eH3uvreu8ujun3MAGaM0NLVrtXTgbMw5FPZ8Nz8qYb9+oOdv6zeNMJ1jADlkW9u9tbXbtaydDAPmKnX988+lc89xNxzt9/+d+u2rh0XAABcW9/c3O5lyXTPYQcSu7v+xGP5sxcxkAhkfH/DAXGsliKbwANcvr7VH0QnY3GnoR+TFgERLFxE78LT/tyiooBAkqLH+D3pRM3c8tJaXhQyYl8jwVCEAwYBBIEgCEZzxk/P6cnz+cKnbeglJcECxel2AqhywzF5oCwCH65r9E+jg3cv2q3i+UVnggiQNDGQzDutaLaAYH8oUjRAIJL0wpnW6DU8Lg8YCeDySjcxIWL/jIN2e3jubBQ5aQAkkpJAdw4GIEATACkzbA38wmztawttCeP11dnYGiphdX07y0z7w11Sc1qFc5iDCShHHGMZ4TYKdBIZuZurTv34K2dmshQaU09sbA3d3uldv1Fq6P6GH97uKHHUd9JIo4FWKpCV8+bQdX236NTx8xfPfHG+GcLYU002noaSuHptq7uxlWX1/UVANLTaDO6FcyG5a58qKTObn0kvPtV645m5R9tTLk9MQIx3mtn4Grra7fWKVrsRe32MgGRqT0ECzIibeSyerv/w+XkPkGWSaibjQqfeqWUAQkijecCOzwMjDV3dHHh09kuowqfqarbhAQSZctczs83Fh2bu3F6EjJz8bmV8gJUrG7XELFk5KRIRhbwxrfoUpLLDFvBIy0LIQ7XS2FvFITuke6FxAMqa//dLKze6fcjyKOM9ZuTp1Kw3MkROmQASj3bqRiS7laaHdqc4EQABvPKNz51bmJuernsQiMzwx4+677GTTHKA5sBMwmMPZABMACe+xDrqu9FX31395aWtWYu87BGEZpb+9PLCfLNWCtdRrPFzIEKxD75XFH/+98aw792aSTR6r9D8A5ybTrePXZ+MENorxuUoLIgAnBcfbpzpe93oBIneML7wSLNmVt4BH0UCHE4ICRD25vr4fzMpHObXgKPNAd3K1D29ObrQPxKAE1nVR74KoAKoACqACqACqAAqgArg5Nb/ADrdmeMPCAu9AAAAAElFTkSuQmCC" alt="PayPal" class="brand-icon-img-inline" /></span> Paiement par <a class="inline-link" href="https://www.paypal.com/paypalme/Michyyly" target="_blank" rel="noopener">PayPal</a> privilégié (plus simple pour tout le monde).</li>
     </ul>
@@ -10084,6 +10251,42 @@
     </div>
   </section>
 
+  <section id="ressources" class="full-section ressources-section reveal">
+    <div class="info-header">
+      <div class="section-divider">
+        <div class="section-divider-line"></div>
+        <span class="section-divider-text">Ressources</span>
+        <div class="section-divider-line"></div>
+      </div>
+      <div class="info-title">Ressources gratuites</div>
+    </div>
+    <p class="info-text">Pas encore prêt·e à commander ? Voici 3 ressources gratuites, sans inscription ni commande, pour t'aider à monter toi-même en attendant — ou juste pour voir comment je travaille.</p>
+
+    <div class="ressources-grid">
+      <div class="ressources-card">
+        <span class="ressources-card-icon">✏️</span>
+        <span class="ressources-card-title">Preset de sous-titres animés</span>
+        <span class="ressources-card-text">Le style de sous-titres que j'utilise sur mes montages courts, prêt à importer dans CapCut.</span>
+        <a href="#" class="ressources-card-link" data-ressource="preset-sous-titres">📥 Télécharger</a>
+      </div>
+      <div class="ressources-card">
+        <span class="ressources-card-icon">🎬</span>
+        <span class="ressources-card-title">Template CapCut basique</span>
+        <span class="ressources-card-text">Une base de montage simple (transitions, calages rythme) pour démarrer un format court sans partir de zéro.</span>
+        <a href="#" class="ressources-card-link" data-ressource="template-capcut">📥 Télécharger</a>
+      </div>
+      <div class="ressources-card">
+        <span class="ressources-card-icon">📋</span>
+        <span class="ressources-card-title">Checklist "rushs prêts à monter"</span>
+        <span class="ressources-card-text">La liste que je suis moi-même avant de commencer un montage : tri, nommage, ce qu'il faut vérifier avant d'envoyer tes fichiers.</span>
+        <a href="#" class="ressources-card-link" data-ressource="checklist-rushs">📥 Télécharger</a>
+      </div>
+    </div>
+    <p class="note-aside" style="margin-top: 10px;">
+      ⚠️ À faire avant mise en ligne : remplacer les liens <code>#</code> ci-dessus par les vrais liens de téléchargement une fois les fichiers déposés quelque part (Drive/SwissTransfer en accès libre, par exemple).
+    </p>
+  </section>
+
   <section id="reservation" class="full-section reserve-section reveal">
     <div class="info-header">
       <div class="section-divider">
@@ -10461,6 +10664,30 @@
       </label>
       <p class="note-aside form-advanced">🎬 Tu peux aussi piocher un style directement dans <a href="#portfolio" class="inline-link">mon portfolio ci-dessus</a> et me dire quelle vidéo te plaît.</p>
 
+      <!-- Bonus optionnels : chaque case cochée ajoute +30€ au total, pris en compte directement
+           dans computeBonusTotal() → updatePriceEstimate() (donc dans le prix affiché, l'acompte 50%
+           et le budget envoyé), et listé dans le récap + le message Discord/note admin. -->
+      <div class="form-section-label form-advanced">✨ Bonus (optionnel)</div>
+      <div class="bonus-options form-advanced" id="bonusOptions">
+        <label class="checkbox-label">
+          <input type="checkbox" name="bonus" value="Sous-titres animés stylés" class="bonus-check" />
+          <span>Sous-titres animés stylés <span class="optional-tag">(+30€)</span></span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" name="bonus" value="Cover / miniature personnalisée" class="bonus-check" />
+          <span>Cover / miniature personnalisée <span class="optional-tag">(+30€)</span></span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" name="bonus" value="Version verticale + horizontale" class="bonus-check" />
+          <span>Version verticale + horizontale de la même vidéo <span class="optional-tag">(+30€)</span></span>
+        </label>
+        <label class="checkbox-label">
+          <input type="checkbox" name="bonus" value="Musique / sound design sur-mesure" class="bonus-check" />
+          <span>Musique / sound design sur-mesure <span class="optional-tag">(+30€)</span></span>
+        </label>
+      </div>
+      <p class="note-aside form-advanced" id="bonusTotalHint" style="display: none;"></p>
+
       <div class="form-section-label">✅ Vérification & envoi</div>
       <div id="recapBox" class="recap-box" style="display: none;">
         <div class="recap-title">📋 Récapitulatif avant envoi</div>
@@ -10797,7 +11024,7 @@
         <div class="more-options-content">
       <details class="faq-item" id="faq-revisions" data-theme="revisions">
         <summary>Combien de révisions sont incluses, et jusqu'où ça va ?</summary>
-        <p><strong>5 révisions incluses par vidéo</strong> : ajustements de rythme, de coupe, de sous-titres, d'habillage sonore ou de placement d'éléments. C'est exactement ce qui couvre le cas où le premier jet ne te convainc pas encore — jamais de surprise ni de blocage, l'objectif reste que le résultat te corresponde. Au-delà de la 5e, chaque retouche supplémentaire est facturée <strong>10€</strong>. Ce qui sort de ce cadre, c'est une refonte complète du montage (changer totalement l'angle ou la structure de la vidéo une fois validée), traitée à part (voir la question sur les révisions hors cadre) plutôt que décomptée dans les 5.</p>
+        <p><strong>5 révisions incluses par vidéo</strong> : ajustements de rythme, de coupe, de sous-titres, d'habillage sonore ou de placement d'éléments. C'est exactement ce qui couvre le cas où le premier jet ne te convainc pas encore — jamais de surprise ni de blocage, l'objectif reste que le résultat te corresponde. Au-delà de la 5e, chaque lot de 3 retouches supplémentaires est facturé <strong>10€</strong> (donc les retouches 6, 7 et 8 comptent pour un seul lot de 10€, etc. — jamais à l'unité). Ce qui sort de ce cadre, c'est une refonte complète du montage (changer totalement l'angle ou la structure de la vidéo une fois validée), traitée à part (voir la question sur les révisions hors cadre) plutôt que décomptée dans les 5.</p>
       </details>
 
       <details class="faq-item" id="faq-refonte" data-theme="revisions">
@@ -10820,7 +11047,7 @@
 
       <details class="faq-item" id="faq-suivi-retouche-facturee" data-theme="suivi">
         <summary>C'est quoi une retouche facturée ?</summary>
-        <p><strong>5 retouches sont incluses</strong> par vidéo, décomptées automatiquement à chaque envoi via le formulaire "Message pour le client" de ton suivi (un envoi = une retouche). Au-delà de la 5e, chaque retouche supplémentaire est facturée <strong>10€</strong> — jamais en surprise : le compteur affiché dans ton suivi ("🔁 Retouche X sur 5 incluses") te montre en temps réel où tu en es, et je ne facture rien sans te le dire clairement avant. Voir aussi la question sur les <a href="#faq-revisions" class="inline-link">révisions incluses</a> pour le détail de ce qui est couvert.</p>
+        <p><strong>5 retouches sont incluses</strong> par vidéo, décomptées automatiquement à chaque envoi via le formulaire "Message pour le client" de ton suivi (un envoi = une retouche). Au-delà de la 5e, chaque lot de 3 retouches supplémentaires est facturé <strong>10€</strong> — jamais en surprise : le compteur affiché dans ton suivi ("🔁 Retouche X sur 5 incluses") te montre en temps réel où tu en es, et je ne facture rien sans te le dire clairement avant. Voir aussi la question sur les <a href="#faq-revisions" class="inline-link">révisions incluses</a> pour le détail de ce qui est couvert.</p>
       </details>
 
       <details class="faq-item" id="faq-suivi-hors-ligne" data-theme="suivi">
@@ -10881,7 +11108,7 @@
 
       <details class="faq-item" id="faq-retouche-post-livraison" data-theme="confiance">
         <summary>Je peux demander une retouche après avoir reçu ma vidéo finale ?</summary>
-        <p>Oui, une retouche demandée peu de temps après la livraison compte simplement dans les <a href="#faq-revisions" class="inline-link">5 révisions incluses</a> (ou le tarif de 10€/retouche au-delà, selon où tu en es). La seule vraie différence avec une retouche en cours de montage : le solde doit déjà être réglé à ce stade, puisqu'il est dû dès ta première demande de retouche. Si la demande arrive bien après la livraison, ou si elle revient à rouvrir le projet en profondeur (nouvel angle, nouvelle structure), ça bascule dans le cas des <a href="#faq-refonte" class="inline-link">révisions hors cadre</a>.</p>
+        <p>Oui, une retouche demandée peu de temps après la livraison compte simplement dans les <a href="#faq-revisions" class="inline-link">5 révisions incluses</a> (ou le tarif de 10€ tous les 3 retouches au-delà, selon où tu en es). La seule vraie différence avec une retouche en cours de montage : le solde doit déjà être réglé à ce stade, puisqu'il est dû dès ta première demande de retouche. Si la demande arrive bien après la livraison, ou si elle revient à rouvrir le projet en profondeur (nouvel angle, nouvelle structure), ça bascule dans le cas des <a href="#faq-refonte" class="inline-link">révisions hors cadre</a>.</p>
       </details>
 
       <details class="faq-item" id="faq-rushs-perdus" data-theme="confiance">
@@ -10900,7 +11127,7 @@
            raccourcir la page. -->
       <ul class="checklist-items conditions-list conditions-list-highlights">
         <li><strong>Acompte :</strong> 50% avant le montage, solde (50% restant) dû dès ta première demande de retouche.</li>
-        <li><strong>Révisions :</strong> 5 incluses par vidéo, +10€ par retouche supplémentaire au-delà.</li>
+        <li><strong>Révisions :</strong> 5 incluses par vidéo, +10€ tous les 3 retouches supplémentaires au-delà.</li>
         <li><strong>Annulation :</strong> possible tant que le montage n'a pas démarré ; acompte non réglé sous 24h = commande annulée automatiquement.</li>
       </ul>
       <details class="more-options" id="cgvDetailsAccordion">
@@ -10927,7 +11154,7 @@
         <li id="cgv-commercial"><strong>Usage commercial :</strong> à préciser dès la demande, un usage sponsorisé/publicitaire ajoute +15% au tarif de base.</li>
         <li id="cgv-test"><strong>Pas de montage test :</strong> je ne réalise pas de montage d'essai gratuit, même court (30 secondes à 2 minutes), sans exception : mon portfolio est justement là pour juger de mon style sans faire perdre de temps à personne.</li>
         <li id="cgv-acompte"><strong>Acompte :</strong> 50% à régler avant le début du montage, non remboursable une fois le travail commencé. Le solde (50% restant) est dû dès la première demande de retouche, pas à la livraison finale.</li>
-        <li id="cgv-revisions"><strong>Révisions :</strong> 5 révisions incluses par vidéo ; au-delà, chaque retouche supplémentaire est facturée 10€. Un changement complet de concept après validation peut être facturé en plus.</li>
+        <li id="cgv-revisions"><strong>Révisions :</strong> 5 révisions incluses par vidéo ; au-delà, chaque lot de 3 retouches supplémentaires est facturé 10€ (pas à l'unité). Un changement complet de concept après validation peut être facturé en plus.</li>
         <li id="cgv-delais"><strong>Délais :</strong> indicatifs (format court : <span id="cgvDelayCourt">jour même à 2 jours</span> ; format long : <span id="cgvDelayLong">jusqu'à 1 semaine</span>, variable selon la charge de travail). Le mode "urgent" est prioritaire mais reste soumis à ma disponibilité.</li>
         <li id="cgv-annulation"><strong>Annulation :</strong> possible tant que le montage n'a pas démarré ; l'acompte reste dû si le travail a déjà commencé. <u>Si l'acompte n'est pas réglé dans les 24h suivant la commande, celle-ci est automatiquement annulée.</u></li>
         <li id="cgv-musique"><strong>Musique / droits :</strong> j'utilise des musiques libres de droits ou sous licence. En cas de claim malgré tout, on trouve ensemble une solution (remplacement de piste, contestation...).</li>
@@ -11227,15 +11454,21 @@
       const adminPanel = document.getElementById('adminPanel');
       adminPanel.style.display = 'block';
       adminPanel.innerHTML = `
-        <div class="admin-lock-screen">
-          <div class="admin-lock-icon">🔒</div>
-          <div class="admin-lock-title">Accès protégé</div>
-          <p class="admin-lock-text">Entre le code d'accès pour ouvrir le panneau admin sur cet appareil.</p>
-          <form id="adminLockForm" class="admin-lock-form">
-            <input type="password" id="adminLockInput" inputmode="numeric" autocomplete="off" placeholder="Code d'accès" autofocus />
-            <button type="submit" class="admin-btn-primary">Déverrouiller</button>
-          </form>
-          <p id="adminLockError" class="admin-lock-error"></p>
+        <div class="admin-lock-wrapper">
+          <div class="admin-lock-fake-bg" aria-hidden="true">
+            <div class="admin-lock-fake-card"></div><div class="admin-lock-fake-card"></div><div class="admin-lock-fake-card"></div>
+            <div class="admin-lock-fake-card"></div><div class="admin-lock-fake-card"></div><div class="admin-lock-fake-card"></div>
+          </div>
+          <div class="admin-lock-screen">
+            <div class="admin-lock-icon">🔒</div>
+            <div class="admin-lock-title">Accès protégé</div>
+            <p class="admin-lock-text">Entre le code d'accès pour ouvrir le panneau admin sur cet appareil.</p>
+            <form id="adminLockForm" class="admin-lock-form">
+              <input type="password" id="adminLockInput" inputmode="numeric" autocomplete="off" placeholder="Code d'accès" autofocus />
+              <button type="submit" class="admin-btn-primary">Déverrouiller</button>
+            </form>
+            <p id="adminLockError" class="admin-lock-error"></p>
+          </div>
         </div>`;
       const adminLockForm = document.getElementById('adminLockForm');
       const adminLockInput = document.getElementById('adminLockInput');
@@ -11593,6 +11826,55 @@
       return `<div class="tracking-progress" role="list" aria-label="Étapes de la commande">${stepsHtml}</div>`;
     }
 
+    // --- Charge de travail pondérée par format — SOURCE UNIQUE partagée entre la vue admin
+    // "Prochains 7 jours" (computeNext7DaysWorkload, dans le panneau admin plus bas) et l'alerte de
+    // surcharge côté client sur le champ "date de livraison souhaitée" (#dateLivraisonInput, tout en
+    // bas du script). Déclarée ICI, hors du bloc `if (isAdminUnlocked)`, précisément pour que le
+    // visiteur public (jamais admin) y ait accès aussi — sinon ces constantes n'existeraient tout
+    // simplement pas pour lui. Ne PAS dupliquer ces poids/seuils ailleurs : un montage "Court" ou un
+    // seuil ajusté ici doit se refléter automatiquement des deux côtés, sinon le client pourrait voir
+    // "libre" un jour que l'admin voit déjà complet (ou l'inverse). 1 unité ≈ le temps d'un montage
+    // "Court" ; poids estimés, à ajuster selon ton ressenti réel. ---
+    const WORKLOAD_WEIGHTS = {
+      'Court (TikTok / Reels)': 1,
+      'Long (YouTube / Best-of)': 3,
+      'Long Complexe / Esport': 5,
+      'Business / Sponsorisé': 4,
+    };
+    const WORKLOAD_FALLBACK_WEIGHT = 1; // format non reconnu (texte modifié à la main, "Prix libre") : on suppose l'équivalent d'un Court plutôt que de fausser le total en l'ignorant
+    // 🔧 Nombre d'unités de charge sur UNE journée à partir duquel elle est "chargée" (orange) puis
+    // "complète" (rouge) — distinct de WORKLOAD_THRESHOLDS plus bas, qui lui porte sur le total de
+    // toutes les commandes en cours et non sur une seule journée.
+    const DAILY_WORKLOAD_THRESHOLDS = { normal: 3, high: 6 }; // 🔧 ajuste selon ta cadence quotidienne réelle
+    function dailyWorkloadLevel(total) {
+      if (total <= 0) return { color: 'var(--border-soft)' };
+      if (total <= DAILY_WORKLOAD_THRESHOLDS.normal) return { color: '#8be28b' };
+      if (total <= DAILY_WORKLOAD_THRESHOLDS.high) return { color: '#ffb020' };
+      return { color: '#e2685f' };
+    }
+    // Convertit un champ "format" brut (ex : "Long (YouTube / Best-of) × 2") en poids de charge —
+    // même analyse que computeOrderWorkload côté admin (qui l'appelle directement, voir plus bas),
+    // réutilisée telle quelle côté client pour l'alerte de surcharge sur la date choisie.
+    function formatFieldWeight(formatField) {
+      const formatMatch = /^(.*?)\s*×\s*(\d+)$/.exec(formatField || '');
+      if (!formatMatch) return { weight: WORKLOAD_FALLBACK_WEIGHT, formatKey: 'Non précisé', qty: 1 };
+      const formatKey = formatMatch[1].trim();
+      const qty = Math.max(1, parseInt(formatMatch[2], 10) || 1);
+      if (formatKey === 'Les deux') {
+        // Pas de détail court/long séparé dans ce champ : on prend la moyenne des deux poids,
+        // à défaut de mieux — reste une estimation, pas un calcul précis.
+        const avg = (WORKLOAD_WEIGHTS['Court (TikTok / Reels)'] + WORKLOAD_WEIGHTS['Long (YouTube / Best-of)']) / 2;
+        return { weight: avg * qty, formatKey, qty };
+      }
+      if (typeof SUBSCRIPTION_TIERS !== 'undefined' && SUBSCRIPTION_TIERS[formatKey]) {
+        // Un abonnement = son quota de vidéos courtes/mois, indépendamment de la quantité affichée dans le champ.
+        const videos = SUBSCRIPTION_TIERS[formatKey].videos;
+        return { weight: WORKLOAD_WEIGHTS['Court (TikTok / Reels)'] * videos, formatKey, qty: videos };
+      }
+      const weight = WORKLOAD_WEIGHTS[formatKey];
+      return { weight: (weight != null ? weight : WORKLOAD_FALLBACK_WEIGHT) * qty, formatKey, qty };
+    }
+
     if (isAdminUnlocked) {
       const adminPanel = document.getElementById('adminPanel');
       const adminOrdersList = document.getElementById('adminOrdersList');
@@ -11652,7 +11934,8 @@
         { id: 'portfolio', label: 'Portfolio', selector: '.portfolio-section' },
         { id: 'avis', label: 'Avis clients', selector: '.testimonials-section' },
         { id: 'parrainage', label: 'Parrainage', selector: '.parrainage-section' },
-        { id: 'dm-questions', label: 'Ce qu\'on me demande en DM', selector: '.dm-questions-section' }
+        { id: 'dm-questions', label: 'Ce qu\'on me demande en DM', selector: '.dm-questions-section' },
+        { id: 'ressources', label: 'Ressources gratuites', selector: '.ressources-section' }
       ];
       (function initAdminSectionToggles() {
         const list = document.getElementById('adminSectionToggleList');
@@ -11876,11 +12159,23 @@
       // Modèles de message client, pour ne pas retaper les mêmes phrases à chaque fois.
       // Un clic remplace le contenu du champ "Message pour le client" par le modèle choisi.
       const CLIENT_MESSAGE_TEMPLATES = [
-        { label: 'Petit retard', text: 'Petit retard de mon côté, désolé ! Ta commande arrive très bientôt.' },
-        { label: 'Livré, merci !', text: 'C\'est livré ! Merci beaucoup pour ta confiance 🙂' },
         { label: 'Acompte reçu', text: 'Acompte bien reçu, je démarre le montage dès que possible.' },
-        { label: 'En cours de montage', text: 'Ta commande est en cours de montage, je te tiens au courant.' },
+        { label: 'Acompte manquant', text: 'Je n\'ai pas encore reçu l\'acompte de mon côté — ta place dans le planning n\'est pas encore sécurisée. Dis-moi si tu rencontres un souci pour le régler.' },
+        { label: 'En file d\'attente', text: 'Ta commande est bien enregistrée et en file d\'attente : je passe dessus dès que la commande précédente est terminée.' },
         { label: 'File d\'attente (passer devant)', text: 'Une commande est actuellement devant la tienne dans mon planning. Si tu veux passer devant, c\'est possible en passant en mode urgent (+30% sur le tarif) — dis-moi si ça t\'intéresse et je réorganise l\'ordre.' },
+        { label: 'En cours de montage', text: 'Ta commande est en cours de montage, je te tiens au courant.' },
+        { label: 'Petit retard', text: 'Petit retard de mon côté, désolé ! Ta commande arrive très bientôt.' },
+        { label: 'En pause — infos manquantes', text: 'Ta commande est en pause : il me manque une info de ton côté pour continuer (voir mon dernier message). Dès que tu me réponds, je reprends immédiatement.' },
+        { label: 'Première version envoyée', text: 'Voici la première version de ton montage ! Dis-moi ce que tu en penses et les éventuelles retouches à faire.' },
+        { label: 'Retouche reçue, en cours', text: 'Retouche bien reçue, je m\'en occupe et je te renvoie une nouvelle version très vite.' },
+        { label: 'Rappel retouches restantes', text: 'Petit rappel : tu as encore quelques retouches incluses sur cette vidéo (voir le compteur juste au-dessus) avant qu\'un supplément s\'applique — n\'hésite pas à en profiter si besoin.' },
+        { label: 'Solde en attente', text: 'Le solde restant (50%) est à régler pour débloquer le fichier final — le lien de paiement est disponible directement dans ton suivi de commande.' },
+        { label: 'Solde reçu, envoi en cours', text: 'Solde bien reçu, merci ! Le fichier final est en cours d\'envoi, il arrive très vite.' },
+        { label: 'Livré, merci !', text: 'C\'est livré ! Merci beaucoup pour ta confiance 🙂' },
+        { label: 'Litige — on en discute', text: 'Je vois ta remarque et je veux qu\'on trouve une solution ensemble. Peux-tu me détailler précisément ce qui ne convient pas, pour qu\'on règle ça au mieux ?' },
+        { label: 'Relance avant expiration', text: 'Ta commande arrive bientôt à expiration faute d\'acompte réglé. Dis-moi si tu veux toujours qu\'on continue, sinon elle sera automatiquement annulée.' },
+        { label: 'Commande expirée', text: 'Faute d\'acompte réglé dans le délai annoncé, ta commande a été automatiquement marquée comme expirée. Si tu veux qu\'on relance, dis-le-moi simplement et je la réactive.' },
+        { label: 'Annulation confirmée', text: 'C\'est noté, ta commande est annulée. N\'hésite pas à revenir quand tu veux si le besoin se représente.' },
       ];
 
       // Lien direct vers le Sheet, pour éditer en masse quand une ligne par ligne prend trop de temps
@@ -12096,6 +12391,50 @@
         }).length;
       }
 
+      // --- Stats modifiables manuellement : chaque carte a une clé stable (statKey) et un bouton
+      // crayon ✏️. La valeur saisie est stockée en localStorage (par appareil, comme les autres
+      // réglages admin locaux) et prend le pas sur la valeur calculée jusqu'à ce qu'elle soit
+      // effacée (champ vidé) — à ce moment-là la carte revient afficher la vraie valeur calculée.
+      const ADMIN_STAT_OVERRIDES_KEY = 'michyy_admin_stat_overrides';
+      function getStatOverrides() {
+        try { return JSON.parse(localStorage.getItem(ADMIN_STAT_OVERRIDES_KEY) || '{}'); } catch (e) { return {}; }
+      }
+      function setStatOverride(key, value) {
+        try {
+          const all = getStatOverrides();
+          if (value === null) delete all[key];
+          else all[key] = value;
+          localStorage.setItem(ADMIN_STAT_OVERRIDES_KEY, JSON.stringify(all));
+        } catch (e) { /* ignore */ }
+      }
+      function statCardHtml(key, computedValue, label, opts) {
+        opts = opts || {};
+        const overrides = getStatOverrides();
+        const hasOverride = Object.prototype.hasOwnProperty.call(overrides, key);
+        const displayValue = hasOverride ? overrides[key] : computedValue;
+        const extraClass = opts.cls ? ' ' + opts.cls : '';
+        const titleAttr = opts.title ? ` title="${escapeHtml(opts.title)}"` : '';
+        return `<div class="admin-stat-card${extraClass}"${titleAttr}>
+          <button type="button" class="admin-stat-edit-btn" data-stat-key="${escapeHtml(key)}" data-computed="${escapeHtml(String(computedValue))}" title="Modifier cette statistique manuellement">✏️</button>
+          <span class="admin-stat-number">${escapeHtml(String(displayValue))}</span>
+          <span class="admin-stat-label">${escapeHtml(label)}${hasOverride ? ' <span class="admin-stat-override-badge" title="Valeur modifiée manuellement, différente du calcul automatique">✏️ modifiée</span>' : ''}</span>
+        </div>`;
+      }
+      // Délégation unique sur adminDashboard : fonctionne pour toute carte générée par statCardHtml,
+      // même ajoutée plus tard (pas besoin de re-brancher un listener à chaque re-render).
+      adminDashboard.addEventListener('click', (e) => {
+        const btn = e.target.closest('.admin-stat-edit-btn');
+        if (!btn) return;
+        const key = btn.dataset.statKey;
+        const computed = btn.dataset.computed;
+        const overrides = getStatOverrides();
+        const current = Object.prototype.hasOwnProperty.call(overrides, key) ? overrides[key] : computed;
+        const input = prompt(`Nouvelle valeur pour cette statistique (laisse vide pour revenir à la valeur calculée automatiquement : ${computed}) :`, current);
+        if (input === null) return; // annulé
+        setStatOverride(key, input.trim() === '' ? null : input.trim());
+        renderDashboard(lastAdminOrders);
+      });
+
       function renderDashboard(dataRows) {
         const counts = { pending: 0, inProgress: 0, delivered: 0, cancelled: 0 };
         let stale = 0;
@@ -12114,42 +12453,42 @@
           <div class="admin-stat-group">
             <div class="admin-stat-group-label">Vue d'ensemble</div>
             <div class="admin-stat-group-grid">
-              <div class="admin-stat-card"><span class="admin-stat-number">${dataRows.length}</span><span class="admin-stat-label">Total</span></div>
-              <div class="admin-stat-card"><span class="admin-stat-number">${counts.pending}</span><span class="admin-stat-label">En attente</span></div>
-              <div class="admin-stat-card"><span class="admin-stat-number">${counts.inProgress}</span><span class="admin-stat-label">En cours</span></div>
-              <div class="admin-stat-card"><span class="admin-stat-number">${counts.delivered}</span><span class="admin-stat-label">Livrées</span></div>
-              <div class="admin-stat-card"><span class="admin-stat-number">${counts.cancelled}</span><span class="admin-stat-label">Annulées</span></div>
+              ${statCardHtml('overview-total', dataRows.length, 'Total')}
+              ${statCardHtml('overview-pending', counts.pending, 'En attente')}
+              ${statCardHtml('overview-inprogress', counts.inProgress, 'En cours')}
+              ${statCardHtml('overview-delivered', counts.delivered, 'Livrées')}
+              ${statCardHtml('overview-cancelled', counts.cancelled, 'Annulées')}
             </div>
           </div>
           <div class="admin-stat-group">
             <div class="admin-stat-group-label">Alertes</div>
             <div class="admin-stat-group-grid">
-              <div class="admin-stat-card admin-stat-urgent"><span class="admin-stat-number">${stale}</span><span class="admin-stat-label">En attente +24h ⚠️</span></div>
-              <div class="admin-stat-card admin-stat-urgent" title="Rappels posés via 'Dupliquer + rappel' dont la date programmée est passée"><span class="admin-stat-number">${countDuePauseReminders(dataRows)}</span><span class="admin-stat-label">Rappels dus ⏰</span></div>
+              ${statCardHtml('alerts-stale', stale, 'En attente +24h ⚠️', { cls: 'admin-stat-urgent' })}
+              ${statCardHtml('alerts-reminders', countDuePauseReminders(dataRows), 'Rappels dus ⏰', { cls: 'admin-stat-urgent', title: "Rappels posés via 'Dupliquer + rappel' dont la date programmée est passée" })}
             </div>
           </div>
           <div class="admin-stat-group">
             <div class="admin-stat-group-label">Aujourd'hui</div>
             <div class="admin-stat-group-grid">
-              <div class="admin-stat-card admin-stat-today" title="Nombre de commandes distinctes dont tu as changé le statut aujourd'hui, depuis cet appareil (pas une donnée du Sheet, juste un repère de productivité local)"><span class="admin-stat-number">${countProcessedToday()}</span><span class="admin-stat-label">Traitées aujourd'hui</span></div>
+              ${statCardHtml('today-processed', countProcessedToday(), 'Traitées aujourd\'hui', { cls: 'admin-stat-today', title: 'Nombre de commandes distinctes dont tu as changé le statut aujourd\'hui, depuis cet appareil (pas une donnée du Sheet, juste un repère de productivité local)' })}
             </div>
           </div>
           <div class="admin-stat-group">
             <div class="admin-stat-group-label">7 derniers jours</div>
             <div class="admin-stat-group-grid">
-              <div class="admin-stat-card" title="Commandes reçues sur les 7 derniers jours glissants, d'après la date de création (donnée du Sheet, valable pour toi comme pour n'importe quel appareil)"><span class="admin-stat-number">${countReceivedLast7Days(dataRows)}</span><span class="admin-stat-label">Reçues cette semaine</span></div>
+              ${statCardHtml('week-received', countReceivedLast7Days(dataRows), 'Reçues cette semaine', { title: 'Commandes reçues sur les 7 derniers jours glissants, d\'après la date de création (donnée du Sheet, valable pour toi comme pour n\'importe quel appareil)' })}
             </div>
           </div>
           <div class="admin-stat-group">
             <div class="admin-stat-group-label">À venir</div>
             <div class="admin-stat-group-grid">
-              <div class="admin-stat-card admin-stat-today" title="Somme des budgets indiqués par les clients (champ rapide 💶) pour les commandes encore en attente ou en cours — une estimation d'après ce qui a été déclaré, pas un montant facturé ni garanti."><span class="admin-stat-number">${Math.round(computeProjectedRevenue(dataRows))}€</span><span class="admin-stat-label">💰 Revenu prévisionnel</span></div>
+              ${statCardHtml('upcoming-revenue', Math.round(computeProjectedRevenue(dataRows)) + '€', '💰 Revenu prévisionnel', { cls: 'admin-stat-today', title: 'Somme des budgets indiqués par les clients (champ rapide 💶) pour les commandes encore en attente ou en cours — une estimation d\'après ce qui a été déclaré, pas un montant facturé ni garanti.' })}
             </div>
           </div>
           <div class="admin-stat-group">
             <div class="admin-stat-group-label">Ce mois</div>
             <div class="admin-stat-group-grid">
-              ${Object.keys(PROMO_CODES).sort().map(code => `<div class="admin-stat-card" title="Commandes reçues ce mois-ci avec le code ${escapeHtml(code)} appliqué (détecté dans la note de commande), pour suivre l'efficacité de l'offre"><span class="admin-stat-number">${countPromoUsageThisMonth(dataRows, code)}</span><span class="admin-stat-label">🎟️ ${escapeHtml(code)} ce mois</span></div>`).join('')}
+              ${Object.keys(PROMO_CODES).sort().map(code => statCardHtml('promo-' + code, countPromoUsageThisMonth(dataRows, code), `🎟️ ${code} ce mois`, { title: `Commandes reçues ce mois-ci avec le code ${code} appliqué (détecté dans la note de commande), pour suivre l'efficacité de l'offre` })).join('')}
             </div>
           </div>
         `;
@@ -12200,6 +12539,81 @@
         const now = Date.now();
         return Object.keys(reminders).filter(id => reminders[id] <= now).length;
       }
+
+      // --- Relance automatique "sans réponse" : détecte tout seul les commandes encore au statut
+      // '🟠 Envoyée, en attente de réponse' depuis plus de NO_RESPONSE_REMINDER_DAYS jours, pour ne
+      // pas laisser une demande mourir silencieusement faute de relance — contrairement aux rappels
+      // ⏸️ En pause ci-dessus (renderPauseRemindersPanel), qui eux sont posés À LA MAIN par toi sur
+      // une commande précise, cette liste se peuple toute seule, sans aucune action de ta part.
+      // 🔧 Seuil en JOURS entiers (contrairement à isStaleOrder plus bas qui raisonne en heures pour
+      // le badge "⚠️ Attention" — ici en jours car "relancer un client" est une décision moins
+      // urgente/plus posée qu'un simple badge d'alerte) avant qu'une commande "Envoyée" apparaisse
+      // dans cette liste. Ajuste selon ta tolérance réelle avant de considérer qu'un silence est
+      // anormal.
+      const NO_RESPONSE_REMINDER_DAYS = 2;
+      function getNoResponseOrders(dataRows) {
+        const now = Date.now();
+        return dataRows.filter(r => {
+          const status = r[1] || '';
+          if (status !== '🟠 Envoyée, en attente de réponse') return false;
+          if (!r[3]) return false;
+          const createdAt = new Date(r[3]).getTime();
+          if (isNaN(createdAt)) return false;
+          return (now - createdAt) / 86400000 > NO_RESPONSE_REMINDER_DAYS;
+        }).sort((a, b) => new Date(a[3]) - new Date(b[3])); // la plus ancienne (donc la plus urgente à relancer) en premier
+      }
+      // Détection très permissive, volontairement — un mauvais classement ("pas un email" alors que
+      // s'en est un) coûte juste un bouton mailto en moins, jamais une erreur visible.
+      function looksLikeEmail(contact) {
+        return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test((contact || '').trim());
+      }
+      function renderNoResponseRemindersPanel(dataRows) {
+        const panel = document.getElementById('adminNoResponseRemindersPanel');
+        if (!panel) return;
+        const orders = getNoResponseOrders(dataRows);
+        if (orders.length === 0) {
+          panel.innerHTML = `<p class="info-text">Aucune commande "Envoyée" en attente de réponse depuis plus de ${NO_RESPONSE_REMINDER_DAYS} jour${NO_RESPONSE_REMINDER_DAYS > 1 ? 's' : ''} pour l'instant.</p>`;
+          return;
+        }
+        const now = Date.now();
+        panel.innerHTML = orders.map(r => {
+          const orderId = r[0];
+          const contact = (r[5] || '').trim();
+          const noteFields = parseNoteQuickFields(r[2] || '');
+          const clientName = noteFields.nom || 'Client';
+          const daysSince = Math.floor((now - new Date(r[3]).getTime()) / 86400000);
+          const message = `Salut ${clientName} ! Je reviens vers toi au sujet de ta demande de montage (réf. ${orderId}) envoyée il y a ${daysSince} jour${daysSince > 1 ? 's' : ''} — je n'ai pas encore eu de retour de ton côté. Est-ce que c'est toujours d'actu ? N'hésite pas à me répondre par ici quand tu peux 🙂`;
+          const mailtoHtml = looksLikeEmail(contact)
+            ? `<a class="filter-reset-btn admin-no-response-mailto" href="mailto:${encodeURIComponent(contact)}?subject=${encodeURIComponent('Relance — commande ' + orderId)}&body=${encodeURIComponent(message)}">✉️ Email pré-rempli</a>`
+            : '';
+          return `
+            <div class="admin-stat-card admin-litige-history-card" style="align-items: flex-start; text-align: left;">
+              <span class="admin-stat-label">${escapeHtml(orderId)} — ${escapeHtml(clientName)}</span>
+              <span class="admin-stat-label" style="color: #ffb020;">⏰ Sans réponse depuis ${daysSince} jour${daysSince > 1 ? 's' : ''}</span>
+              ${contact ? `<span class="admin-stat-label">${escapeHtml(contact)}</span>` : ''}
+              <div style="display: flex; gap: 6px; margin-top: 6px; flex-wrap: wrap;">
+                <button type="button" class="filter-reset-btn admin-no-response-copy" data-order-id="${escapeHtml(orderId)}" data-message="${escapeHtml(message)}" data-contact="${escapeHtml(contact)}">📋 Copier un message</button>
+                ${mailtoHtml}
+                <button type="button" class="filter-reset-btn admin-no-response-goto" data-order-id="${escapeHtml(orderId)}">🔗 Voir</button>
+              </div>
+            </div>`;
+        }).join('');
+        panel.querySelectorAll('.admin-no-response-copy').forEach(b => {
+          b.addEventListener('click', () => {
+            const contact = b.dataset.contact || '';
+            const textToCopy = contact ? `${contact}\n\n${b.dataset.message}` : b.dataset.message;
+            openRelancePreview(b.dataset.orderId, textToCopy, !!contact);
+          });
+        });
+        panel.querySelectorAll('.admin-no-response-goto').forEach(b => {
+          b.addEventListener('click', () => {
+            adminSearchInput.value = b.dataset.orderId;
+            activateAdminTab('commandes');
+            renderAdminOrdersList(lastAdminOrders);
+          });
+        });
+      }
+
       function renderPauseRemindersPanel(dataRows) {
         const panel = document.getElementById('adminPauseRemindersList');
         if (!panel) return;
@@ -12284,16 +12698,10 @@
       // --- Vue "Prochains 7 jours" : croise la charge de travail (computeOrderWorkload, voir
       // juste au-dessus) avec la date de livraison voulue par le client (noteFields.dateVoulue),
       // jour par jour — pour repérer une journée qui déborde avant qu'elle n'arrive plutôt que de
-      // le découvrir une fois dessus. Seuils À AJUSTER selon ta cadence réelle : ceux du total
-      // (WORKLOAD_THRESHOLDS) sont pensés pour l'ensemble des commandes en cours, pas pour une
-      // seule journée, d'où des seuils séparés ici, plus bas. ---
-      const DAILY_WORKLOAD_THRESHOLDS = { normal: 3, high: 6 }; // 🔧 ajuste selon ta cadence quotidienne réelle
-      function dailyWorkloadLevel(total) {
-        if (total <= 0) return { color: 'var(--border-soft)' };
-        if (total <= DAILY_WORKLOAD_THRESHOLDS.normal) return { color: '#8be28b' };
-        if (total <= DAILY_WORKLOAD_THRESHOLDS.high) return { color: '#ffb020' };
-        return { color: '#e2685f' };
-      }
+      // le découvrir une fois dessus. WORKLOAD_WEIGHTS et DAILY_WORKLOAD_THRESHOLDS (utilisés par
+      // dailyWorkloadLevel) sont déclarés tout en haut du script, PAS ici — ce sont les mêmes
+      // constantes que celles utilisées côté client pour l'alerte de surcharge sur la date choisie
+      // dans le formulaire de réservation, voir le commentaire à leur déclaration. ---
       function computeNext7DaysWorkload(dataRows) {
         const today = new Date();
         today.setHours(0, 0, 0, 0);
@@ -12354,6 +12762,29 @@
       // 🔧 Seuil "client dormant" : nombre de jours depuis la dernière commande/demande au-delà
       // duquel le badge "À relancer" s'affiche sur sa fiche. Ajuste selon ton cycle de vente.
       const DORMANT_CLIENT_DAYS = 60;
+      // 🔧 Nombre de passages par "🔁 Modifications demandées" sur UNE MÊME commande, à partir
+      // duquel on considère que ça a "bouclé" plutôt qu'une simple retouche ponctuelle normale.
+      const REVISION_LOOP_THRESHOLD = 2;
+      // --- Fiabilité par client (échelle du client, pas commande par commande) : reprend les mêmes
+      // sources déjà utilisées ailleurs — litige détecté comme dans renderLitigeHistoryPanel
+      // (statut courant OU historique local), retouches en boucle comme dans timelineHtml (compte
+      // les passages par "🔁 Modifications demandées" dans l'historique local d'UNE commande). Même
+      // limite honnête que le reste : ne voit que ce qui s'est passé depuis CET appareil admin. ---
+      function getClientReliabilityFlags(orders) {
+        let hadLitige = false;
+        let hadRevisionLoop = false;
+        orders.forEach(r => {
+          const orderId = r[0];
+          const currentStatus = r[1] || '';
+          const history = getStatusHistory(orderId);
+          if (currentStatus.includes('Litige') || history.some(h => (h.status || '').includes('Litige'))) {
+            hadLitige = true;
+          }
+          const revisionCount = history.filter(h => (h.status || '').includes('Modifications demandées')).length;
+          if (revisionCount >= REVISION_LOOP_THRESHOLD) hadRevisionLoop = true;
+        });
+        return { hadLitige, hadRevisionLoop };
+      }
       function buildClientGroups(dataRows) {
         const groups = new Map();
         dataRows.forEach(r => {
@@ -12379,7 +12810,8 @@
           const daysSinceLastOrder = lastOrderAt ? Math.floor((Date.now() - lastOrderAt) / 86400000) : null;
           const isDormant = daysSinceLastOrder !== null && daysSinceLastOrder >= DORMANT_CLIENT_DAYS
             && g.orders.every(r => !['pending', 'inProgress'].includes(statusCategory(r[1] || ''))); // pas de commande en attente/en cours actuellement
-          return { ...g, totalSpent, count: g.orders.length, lastOrderAt, daysSinceLastOrder, isDormant };
+          const reliability = getClientReliabilityFlags(g.orders);
+          return { ...g, totalSpent, count: g.orders.length, lastOrderAt, daysSinceLastOrder, isDormant, reliability };
         }).sort((a, b) => (b.isDormant - a.isDormant) || b.count - a.count || b.totalSpent - a.totalSpent);
       }
       function renderClientsList(dataRows) {
@@ -12402,7 +12834,7 @@
           return `
             <div class="admin-client-card">
               <button type="button" class="admin-client-card-header" data-client-search="${escapeHtml(g.displayName)}" title="Cliquer pour retrouver ces commandes dans l'onglet Commandes">
-                <span class="admin-client-name">${escapeHtml(g.displayName)}${g.isDormant ? ` <span class="admin-order-badge admin-order-badge-stale" title="Aucune commande active depuis ${g.daysSinceLastOrder} jours">⏰ À relancer</span>` : ''}</span>
+                <span class="admin-client-name">${escapeHtml(g.displayName)}${g.isDormant ? ` <span class="admin-order-badge admin-order-badge-stale" title="Aucune commande active depuis ${g.daysSinceLastOrder} jours">⏰ À relancer</span>` : ''}${g.reliability.hadLitige ? ` <span class="admin-order-badge admin-order-badge-stale" title="Au moins une commande de ce client est passée par le statut ⚠️ Litige / réclamation (cet appareil)">⚠️ Litige passé</span>` : ''}${g.reliability.hadRevisionLoop ? ` <span class="admin-order-badge admin-order-badge-tag" title="Au moins une commande de ce client a eu ${REVISION_LOOP_THRESHOLD}+ passages par 🔁 Modifications demandées (cet appareil)">🔁 Retouches en boucle</span>` : ''}</span>
                 <span class="admin-client-stats">${g.count} commande${g.count > 1 ? 's' : ''} · ~${Math.round(g.totalSpent)}€${g.daysSinceLastOrder !== null ? ` · dernière il y a ${g.daysSinceLastOrder}j` : ''}</span>
               </button>
               <ul class="admin-client-orders">${ordersHtml}</ul>
@@ -12582,6 +13014,13 @@
             if (e.key !== 'Enter') return;
             e.preventDefault();
             addCustomTag(input.dataset.orderId, input.value);
+            renderAdminOrdersList(lastAdminOrders);
+          });
+        });
+        adminOrdersList.querySelectorAll('.admin-custom-tag-status-quick').forEach(select => {
+          select.addEventListener('change', () => {
+            if (!select.value) return;
+            addCustomTag(select.dataset.orderId, select.value);
             renderAdminOrdersList(lastAdminOrders);
           });
         });
@@ -12844,6 +13283,57 @@
             } catch (err) {
               prompt('Copie ce lien manuellement :', url);
             }
+          });
+        });
+
+        // --- Lien de pré-remplissage personnalisé (?prefillNom=...&prefillFormat=...&prefillQty=...,
+        // voir applyPrefillFromUrl côté client) : un lien/QR unique par commande à partager en DM à un
+        // client récurrent — reprend le nom et le format de CETTE commande, pas la peine de les
+        // retaper à chaque fois qu'il recommande la même chose. Ne contient rien de privé (nom et
+        // format déjà visibles dans ta conversation avec lui) — pas de contact, pas de note, pas de
+        // budget. Le nom/format sont lus depuis data-prefill-nom/data-prefill-format (posés sur les
+        // deux boutons ci-dessous au rendu de la carte), pas depuis les champs modifiables de la note
+        // rapide, pour que le lien copié corresponde toujours à ce qui était affiché au moment du
+        // clic même si l'admin est en train de modifier ces champs sans avoir encore synchronisé.
+        function buildPrefillLink(nom, rawFormat) {
+          const formatMatch = /^(.*?)\s*×\s*(\d+)$/.exec(rawFormat || '');
+          const formatKey = formatMatch ? formatMatch[1].trim() : '';
+          const qty = formatMatch ? Math.max(1, parseInt(formatMatch[2], 10) || 1) : null;
+          const params = new URLSearchParams();
+          if (nom) params.set('prefillNom', nom);
+          if (formatKey) params.set('prefillFormat', formatKey);
+          if (qty && qty > 1) params.set('prefillQty', String(qty));
+          return `${window.location.origin}${window.location.pathname}?${params.toString()}`;
+        }
+        adminOrdersList.querySelectorAll('.admin-copy-prefill-link-btn').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const url = buildPrefillLink(btn.dataset.prefillNom, btn.dataset.prefillFormat);
+            try {
+              await navigator.clipboard.writeText(url);
+              const original = btn.textContent;
+              btn.textContent = '✅ Lien copié !';
+              setTimeout(() => { btn.textContent = original; }, 1800);
+            } catch (err) {
+              prompt('Copie ce lien manuellement :', url);
+            }
+          });
+        });
+        // --- Bouton "▦ QR" juste à côté : génère l'image à la demande seulement (pas au rendu de
+        // chaque carte, pour ne pas faire un appel réseau externe par commande affichée) via un
+        // service public gratuit sans clé — data.url ne quitte jamais ton site pour autre chose que
+        // l'affichage de ce QR. Reclique pour masquer sans régénérer.
+        adminOrdersList.querySelectorAll('.admin-toggle-qr-btn').forEach(btn => {
+          btn.addEventListener('click', () => {
+            const orderId = btn.dataset.orderId;
+            const qrBox = adminOrdersList.querySelector(`.admin-prefill-qr[data-order-id="${orderId}"]`);
+            if (!qrBox) return;
+            if (!qrBox.hidden) { qrBox.hidden = true; return; }
+            const url = buildPrefillLink(btn.dataset.prefillNom, btn.dataset.prefillFormat);
+            if (!qrBox.dataset.builtFor || qrBox.dataset.builtFor !== url) {
+              qrBox.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=${encodeURIComponent(url)}" width="180" height="180" alt="QR code du lien pré-rempli pour ce client" loading="lazy" />`;
+              qrBox.dataset.builtFor = url;
+            }
+            qrBox.hidden = false;
           });
         });
 
@@ -13330,40 +13820,17 @@
 
       // --- Charge de travail pondérée par format : un "Business/Sponsorisé" ou un "Complexe/Esport"
       // prend nettement plus de temps de montage qu'un "Court" — les compter à l'identique donnerait
-      // une fausse impression de charge légère si le planning est plein de formats longs. Les poids
-      // ci-dessous sont une estimation à ajuster toi-même selon ton ressenti réel (pas mesurés,
-      // juste une base de départ raisonnable, calée sur l'écart de temps constaté entre formats) —
-      // 1 unité ≈ le temps d'un montage "Court" ; à toi de retoucher les nombres si ton expérience
-      // dit autre chose. ---
-      const WORKLOAD_WEIGHTS = {
-        'Court (TikTok / Reels)': 1,
-        'Long (YouTube / Best-of)': 3,
-        'Long Complexe / Esport': 5,
-        'Business / Sponsorisé': 4,
-      };
-      const WORKLOAD_FALLBACK_WEIGHT = 1; // format non reconnu (texte modifié à la main, "Prix libre") : on suppose l'équivalent d'un Court plutôt que de fausser le total en l'ignorant
+      // une fausse impression de charge légère si le planning est plein de formats longs.
+      // WORKLOAD_WEIGHTS/WORKLOAD_FALLBACK_WEIGHT et le détail du calcul (formatFieldWeight) sont
+      // déclarés tout en haut du script — pas ici — pour être partagés avec l'alerte de surcharge
+      // côté client. computeOrderWorkload ne fait plus que le lien avec le statut/la note de la
+      // commande, le calcul du poids lui-même passe par formatFieldWeight. ---
       function computeOrderWorkload(r) {
         const status = r[1] || '';
         const cat = statusCategory(status);
         if (cat !== 'pending' && cat !== 'inProgress') return { weight: 0, formatKey: null, qty: 0 };
         const noteFields = parseNoteQuickFields(r[2] || '');
-        const formatMatch = /^(.*?)\s*×\s*(\d+)$/.exec(noteFields.format || '');
-        if (!formatMatch) return { weight: WORKLOAD_FALLBACK_WEIGHT, formatKey: 'Non précisé', qty: 1 };
-        const formatKey = formatMatch[1].trim();
-        const qty = Math.max(1, parseInt(formatMatch[2], 10) || 1);
-        if (formatKey === 'Les deux') {
-          // Pas de détail court/long séparé dans ce champ : on prend la moyenne des deux poids,
-          // à défaut de mieux — reste une estimation, pas un calcul précis.
-          const avg = (WORKLOAD_WEIGHTS['Court (TikTok / Reels)'] + WORKLOAD_WEIGHTS['Long (YouTube / Best-of)']) / 2;
-          return { weight: avg * qty, formatKey, qty };
-        }
-        if (SUBSCRIPTION_TIERS[formatKey]) {
-          // Un abonnement = son quota de vidéos courtes/mois, indépendamment de la quantité affichée dans le champ.
-          const videos = SUBSCRIPTION_TIERS[formatKey].videos;
-          return { weight: WORKLOAD_WEIGHTS['Court (TikTok / Reels)'] * videos, formatKey, qty: videos };
-        }
-        const weight = WORKLOAD_WEIGHTS[formatKey];
-        return { weight: (weight != null ? weight : WORKLOAD_FALLBACK_WEIGHT) * qty, formatKey, qty };
+        return formatFieldWeight(noteFields.format);
       }
       function computeWorkloadSummary(dataRows) {
         const byFormat = {};
@@ -13713,7 +14180,12 @@
       function customTagsHtml(orderId) {
         const tags = getCustomTags(orderId);
         const chips = tags.map(t => `<span class="admin-custom-tag-chip">🏷️ ${escapeHtml(t)}<button type="button" class="admin-custom-tag-remove" data-order-id="${orderId}" data-tag="${escapeHtml(t)}" title="Retirer ce tag">✕</button></span>`).join('');
-        return `<div class="admin-custom-tags">${chips}<input type="text" class="admin-custom-tag-input" data-order-id="${orderId}" placeholder="+ tag" maxlength="24" /></div>`;
+        // Sélecteur rapide de "statuts secondaires" : permet d'ajouter en tag n'importe quel statut
+        // de ADMIN_STATUS_OPTIONS en plus du statut principal (select juste au-dessus), pour cumuler
+        // plusieurs statuts sur une même commande (ex : "🎬 En cours de montage" + tag "⚠️ Litige").
+        const statusQuickOptions = ADMIN_STATUS_OPTIONS.filter(s => !tags.includes(s))
+          .map(s => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join('');
+        return `<div class="admin-custom-tags">${chips}<select class="admin-custom-tag-status-quick" data-order-id="${orderId}" title="Ajouter un statut supplémentaire en tag"><option value="">+ statut...</option>${statusQuickOptions}</select><input type="text" class="admin-custom-tag-input" data-order-id="${orderId}" placeholder="+ tag libre" maxlength="24" /></div>`;
       }
       function updateTagFilterOptions() {
         if (!adminTagFilter) return;
@@ -13870,6 +14342,12 @@
               <summary class="admin-card-details-summary">Détails${contact ? ` · 📇 ${contact}` : ''}</summary>
               <div class="admin-card-details-content">
                 ${contact ? `<button type="button" class="admin-copy-tracking-link-btn" data-order-id="${orderId}" title="Copie un lien direct vers le suivi de cette commande, à envoyer par mail/DM au client">🔗 Copier le lien de suivi</button>` : ''}
+                ${(noteFields.nom || noteFields.format) ? `
+                <div class="admin-prefill-link-row">
+                  <button type="button" class="admin-copy-prefill-link-btn" data-order-id="${orderId}" data-prefill-nom="${escapeHtml(noteFields.nom)}" data-prefill-format="${escapeHtml(noteFields.format)}" title="Copie un lien qui pré-remplit le formulaire de réservation avec le nom et le format de cette commande — pratique en DM à un client qui recommande souvent la même chose">🔗👤 Copier le lien client</button>
+                  <button type="button" class="admin-toggle-qr-btn" data-order-id="${orderId}" data-prefill-nom="${escapeHtml(noteFields.nom)}" data-prefill-format="${escapeHtml(noteFields.format)}" title="Afficher/masquer le QR code de ce lien">▦ QR</button>
+                </div>
+                <div class="admin-prefill-qr" data-order-id="${orderId}" hidden></div>` : ''}
                 ${r[9] ? `<span class="admin-order-note-label admin-client-feedback-label">💬 Retours envoyés par le client</span><p class="admin-client-feedback-log">${escapeHtml(r[9]).replace(/\n/g, '<br/>')}</p>` : ''}
                 <span class="admin-order-note-label">📝 Note privée (visible seulement ici)</span>
                 <p class="admin-note-quickfields-hint">Champs rapides — modifie un seul détail sans retaper toute la note, puis clique "Mettre à jour la note" pour le réinjecter dedans (le reste du texte ne bouge pas) :</p>
@@ -14076,6 +14554,7 @@
           renderDashboard(dataRows);
           renderLitigeHistoryPanel(dataRows);
           renderPauseRemindersPanel(dataRows);
+          renderNoResponseRemindersPanel(dataRows);
           renderWorkloadPanel(dataRows);
           renderNext7DaysPanel(dataRows);
           renderDailySummary(dataRows);
@@ -14093,6 +14572,10 @@
 
       adminRefreshBtn.addEventListener('click', () => loadAdminOrders(false));
       loadAdminOrders(false);
+      const adminNoResponseDaysLabel = document.getElementById('adminNoResponseDaysLabel');
+      if (adminNoResponseDaysLabel) {
+        adminNoResponseDaysLabel.textContent = `${NO_RESPONSE_REMINDER_DAYS} jour${NO_RESPONSE_REMINDER_DAYS > 1 ? 's' : ''}`;
+      }
 
       // --- Notification navigateur native quand une nouvelle commande arrive en arrière-plan ---
       // Désactivée par défaut : demande la permission uniquement sur clic explicite du bouton.
@@ -14652,6 +15135,18 @@
     // date de livraison souhaitée, pas juste le jour J) à partir duquel ce jour est considéré
     // complet. Ajuste selon ta capacité réelle de montage simultané.
     const MAX_ORDERS_PER_DELIVERY_DAY = 2;
+    // Charge pondérée par jour EXACT (pas d'étalement depuis aujourd'hui, contrairement au calendrier
+    // ci-dessus) : { 'AAAA-MM-JJ': totalPoids }, rempli par loadAutoBusyDays — reprend exactement le
+    // même calcul que la vue admin "Prochains 7 jours" (computeNext7DaysWorkload/formatFieldWeight,
+    // voir tout en haut du script), pour alerter le client sur le champ #dateLivraisonInput plus bas
+    // AVANT qu'il choisisse une date déjà surchargée, plutôt que de le laisser deviner. null tant que
+    // pas encore chargé (aucune alerte affichée dans ce cas, jamais d'erreur visible).
+    let AUTO_DAY_WORKLOAD = null;
+    // Pont vers updateDateLivraisonHint (déclarée bien plus bas, dans la portée du champ de date) :
+    // assigné là-bas, appelé ici une fois que AUTO_DAY_WORKLOAD arrive (chargement asynchrone) pour
+    // rafraîchir l'alerte si une date était déjà sélectionnée (ex : brouillon restauré) avant que les
+    // données de charge soient arrivées.
+    let refreshDateLivraisonHint = null;
 
     function renderAvailabilityCalendar() {
       const monthEl = document.getElementById('availabilityCalendarMonth');
@@ -14702,6 +15197,15 @@
     // qu'une commande est livrée ou annulée, elle disparaît de la liste renvoyée par le script au
     // prochain appel — les jours qu'elle occupait redeviennent donc libres automatiquement, sans
     // action manuelle de ta part.
+    //
+    // ⚠️ Pour l'alerte de surcharge (AUTO_DAY_WORKLOAD, voir plus haut) : chaque élément de
+    // "publicDeliveryDates" peut désormais être soit une simple date ISO "AAAA-MM-JJ" (ancien format,
+    // toujours accepté — traitée comme un poids de 1), soit un objet {date, format} où "format" est
+    // exactement le champ "format" de la commande (ex : "Long (YouTube / Best-of) × 2") — ni nom, ni
+    // contact, ni note : le format d'une commande n'a rien de privé. Si ton Apps Script ne renvoie
+    // encore que des dates simples, l'alerte fonctionne quand même (poids 1 par commande), juste sans
+    // la pondération par format. Pour l'avoir en entier, ajoute côté script :
+    //   dates: rows.map(function(r) { return { date: ..., format: parseNoteQuickFields(r[2]).format }; })
     function loadAutoBusyDays() {
       if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT')) return;
       const CACHE_KEY = 'michyy_busy_days_cache';
@@ -14713,7 +15217,9 @@
         const year = now.getFullYear();
         const month = now.getMonth();
         const counts = {};
-        dates.forEach(iso => {
+        const dayWorkload = {}; // 'AAAA-MM-JJ' -> poids, jour EXACT (pas d'étalement), voir AUTO_DAY_WORKLOAD plus haut
+        dates.forEach(item => {
+          const iso = typeof item === 'string' ? item : item && item.date;
           const target = new Date(iso + 'T00:00:00');
           if (isNaN(target.getTime()) || target < todayMidnight) return; // date passée : n'occupe plus rien
           // Marque chaque jour entre aujourd'hui et la date voulue (inclus) comme occupé par cette
@@ -14723,11 +15229,17 @@
             const day = d.getDate();
             counts[day] = (counts[day] || 0) + 1;
           }
+          // Charge pondérée du jour EXACT demandé (contrairement à la boucle ci-dessus, aucun
+          // étalement) — même calcul que computeNext7DaysWorkload côté admin.
+          const weight = (item && typeof item === 'object' && item.format) ? formatFieldWeight(item.format).weight : 1;
+          dayWorkload[iso] = (dayWorkload[iso] || 0) + weight;
         });
         AUTO_BUSY_DAYS_THIS_MONTH = Object.keys(counts)
           .filter(day => counts[day] >= MAX_ORDERS_PER_DELIVERY_DAY)
           .map(Number);
+        AUTO_DAY_WORKLOAD = dayWorkload;
         renderAvailabilityCalendar();
+        if (typeof refreshDateLivraisonHint === 'function') refreshDateLivraisonHint();
       }
 
       try {
@@ -16505,6 +17017,8 @@
       if (data.get('delai')) rows.push(['Délai', escapeHtml(data.get('delai'))]);
       if (data.get('dateLivraisonSouhaitee')) rows.push(['📅 Date voulue', escapeHtml(new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR'))]);
       if (document.getElementById('urgentCheck').checked) rows.push(['⚡', 'Mode urgent']);
+      const bonusChecked = data.getAll('bonus');
+      if (bonusChecked.length) rows.push(['✨ Bonus', `${escapeHtml(bonusChecked.join(', '))} (+${bonusChecked.length * 30}€)`]);
       if (priceEstimateValue) rows.push(['Estimation', `${priceEstimateValue.dataset.total || 'non précisé'}€`]);
       if (data.get('driveLink')) rows.push(['Rushs', '✅ lien fourni']);
       else rows.push(['Rushs', '⚠️ manquant']);
@@ -17050,6 +17564,13 @@
       });
     }
 
+    // Bonus optionnels : +30€ par case cochée (name="bonus"), toujours ajouté à la fin, après
+    // remises/majorations/promo — un montant fixe par option, pas un pourcentage du total.
+    function computeBonusTotal() {
+      const checked = Array.from(document.querySelectorAll('.bonus-check:checked'));
+      return { total: checked.length * 30, labels: checked.map(cb => cb.value) };
+    }
+
     function updatePriceEstimate() {
       let total, hints, qtyLabel;
 
@@ -17075,6 +17596,21 @@
         total = result.total;
         hints = result.hints;
         qtyLabel = `${qty} vidéo${qty > 1 ? 's' : ''}`;
+      }
+
+      const bonus = computeBonusTotal();
+      if (bonus.total > 0) {
+        total += bonus.total;
+        hints.push(`✨ ${bonus.labels.length} bonus (+${bonus.total}€)`);
+      }
+      const bonusTotalHint = document.getElementById('bonusTotalHint');
+      if (bonusTotalHint) {
+        if (bonus.total > 0) {
+          bonusTotalHint.style.display = 'block';
+          bonusTotalHint.textContent = `✨ ${bonus.labels.join(', ')} — +${bonus.total}€ inclus dans le total ci-dessus.`;
+        } else {
+          bonusTotalHint.style.display = 'none';
+        }
       }
 
       priceEstimateHint.textContent = hints.join(' · ') || qtyLabel;
@@ -17282,6 +17818,32 @@
       });
     });
 
+    // --- Lien de pré-remplissage personnalisé (généré côté admin, voir bouton "🔗👤 Lien client" sur
+    // chaque commande) : ?prefillNom=...&prefillFormat=...&prefillQty=... permet d'envoyer un lien ou
+    // un QR unique en DM à un client récurrent — il arrive sur la page avec son nom et son format
+    // habituel déjà remplis dans le formulaire, il n'a plus qu'à vérifier et envoyer. Réutilise
+    // applyFormatToForm/goToReservationWithFormat ci-dessus, comme les liens "Je réserve ce format".
+    // Ne scrolle/ne touche à rien si aucun des deux paramètres n'est présent, pour ne jamais
+    // perturber un visiteur normal arrivé sans ces paramètres dans l'URL.
+    (function applyPrefillFromUrl() {
+      const prefillNom = urlParams.get('prefillNom');
+      const prefillFormat = urlParams.get('prefillFormat');
+      const prefillQty = urlParams.get('prefillQty');
+      if (!prefillNom && !prefillFormat) return;
+      if (prefillFormat) {
+        goToReservationWithFormat(prefillFormat, {
+          quantity: prefillQty ? parseInt(prefillQty, 10) : null
+        });
+      } else {
+        const target = document.getElementById('reservation');
+        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+      if (prefillNom && reserveForm.elements['nom']) {
+        reserveForm.elements['nom'].value = prefillNom;
+        saveDraft();
+      }
+    })();
+
     // --- Date de livraison souhaitée : calendrier optionnel permettant au client d'indiquer
     // quand il aimerait recevoir sa vidéo. Purement indicatif (pas un engagement ferme) : on
     // compare la date choisie à la fourchette de délai estimée (DELAY_RANGES) pour prévenir le
@@ -17297,6 +17859,8 @@
 
       function updateDateLivraisonHint() {
         if (!dateLivraisonHint) return;
+        dateLivraisonInput.classList.remove('is-heavy-day', 'is-full-day');
+        dateLivraisonHint.classList.remove('is-heavy-day', 'is-full-day');
         if (!dateLivraisonInput.value) { dateLivraisonHint.textContent = ''; return; }
         const chosen = new Date(dateLivraisonInput.value + 'T00:00:00');
         if (isNaN(chosen.getTime())) { dateLivraisonHint.textContent = ''; return; }
@@ -17314,8 +17878,28 @@
         } else {
           text += ' ✅ Compatible avec mon délai habituel pour ce format.';
         }
+        // --- Alerte de surcharge : reprend EXACTEMENT le calcul de la vue admin "Prochains 7 jours"
+        // (poids par format + DAILY_WORKLOAD_THRESHOLDS, déclarés tout en haut du script, voir
+        // formatFieldWeight/dailyWorkloadLevel) plutôt qu'un seuil séparé maintenu à la main ici — si
+        // l'admin voit une journée "🔴 Complet", le client doit voir la même chose sur cette date,
+        // pas une estimation différente. Se limite aux 7 prochains jours comme la vue dont elle
+        // s'inspire (au-delà, la charge n'est de toute façon pas fiable à cet horizon). Ne s'affiche
+        // que si AUTO_DAY_WORKLOAD a pu être chargé (sinon rien — jamais d'erreur visible).
+        if (AUTO_DAY_WORKLOAD && daysUntil <= 6) {
+          const total = AUTO_DAY_WORKLOAD[dateLivraisonInput.value] || 0; // valeur native de l'input, déjà au format AAAA-MM-JJ
+          if (total > DAILY_WORKLOAD_THRESHOLDS.high) {
+            text += ' 🟠 Cette journée est déjà très chargée de mon côté — encore possible, mais compte plutôt sur un délai un peu plus long, ou choisis une autre date si tu peux.';
+            dateLivraisonInput.classList.add('is-full-day');
+            dateLivraisonHint.classList.add('is-full-day');
+          } else if (total > DAILY_WORKLOAD_THRESHOLDS.normal) {
+            text += ' 🟡 Journée déjà pas mal chargée de mon côté, mais encore jouable.';
+            dateLivraisonInput.classList.add('is-heavy-day');
+            dateLivraisonHint.classList.add('is-heavy-day');
+          }
+        }
         dateLivraisonHint.textContent = text;
       }
+      refreshDateLivraisonHint = updateDateLivraisonHint; // pont pour loadAutoBusyDays (voir plus haut) : rafraîchit l'alerte dès que la charge arrive, même si une date était déjà choisie
       dateLivraisonInput.addEventListener('change', updateDateLivraisonHint);
       formatSelect.addEventListener('change', updateDateLivraisonHint);
       urgentCheck.addEventListener('change', updateDateLivraisonHint);
@@ -17335,6 +17919,11 @@
     quantiteLongInput.addEventListener('input', updateLiveRecap);
     usageCommercialCheck.addEventListener('change', updateLiveRecap);
     urgentCheck.addEventListener('change', updatePriceEstimate);
+    // Bonus optionnels (+30€/case cochée) : chaque case recalcule le prix ET le récap en direct.
+    document.querySelectorAll('.bonus-check').forEach(cb => {
+      cb.addEventListener('change', updatePriceEstimate);
+      cb.addEventListener('change', updateLiveRecap);
+    });
     const depositAmount = document.getElementById('depositAmount');
     const depositPaypalBtn = document.getElementById('depositPaypalBtn');
     let currentDepositAmountForPaypal = 20;
@@ -17743,11 +18332,17 @@
       // supplément de 10€ soit facturé au-delà.
       const revisionCount = rawFeedback ? rawFeedback.split('\n').filter(l => l.trim()).length : 0;
       const revisionsLeft = Math.max(0, 5 - revisionCount);
+      // Tarif par lots de 3 : les 5 premières retouches sont incluses, puis chaque lot ENTIER de 3
+      // retouches supplémentaires coûte 10€ (donc retouches 6-7-8 = 10€, 9-10-11 = 10€ de plus, etc.)
+      // plutôt qu'un tarif à l'unité.
+      const extraIndex = revisionCount - 4; // 1 pour la 1ère retouche hors forfait (la 6e au total)
+      const packNumber = extraIndex > 0 ? Math.ceil(extraIndex / 3) : 0;
+      const posInPack = extraIndex > 0 ? ((extraIndex - 1) % 3) + 1 : 0;
       const revisionCounterHtml = revisionCount > 0
         ? (revisionCount >= 5
-            ? `<p class="tracking-revision-counter tracking-revision-counter-over">⚠️ Retouche ${revisionCount + 1} — les 5 retouches incluses sont dépassées, celle-ci (et les suivantes) sont facturées <strong>10€</strong> chacune.</p>`
-            : `<p class="tracking-revision-counter">🔁 Retouche ${revisionCount} sur 5 incluses (encore ${revisionsLeft} avant supplément de 10€/retouche).</p>`)
-        : `<p class="tracking-revision-counter">🔁 5 retouches incluses pour cette vidéo, +10€ par retouche au-delà.</p>`;
+            ? `<p class="tracking-revision-counter tracking-revision-counter-over">⚠️ Retouche ${revisionCount + 1} — au-delà des 5 incluses, chaque lot de 3 retouches supplémentaires est facturé <strong>10€</strong>. Tu es dans le lot n°${packNumber} (${posInPack}/3 de ce lot, donc ${posInPack === 3 ? 'ce lot de 10€ est complet' : `encore ${3 - posInPack} avant que ce lot de 10€ soit complet`}).</p>`
+            : `<p class="tracking-revision-counter">🔁 Retouche ${revisionCount} sur 5 incluses (encore ${revisionsLeft} avant que les retouches supplémentaires soient facturées, par lot de 3 pour 10€).</p>`)
+        : `<p class="tracking-revision-counter">🔁 5 retouches incluses pour cette vidéo, puis +10€ tous les 3 retouches supplémentaires (par lot, pas à l'unité).</p>`;
       const feedbackSentHtml = rawFeedback
         ? `<details class="tracking-feedback-history"><summary>📜 Tes envois précédents</summary><p>${escapeHtml(rawFeedback).replace(/\n/g, '<br/>')}</p></details>`
         : '';
@@ -18278,7 +18873,8 @@
           // pour les 99% de cas où personne n'a encore payé à ce stade.
           ...(preuvePreview ? [{ icon: '💳', label: 'Preuve de paiement', value: preuvePreview }] : []),
           { icon: '📁', label: 'Lien des rushs', value: data.get('driveLink') || '⚠️ non fourni', warn: !data.get('driveLink') },
-          { icon: '📝', label: 'Description', value: descriptionPreview || 'non précisé' }
+          { icon: '📝', label: 'Description', value: descriptionPreview || 'non précisé' },
+          ...(data.getAll('bonus').length ? [{ icon: '✨', label: 'Bonus', value: `${data.getAll('bonus').join(', ')} (+${data.getAll('bonus').length * 30}€)` }] : [])
         ];
 
         recapContent.innerHTML = `
@@ -18392,6 +18988,10 @@
         fields.push({ name: "🎬 Détail par vidéo (2 et +)", value: perVideoText });
       }
       fields.push({ name: "📁 Lien des rushs", value: data.get('driveLink') || 'non précisé' });
+      const bonusList = data.getAll('bonus');
+      if (bonusList.length) {
+        fields.push({ name: "✨ Bonus", value: `${bonusList.join(', ')} (+${bonusList.length * 30}€ inclus dans le budget indicatif)` });
+      }
       fields.push({ name: "N° de suivi", value: orderId });
 
       const payload = {
@@ -19184,6 +19784,22 @@
               ni de visibilité sur ce qui a été géré ailleurs (autre appareil, modification directe du Sheet).
             </p>
             <div id="adminLitigeHistoryList" class="admin-dashboard"></div>
+          </div>
+        </details>
+
+        <details class="more-options admin-stats-group" id="adminGroupNoResponseReminders">
+          <summary class="more-options-summary">
+            <span class="more-options-summary-label">🔔 Relance auto : sans réponse</span>
+            <span class="more-options-summary-hint">(détecté automatiquement, aucune action requise pour que ça se peuple)</span>
+          </summary>
+          <div class="more-options-content">
+            <p class="admin-timeline-note">
+              Commandes encore au statut "🟠 Envoyée, en attente de réponse" depuis plus de
+              <strong id="adminNoResponseDaysLabel"></strong> — contrairement aux "⏰ Rappels programmés"
+              ci-dessous (posés à la main sur une commande précise), cette liste se remplit toute seule,
+              pour ne pas laisser une demande mourir silencieusement faute de relance.
+            </p>
+            <div id="adminNoResponseRemindersPanel" class="admin-dashboard"></div>
           </div>
         </details>
 
