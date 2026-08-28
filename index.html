@@ -1134,6 +1134,7 @@
     body {
       min-height: 100vh;
       background: var(--bg);
+      color: var(--text);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -5033,6 +5034,9 @@
       padding: 9px 13px;
       margin: 4px 0 10px;
     }
+    .per-video-single-rush {
+      margin: 0 0 10px;
+    }
     .per-video-blocks {
       display: flex;
       flex-direction: column;
@@ -7731,7 +7735,6 @@
     .mini-toc-dot--portfolio { background: #ff9a00; }
     .mini-toc-dot--process { background: #7c3cff; }
     .mini-toc-dot--conseils { background: #14b8a6; }
-    .mini-toc-dot--ressources { background: #a78bfa; }
     .mini-toc-dot--dm { background: #ec4899; }
     .mini-toc-dot--reservation { background: #ff3c3c; }
     .mini-toc-dot--faq,
@@ -7817,47 +7820,6 @@
 
     .conseils-articles { margin-top: 6px; }
 
-    .ressources-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-      gap: 14px;
-      margin-top: 16px;
-    }
-    .ressources-card {
-      display: flex;
-      flex-direction: column;
-      gap: 6px;
-      background: var(--surface-soft);
-      border: 0.5px solid var(--border-soft);
-      border-radius: 14px;
-      padding: 18px;
-    }
-    .ressources-card-icon { font-size: 24px; }
-    .ressources-card-title {
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 14px;
-      color: var(--text);
-    }
-    .ressources-card-text {
-      font-size: 12.5px;
-      color: var(--text-tertiary);
-      line-height: 1.5;
-      flex: 1;
-    }
-    .ressources-card-link {
-      margin-top: 8px;
-      align-self: flex-start;
-      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
-      color: #fff;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 12px;
-      padding: 8px 14px;
-      border-radius: 8px;
-      text-decoration: none;
-    }
-
     /* --- Section "Ce qu'on me demande souvent en DM" : bulles façon messagerie, volontairement
        différentes visuellement des .faq-item (accordéon formel) pour donner l'impression d'un
        vrai échange privé plutôt que d'une FAQ de plus. --- */
@@ -7894,6 +7856,7 @@
       background: var(--surface-soft);
       border: 0.5px solid var(--border);
       border-bottom-left-radius: 4px;
+      color: var(--text);
     }
     .dm-bubble-me {
       align-self: flex-end;
@@ -8910,7 +8873,6 @@
       <a href="#tarifs"><span class="mini-toc-dot mini-toc-dot--tarifs" aria-hidden="true"></span>Tarifs</a>
       <a href="#process"><span class="mini-toc-dot mini-toc-dot--process" aria-hidden="true"></span>Process</a>
       <a href="#conseils"><span class="mini-toc-dot mini-toc-dot--conseils" aria-hidden="true"></span>Conseils</a>
-      <a href="#ressources"><span class="mini-toc-dot mini-toc-dot--ressources" aria-hidden="true"></span>Ressources</a>
       <a href="#reservation"><span class="mini-toc-dot mini-toc-dot--reservation" aria-hidden="true"></span>Réserver</a>
       <a href="#faq"><span class="mini-toc-dot mini-toc-dot--faq" aria-hidden="true"></span>FAQ</a>
       <a href="#dm-questions"><span class="mini-toc-dot mini-toc-dot--dm" aria-hidden="true"></span>En vrai</a>
@@ -10251,42 +10213,6 @@
     </div>
   </section>
 
-  <section id="ressources" class="full-section ressources-section reveal">
-    <div class="info-header">
-      <div class="section-divider">
-        <div class="section-divider-line"></div>
-        <span class="section-divider-text">Ressources</span>
-        <div class="section-divider-line"></div>
-      </div>
-      <div class="info-title">Ressources gratuites</div>
-    </div>
-    <p class="info-text">Pas encore prêt·e à commander ? Voici 3 ressources gratuites, sans inscription ni commande, pour t'aider à monter toi-même en attendant — ou juste pour voir comment je travaille.</p>
-
-    <div class="ressources-grid">
-      <div class="ressources-card">
-        <span class="ressources-card-icon">✏️</span>
-        <span class="ressources-card-title">Preset de sous-titres animés</span>
-        <span class="ressources-card-text">Le style de sous-titres que j'utilise sur mes montages courts, prêt à importer dans CapCut.</span>
-        <a href="#" class="ressources-card-link" data-ressource="preset-sous-titres">📥 Télécharger</a>
-      </div>
-      <div class="ressources-card">
-        <span class="ressources-card-icon">🎬</span>
-        <span class="ressources-card-title">Template CapCut basique</span>
-        <span class="ressources-card-text">Une base de montage simple (transitions, calages rythme) pour démarrer un format court sans partir de zéro.</span>
-        <a href="#" class="ressources-card-link" data-ressource="template-capcut">📥 Télécharger</a>
-      </div>
-      <div class="ressources-card">
-        <span class="ressources-card-icon">📋</span>
-        <span class="ressources-card-title">Checklist "rushs prêts à monter"</span>
-        <span class="ressources-card-text">La liste que je suis moi-même avant de commencer un montage : tri, nommage, ce qu'il faut vérifier avant d'envoyer tes fichiers.</span>
-        <a href="#" class="ressources-card-link" data-ressource="checklist-rushs">📥 Télécharger</a>
-      </div>
-    </div>
-    <p class="note-aside" style="margin-top: 10px;">
-      ⚠️ À faire avant mise en ligne : remplacer les liens <code>#</code> ci-dessus par les vrais liens de téléchargement une fois les fichiers déposés quelque part (Drive/SwissTransfer en accès libre, par exemple).
-    </p>
-  </section>
-
   <section id="reservation" class="full-section reserve-section reveal">
     <div class="info-header">
       <div class="section-divider">
@@ -10327,14 +10253,12 @@
           <div class="availability-calendar-grid" id="availabilityCalendarGrid"></div>
           <div class="availability-calendar-legend">
             <span><span class="availability-legend-dot free"></span>Libre</span>
-            <span><span class="availability-legend-dot busy"></span>Complet</span>
+            <span><span class="availability-legend-dot busy"></span>Commande(s) en cours</span>
             <span><span class="availability-legend-dot today"></span>Aujourd'hui</span>
           </div>
         </div>
         <p class="availability-calendar-note">
-          💡 Les jours "complets" sont calculés à partir du nombre de commandes en cours visant déjà cette date de
-          livraison — un jour marqué "libre" n'est pas bloqué tant que ta commande n'est pas confirmée. Pour une date
-          précise, le plus sûr reste de me contacter directement.
+          💡 "Commande(s) en cours" ne veut pas dire que je ne prends plus de commandes ce jour-là — juste que mon planning est déjà occupé sur cette date. Le formulaire ci-dessous reste ouvert : je m'organise selon l'ordre d'arrivée et je te dis franchement si un délai plus long est à prévoir. Un jour marqué "libre" n'est pas bloqué tant que ta commande n'est pas confirmée. Pour une date précise, le plus sûr reste de me contacter directement.
         </p>
       </div>
     </details>
@@ -10584,6 +10508,20 @@
         </details>
       </div>
 
+      <!-- Encart "preuve" que l'acompte est réellement obligatoire pour tout le monde, sans
+           exception ni passe-droit — même gabarit visuel que .disputes-transparency-banner
+           (bouclier + texte court), pour rassurer juste avant le bouton de paiement : ce n'est ni
+           une pratique ciblée sur ce client en particulier, ni négociable au cas par cas. -->
+      <div class="disputes-transparency-banner deposit-mandatory-banner">
+        <span class="disputes-transparency-banner-icon">🔒</span>
+        <span>
+          <strong>Acompte obligatoire pour toute commande</strong>, sans exception : c'est la même
+          règle pour chaque client, écrite noir sur blanc dans les
+          <a href="#cgv-acompte" class="inline-link">CGV</a> — jamais une condition ajoutée après
+          coup ou réservée à certains.
+        </span>
+      </div>
+
       <!-- Bouton PayPal intégré (popup, sans quitter le site) : ne s'affiche que si PAYPAL_CLIENT_ID
            est configuré (voir commentaire près de sa définition en JS). Sinon reste vide et le lien
            classique juste au-dessus fait le travail comme avant. -->
@@ -10647,6 +10585,15 @@
       <p id="perVideoInstructions" class="per-video-instructions" style="display: none;">
         📁 <strong>Obligatoire :</strong> chaque bloc ci-dessous correspond à une vidéo différente — remplis-en un par vidéo (nom, description, rushs, exemple) pour que je sache exactement quoi faire avec quels fichiers.
       </p>
+      <!-- Case "un seul rush" : évite de faire retaper/re-coller le même lien à chaque bloc quand
+           toutes les vidéos viennent en fait du même dossier de rushs. Cochée, elle masque
+           uniquement les champs "Lien des rushs" de chaque bloc vidéo (le nom, la description et
+           l'exemple par vidéo restent, pour garder le détail utile sur le style voulu par vidéo) et
+           les retire du required — voir toggleSingleRushMode(). -->
+      <label class="checkbox-label per-video-single-rush" id="perVideoSingleRushWrap" style="display: none;">
+        <input type="checkbox" id="singleRushCheck" />
+        <span>📁 Un seul et même dossier de rushs pour toutes ces vidéos <span class="optional-tag">(pas besoin de recoller le lien à chaque bloc)</span></span>
+      </label>
       <div id="perVideoBlocks" class="per-video-blocks form-advanced" style="display: none;"></div>
 
       <input type="hidden" name="budget" id="budgetInput" />
@@ -10664,26 +10611,28 @@
       </label>
       <p class="note-aside form-advanced">🎬 Tu peux aussi piocher un style directement dans <a href="#portfolio" class="inline-link">mon portfolio ci-dessus</a> et me dire quelle vidéo te plaît.</p>
 
-      <!-- Bonus optionnels : chaque case cochée ajoute +30€ au total, pris en compte directement
-           dans computeBonusTotal() → updatePriceEstimate() (donc dans le prix affiché, l'acompte 50%
-           et le budget envoyé), et listé dans le récap + le message Discord/note admin. -->
+      <!-- Bonus optionnels : chaque bonus a son propre prix (data-price), pas de montant unique
+           imposé à tous — ajuste librement les data-price ci-dessous, ce sont les seules valeurs à
+           changer. Pris en compte directement dans computeBonusTotal() → updatePriceEstimate() (donc
+           dans le prix affiché, l'acompte 50% et le budget envoyé), et listé dans le récap + le
+           message Discord/note admin. -->
       <div class="form-section-label form-advanced">✨ Bonus (optionnel)</div>
       <div class="bonus-options form-advanced" id="bonusOptions">
         <label class="checkbox-label">
-          <input type="checkbox" name="bonus" value="Sous-titres animés stylés" class="bonus-check" />
-          <span>Sous-titres animés stylés <span class="optional-tag">(+30€)</span></span>
+          <input type="checkbox" name="bonus" value="Sous-titres animés stylés" data-price="20" class="bonus-check" />
+          <span>Sous-titres animés stylés <span class="optional-tag">(+20€)</span></span>
         </label>
         <label class="checkbox-label">
-          <input type="checkbox" name="bonus" value="Cover / miniature personnalisée" class="bonus-check" />
-          <span>Cover / miniature personnalisée <span class="optional-tag">(+30€)</span></span>
+          <input type="checkbox" name="bonus" value="Cover / miniature personnalisée" data-price="15" class="bonus-check" />
+          <span>Cover / miniature personnalisée <span class="optional-tag">(+15€)</span></span>
         </label>
         <label class="checkbox-label">
-          <input type="checkbox" name="bonus" value="Version verticale + horizontale" class="bonus-check" />
-          <span>Version verticale + horizontale de la même vidéo <span class="optional-tag">(+30€)</span></span>
+          <input type="checkbox" name="bonus" value="Version verticale + horizontale" data-price="25" class="bonus-check" />
+          <span>Version verticale + horizontale de la même vidéo <span class="optional-tag">(+25€)</span></span>
         </label>
         <label class="checkbox-label">
-          <input type="checkbox" name="bonus" value="Musique / sound design sur-mesure" class="bonus-check" />
-          <span>Musique / sound design sur-mesure <span class="optional-tag">(+30€)</span></span>
+          <input type="checkbox" name="bonus" value="Musique / sound design sur-mesure" data-price="35" class="bonus-check" />
+          <span>Musique / sound design sur-mesure <span class="optional-tag">(+35€)</span></span>
         </label>
       </div>
       <p class="note-aside form-advanced" id="bonusTotalHint" style="display: none;"></p>
@@ -11934,8 +11883,7 @@
         { id: 'portfolio', label: 'Portfolio', selector: '.portfolio-section' },
         { id: 'avis', label: 'Avis clients', selector: '.testimonials-section' },
         { id: 'parrainage', label: 'Parrainage', selector: '.parrainage-section' },
-        { id: 'dm-questions', label: 'Ce qu\'on me demande en DM', selector: '.dm-questions-section' },
-        { id: 'ressources', label: 'Ressources gratuites', selector: '.ressources-section' }
+        { id: 'dm-questions', label: 'Ce qu\'on me demande en DM', selector: '.dm-questions-section' }
       ];
       (function initAdminSectionToggles() {
         const list = document.getElementById('adminSectionToggleList');
@@ -17018,7 +16966,7 @@
       if (data.get('dateLivraisonSouhaitee')) rows.push(['📅 Date voulue', escapeHtml(new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR'))]);
       if (document.getElementById('urgentCheck').checked) rows.push(['⚡', 'Mode urgent']);
       const bonusChecked = data.getAll('bonus');
-      if (bonusChecked.length) rows.push(['✨ Bonus', `${escapeHtml(bonusChecked.join(', '))} (+${bonusChecked.length * 30}€)`]);
+      if (bonusChecked.length) rows.push(['✨ Bonus', `${escapeHtml(bonusChecked.join(', '))} (+${bonusTotalFromValues(bonusChecked)}€)`]);
       if (priceEstimateValue) rows.push(['Estimation', `${priceEstimateValue.dataset.total || 'non précisé'}€`]);
       if (data.get('driveLink')) rows.push(['Rushs', '✅ lien fourni']);
       else rows.push(['Rushs', '⚠️ manquant']);
@@ -17298,13 +17246,16 @@
       });
 
       const instructions = document.getElementById('perVideoInstructions');
+      const singleRushWrap = document.getElementById('perVideoSingleRushWrap');
       if (qty < 2) {
         perVideoBlocksContainer.style.display = 'none';
         perVideoBlocksContainer.innerHTML = '';
         if (instructions) instructions.style.display = 'none';
+        if (singleRushWrap) singleRushWrap.style.display = 'none';
         return;
       }
       if (instructions) instructions.style.display = 'block';
+      if (singleRushWrap) singleRushWrap.style.display = 'flex';
 
       let html = '';
       for (let i = 2; i <= qty; i++) {
@@ -17333,7 +17284,19 @@
       }
       perVideoBlocksContainer.innerHTML = html;
       perVideoBlocksContainer.style.display = 'flex';
+      applySingleRushMode();
     }
+    // Applique/retire le mode "un seul rush" : masque les champs "Lien des rushs" de chaque bloc
+    // vidéo (et les rend non-required) sans toucher au nom/description/exemple de chaque vidéo.
+    function applySingleRushMode() {
+      const single = document.getElementById('singleRushCheck')?.checked;
+      perVideoBlocksContainer.querySelectorAll('.video-extra-block').forEach(block => {
+        const linkLabel = block.querySelector('.video-extra-link')?.closest('label');
+        if (!linkLabel) return;
+        linkLabel.style.display = single ? 'none' : '';
+      });
+    }
+    document.getElementById('singleRushCheck')?.addEventListener('change', applySingleRushMode);
     quantiteInput.addEventListener('input', renderPerVideoBlocks);
     renderPerVideoBlocks();
 
@@ -17564,11 +17527,25 @@
       });
     }
 
-    // Bonus optionnels : +30€ par case cochée (name="bonus"), toujours ajouté à la fin, après
-    // remises/majorations/promo — un montant fixe par option, pas un pourcentage du total.
+    // Table centrale des prix bonus (doit correspondre aux data-price posés sur chaque
+    // <input class="bonus-check"> dans le formulaire) — une seule source de vérité, utilisée
+    // aussi bien pour le récap live que pour le message final, pour ne jamais désynchroniser.
+    const BONUS_PRICES = {
+      'Sous-titres animés stylés': 20,
+      'Cover / miniature personnalisée': 15,
+      'Version verticale + horizontale': 25,
+      'Musique / sound design sur-mesure': 35
+    };
+    function bonusTotalFromValues(values) {
+      return values.reduce((sum, v) => sum + (BONUS_PRICES[v] || 0), 0);
+    }
+
+    // Bonus optionnels : chaque case a son propre prix (attribut data-price sur l'input), toujours
+    // ajouté à la fin, après remises/majorations/promo. Pas de montant unique imposé à tous les bonus.
     function computeBonusTotal() {
       const checked = Array.from(document.querySelectorAll('.bonus-check:checked'));
-      return { total: checked.length * 30, labels: checked.map(cb => cb.value) };
+      const total = checked.reduce((sum, cb) => sum + (parseFloat(cb.dataset.price) || 0), 0);
+      return { total, labels: checked.map(cb => `${cb.value} (+${cb.dataset.price}€)`), rawLabels: checked.map(cb => cb.value) };
     }
 
     function updatePriceEstimate() {
@@ -18874,7 +18851,7 @@
           ...(preuvePreview ? [{ icon: '💳', label: 'Preuve de paiement', value: preuvePreview }] : []),
           { icon: '📁', label: 'Lien des rushs', value: data.get('driveLink') || '⚠️ non fourni', warn: !data.get('driveLink') },
           { icon: '📝', label: 'Description', value: descriptionPreview || 'non précisé' },
-          ...(data.getAll('bonus').length ? [{ icon: '✨', label: 'Bonus', value: `${data.getAll('bonus').join(', ')} (+${data.getAll('bonus').length * 30}€)` }] : [])
+          ...(data.getAll('bonus').length ? [{ icon: '✨', label: 'Bonus', value: `${data.getAll('bonus').join(', ')} (+${bonusTotalFromValues(data.getAll('bonus'))}€)` }] : [])
         ];
 
         recapContent.innerHTML = `
@@ -18990,7 +18967,7 @@
       fields.push({ name: "📁 Lien des rushs", value: data.get('driveLink') || 'non précisé' });
       const bonusList = data.getAll('bonus');
       if (bonusList.length) {
-        fields.push({ name: "✨ Bonus", value: `${bonusList.join(', ')} (+${bonusList.length * 30}€ inclus dans le budget indicatif)` });
+        fields.push({ name: "✨ Bonus", value: `${bonusList.join(', ')} (+${bonusTotalFromValues(bonusList)}€ inclus dans le budget indicatif)` });
       }
       fields.push({ name: "N° de suivi", value: orderId });
 
