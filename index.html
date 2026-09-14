@@ -17,8 +17,8 @@
   <meta property="og:title" content="Michyy · Monteur vidéo" />
   <meta property="og:description" content="Montage vidéo formats courts et longs : TikTok, Reels, YouTube, best-of. Devis sous 24h, réservation directement sur le site." />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="https://michyy.netlify.app" />
-  <link rel="canonical" href="https://michyy.netlify.app/" />
+  <meta property="og:url" content="https://michyy-portfolio.pages.dev" />
+  <link rel="canonical" href="https://michyy-portfolio.pages.dev/" />
 
   <meta name="twitter:card" content="summary" />
   <meta name="twitter:title" content="Michyy · Monteur vidéo" />
@@ -17708,7 +17708,7 @@
         const dateEndStr = `${nextDate.getFullYear()}${pad2(nextDate.getMonth() + 1)}${pad2(nextDate.getDate())}`;
         return [
           'BEGIN:VEVENT',
-          `UID:michyy-dispo-${dateStr}@michyy.netlify.app`,
+          `UID:michyy-dispo-${dateStr}@michyy-portfolio.pages.dev`,
           `DTSTAMP:${dtstamp}`,
           `DTSTART;VALUE=DATE:${dateStr}`,
           `DTEND;VALUE=DATE:${dateEndStr}`,
@@ -18201,7 +18201,7 @@
     const copyLinkBtn = document.getElementById('copyLinkBtn');
     const copyLinkText = document.getElementById('copyLinkText');
     copyLinkBtn.addEventListener('click', () => {
-      copyToClipboard('https://michyy.netlify.app').then(() => {
+      copyToClipboard('https://michyy-portfolio.pages.dev').then(() => {
         const original = copyLinkText.textContent;
         copyLinkText.textContent = 'Copié !';
         setTimeout(() => { copyLinkText.textContent = original; }, 1500);
@@ -20019,7 +20019,7 @@
           doc.setFont('helvetica', 'normal');
           doc.setFontSize(10);
           doc.setTextColor(120);
-          doc.text(`Généré le ${new Date().toLocaleDateString('fr-FR')} depuis michyy.netlify.app`, 14, 27);
+          doc.text(`Généré le ${new Date().toLocaleDateString('fr-FR')} depuis michyy-portfolio.pages.dev`, 14, 27);
 
           let y = 40;
           doc.setTextColor(20);
@@ -20233,7 +20233,7 @@
         "serviceType": "Montage vidéo",
         "provider": { "@type": "Person", "name": "Michyy" },
         "areaServed": "FR",
-        "url": "https://michyy.netlify.app",
+        "url": "https://michyy-portfolio.pages.dev",
         "description": "Montage vidéo pour créateurs et marques : formats courts (TikTok, Reels) et longs (YouTube, best-of, esport). Devis sous 24h, réservation en ligne."
       };
       if (reviewCount > 0) {
