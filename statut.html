@@ -3,429 +3,190 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Statut du service — Michyy</title>
-<meta name="description" content="En ligne ou hors ligne, délai actuel, charge des prochains jours et dernière livraison — en un coup d'œil." />
+<title>Statut — Michyy</title>
+<meta name="description" content="Statut en direct : en ligne/hors ligne, délai de réponse estimé, dernière vidéo livrée." />
 <meta name="robots" content="noindex" />
 <!--
-  Page volontairement séparée de index.html (pas un ?statut=1 sur la grosse page) : pensée pour un
-  lien de bio Discord/X — un chargement minimal, sans tout le reste du site derrière. Elle ne fait
-  AUCUN nouveau calcul métier : elle relit les mêmes constantes publiques (déclarées hors de
-  `if (isAdminUnlocked)` dans index.html — DELAY_RANGES, ACTIVE_START/END, AVAILABLE,
-  SLOTS_AVAILABLE_THIS_WEEK, AFFLUENCE_LEVEL, WORKLOAD_WEIGHTS, DAILY_WORKLOAD_THRESHOLDS) et
-  interroge les MÊMES actions Apps Script déjà utilisées par index.html (publicDeliveryDates,
-  publicRecentDeliveries — aucune nouvelle action à ajouter côté script).
+  🔧 PAGE DE MAINTENANCE — statut.html
+  Page publique autonome, pensée pour un lien en bio (Discord/X/TikTok) qui va droit à l'essentiel
+  plutôt que de renvoyer vers toute la page d'accueil.
 
-  ⚠️ MAINTENANCE : les constantes ci-dessous (bloc "CONFIG PUBLIQUE") sont dupliquées depuis
-  index.html plutôt qu'importées, parce que ce sont deux fichiers HTML autonomes sans bundler. Si tu
-  changes AVAILABLE, SLOTS_AVAILABLE_THIS_WEEK, DELAY_RANGES, ACTIVE_START/END, AFFLUENCE_LEVEL,
-  WORKLOAD_WEIGHTS ou DAILY_WORKLOAD_THRESHOLDS dans index.html, reporte le même changement ici —
-  sinon cette page peut afficher un statut différent de celui du site principal.
+  Duplique volontairement 2 réglages du fichier principal (index.html) : si tu changes l'un des
+  deux là-bas, pense à le changer ici aussi (recherché par les constantes ACTIVE_START / ACTIVE_END
+  / AFFLUENCE_LEVEL, identiques aux deux endroits) :
+    - Heures actives (ACTIVE_START / ACTIVE_END, ligne ~40 ci-dessous)
+    - Niveau d'affluence affiché (AFFLUENCE_LEVEL, ligne ~45 ci-dessous)
+
+  "Dernière vidéo livrée" nécessite l'action "publicRecentDeliveries" côté Apps Script (voir le
+  fichier .gs) — si elle n'est pas encore branchée, cette ligne reste simplement masquée, aucune
+  erreur visible pour le visiteur.
 -->
 <style>
-  :root {
-    --bg: radial-gradient(ellipse 1200px 800px at 50% -10%, #1a1410 0%, #0a0a0a 45%, #050505 100%);
-    --surface: #131313;
-    --border-soft: #2a2a2a;
-    --text: #ffffff;
-    --text-secondary: #999999;
-    --text-tertiary: #828282;
-    --text-faint: #828282;
+  * , *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body {
+    height: 100%;
+    background: #0b0b0d;
+    color: #f2f2f2;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
   }
-  * { box-sizing: border-box; }
   body {
-    margin: 0;
-    min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 24px;
-    background: var(--bg);
-    font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-    color: var(--text);
   }
-  .status-card {
-    max-width: 420px;
+  .card {
     width: 100%;
-    background: var(--surface);
-    border: 0.5px solid var(--border-soft);
-    border-radius: 20px;
-    padding: 30px 26px;
+    max-width: 420px;
+    background: #16161a;
+    border: 1px solid #2a2a30;
+    border-radius: 16px;
+    padding: 32px 28px;
     text-align: center;
   }
-  .status-brand {
+  .card h1 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #9a9aa5;
+    margin-bottom: 20px;
+    letter-spacing: 0.02em;
+  }
+  .badge {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
-    width: 44px;
-    height: 44px;
-    border-radius: 12px;
-    background: linear-gradient(135deg, #ff3c3c, #ff9a00);
-    color: #fff;
-    font-weight: 800;
-    font-size: 20px;
-    margin-bottom: 14px;
-  }
-  .status-title {
-    font-size: 18px;
-    font-weight: 700;
-    margin: 0 0 18px;
-  }
-  .status-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
     gap: 8px;
-    font-size: 16px;
+    padding: 8px 16px;
+    border-radius: 999px;
     font-weight: 600;
+    font-size: 1.05rem;
+    background: rgba(139, 226, 139, 0.12);
+    color: #8be28b;
+    margin-bottom: 18px;
   }
-  .status-dot {
+  .badge.is-offline {
+    background: rgba(226, 178, 139, 0.12);
+    color: #e2b28b;
+  }
+  .badge .dot {
     width: 9px;
     height: 9px;
     border-radius: 50%;
-    background: #3ddc84;
-    box-shadow: 0 0 8px #3ddc8488;
+    background: currentColor;
+    box-shadow: 0 0 0 0 currentColor;
+    animation: pulse 2s infinite;
   }
-  .status-dot.busy {
-    background: var(--text-faint);
-    box-shadow: none;
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(139, 226, 139, 0.5); }
+    70% { box-shadow: 0 0 0 8px rgba(139, 226, 139, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(139, 226, 139, 0); }
   }
-  .status-subline {
-    font-size: 12.5px;
-    color: var(--text-tertiary);
-    margin: 4px 0 20px;
+  .delay {
+    font-size: 0.95rem;
+    color: #c7c7cf;
+    margin-bottom: 6px;
   }
-  .status-block {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    padding: 14px 0;
-    border-top: 0.5px solid var(--border-soft);
-    text-align: left;
+  .affluence {
+    font-size: 0.85rem;
+    color: #8a8a93;
+    margin-bottom: 22px;
   }
-  .status-block-label {
-    font-size: 11.5px;
-    text-transform: uppercase;
-    letter-spacing: 0.03em;
-    color: var(--text-faint);
+  .delivery {
+    font-size: 0.85rem;
+    color: #8a8a93;
+    border-top: 1px solid #2a2a30;
+    padding-top: 16px;
+    margin-top: 4px;
+    display: none;
   }
-  .status-block-value {
-    font-size: 14px;
-  }
-  .status-delays {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-  .status-delay-row {
-    display: flex;
-    justify-content: space-between;
-    font-size: 13px;
-    color: var(--text-secondary);
-  }
-  .status-waitlist-note {
-    font-size: 13px;
-    color: var(--text-secondary);
-    margin: 0;
-  }
-  /* --- Mini graphique "charge des 7 prochains jours" : uniquement des couleurs (🟢🟡🔴⚪), jamais
-       de détail de commande — c'est tout l'intérêt de cette version "publique" par rapport à la vue
-       admin "Prochains 7 jours" (qui montre les formats attendus par jour, réservée à l'admin). --- */
-  .status-week-chart {
-    display: flex;
-    justify-content: space-between;
-    gap: 6px;
-  }
-  .status-week-day {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-  }
-  .status-week-day-label {
-    font-size: 10px;
-    color: var(--text-faint);
-  }
-  .status-week-day-bar {
-    width: 100%;
-    height: 22px;
-    border-radius: 6px;
-    background: var(--border-soft);
-  }
-  .status-updated {
-    font-size: 11px;
-    color: var(--text-faint);
-    margin: 16px 0 18px;
-  }
-  .status-cta {
-    display: block;
+  .back {
+    display: inline-block;
+    margin-top: 22px;
+    font-size: 0.85rem;
+    color: #ff8a3d;
     text-decoration: none;
-    font-size: 13.5px;
-    font-weight: 600;
-    padding: 11px;
-    border-radius: 10px;
-    margin-top: 8px;
-    background: linear-gradient(135deg, #ff3c3c, #ff9a00);
-    color: #fff;
   }
-  .status-cta-secondary {
-    background: transparent;
-    border: 0.5px solid var(--border-soft);
-    color: var(--text-secondary);
-  }
+  .back:hover { text-decoration: underline; }
 </style>
 </head>
 <body>
-  <div class="status-card">
-    <div class="status-brand">M</div>
-    <h1 class="status-title">Statut du service</h1>
-
-    <div class="status-row">
-      <span id="statusDot" class="status-dot"></span>
-      <span id="statusOnline">…</span>
+  <div class="card">
+    <h1>MICHYY · STATUT EN DIRECT</h1>
+    <div class="badge" id="statusBadge">
+      <span class="dot"></span>
+      <span id="statusBadgeText">…</span>
     </div>
-    <p id="statusSubline" class="status-subline">…</p>
-
-    <div class="status-block">
-      <span class="status-block-label">📦 Acceptation de commandes</span>
-      <span id="statusAvailability" class="status-block-value">…</span>
-    </div>
-
-    <div class="status-block">
-      <span class="status-block-label">⏱️ Délai actuel estimé (hors urgent)</span>
-      <div id="statusDelays" class="status-delays">…</div>
-    </div>
-
-    <div class="status-block">
-      <span class="status-block-label">📆 Charge des 7 prochains jours</span>
-      <div id="statusWeekChart" class="status-week-chart"></div>
-    </div>
-
-    <div class="status-block">
-      <span class="status-block-label">🚚 Dernière livraison</span>
-      <span id="statusLastDelivery" class="status-block-value">Pas d'info disponible pour le moment</span>
-    </div>
-
-    <p class="status-updated" id="statusUpdated"></p>
-
-    <a href="/" class="status-cta">Voir le site complet →</a>
-    <a href="/#reservation" class="status-cta status-cta-secondary">📅 Réserver un montage</a>
+    <p class="delay" id="delayText"></p>
+    <p class="affluence" id="affluenceText"></p>
+    <p class="delivery" id="deliveryText"></p>
+    <a class="back" href="/">← Retour au site</a>
   </div>
 
   <script>
-    // ============================================================
-    // CONFIG PUBLIQUE — dupliquée depuis index.html, voir avertissement de maintenance en tête de fichier.
-    // ============================================================
-    const APPS_SCRIPT_URL = '/.netlify/functions/sheets-proxy';
-    const APPS_SCRIPT_SECRET = '';
-
-    const AVAILABLE = true;
-    const SLOTS_AVAILABLE_THIS_WEEK = 2;
-    const AFFLUENCE_LEVEL = 'moderate';
-    const isReallyFull = !AVAILABLE || !SLOTS_AVAILABLE_THIS_WEEK || SLOTS_AVAILABLE_THIS_WEEK <= 0;
-    const isFullyBooked = isReallyFull || AFFLUENCE_LEVEL === 'high';
-
+    // 🔧 Doit rester identique aux constantes du même nom dans index.html (voir commentaire en haut
+    // de ce fichier).
     const ACTIVE_START = 9;
     const ACTIVE_END = 23;
+    const AFFLUENCE_LEVEL = 'moderate';
+    const AFFLUENCE_CONFIG = {
+      low: { text: 'Affluence faible, places disponibles' },
+      moderate: { text: 'Affluence modérée cette semaine' },
+      high: { text: 'Affluence élevée, délais un peu plus longs' }
+    };
+    const affluenceConf = AFFLUENCE_CONFIG[AFFLUENCE_LEVEL] || AFFLUENCE_CONFIG.moderate;
+
     function isCurrentlyActive(hour = new Date().getHours()) {
       return hour >= ACTIVE_START && hour < ACTIVE_END;
     }
 
-    const DELAY_RANGES = {
-      'Court (TikTok / Reels)': { normal: [0, 2], urgent: [0, 1] },
-      'Long (YouTube / Best-of)': { normal: [3, 7], urgent: [1, 3] },
-      'Long Complexe / Esport': { normal: [4, 9], urgent: [2, 5] },
-      'Business / Sponsorisé': { normal: [4, 9], urgent: [2, 5] }
-    };
-    function daysLabel(days) {
-      if (days === 7) return '1 semaine';
-      if (days > 0 && days % 7 === 0) return `${days / 7} semaines`;
-      return `${days} jour${days > 1 ? 's' : ''}`;
-    }
+    function render() {
+      const hour = new Date().getHours();
+      const active = isCurrentlyActive(hour);
 
-    const WORKLOAD_WEIGHTS = {
-      'Court (TikTok / Reels)': 1,
-      'Long (YouTube / Best-of)': 3,
-      'Long Complexe / Esport': 5,
-      'Business / Sponsorisé': 4
-    };
-    const WORKLOAD_FALLBACK_WEIGHT = 1;
-    const DAILY_WORKLOAD_THRESHOLDS = { normal: 3, high: 6 };
-    function dailyWorkloadLevel(total) {
-      if (total <= 0) return '#3a3a3a';       // ⚪ rien de prévu
-      if (total <= DAILY_WORKLOAD_THRESHOLDS.normal) return '#8be28b'; // 🟢
-      if (total <= DAILY_WORKLOAD_THRESHOLDS.high) return '#ffb020';   // 🟡
-      return '#e2685f';                       // 🔴
-    }
-    function formatFieldWeight(formatField) {
-      const m = /^(.*?)\s*×\s*(\d+)$/.exec(formatField || '');
-      if (!m) return WORKLOAD_FALLBACK_WEIGHT;
-      const formatKey = m[1].trim();
-      const qty = Math.max(1, parseInt(m[2], 10) || 1);
-      if (formatKey === 'Les deux') {
-        const avg = (WORKLOAD_WEIGHTS['Court (TikTok / Reels)'] + WORKLOAD_WEIGHTS['Long (YouTube / Best-of)']) / 2;
-        return avg * qty;
-      }
-      const w = WORKLOAD_WEIGHTS[formatKey];
-      return (w != null ? w : WORKLOAD_FALLBACK_WEIGHT) * qty;
-    }
-    // ============================================================
+      const badge = document.getElementById('statusBadge');
+      const badgeText = document.getElementById('statusBadgeText');
+      badge.classList.toggle('is-offline', !active);
+      badgeText.textContent = active ? 'En ligne' : 'Hors ligne';
 
-    const dot = document.getElementById('statusDot');
-    const onlineText = document.getElementById('statusOnline');
-    const subline = document.getElementById('statusSubline');
-    const availabilityEl = document.getElementById('statusAvailability');
-    const delaysEl = document.getElementById('statusDelays');
-    const weekChartEl = document.getElementById('statusWeekChart');
-    const lastDeliveryEl = document.getElementById('statusLastDelivery');
-    const updatedEl = document.getElementById('statusUpdated');
-
-    const hour = new Date().getHours();
-    const online = isCurrentlyActive(hour);
-    dot.classList.toggle('busy', !online);
-    onlineText.textContent = online ? '🟢 En ligne' : '🌙 Hors ligne';
-    subline.textContent = online
-      ? 'Réponse sous quelques heures en moyenne.'
-      : `Réponse estimée sous ${(ACTIVE_START - hour + 24) % 24 || 24}h.`;
-
-    if (!AVAILABLE) {
-      availabilityEl.textContent = '🔴 Complet cette semaine';
-    } else if (isFullyBooked) {
-      availabilityEl.textContent = isReallyFull
-        ? "🔴 Complet, liste d'attente active"
-        : '🟡 Affluence élevée, délais rallongés';
-    } else if (SLOTS_AVAILABLE_THIS_WEEK > 0) {
-      availabilityEl.textContent = `🟢 Accepte de nouvelles commandes (${SLOTS_AVAILABLE_THIS_WEEK} créneau${SLOTS_AVAILABLE_THIS_WEEK > 1 ? 'x' : ''} dispo cette semaine)`;
-    } else {
-      availabilityEl.textContent = '🟢 Accepte de nouvelles commandes';
-    }
-
-    if (isFullyBooked) {
-      delaysEl.innerHTML = `<p class="status-waitlist-note">Liste d'attente active — je recontacte dès qu'un créneau se libère plutôt que de promettre une date.</p>`;
-    } else {
-      const rows = [
-        ['Court (TikTok/Reels)', DELAY_RANGES['Court (TikTok / Reels)']],
-        ['Long (YouTube/Best-of)', DELAY_RANGES['Long (YouTube / Best-of)']],
-        ['Complexe/Esport', DELAY_RANGES['Long Complexe / Esport']],
-        ['Business/Sponsorisé', DELAY_RANGES['Business / Sponsorisé']]
-      ];
-      delaysEl.innerHTML = rows.map(([label, range]) => `
-        <div class="status-delay-row">
-          <span>${label}</span>
-          <span>${daysLabel(range.normal[0])} – ${daysLabel(range.normal[1])}</span>
-        </div>
-      `).join('');
-    }
-
-    // --- Charge des 7 prochains jours : réutilise l'action "publicDeliveryDates" déjà documentée
-    // dans index.html (rien de nouveau côté Apps Script). Même clé de cache que index.html
-    // (michyy_busy_days_cache) : si le visiteur a chargé l'une des deux pages récemment, l'autre
-    // profite du même cache plutôt que de refaire un appel réseau. ---
-    (function renderWeekChart() {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const dayLabels = Array.from({ length: 7 }, (_, i) => {
-        const d = new Date(today);
-        d.setDate(d.getDate() + i);
-        return i === 0 ? "Auj." : i === 1 ? 'Dem.' : d.toLocaleDateString('fr-FR', { weekday: 'short' }).replace('.', '');
-      });
-
-      function draw(dayWorkload) {
-        weekChartEl.innerHTML = dayLabels.map((label, i) => {
-          const d = new Date(today);
-          d.setDate(d.getDate() + i);
-          const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-          const color = dailyWorkloadLevel((dayWorkload && dayWorkload[key]) || 0);
-          return `
-            <div class="status-week-day">
-              <span class="status-week-day-label">${label}</span>
-              <span class="status-week-day-bar" style="background:${color};"></span>
-            </div>`;
-        }).join('');
+      const delayEl = document.getElementById('delayText');
+      if (active) {
+        delayEl.textContent = '🕐 Réponse sous quelques heures';
+      } else {
+        const hoursUntilActive = (ACTIVE_START - hour + 24) % 24 || 24;
+        delayEl.textContent = `🌙 Réponse estimée sous ${hoursUntilActive}h`;
       }
 
-      // Repli immédiat : chart neutre (tout gris) le temps que les vraies données arrivent, jamais
-      // de graphique vide/cassé pendant le chargement.
-      draw(null);
+      document.getElementById('affluenceText').textContent = affluenceConf.text;
+    }
+    render();
+    setInterval(render, 5 * 60 * 1000);
 
-      if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT')) return;
-      const CACHE_KEY = 'michyy_busy_days_cache';
-      const CACHE_TTL_MS = 3600000; // 1h — même durée que index.html
+    // --- Dernière vidéo livrée (optionnel, nécessite l'action "publicRecentDeliveries" côté
+    // Apps Script) : reste masqué tant que l'action n'est pas branchée, jamais d'erreur visible. ---
+    function formatRelative(timestamp) {
+      const diffMs = Date.now() - timestamp;
+      const days = Math.floor(diffMs / (24 * 60 * 60 * 1000));
+      if (days <= 0) return "aujourd'hui";
+      if (days === 1) return 'hier';
+      if (days < 7) return `il y a ${days} jours`;
+      const weeks = Math.floor(days / 7);
+      if (weeks === 1) return 'il y a 1 semaine';
+      return `il y a ${weeks} semaines`;
+    }
 
-      function computeFromDates(dates) {
-        const dayWorkload = {};
-        (dates || []).forEach(item => {
-          const iso = typeof item === 'string' ? item : item && item.date;
-          if (!iso) return;
-          const weight = (item && typeof item === 'object' && item.format) ? formatFieldWeight(item.format) : 1;
-          dayWorkload[iso] = (dayWorkload[iso] || 0) + weight;
-        });
-        draw(dayWorkload);
-      }
-
-      try {
-        const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
-        if (cached && cached.at && (Date.now() - cached.at) < CACHE_TTL_MS && Array.isArray(cached.dates)) {
-          computeFromDates(cached.dates);
-          return;
-        }
-      } catch (e) { /* cache corrompu — on ignore et on refait un appel */ }
-
-      fetch(`${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=publicDeliveryDates&_ts=${Date.now()}`)
-        .then(res => res.json())
-        .then(data => {
-          if (!data || !data.success || !Array.isArray(data.dates)) return;
-          try { localStorage.setItem(CACHE_KEY, JSON.stringify({ dates: data.dates, at: Date.now() })); } catch (e) { /* ignore */ }
-          computeFromDates(data.dates);
-        })
-        .catch(() => { /* action pas encore ajoutée côté script, ou hors ligne — chart reste neutre, jamais d'erreur visible */ });
-    })();
-
-    // --- Dernière livraison : même action "publicRecentDeliveries" + même clé de cache que
-    // index.html, pour la même raison (cache partagé entre les deux pages). ---
-    (function renderLastDelivery() {
-      if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT')) return;
-      const CACHE_KEY = 'michyy_recent_deliveries_cache';
-      const CACHE_TTL_MS = 3 * 3600000;
-
-      function formatRelative(ts) {
-        const diffMin = Math.round((Date.now() - ts) / 60000);
-        if (diffMin < 1) return "à l'instant";
-        if (diffMin < 60) return `il y a ${diffMin} min`;
-        const diffH = Math.round(diffMin / 60);
-        if (diffH < 24) return `il y a ${diffH} h`;
-        const diffJ = Math.round(diffH / 24);
-        if (diffJ > 30) return null;
-        return `il y a ${diffJ} j`;
-      }
-
-      function showResult(deliveries) {
-        if (!Array.isArray(deliveries) || deliveries.length === 0) return;
-        const mostRecent = deliveries.map(d => new Date(d).getTime()).filter(t => !isNaN(t)).sort((a, b) => b - a)[0];
+    fetch(`/api/sheets-proxy?action=publicRecentDeliveries&_ts=${Date.now()}`)
+      .then(res => res.json())
+      .then(data => {
+        if (!data || !data.success || !Array.isArray(data.deliveries) || !data.deliveries.length) return;
+        const mostRecent = data.deliveries
+          .map(d => new Date(d).getTime())
+          .filter(t => !isNaN(t))
+          .sort((a, b) => b - a)[0];
         if (!mostRecent) return;
-        const relative = formatRelative(mostRecent);
-        if (relative) lastDeliveryEl.textContent = relative;
-      }
-
-      try {
-        const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
-        if (cached && cached.at && (Date.now() - cached.at) < CACHE_TTL_MS) {
-          showResult(cached.deliveries);
-          return;
-        }
-      } catch (e) { /* cache corrompu — on ignore et on refait un appel */ }
-
-      fetch(`${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=publicRecentDeliveries&_ts=${Date.now()}`)
-        .then(res => res.json())
-        .then(data => {
-          if (!data || !data.success || !Array.isArray(data.deliveries)) return;
-          try { localStorage.setItem(CACHE_KEY, JSON.stringify({ deliveries: data.deliveries, at: Date.now() })); } catch (e) { /* ignore */ }
-          showResult(data.deliveries);
-        })
-        .catch(() => { /* action pas encore ajoutée côté script, ou hors ligne — jamais bloquant */ });
-    })();
-
-    updatedEl.textContent = `Mis à jour à l'instant (${new Date().toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' })})`;
+        const el = document.getElementById('deliveryText');
+        el.textContent = `📦 Dernière vidéo livrée ${formatRelative(mostRecent)}`;
+        el.style.display = 'block';
+      })
+      .catch(() => { /* action pas encore ajoutée côté script, ou hors ligne — reste masqué */ });
   </script>
 </body>
 </html>
