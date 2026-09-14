@@ -33,7 +33,7 @@
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-    html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; zoom: 0.8; }
     @media (prefers-reduced-motion: reduce) {
       html { scroll-behavior: auto; }
     }
@@ -11187,10 +11187,8 @@
     <!-- 🔧 Mini étude de cas construite sur la vidéo la plus vue du portfolio (KCorp, marquée
          data-most-viewed="true" juste en dessous) — change-la si tu préfères un autre exemple, mais
          garde de préférence une vidéo que le visiteur peut cliquer pour vérifier par lui-même.
-         Structure volontairement courte (défi → approche → résultat) pour rester lisible sans
-         transformer la page en étude de cas académique. Remplace le 🔧 dans "Le résultat" par tes
-         vraies stats une fois que tu les as (vues, rétention, retour client) — un chiffre inventé
-         coûte plus cher en crédibilité qu'il n'en rapporte. -->
+         Structure volontairement courte (défi → approche) pour rester lisible sans transformer
+         la page en étude de cas académique. -->
     <div class="minicase-card">
       <a class="case-study-media" href="https://youtu.be/brCloZQp_Es?si=NZ7dnnZcgl97oWsm" target="_blank" rel="noopener">
         <img src="https://img.youtube.com/vi/brCloZQp_Es/hqdefault.jpg" loading="lazy" alt="Miniature : SOLOQ OU SCRIM ? La KCorp s'amuse sur le ladder européen – KCSoloq #1" class="case-study-thumb" />
@@ -11202,15 +11200,11 @@
         <div class="case-study-steps">
           <div class="case-study-step">
             <span class="case-study-step-label">🎯 Le défi</span>
-            <p>Plusieurs heures de scrims et de soloQ à transformer en un format qui tienne l'attention sans perdre le contexte compétitif — sans que ça ressemble à un simple montage de clips bout à bout.</p>
+            <p>Plusieurs heures de soloQ à transformer en un format qui tienne l'attention sans perdre le contexte compétitif — sans que ça ressemble à un simple montage de clips bout à bout.</p>
           </div>
           <div class="case-study-step">
             <span class="case-study-step-label">🛠️ L'approche</span>
             <p>Sélection des séquences à plus forte tension (clutchs, erreurs qui font rire, moments de communication d'équipe), rythme calé sur l'intensité du jeu plutôt que sur un tempo fixe, sound design pour appuyer les temps forts.</p>
-          </div>
-          <div class="case-study-step case-study-step-result">
-            <span class="case-study-step-label">📈 Le résultat</span>
-            <p>🔧 Remplace par tes vraies stats : vues, watch time / rétention moyenne, ou un retour qualitatif du client (ex. "vidéo la plus commentée du mois").</p>
           </div>
         </div>
         <a href="#portfolio" class="case-study-more-link">Voir d'autres montages dans le portfolio ↓</a>
@@ -19416,12 +19410,12 @@
       updateOnlineBadges();
     }, 5 * 60 * 1000);
 
-    // 🔒 Appelle la fonction serverless Netlify netlify/functions/notify-discord.js, qui
-    // transmet le message à ton vrai webhook Discord — celui-ci n'est jamais visible dans le
-    // code source de la page. Configuration : variable d'environnement Netlify
-    // DISCORD_WEBHOOK_URL (Site settings → Environment variables). Ne marche que si le site est
-    // déployé via GitHub ou la CLI Netlify (pas en simple glisser-déposer d'un fichier seul).
-    const WEBHOOK_URL = "/.netlify/functions/notify-discord";
+    // 🔒 Appelle la Cloudflare Pages Function functions/api/notify-discord.js, qui transmet
+    // le message à ton vrai webhook Discord — celui-ci n'est jamais visible dans le code source
+    // de la page. Configuration : variable d'environnement Cloudflare Pages DISCORD_WEBHOOK_URL
+    // (Settings → Variables and secrets). Ne marche que si le dossier functions/ est déployé
+    // avec le site (via Git, pas en simple glisser-déposer d'un fichier seul).
+    const WEBHOOK_URL = "/api/notify-discord";
 
     // --- Envoi du formulaire "liste d'attente" : réutilise le même webhook Discord que les vraies
     // commandes (WEBHOOK_URL ci-dessus), avec un titre distinct pour ne pas confondre les deux dans
