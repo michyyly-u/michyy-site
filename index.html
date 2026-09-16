@@ -10474,17 +10474,17 @@
   <nav class="mini-toc-bar" id="miniTocBar" aria-label="Sommaire rapide">
     <div class="mini-toc-links">
       <a href="#apropos"><span class="mini-toc-dot mini-toc-dot--apropos" aria-hidden="true"></span>À propos</a>
-      <a href="#prestations"><span class="mini-toc-dot mini-toc-dot--prestations" aria-hidden="true"></span>Prestations</a>
       <a href="#portfolio"><span class="mini-toc-dot mini-toc-dot--portfolio" aria-hidden="true"></span>Portfolio</a>
-      <a href="#presse-b2b"><span class="mini-toc-dot mini-toc-dot--presse" aria-hidden="true"></span>Marques &amp; médias</a>
-      <a href="#tarifs"><span class="mini-toc-dot mini-toc-dot--tarifs" aria-hidden="true"></span>Tarifs</a>
+      <a href="#etude-de-cas"><span class="mini-toc-dot mini-toc-dot--presse" aria-hidden="true"></span>Étude de cas</a>
+      <a href="#prestations"><span class="mini-toc-dot mini-toc-dot--prestations" aria-hidden="true"></span>Tarifs</a>
       <a href="#process"><span class="mini-toc-dot mini-toc-dot--process" aria-hidden="true"></span>Process</a>
-      <a href="#avant-commander"><span class="mini-toc-dot mini-toc-dot--conseils" aria-hidden="true"></span>Avant de commander</a>
+      <a href="#garanties"><span class="mini-toc-dot mini-toc-dot--tarifs" aria-hidden="true"></span>Garanties</a>
       <a href="#checklist"><span class="mini-toc-dot mini-toc-dot--conseils" aria-hidden="true"></span>Checklist</a>
       <a href="#reservation"><span class="mini-toc-dot mini-toc-dot--reservation" aria-hidden="true"></span>Réserver</a>
       <a href="#faq"><span class="mini-toc-dot mini-toc-dot--faq" aria-hidden="true"></span>FAQ</a>
       <a href="#conditions"><span class="mini-toc-dot mini-toc-dot--conditions" aria-hidden="true"></span>Conditions</a>
       <a href="#avis"><span class="mini-toc-dot mini-toc-dot--avis" aria-hidden="true"></span>Avis</a>
+      <a href="#presse-b2b"><span class="mini-toc-dot mini-toc-dot--presse" aria-hidden="true"></span>Marques &amp; médias</a>
       <a href="#parrainage"><span class="mini-toc-dot mini-toc-dot--parrainage" aria-hidden="true"></span>Parrainage</a>
       <a href="#conseils"><span class="mini-toc-dot mini-toc-dot--conseils" aria-hidden="true"></span>Conseils</a>
     </div>
@@ -10621,18 +10621,7 @@
   <div class="full-divider"></div>
 
   <div class="page-wrap" id="hero">
-
-  <div class="hero-blobs" aria-hidden="true">
-    <span class="hero-blob hero-blob-1"></span>
-    <span class="hero-blob hero-blob-2"></span>
-    <span class="hero-blob hero-blob-3"></span>
-  </div>
-
-  <div class="hero-glow" id="heroGlow" aria-hidden="true"></div>
-
-  <div class="hero-waveform" aria-hidden="true"><span style="animation-delay:2.3s"></span><span style="animation-delay:0.09s"></span><span style="animation-delay:0.99s"></span><span style="animation-delay:0.8s"></span><span style="animation-delay:2.65s"></span><span style="animation-delay:2.44s"></span><span style="animation-delay:3.21s"></span><span style="animation-delay:0.31s"></span><span style="animation-delay:1.52s"></span><span style="animation-delay:0.11s"></span><span style="animation-delay:0.79s"></span><span style="animation-delay:1.82s"></span><span style="animation-delay:0.1s"></span><span style="animation-delay:0.72s"></span><span style="animation-delay:2.34s"></span><span style="animation-delay:1.96s"></span><span style="animation-delay:0.79s"></span><span style="animation-delay:2.12s"></span><span style="animation-delay:2.91s"></span><span style="animation-delay:0.02s"></span><span style="animation-delay:2.9s"></span><span style="animation-delay:2.51s"></span><span style="animation-delay:1.22s"></span><span style="animation-delay:0.56s"></span><span style="animation-delay:3.45s"></span><span style="animation-delay:1.21s"></span><span style="animation-delay:0.33s"></span><span style="animation-delay:0.35s"></span></div>
-
-  <div class="profile-col reveal">
+<div class="profile-col reveal">
 
   <div class="avatar" tabindex="0">M</div>
   <h1>
@@ -10721,9 +10710,564 @@
   </div>
 
   </div>
-  <!-- /profile-col -->
+  </div>
 
-  <aside class="info-panel reveal" id="prestations">
+  <!-- Bandeau de preuve sociale unique : noms crédités (ceux déjà liés dans le portfolio juste en
+       dessous, pas des placeholders inventés) + repères d'audience anonymisés, réunis dans le même
+       conteneur plutôt que deux blocs distincts quasi côte à côte. Pense à garder ce bandeau
+       synchronisé si tu ajoutes ou retires un nom crédité côté portfolio.
+       🔧 Repères d'audience : remplace par tes vraies stats (abonnés au moment du projet, pas le
+       chiffre actuel si le créateur a grossi depuis). Si tu n'as pas l'autorisation de communiquer
+       un chiffre précis, reste vague ("communauté active") plutôt que d'inventer un nombre. Retire
+       la div .reach-badges-row entière si tu préfères ne pas afficher de chiffres du tout. -->
+  <div class="client-logos-band reveal">
+    <span class="client-logos-label">Ils m'ont fait confiance</span>
+    <div class="client-logos-row">
+      <span class="client-logo-item"><svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9v4M4 11h4"/><circle cx="15.5" cy="9.5" r="1"/><circle cx="17.5" cy="12" r="1"/><path d="M6.5 6h11A4.5 4.5 0 0122 10.5v2A3.5 3.5 0 0118.5 16c-.9 0-1.7-.4-2.2-1.2L15 13H9l-1.3 1.8C7.2 15.6 6.4 16 5.5 16A3.5 3.5 0 012 12.5v-2A4.5 4.5 0 016.5 6z"/></svg> KCorp</span>
+      <span class="client-logo-item"><svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8v3a4 4 0 01-8 0V3z"/><path d="M8 4H5a2 2 0 000 4h1.5M16 4h3a2 2 0 010 4h-1.5"/><path d="M12 10v3"/><path d="M10 17h4M9.5 14h5l1 3h-7l1-3z"/></svg> @LaureValee</span>
+      <span class="client-logo-item">⚔️ @Colomblbl</span>
+      <span class="client-logo-item">😂 Etostark</span>
+      <span class="client-logo-item">📱 @juniorlej</span>
+      <span class="client-logo-item">✨ + d'autres créateurs</span>
+    </div>
+    <div class="reach-badges-row">
+      <span class="reach-badges-item"><svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9v4M4 11h4"/><circle cx="15.5" cy="9.5" r="1"/><circle cx="17.5" cy="12" r="1"/><path d="M6.5 6h11A4.5 4.5 0 0122 10.5v2A3.5 3.5 0 0118.5 16c-.9 0-1.7-.4-2.2-1.2L15 13H9l-1.3 1.8C7.2 15.6 6.4 16 5.5 16A3.5 3.5 0 012 12.5v-2A4.5 4.5 0 016.5 6z"/></svg> Créateur gaming · 500K abonnés</span>
+      <span class="reach-badges-item"><svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8v3a4 4 0 01-8 0V3z"/><path d="M8 4H5a2 2 0 000 4h1.5M16 4h3a2 2 0 010 4h-1.5"/><path d="M12 10v3"/><path d="M10 17h4M9.5 14h5l1 3h-7l1-3z"/></svg> Org esport pro</span>
+      <span class="reach-badges-item">😂 Créateur lifestyle · 200K abonnés</span>
+    </div>
+  </div>
+
+  <!-- Bloc "Suis-moi ailleurs" : regroupe Twitter/X et Discord dans un bloc dédié, pour un visiteur
+       qui hésite encore à commander mais veut suivre le travail au fil de l'eau. Reprend le dégradé
+       du bouton FAB "Une question ?" (mobile) pour rester cohérent visuellement. -->
+  <div class="social-follow-band reveal" id="findMe">
+    <span class="social-follow-title">📍 Où me trouver</span>
+    <span class="social-follow-subtitle">Pas encore prêt à commander ? Reste dans le coin pour voir les prochains montages passer.</span>
+    <div class="find-me-grid">
+      <a class="find-me-card find-me-card-primary" href="https://discord.com/users/jlmichyy" target="_blank" rel="noopener">
+        <span class="find-me-icon">
+          <img data-shared-icon="discord" src="" alt="Discord" style="width:100%;height:100%;object-fit:cover;border-radius:9px;" />
+        </span>
+        <span class="find-me-body">
+          <span class="find-me-handle">Discord · jlmichyy</span>
+          <span class="find-me-preview">Le plus rapide pour me joindre — c'est là que je réponds en premier.</span>
+        </span>
+      </a>
+      <a class="find-me-card find-me-card-primary" href="https://x.com/Michyyfn" target="_blank" rel="noopener">
+        <span class="find-me-icon icon-x">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M18.9 2H22l-7.5 8.6L23.3 22h-6.9l-5.4-6.6L4.8 22H1.6l8-9.2L1 2h7.1l4.9 6.1L18.9 2zm-1.2 18h1.9L7.4 3.9H5.4L17.7 20z"/></svg>
+        </span>
+        <span class="find-me-body">
+          <span class="find-me-handle">X (Twitter) · @Michyyfn</span>
+          <span class="find-me-preview">Mes derniers montages, mon setup, et les coulisses du taf.</span>
+        </span>
+      </a>
+      <!-- 🔧 TikTok : décommente et remplace TON_HANDLE dès que tu as un compte perso à mettre en
+           avant (différent des liens portfolio vers les comptes de tes clients, déjà présents plus
+           bas). Laissé désactivé pour ne pas afficher un lien mort ou un mauvais compte. -->
+      <!--
+      <a class="find-me-card" href="https://www.tiktok.com/@TON_HANDLE" target="_blank" rel="noopener">
+        <span class="find-me-icon icon-tiktok">🎵</span>
+        <span class="find-me-body">
+          <span class="find-me-handle">TikTok · @TON_HANDLE</span>
+          <span class="find-me-preview">Décris ici ce que tu postes sur ce compte.</span>
+        </span>
+      </a>
+      -->
+      <!-- 🔧 YouTube : même chose, décommente dès que tu as une chaîne perso active. -->
+      <!--
+      <a class="find-me-card" href="https://www.youtube.com/@TON_HANDLE" target="_blank" rel="noopener">
+        <span class="find-me-icon icon-youtube">▶️</span>
+        <span class="find-me-body">
+          <span class="find-me-handle">YouTube · @TON_HANDLE</span>
+          <span class="find-me-preview">Décris ici ce que tu postes sur cette chaîne.</span>
+        </span>
+      </a>
+      -->
+    </div>
+  </div>
+
+
+  <div class="full-divider"></div>
+
+  
+
+<section id="apropos" class="full-section about-section reveal">
+    <div class="info-header">
+      <div class="section-divider">
+        <div class="section-divider-line"></div>
+        <span class="section-divider-text">À propos</span>
+        <div class="section-divider-line"></div>
+      </div>
+      <div class="info-title">Qui est derrière l'écran</div>
+    </div>
+
+    <!-- 🔧 Section 100% à personnaliser : le texte ci-dessous est un gabarit générique (rien
+         d'inventé sur des faits précis — pas d'années d'expérience ni de nombre de clients chiffré,
+         volontairement, pour ne pas avoir à mentir en attendant que tu le remplaces). Remplace
+         l'avatar (span.about-avatar) par une vraie photo si tu préfères : <img src="..." class="about-avatar" style="object-fit:cover;"> à la place du <span>. -->
+    <div class="about-card">
+      <span class="about-avatar" aria-hidden="true">M</span>
+      <p class="about-bio">
+        Salut, moi c'est Michyy 👋 Monteur vidéo spécialisé gaming et esport, je transforme des heures de rush en contenu qui donne envie de rester jusqu'au bout — que ce soit un short qui doit accrocher en 3 secondes ou un best-of qui raconte une histoire sur 10 minutes.
+        <br /><br />
+        🔧 <em>Complète ici avec ton vrai parcours : comment tu as commencé, ce qui te différencie, ce que tu aimes monter en particulier.</em>
+      </p>
+      <div class="about-stats-row">
+        <span class="status-chip"><svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8l2.5-4h3l-2 4M9 8l2-4h3l-2 4M15 8l2-4h3l-1.5 4"/><rect x="3" y="8" width="18" height="12" rx="1.5"/></svg> Spécialiste gaming &amp; esport</span>
+        <span class="status-chip">⚡ Réponse rapide, voir le badge en haut de page</span>
+      </div>
+      <div class="about-links-row">
+        <a class="find-me-card" href="https://x.com/Michyyfn" target="_blank" rel="noopener" style="padding: 8px 14px;">
+          <span class="find-me-icon icon-x" style="width:24px;height:24px;">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M18.9 2H22l-7.5 8.6L23.3 22h-6.9l-5.4-6.6L4.8 22H1.6l8-9.2L1 2h7.1l4.9 6.1L18.9 2zm-1.2 18h1.9L7.4 3.9H5.4L17.7 20z"/></svg>
+          </span>
+          <span class="find-me-handle">@Michyyfn</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+<section id="portfolio" class="full-section portfolio-section reveal">
+    <div class="info-header">
+      <div class="section-divider">
+        <div class="section-divider-line"></div>
+        <span class="section-divider-text">Portfolio</span>
+        <div class="section-divider-line"></div>
+      </div>
+      <div class="info-title">Mes dernières vidéos</div>
+    </div>
+
+    <!-- Mini-galerie de styles, seul sélecteur de style désormais (l'ancienne ligne de boutons
+         texte .style-filter-btn en faisait doublon visuel — fusionnés ici, cf. discussion). Pilote
+         directement currentStyleFilter + applyPortfolioDisplay(), plus besoin de proxy-cliquer un
+         bouton caché. -->
+    <div class="style-gallery" id="styleGallery">
+      <button type="button" class="style-gallery-tile" data-style-filter="gaming" data-style-thumb="gaming">
+        <span class="style-gallery-label"><svg class="icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9v4M4 11h4"/><circle cx="15.5" cy="9.5" r="1"/><circle cx="17.5" cy="12" r="1"/><path d="M6.5 6h11A4.5 4.5 0 0122 10.5v2A3.5 3.5 0 0118.5 16c-.9 0-1.7-.4-2.2-1.2L15 13H9l-1.3 1.8C7.2 15.6 6.4 16 5.5 16A3.5 3.5 0 012 12.5v-2A4.5 4.5 0 016.5 6z"/></svg>Gaming</span>
+      </button>
+      <button type="button" class="style-gallery-tile" data-style-filter="esport" data-style-thumb="esport">
+        <span class="style-gallery-label"><svg class="icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8v3a4 4 0 01-8 0V3z"/><path d="M8 4H5a2 2 0 000 4h1.5M16 4h3a2 2 0 010 4h-1.5"/><path d="M12 10v3"/><path d="M10 17h4M9.5 14h5l1 3h-7l1-3z"/></svg>Esport</span>
+      </button>
+      <button type="button" class="style-gallery-tile" data-style-filter="bestof" data-style-thumb="bestof">
+        <span class="style-gallery-label"><svg class="icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8l2.5-4h3l-2 4M9 8l2-4h3l-2 4M15 8l2-4h3l-1.5 4"/><rect x="3" y="8" width="18" height="12" rx="1.5"/></svg>Best of</span>
+      </button>
+      <button type="button" class="style-gallery-tile" data-style-filter="business" data-style-thumb="business">
+        <span class="style-gallery-label"><svg class="icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/><path d="M3 12h18"/></svg>Business</span>
+      </button>
+    </div>
+
+  <div class="filter-bar">
+    <span class="style-filter-label">Plateforme :</span>
+    <button class="filter-btn category-filter-btn active" data-filter="all">Toutes</button>
+    <button class="filter-btn category-filter-btn" data-filter="youtube">YouTube</button>
+    <button class="filter-btn category-filter-btn" data-filter="tiktok">TikTok</button>
+    <button type="button" class="filter-reset-btn" id="filterResetBtn" style="display: none;">✕ Réinitialiser les filtres</button>
+  </div>
+
+  <!-- Filtre par secteur client (pas le style de montage, déjà couvert par .style-gallery
+       au-dessus) : utile dès que le portfolio mélange des exemples pour des créateurs gaming, des
+       marques et des créateurs solo hors-gaming, pour qu'un visiteur B2B retrouve vite un exemple
+       qui lui ressemble plutôt que de fouiller dans des montages gaming. "Créateur solo" n'a pas
+       encore d'exemple assigné (data-sector) — prêt dès le premier client solo hors-gaming, en
+       attendant le filtre affiche juste "Aucune vidéo" avec le bouton de réinitialisation. -->
+  <div class="filter-bar" style="margin-top: -8px;">
+    <span class="style-filter-label">Secteur :</span>
+    <button class="filter-btn sector-filter-btn active" data-sector-filter="all">Tous</button>
+    <button class="filter-btn sector-filter-btn" data-sector-filter="gaming">Gaming</button>
+    <button class="filter-btn sector-filter-btn" data-sector-filter="marque">Marque</button>
+    <button class="filter-btn sector-filter-btn" data-sector-filter="solo">Créateur solo</button>
+  </div>
+
+  <!-- Tri par date : volontairement un simple bouton à 2 états (pas un <select> à 3 options) — un
+       ancien sélecteur de tri plus complet avait été retiré du portfolio faute d'utilité avec peu de
+       vidéos (voir applyPortfolioDisplay ci-dessous) ; celui-ci ne remplace pas le regroupement par
+       catégorie par défaut, il vient juste s'y substituer ponctuellement pour qui veut voir les
+       ajouts récents en premier. -->
+  <div class="filter-bar" style="margin-top: -8px;">
+    <span class="style-filter-label">Trier :</span>
+    <button type="button" class="filter-btn sort-filter-btn active" id="sortDefaultBtn" data-sort="default">Par défaut</button>
+    <button type="button" class="filter-btn sort-filter-btn" id="sortRecentBtn" data-sort="recent">🆕 Plus récent</button>
+  </div>
+
+  <!-- Résumé du croisement de filtres actif (plateforme + style), rempli en JS dans
+       applyPortfolioDisplay() — caché quand les deux filtres sont sur "Tous/Tous styles" puisqu'il
+       n'y a alors rien à résumer. -->
+  <p class="portfolio-filter-summary" id="portfolioFilterSummary" style="display: none;"></p>
+
+  <div class="links portfolio-grid" id="portfolioGrid">
+    <!-- 🔧 Badge "vidéo la plus vue" : ajoute data-most-viewed="true" sur UNE seule carte (celle avec
+         le plus de vues/impact réel), retire-le des autres. Actuellement posé sur la 1ère carte à
+         titre d'exemple — remplace-le par ta vraie vidéo la plus performante. -->
+    <!-- 🔧 Badge "🆕 Ajouté récemment" : ajoute data-added="YYYY-MM-DD" sur une carte à chaque nouvel
+         ajout — le badge (géré en JS, voir PORTFOLIO_RECENT_DAYS) s'affiche automatiquement et
+         disparaît tout seul après ~30 jours. -->
+    <div class="portfolio-card" data-category="youtube" data-platform="youtube" data-style="esport" data-sector="gaming" data-href="https://youtu.be/brCloZQp_Es?si=NZ7dnnZcgl97oWsm" data-yt-id="brCloZQp_Es" data-most-viewed="true">
+      <div class="portfolio-thumb">
+        <span class="portfolio-most-viewed-badge">🔥 La plus vue</span>
+        <img data-src="https://img.youtube.com/vi/brCloZQp_Es/hqdefault.jpg" loading="lazy" alt="Miniature : SOLOQ OU SCRIM ? La KCorp s'amuse sur le ladder européen – KCSoloq #1" class="portfolio-thumb-img lazy-thumb" />
+        <div class="portfolio-play-icon">▶</div>
+      </div>
+      <div class="portfolio-card-info">
+        <span class="portfolio-card-label">SOLOQ OU SCRIM ? La KCorp s&#x27;amuse sur le ladder européen – KCSoloq #1</span>
+        <span class="portfolio-card-sub">YouTube</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card" data-category="youtube" data-platform="youtube" data-style="esport" data-sector="gaming" data-href="https://youtu.be/Zt0km__7rco?si=qFWwCpvRWi3DFoEs" data-yt-id="Zt0km__7rco" data-default-hide="true">
+      <div class="portfolio-thumb">
+        <img data-src="https://img.youtube.com/vi/Zt0km__7rco/hqdefault.jpg" loading="lazy" alt="Miniature : Recap Esport — KCorp Road Trip & ENC" class="portfolio-thumb-img lazy-thumb" />
+        <div class="portfolio-play-icon">▶</div>
+        
+      </div>
+      <div class="portfolio-card-info">
+        <span class="portfolio-card-label">Recap Esport — KCorp Road Trip &amp; ENC</span>
+        <span class="portfolio-card-sub">@LaureValee · YouTube</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card" data-category="youtube" data-platform="youtube" data-style="esport" data-sector="gaming" data-href="https://youtu.be/pziVPi3tjzg?si=L9yHfpCysvprEJAI" data-yt-id="pziVPi3tjzg">
+      <div class="portfolio-thumb">
+        <img data-src="https://img.youtube.com/vi/pziVPi3tjzg/hqdefault.jpg" loading="lazy" alt="Miniature : LE ROSTER LEC EN SOLOQ ?! - KCSoloq #2" class="portfolio-thumb-img lazy-thumb" />
+        <div class="portfolio-play-icon">▶</div>
+      </div>
+      <div class="portfolio-card-info">
+        <span class="portfolio-card-label">LE ROSTER LEC EN SOLOQ ?! - KCSoloq #2</span>
+        <span class="portfolio-card-sub">YouTube</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card" data-category="youtube" data-platform="youtube" data-style="esport" data-sector="gaming" data-href="https://youtu.be/8x7ENcHBnPs?si=VIx8KEjNz7ykYRt9" data-yt-id="8x7ENcHBnPs">
+      <div class="portfolio-thumb">
+        <img data-src="https://img.youtube.com/vi/8x7ENcHBnPs/hqdefault.jpg" loading="lazy" alt="Miniature : L'équipe la plus importante de l'histoire de League of Legends" class="portfolio-thumb-img lazy-thumb" />
+        <div class="portfolio-play-icon">▶</div>
+        
+      </div>
+      <div class="portfolio-card-info">
+        <span class="portfolio-card-label">L&#x27;équipe la plus importante de l&#x27;histoire de League of Legends</span>
+        <span class="portfolio-card-sub">YouTube</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card" data-category="youtube" data-platform="youtube" data-style="gaming" data-sector="gaming" data-href="https://youtu.be/p9eMLJUqTm0?si=eYsneR5IMUG0YH82" data-yt-id="p9eMLJUqTm0" data-added="2026-08-15">
+      <div class="portfolio-thumb">
+        <img data-src="https://img.youtube.com/vi/p9eMLJUqTm0/hqdefault.jpg" loading="lazy" alt="Miniature : 😱 JE TEST LA NOUVELLE META AKIMBO DE LA SAISON 5 (INCROYABLE !💥)" class="portfolio-thumb-img lazy-thumb" />
+        <div class="portfolio-play-icon">▶</div>
+      </div>
+      <div class="portfolio-card-info">
+        <span class="portfolio-card-label">😱 JE TEST LA NOUVELLE META AKIMBO DE LA SAISON 5 (INCROYABLE !💥)</span>
+        <span class="portfolio-card-sub">YouTube</span>
+      </div>
+    </div>
+    <div class="portfolio-card" data-category="youtube" data-platform="youtube" data-style="bestof" data-sector="gaming" data-href="https://youtu.be/HOUeRPzgZVQ?si=0rCtsXyjw8I05xZs" data-yt-id="HOUeRPzgZVQ">
+      <div class="portfolio-thumb">
+        <img data-src="https://img.youtube.com/vi/HOUeRPzgZVQ/hqdefault.jpg" loading="lazy" alt="Miniature : Tarik Toumini vs Nabil Touboo : Qui est l'imposteur des arènes KC ?" class="portfolio-thumb-img lazy-thumb" />
+        <div class="portfolio-play-icon">▶</div>
+        
+      </div>
+      <div class="portfolio-card-info">
+        <span class="portfolio-card-label">Tarik Toumini vs Nabil Touboo : Qui est l&#x27;imposteur des arènes KC ?</span>
+        <span class="portfolio-card-sub">Best of Etostark · YouTube</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card" data-category="youtube" data-platform="youtube" data-style="gaming" data-sector="gaming" data-href="https://youtu.be/_pG241Md7MM?si=FJc11CoU20vsdbSY" data-yt-id="_pG241Md7MM">
+      <div class="portfolio-thumb">
+        <img data-src="https://img.youtube.com/vi/_pG241Md7MM/hqdefault.jpg" loading="lazy" alt="Miniature : Colomblbl Stomp avec Caliste" class="portfolio-thumb-img lazy-thumb" />
+        <div class="portfolio-play-icon">▶</div>
+        
+      </div>
+      <div class="portfolio-card-info">
+        <span class="portfolio-card-label">Colomblbl Stomp avec Caliste</span>
+        <span class="portfolio-card-sub">@Colomblbl · YouTube</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card" data-category="youtube" data-platform="youtube" data-style="bestof" data-sector="gaming" data-href="https://youtu.be/KvMbW-Tdw6E?si=0vz_xBCfz5fr9IW2" data-yt-id="KvMbW-Tdw6E">
+      <div class="portfolio-thumb">
+        <img data-src="https://img.youtube.com/vi/KvMbW-Tdw6E/hqdefault.jpg" loading="lazy" alt="Miniature : Best of Warzone" class="portfolio-thumb-img lazy-thumb" />
+        <div class="portfolio-play-icon">▶</div>
+        
+      </div>
+      <div class="portfolio-card-info">
+        <span class="portfolio-card-label">Best of Warzone</span>
+        <span class="portfolio-card-sub">YouTube</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="gaming" data-sector="gaming" data-href="https://www.tiktok.com/@juniorlej/video/7598979471357627670">
+      <div class="portfolio-thumb">
+        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
+        <div class="portfolio-play-icon">▶</div>
+        
+      </div>
+      <div class="portfolio-card-info">
+        <span class="portfolio-card-label">TikTok Gaming #1</span>
+        <span class="portfolio-card-sub">@juniorlej</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="gaming" data-sector="gaming" data-href="https://www.tiktok.com/@juniorlej/video/7595247730080140547">
+      <div class="portfolio-thumb">
+        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
+        <div class="portfolio-play-icon">▶</div>
+        
+      </div>
+      <div class="portfolio-card-info">
+        <span class="portfolio-card-label">TikTok Gaming #2</span>
+        <span class="portfolio-card-sub">@juniorlej</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="gaming" data-sector="gaming" data-href="https://vm.tiktok.com/ZN8LfUJFY/" data-added="2026-08-10">
+      <div class="portfolio-thumb">
+        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
+        <div class="portfolio-play-icon">▶</div>
+      </div>
+      <div class="portfolio-card-info">
+        <span class="portfolio-card-label">TikTok Gaming #7</span>
+        <span class="portfolio-card-sub">vm.tiktok.com</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="gaming" data-sector="gaming" data-href="https://vm.tiktok.com/ZN8LD6EgW/" data-added="2026-08-05">
+      <div class="portfolio-thumb">
+        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
+        <div class="portfolio-play-icon">▶</div>
+      </div>
+      <div class="portfolio-card-info">
+        <span class="portfolio-card-label">TikTok Gaming #8</span>
+        <span class="portfolio-card-sub">vm.tiktok.com</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="gaming" data-sector="gaming" data-href="https://vm.tiktok.com/ZGdmoPNR6/">
+      <div class="portfolio-thumb">
+        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
+        <div class="portfolio-play-icon">▶</div>
+        
+      </div>
+      <div class="portfolio-card-info">
+        <span class="portfolio-card-label">TikTok Gaming #3</span>
+        <span class="portfolio-card-sub">vm.tiktok.com</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="gaming" data-sector="gaming" data-href="https://vm.tiktok.com/ZGduYkMfE/">
+      <div class="portfolio-thumb">
+        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
+        <div class="portfolio-play-icon">▶</div>
+        
+      </div>
+      <div class="portfolio-card-info">
+        <span class="portfolio-card-label">TikTok Gaming #4</span>
+        <span class="portfolio-card-sub">vm.tiktok.com</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="gaming" data-sector="gaming" data-href="https://vm.tiktok.com/ZGdu2uUFQ/">
+      <div class="portfolio-thumb">
+        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
+        <div class="portfolio-play-icon">▶</div>
+        
+      </div>
+      <div class="portfolio-card-info">
+        <span class="portfolio-card-label">TikTok Gaming #5</span>
+        <span class="portfolio-card-sub">vm.tiktok.com</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="gaming" data-sector="gaming" data-href="https://vm.tiktok.com/ZNRQxGcFa/">
+      <div class="portfolio-thumb">
+        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
+        <div class="portfolio-play-icon">▶</div>
+        
+      </div>
+      <div class="portfolio-card-info">
+        <span class="portfolio-card-label">TikTok Gaming #6</span>
+        <span class="portfolio-card-sub">vm.tiktok.com</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="gaming" data-sector="gaming" data-href="https://vm.tiktok.com/ZN8ehL8VV/">
+      <div class="portfolio-thumb">
+        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
+        <div class="portfolio-play-icon">▶</div>
+      </div>
+      <div class="portfolio-card-info">
+        <span class="portfolio-card-label">TikTok Gaming #9</span>
+        <span class="portfolio-card-sub">vm.tiktok.com</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card" data-category="business" data-platform="tiktok" data-style="business" data-sector="marque" data-href="https://www.tiktok.com/@arthurperticoz/video/7646109875503729942?is_from_webapp=1&amp;sender_device=pc&amp;web_id=7624840625351919126">
+      <div class="portfolio-thumb">
+        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
+        <div class="portfolio-play-icon">▶</div>
+      </div>
+      <div class="portfolio-card-info">
+        <span class="portfolio-card-label">Vidéo TikTok — Business</span>
+        <span class="portfolio-card-sub">@arthurperticoz</span>
+      </div>
+    </div>
+
+    <div class="portfolio-card" data-category="business" data-platform="tiktok" data-style="business" data-sector="marque" data-href="https://www.tiktok.com/@arthurperticoz/video/7647974060495818016?is_from_webapp=1&amp;sender_device=pc&amp;web_id=7624840625351919126">
+      <div class="portfolio-thumb">
+        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
+        <div class="portfolio-play-icon">▶</div>
+      </div>
+      <div class="portfolio-card-info">
+        <span class="portfolio-card-label">Vidéo TikTok — Business #2</span>
+        <span class="portfolio-card-sub">@arthurperticoz</span>
+      </div>
+    </div>
+
+  </div>
+
+  <button type="button" id="showMoreBtn" class="show-more-btn" style="display: none;">Voir plus de vidéos</button>
+
+
+  </section>
+
+<section id="etude-de-cas" class="full-section case-study-section reveal">
+    <div class="info-header">
+      <div class="section-divider">
+        <div class="section-divider-line"></div>
+        <span class="section-divider-text">Mini étude de cas</span>
+        <div class="section-divider-line"></div>
+      </div>
+      <div class="info-title">D'un rush brut à une vidéo qui performe</div>
+    </div>
+
+    <!-- 🔧 Mini étude de cas construite sur la vidéo la plus vue du portfolio (KCorp, marquée
+         data-most-viewed="true" juste en dessous) — change-la si tu préfères un autre exemple, mais
+         garde de préférence une vidéo que le visiteur peut cliquer pour vérifier par lui-même.
+         Structure volontairement courte (défi → approche) pour rester lisible sans transformer
+         la page en étude de cas académique. -->
+    <div class="minicase-card">
+      <a class="case-study-media" href="https://youtu.be/brCloZQp_Es?si=NZ7dnnZcgl97oWsm" target="_blank" rel="noopener">
+        <img src="https://img.youtube.com/vi/brCloZQp_Es/hqdefault.jpg" loading="lazy" alt="Miniature : SOLOQ OU SCRIM ? La KCorp s'amuse sur le ladder européen – KCSoloq #1" class="case-study-thumb" />
+        <span class="case-study-play">▶</span>
+      </a>
+      <div class="case-study-body">
+        <span class="case-study-client">KCorp <span class="case-study-client-dot">·</span> contenu esport</span>
+        <h3 class="case-study-title">SOLOQ OU SCRIM ? — best-of ladder européen</h3>
+        <div class="case-study-steps">
+          <div class="case-study-step">
+            <span class="case-study-step-label">🎯 Le défi</span>
+            <p>Plusieurs heures de soloQ à transformer en un format qui tienne l'attention sans perdre le contexte compétitif — sans que ça ressemble à un simple montage de clips bout à bout.</p>
+          </div>
+          <div class="case-study-step">
+            <span class="case-study-step-label">🛠️ L'approche</span>
+            <p>Sélection des séquences à plus forte tension (clutchs, erreurs qui font rire, moments de communication d'équipe), rythme calé sur l'intensité du jeu plutôt que sur un tempo fixe, sound design pour appuyer les temps forts.</p>
+          </div>
+        </div>
+        <a href="#portfolio" class="case-study-more-link">Voir d'autres montages dans le portfolio ↓</a>
+      </div>
+    </div>
+  
+
+    <div id="resultats">
+
+    <div class="section-divider" style="margin: 32px 0 14px;">
+      <div class="section-divider-line"></div>
+      <span class="section-divider-text">Résultats obtenus</span>
+      <div class="section-divider-line"></div>
+    </div>
+    <p class="info-text">
+      Un bon montage se voit, mais il se mesure aussi : quelques exemples d'impact concret sur des vidéos livrées récemment.
+    </p>
+
+    <!-- Statistique réelle (pas un exemple illustratif comme les 3 cartes juste en dessous) : calculée
+         par l'Apps Script à partir des vraies livraisons passées (date "voulue" indiquée par le client
+         à la commande vs date effective de passage au statut "✅ Livré" dans l'historique) — jamais une
+         estimation. Volontairement dans un encart à part (même style que #publicNpsBadge) pour ne pas
+         se mélanger visuellement avec les cartes d'exemples ci-dessous. -->
+    <div class="public-nps-badge" id="publicDelayComplianceBadge" style="display: none;"></div>
+
+    <div class="results-grid">
+      <div class="result-card">
+        <span class="result-card-stat">+140%</span>
+        <span class="result-card-label">de vues moyennes</span>
+        <p class="result-card-text">Sur une série de shorts gaming remontés avec un rythme de coupe plus serré et une accroche plus forte dans les 3 premières secondes.</p>
+        <span class="result-card-context">Créateur gaming, format court</span>
+      </div>
+      <div class="result-card">
+        <span class="result-card-stat">+2 400</span>
+        <span class="result-card-label">abonnés en 1 mois</span>
+        <p class="result-card-text">Après le passage à une identité visuelle et un habillage sonore cohérents sur l'ensemble des vidéos publiées.</p>
+        <span class="result-card-context">Chaîne YouTube best-of, format long</span>
+      </div>
+      <div class="result-card">
+        <span class="result-card-stat">x3</span>
+        <span class="result-card-label">taux de complétion</span>
+        <p class="result-card-text">Sur du contenu sponsorisé, en resserrant la structure pour garder l'audience jusqu'au message de marque plutôt que de la perdre en cours de route.</p>
+        <span class="result-card-context">Marque, format business/sponsorisé</span>
+      </div>
+    </div>
+
+    <div class="case-study-card">
+      <div class="case-study-header">
+        <span class="case-study-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-1px;margin-right:3px;"><path d="M8 12.5V6.5a4 4 0 018 0v9a2.5 2.5 0 01-5 0v-8"/></svg>Étude de cas</span>
+        <span class="case-study-context">Créateur gaming, format court · TikTok</span>
+      </div>
+      <div class="case-study-compare">
+        <div class="case-study-before">
+          <span class="case-study-compare-label">Avant — les rushs</span>
+          <p class="case-study-compare-text">~25 minutes de gameplay brut, sans découpe ni contexte : plus de la moitié du temps est occupée par des chargements et des temps morts entre deux actions, et les 3 premières secondes tombent sur un écran de chargement.</p>
+        </div>
+        <div class="case-study-arrow" aria-hidden="true">→</div>
+        <div class="case-study-after">
+          <span class="case-study-compare-label">Après — le montage livré</span>
+          <p class="case-study-compare-text">Format court de 28 secondes recentré sur la meilleure séquence, qui s'ouvre directement sur l'action la plus forte plutôt que sur le début chronologique, avec un rythme de coupe resserré et des sous-titres animés pour tenir l'attention jusqu'à la fin.</p>
+        </div>
+      </div>
+      <div class="case-study-strategy">
+        <span class="case-study-strategy-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" style="vertical-align:-1px;margin-right:3px;"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>Stratégie de montage</span>
+        <p class="case-study-strategy-text">Repérage des 2-3 pics d'action dans les rushs, structure "meilleur moment en premier" plutôt qu'un suivi chronologique, et suppression systématique de tout silence de plus d'une seconde pour garder un rythme constant du début à la fin.</p>
+      </div>
+    </div>
+
+    <div class="not-a-fit-box">
+      <p class="guarantee-card-text">🔧 <strong>Chiffres et étude de cas 100% d'exemple</strong> — à remplacer par tes vrais résultats dès que tu en as, avec l'accord du client pour les partager. Ne jamais laisser des chiffres inventés en ligne : une fausse preuve sociale fait plus de mal qu'aucune section.</p>
+    </div>
+  
+    </div>
+
+
+  <!-- Outils & logiciels utilisés : même bandeau que .client-logos-band (logos texte en niveaux de
+       gris, coloré au survol) — un signal de sérieux technique complémentaire au portfolio, qui montre le
+       résultat mais pas la méthode.
+       🔧 Ne garde que les outils que tu utilises RÉELLEMENT : une liste inventée ou approximative
+       est le genre de détail qu'un visiteur technique remarque et qui coûte plus cher en crédibilité
+       que ça n'en rapporte. Ajuste librement la liste (ajoute/retire des <span class="client-logo-item">). -->
+  <div class="client-logos-band client-logos-band-compact tools-logos-band reveal">
+    <span class="client-logos-label">Outils & logiciels utilisés</span>
+    <div class="client-logos-row">
+      <span class="client-logo-item">🎬 Premiere Pro</span>
+      <span class="client-logo-item">🌊 DaVinci Resolve</span>
+      <span class="client-logo-item">✨ After Effects</span>
+      <span class="client-logo-item">🔊 Audition</span>
+      <span class="client-logo-item">🎨 Photoshop</span>
+    </div>
+  </div>
+
+  <!-- Le bandeau "Ils m'ont fait confiance" n'est volontairement pas répété ici : la version
+       complète (avec les repères d'audience) apparaît déjà juste après la section Process, à
+       quelques centaines de lignes plus haut dans le même scroll — un visiteur qui vient de la
+       voir n'a pas besoin de revoir exactement la même liste de logos une 2e fois. -->
+
+  <!-- Section fusionnée : anciennes #conseils et #objections regroupées en une seule section à
+       onglets (même pattern que Profil/Tarifs plus haut) — les deux traitaient "lever les freins
+       avant l'achat" avec la même carte visuelle (.conseils-article) et se suivaient dans le
+       scroll sans réel besoin d'être deux sections distinctes. Les ids des cartes individuelles
+       (conseil-rushs, objection-resultat, etc.) et les ids historiques #conseils / #objections
+       sont conservés sur les panneaux eux-mêmes : tout ancien lien profond continue de fonctionner
+       et ouvre le bon onglet (voir handleHashTab côté JS). -->
+  
+  </section>
+
+<section id="prestations" class="full-section reveal">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -11101,7 +11645,7 @@
             </tbody>
           </table>
         </div>
-        <p class="format-compare-hint">Besoin de multi-cam, d'un montage esport ou d'un contenu de marque ? Voir les formats <strong>Long complexe</strong> et <strong>Business</strong> plus haut. Comparaison agence/Fiverr honnête, pas une attaque : une agence a ses avantages (équipe, capacité) et il existe d'excellents freelances sur Fiverr — c'est surtout une question de ce que tu cherches (rapidité, contact direct, prix clair). Détail complet des vidéos non utilisées, changement de formule ou résiliation : voir la <a href="#faq" class="inline-link">FAQ Abonnement</a>.</p>
+        <p class="format-compare-hint">Besoin de multi-cam, montage esport ou contenu de marque ? Voir <strong>Long complexe</strong> et <strong>Business</strong> plus haut. Comparaison agence/Fiverr honnête, pas une attaque : chacun a ses avantages, c'est une question de ce que tu cherches (rapidité, contact direct, prix clair). Détail vidéos non utilisées/résiliation : voir la <a href="#faq" class="inline-link">FAQ Abonnement</a>.</p>
         <!-- Repère explicite pour quelqu'un qui arrive via le lien "Comparer les formules" : sans ça,
              la ligne "Abonnement créateur" se lit comme les autres colonnes, sans qu'on comprenne
              qu'il faut la comparer à un pack ponctuel équivalent en volume. -->
@@ -11124,26 +11668,7 @@
          poids visuel, pour ce qui rassure le plus avant de s'engager. Les 3 garanties reprennent des
          politiques déjà annoncées ailleurs sur le site (FAQ acompte, CGV, RGPD) — rien de nouveau
          n'est promis ici, juste regroupé et mis en avant. -->
-    <div class="guarantees-section" id="garanties">
-      <div class="guarantees-title"><svg class="icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3.2v4.3c0 5-3 8.3-7 10.5-4-2.2-7-5.5-7-10.5V6.2L12 3z"/></svg>Ce qui est garanti, point final</div>
-      <div class="guarantees-grid">
-        <div class="guarantee-card">
-          <span class="guarantee-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 8h11a4 4 0 014 4v1"/><path d="M8 4.5L4.5 8 8 11.5"/><path d="M19.5 16h-11a4 4 0 01-4-4v-1"/><path d="M16 12.5l3.5 3.5-3.5 3.5"/></svg></span>
-          <span class="guarantee-card-title">3 révisions incluses</span>
-          <span class="guarantee-card-text">Pas satisfait du premier jet ? Je retouche jusqu'à 3 fois par vidéo sans supplément. Au-delà, chaque retouche supplémentaire est facturée 20€.</span>
-        </div>
-        <div class="guarantee-card">
-          <span class="guarantee-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M14.5 8.7a4.6 4.6 0 100 6.6"/><path d="M8.5 11h4.3M8.5 13h3.6"/></svg></span>
-          <span class="guarantee-card-title">Acompte remboursable</span>
-          <span class="guarantee-card-text">Intégralement, tant que le montage n'a pas commencé. Une fois lancé, il couvre le temps déjà engagé de mon côté.</span>
-        </div>
-        <div class="guarantee-card">
-          <span class="guarantee-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></span>
-          <span class="guarantee-card-title">Rushs confidentiels</span>
-          <span class="guarantee-card-text">Tes fichiers sources sont supprimés de mon côté à J+30 après la livraison finale. Détails dans les <a href="#confidentialite">mentions légales</a>.</span>
-        </div>
-      </div>
-    </div>
+    
 
     <!-- Comparatif "moi vs agence / Fiverr" : la personne compare de toute façon des alternatives,
          autant lui donner les repères directement plutôt que la laisser deviner. Chiffres/délais
@@ -11272,14 +11797,10 @@
       <a class="contact-cta-secondary" href="https://x.com/Michyyfn" target="_blank" rel="noopener">Me contacter sur X</a>
     </div>
     </div>
-  </aside>
+  
+  </section>
 
-  </div>
-  <!-- /page-wrap -->
-
-<div class="full-divider"></div>
-
-  <section id="process" class="full-section process-section reveal">
+<section id="process" class="full-section process-section reveal">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -11346,689 +11867,36 @@
     </div>
   </section>
 
-
-  <!-- Bandeau de preuve sociale unique : noms crédités (ceux déjà liés dans le portfolio juste en
-       dessous, pas des placeholders inventés) + repères d'audience anonymisés, réunis dans le même
-       conteneur plutôt que deux blocs distincts quasi côte à côte. Pense à garder ce bandeau
-       synchronisé si tu ajoutes ou retires un nom crédité côté portfolio.
-       🔧 Repères d'audience : remplace par tes vraies stats (abonnés au moment du projet, pas le
-       chiffre actuel si le créateur a grossi depuis). Si tu n'as pas l'autorisation de communiquer
-       un chiffre précis, reste vague ("communauté active") plutôt que d'inventer un nombre. Retire
-       la div .reach-badges-row entière si tu préfères ne pas afficher de chiffres du tout. -->
-  <div class="client-logos-band reveal">
-    <span class="client-logos-label">Ils m'ont fait confiance</span>
-    <div class="client-logos-row">
-      <span class="client-logo-item"><svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9v4M4 11h4"/><circle cx="15.5" cy="9.5" r="1"/><circle cx="17.5" cy="12" r="1"/><path d="M6.5 6h11A4.5 4.5 0 0122 10.5v2A3.5 3.5 0 0118.5 16c-.9 0-1.7-.4-2.2-1.2L15 13H9l-1.3 1.8C7.2 15.6 6.4 16 5.5 16A3.5 3.5 0 012 12.5v-2A4.5 4.5 0 016.5 6z"/></svg> KCorp</span>
-      <span class="client-logo-item"><svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8v3a4 4 0 01-8 0V3z"/><path d="M8 4H5a2 2 0 000 4h1.5M16 4h3a2 2 0 010 4h-1.5"/><path d="M12 10v3"/><path d="M10 17h4M9.5 14h5l1 3h-7l1-3z"/></svg> @LaureValee</span>
-      <span class="client-logo-item">⚔️ @Colomblbl</span>
-      <span class="client-logo-item">😂 Etostark</span>
-      <span class="client-logo-item">📱 @juniorlej</span>
-      <span class="client-logo-item">✨ + d'autres créateurs</span>
-    </div>
-    <div class="reach-badges-row">
-      <span class="reach-badges-item"><svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9v4M4 11h4"/><circle cx="15.5" cy="9.5" r="1"/><circle cx="17.5" cy="12" r="1"/><path d="M6.5 6h11A4.5 4.5 0 0122 10.5v2A3.5 3.5 0 0118.5 16c-.9 0-1.7-.4-2.2-1.2L15 13H9l-1.3 1.8C7.2 15.6 6.4 16 5.5 16A3.5 3.5 0 012 12.5v-2A4.5 4.5 0 016.5 6z"/></svg> Créateur gaming · 500K abonnés</span>
-      <span class="reach-badges-item"><svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8v3a4 4 0 01-8 0V3z"/><path d="M8 4H5a2 2 0 000 4h1.5M16 4h3a2 2 0 010 4h-1.5"/><path d="M12 10v3"/><path d="M10 17h4M9.5 14h5l1 3h-7l1-3z"/></svg> Org esport pro</span>
-      <span class="reach-badges-item">😂 Créateur lifestyle · 200K abonnés</span>
-    </div>
-  </div>
-
-  <!-- Bloc "Suis-moi ailleurs" : regroupe Twitter/X et Discord dans un bloc dédié, pour un visiteur
-       qui hésite encore à commander mais veut suivre le travail au fil de l'eau. Reprend le dégradé
-       du bouton FAB "Une question ?" (mobile) pour rester cohérent visuellement. -->
-  <div class="social-follow-band reveal" id="findMe">
-    <span class="social-follow-title">📍 Où me trouver</span>
-    <span class="social-follow-subtitle">Pas encore prêt à commander ? Reste dans le coin pour voir les prochains montages passer.</span>
-    <div class="find-me-grid">
-      <a class="find-me-card find-me-card-primary" href="https://discord.com/users/jlmichyy" target="_blank" rel="noopener">
-        <span class="find-me-icon">
-          <img data-shared-icon="discord" src="" alt="Discord" style="width:100%;height:100%;object-fit:cover;border-radius:9px;" />
-        </span>
-        <span class="find-me-body">
-          <span class="find-me-handle">Discord · jlmichyy</span>
-          <span class="find-me-preview">Le plus rapide pour me joindre — c'est là que je réponds en premier.</span>
-        </span>
-      </a>
-      <a class="find-me-card find-me-card-primary" href="https://x.com/Michyyfn" target="_blank" rel="noopener">
-        <span class="find-me-icon icon-x">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="white"><path d="M18.9 2H22l-7.5 8.6L23.3 22h-6.9l-5.4-6.6L4.8 22H1.6l8-9.2L1 2h7.1l4.9 6.1L18.9 2zm-1.2 18h1.9L7.4 3.9H5.4L17.7 20z"/></svg>
-        </span>
-        <span class="find-me-body">
-          <span class="find-me-handle">X (Twitter) · @Michyyfn</span>
-          <span class="find-me-preview">Mes derniers montages, mon setup, et les coulisses du taf.</span>
-        </span>
-      </a>
-      <!-- 🔧 TikTok : décommente et remplace TON_HANDLE dès que tu as un compte perso à mettre en
-           avant (différent des liens portfolio vers les comptes de tes clients, déjà présents plus
-           bas). Laissé désactivé pour ne pas afficher un lien mort ou un mauvais compte. -->
-      <!--
-      <a class="find-me-card" href="https://www.tiktok.com/@TON_HANDLE" target="_blank" rel="noopener">
-        <span class="find-me-icon icon-tiktok">🎵</span>
-        <span class="find-me-body">
-          <span class="find-me-handle">TikTok · @TON_HANDLE</span>
-          <span class="find-me-preview">Décris ici ce que tu postes sur ce compte.</span>
-        </span>
-      </a>
-      -->
-      <!-- 🔧 YouTube : même chose, décommente dès que tu as une chaîne perso active. -->
-      <!--
-      <a class="find-me-card" href="https://www.youtube.com/@TON_HANDLE" target="_blank" rel="noopener">
-        <span class="find-me-icon icon-youtube">▶️</span>
-        <span class="find-me-body">
-          <span class="find-me-handle">YouTube · @TON_HANDLE</span>
-          <span class="find-me-preview">Décris ici ce que tu postes sur cette chaîne.</span>
-        </span>
-      </a>
-      -->
-    </div>
-  </div>
-
-
-  <div class="full-divider"></div>
-
-  <section id="apropos" class="full-section about-section reveal">
-    <div class="info-header">
-      <div class="section-divider">
-        <div class="section-divider-line"></div>
-        <span class="section-divider-text">À propos</span>
-        <div class="section-divider-line"></div>
-      </div>
-      <div class="info-title">Qui est derrière l'écran</div>
+<section id="garanties" class="full-section reveal">
+    <div class="section-divider" style="margin-bottom: 14px;">
+      <div class="section-divider-line"></div>
+      <span class="section-divider-text">Garanties</span>
+      <div class="section-divider-line"></div>
     </div>
 
-    <!-- 🔧 Section 100% à personnaliser : le texte ci-dessous est un gabarit générique (rien
-         d'inventé sur des faits précis — pas d'années d'expérience ni de nombre de clients chiffré,
-         volontairement, pour ne pas avoir à mentir en attendant que tu le remplaces). Remplace
-         l'avatar (span.about-avatar) par une vraie photo si tu préfères : <img src="..." class="about-avatar" style="object-fit:cover;"> à la place du <span>. -->
-    <div class="about-card">
-      <span class="about-avatar" aria-hidden="true">M</span>
-      <p class="about-bio">
-        Salut, moi c'est Michyy 👋 Monteur vidéo spécialisé gaming et esport, je transforme des heures de rush en contenu qui donne envie de rester jusqu'au bout — que ce soit un short qui doit accrocher en 3 secondes ou un best-of qui raconte une histoire sur 10 minutes.
-        <br /><br />
-        🔧 <em>Complète ici avec ton vrai parcours : comment tu as commencé, ce qui te différencie, ce que tu aimes monter en particulier.</em>
-      </p>
-      <div class="about-stats-row">
-        <span class="status-chip"><svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8l2.5-4h3l-2 4M9 8l2-4h3l-2 4M15 8l2-4h3l-1.5 4"/><rect x="3" y="8" width="18" height="12" rx="1.5"/></svg> Spécialiste gaming &amp; esport</span>
-        <span class="status-chip">⚡ Réponse rapide, voir le badge en haut de page</span>
-      </div>
-      <div class="about-links-row">
-        <a class="find-me-card" href="https://x.com/Michyyfn" target="_blank" rel="noopener" style="padding: 8px 14px;">
-          <span class="find-me-icon icon-x" style="width:24px;height:24px;">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="white"><path d="M18.9 2H22l-7.5 8.6L23.3 22h-6.9l-5.4-6.6L4.8 22H1.6l8-9.2L1 2h7.1l4.9 6.1L18.9 2zm-1.2 18h1.9L7.4 3.9H5.4L17.7 20z"/></svg>
-          </span>
-          <span class="find-me-handle">@Michyyfn</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <div class="full-divider"></div>
-
-  <section id="etude-de-cas" class="full-section case-study-section reveal">
-    <div class="info-header">
-      <div class="section-divider">
-        <div class="section-divider-line"></div>
-        <span class="section-divider-text">Mini étude de cas</span>
-        <div class="section-divider-line"></div>
-      </div>
-      <div class="info-title">D'un rush brut à une vidéo qui performe</div>
-    </div>
-
-    <!-- 🔧 Mini étude de cas construite sur la vidéo la plus vue du portfolio (KCorp, marquée
-         data-most-viewed="true" juste en dessous) — change-la si tu préfères un autre exemple, mais
-         garde de préférence une vidéo que le visiteur peut cliquer pour vérifier par lui-même.
-         Structure volontairement courte (défi → approche) pour rester lisible sans transformer
-         la page en étude de cas académique. -->
-    <div class="minicase-card">
-      <a class="case-study-media" href="https://youtu.be/brCloZQp_Es?si=NZ7dnnZcgl97oWsm" target="_blank" rel="noopener">
-        <img src="https://img.youtube.com/vi/brCloZQp_Es/hqdefault.jpg" loading="lazy" alt="Miniature : SOLOQ OU SCRIM ? La KCorp s'amuse sur le ladder européen – KCSoloq #1" class="case-study-thumb" />
-        <span class="case-study-play">▶</span>
-      </a>
-      <div class="case-study-body">
-        <span class="case-study-client">KCorp <span class="case-study-client-dot">·</span> contenu esport</span>
-        <h3 class="case-study-title">SOLOQ OU SCRIM ? — best-of ladder européen</h3>
-        <div class="case-study-steps">
-          <div class="case-study-step">
-            <span class="case-study-step-label">🎯 Le défi</span>
-            <p>Plusieurs heures de soloQ à transformer en un format qui tienne l'attention sans perdre le contexte compétitif — sans que ça ressemble à un simple montage de clips bout à bout.</p>
-          </div>
-          <div class="case-study-step">
-            <span class="case-study-step-label">🛠️ L'approche</span>
-            <p>Sélection des séquences à plus forte tension (clutchs, erreurs qui font rire, moments de communication d'équipe), rythme calé sur l'intensité du jeu plutôt que sur un tempo fixe, sound design pour appuyer les temps forts.</p>
-          </div>
+      <div class="guarantees-title"><svg class="icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3.2v4.3c0 5-3 8.3-7 10.5-4-2.2-7-5.5-7-10.5V6.2L12 3z"/></svg>Ce qui est garanti, point final</div>
+      <div class="guarantees-grid">
+        <div class="guarantee-card">
+          <span class="guarantee-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 8h11a4 4 0 014 4v1"/><path d="M8 4.5L4.5 8 8 11.5"/><path d="M19.5 16h-11a4 4 0 01-4-4v-1"/><path d="M16 12.5l3.5 3.5-3.5 3.5"/></svg></span>
+          <span class="guarantee-card-title">3 révisions incluses</span>
+          <span class="guarantee-card-text">Pas satisfait du premier jet ? Je retouche jusqu'à 3 fois par vidéo sans supplément. Au-delà, chaque retouche supplémentaire est facturée 20€.</span>
         </div>
-        <a href="#portfolio" class="case-study-more-link">Voir d'autres montages dans le portfolio ↓</a>
-      </div>
-    </div>
-  </section>
-
-  <div class="full-divider"></div>
-
-  <section id="portfolio" class="full-section portfolio-section reveal">
-    <div class="info-header">
-      <div class="section-divider">
-        <div class="section-divider-line"></div>
-        <span class="section-divider-text">Portfolio</span>
-        <div class="section-divider-line"></div>
-      </div>
-      <div class="info-title">Mes dernières vidéos</div>
-    </div>
-
-    <!-- Mini-galerie de styles, seul sélecteur de style désormais (l'ancienne ligne de boutons
-         texte .style-filter-btn en faisait doublon visuel — fusionnés ici, cf. discussion). Pilote
-         directement currentStyleFilter + applyPortfolioDisplay(), plus besoin de proxy-cliquer un
-         bouton caché. -->
-    <div class="style-gallery" id="styleGallery">
-      <button type="button" class="style-gallery-tile" data-style-filter="gaming" data-style-thumb="gaming">
-        <span class="style-gallery-label"><svg class="icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9v4M4 11h4"/><circle cx="15.5" cy="9.5" r="1"/><circle cx="17.5" cy="12" r="1"/><path d="M6.5 6h11A4.5 4.5 0 0122 10.5v2A3.5 3.5 0 0118.5 16c-.9 0-1.7-.4-2.2-1.2L15 13H9l-1.3 1.8C7.2 15.6 6.4 16 5.5 16A3.5 3.5 0 012 12.5v-2A4.5 4.5 0 016.5 6z"/></svg>Gaming</span>
-      </button>
-      <button type="button" class="style-gallery-tile" data-style-filter="esport" data-style-thumb="esport">
-        <span class="style-gallery-label"><svg class="icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8v3a4 4 0 01-8 0V3z"/><path d="M8 4H5a2 2 0 000 4h1.5M16 4h3a2 2 0 010 4h-1.5"/><path d="M12 10v3"/><path d="M10 17h4M9.5 14h5l1 3h-7l1-3z"/></svg>Esport</span>
-      </button>
-      <button type="button" class="style-gallery-tile" data-style-filter="bestof" data-style-thumb="bestof">
-        <span class="style-gallery-label"><svg class="icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8l2.5-4h3l-2 4M9 8l2-4h3l-2 4M15 8l2-4h3l-1.5 4"/><rect x="3" y="8" width="18" height="12" rx="1.5"/></svg>Best of</span>
-      </button>
-      <button type="button" class="style-gallery-tile" data-style-filter="business" data-style-thumb="business">
-        <span class="style-gallery-label"><svg class="icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="7" width="18" height="13" rx="2"/><path d="M8 7V5a2 2 0 012-2h4a2 2 0 012 2v2"/><path d="M3 12h18"/></svg>Business</span>
-      </button>
-    </div>
-
-  <div class="filter-bar">
-    <span class="style-filter-label">Plateforme :</span>
-    <button class="filter-btn category-filter-btn active" data-filter="all">Toutes</button>
-    <button class="filter-btn category-filter-btn" data-filter="youtube">YouTube</button>
-    <button class="filter-btn category-filter-btn" data-filter="tiktok">TikTok</button>
-    <button type="button" class="filter-reset-btn" id="filterResetBtn" style="display: none;">✕ Réinitialiser les filtres</button>
-  </div>
-
-  <!-- Filtre par secteur client (pas le style de montage, déjà couvert par .style-gallery
-       au-dessus) : utile dès que le portfolio mélange des exemples pour des créateurs gaming, des
-       marques et des créateurs solo hors-gaming, pour qu'un visiteur B2B retrouve vite un exemple
-       qui lui ressemble plutôt que de fouiller dans des montages gaming. "Créateur solo" n'a pas
-       encore d'exemple assigné (data-sector) — prêt dès le premier client solo hors-gaming, en
-       attendant le filtre affiche juste "Aucune vidéo" avec le bouton de réinitialisation. -->
-  <div class="filter-bar" style="margin-top: -8px;">
-    <span class="style-filter-label">Secteur :</span>
-    <button class="filter-btn sector-filter-btn active" data-sector-filter="all">Tous</button>
-    <button class="filter-btn sector-filter-btn" data-sector-filter="gaming">Gaming</button>
-    <button class="filter-btn sector-filter-btn" data-sector-filter="marque">Marque</button>
-    <button class="filter-btn sector-filter-btn" data-sector-filter="solo">Créateur solo</button>
-  </div>
-
-  <!-- Tri par date : volontairement un simple bouton à 2 états (pas un <select> à 3 options) — un
-       ancien sélecteur de tri plus complet avait été retiré du portfolio faute d'utilité avec peu de
-       vidéos (voir applyPortfolioDisplay ci-dessous) ; celui-ci ne remplace pas le regroupement par
-       catégorie par défaut, il vient juste s'y substituer ponctuellement pour qui veut voir les
-       ajouts récents en premier. -->
-  <div class="filter-bar" style="margin-top: -8px;">
-    <span class="style-filter-label">Trier :</span>
-    <button type="button" class="filter-btn sort-filter-btn active" id="sortDefaultBtn" data-sort="default">Par défaut</button>
-    <button type="button" class="filter-btn sort-filter-btn" id="sortRecentBtn" data-sort="recent">🆕 Plus récent</button>
-  </div>
-
-  <!-- Résumé du croisement de filtres actif (plateforme + style), rempli en JS dans
-       applyPortfolioDisplay() — caché quand les deux filtres sont sur "Tous/Tous styles" puisqu'il
-       n'y a alors rien à résumer. -->
-  <p class="portfolio-filter-summary" id="portfolioFilterSummary" style="display: none;"></p>
-
-  <div class="links portfolio-grid" id="portfolioGrid">
-    <!-- 🔧 Badge "vidéo la plus vue" : ajoute data-most-viewed="true" sur UNE seule carte (celle avec
-         le plus de vues/impact réel), retire-le des autres. Actuellement posé sur la 1ère carte à
-         titre d'exemple — remplace-le par ta vraie vidéo la plus performante. -->
-    <!-- 🔧 Badge "🆕 Ajouté récemment" : ajoute data-added="YYYY-MM-DD" sur une carte à chaque nouvel
-         ajout — le badge (géré en JS, voir PORTFOLIO_RECENT_DAYS) s'affiche automatiquement et
-         disparaît tout seul après ~30 jours. -->
-    <div class="portfolio-card" data-category="youtube" data-platform="youtube" data-style="esport" data-sector="gaming" data-href="https://youtu.be/brCloZQp_Es?si=NZ7dnnZcgl97oWsm" data-yt-id="brCloZQp_Es" data-most-viewed="true">
-      <div class="portfolio-thumb">
-        <span class="portfolio-most-viewed-badge">🔥 La plus vue</span>
-        <img data-src="https://img.youtube.com/vi/brCloZQp_Es/hqdefault.jpg" loading="lazy" alt="Miniature : SOLOQ OU SCRIM ? La KCorp s'amuse sur le ladder européen – KCSoloq #1" class="portfolio-thumb-img lazy-thumb" />
-        <div class="portfolio-play-icon">▶</div>
-      </div>
-      <div class="portfolio-card-info">
-        <span class="portfolio-card-label">SOLOQ OU SCRIM ? La KCorp s&#x27;amuse sur le ladder européen – KCSoloq #1</span>
-        <span class="portfolio-card-sub">YouTube</span>
-      </div>
-    </div>
-
-    <div class="portfolio-card" data-category="youtube" data-platform="youtube" data-style="esport" data-sector="gaming" data-href="https://youtu.be/Zt0km__7rco?si=qFWwCpvRWi3DFoEs" data-yt-id="Zt0km__7rco" data-default-hide="true">
-      <div class="portfolio-thumb">
-        <img data-src="https://img.youtube.com/vi/Zt0km__7rco/hqdefault.jpg" loading="lazy" alt="Miniature : Recap Esport — KCorp Road Trip & ENC" class="portfolio-thumb-img lazy-thumb" />
-        <div class="portfolio-play-icon">▶</div>
-        
-      </div>
-      <div class="portfolio-card-info">
-        <span class="portfolio-card-label">Recap Esport — KCorp Road Trip &amp; ENC</span>
-        <span class="portfolio-card-sub">@LaureValee · YouTube</span>
-      </div>
-    </div>
-
-    <div class="portfolio-card" data-category="youtube" data-platform="youtube" data-style="esport" data-sector="gaming" data-href="https://youtu.be/pziVPi3tjzg?si=L9yHfpCysvprEJAI" data-yt-id="pziVPi3tjzg">
-      <div class="portfolio-thumb">
-        <img data-src="https://img.youtube.com/vi/pziVPi3tjzg/hqdefault.jpg" loading="lazy" alt="Miniature : LE ROSTER LEC EN SOLOQ ?! - KCSoloq #2" class="portfolio-thumb-img lazy-thumb" />
-        <div class="portfolio-play-icon">▶</div>
-      </div>
-      <div class="portfolio-card-info">
-        <span class="portfolio-card-label">LE ROSTER LEC EN SOLOQ ?! - KCSoloq #2</span>
-        <span class="portfolio-card-sub">YouTube</span>
-      </div>
-    </div>
-
-    <div class="portfolio-card" data-category="youtube" data-platform="youtube" data-style="esport" data-sector="gaming" data-href="https://youtu.be/8x7ENcHBnPs?si=VIx8KEjNz7ykYRt9" data-yt-id="8x7ENcHBnPs">
-      <div class="portfolio-thumb">
-        <img data-src="https://img.youtube.com/vi/8x7ENcHBnPs/hqdefault.jpg" loading="lazy" alt="Miniature : L'équipe la plus importante de l'histoire de League of Legends" class="portfolio-thumb-img lazy-thumb" />
-        <div class="portfolio-play-icon">▶</div>
-        
-      </div>
-      <div class="portfolio-card-info">
-        <span class="portfolio-card-label">L&#x27;équipe la plus importante de l&#x27;histoire de League of Legends</span>
-        <span class="portfolio-card-sub">YouTube</span>
-      </div>
-    </div>
-
-    <div class="portfolio-card" data-category="youtube" data-platform="youtube" data-style="gaming" data-sector="gaming" data-href="https://youtu.be/p9eMLJUqTm0?si=eYsneR5IMUG0YH82" data-yt-id="p9eMLJUqTm0" data-added="2026-08-15">
-      <div class="portfolio-thumb">
-        <img data-src="https://img.youtube.com/vi/p9eMLJUqTm0/hqdefault.jpg" loading="lazy" alt="Miniature : 😱 JE TEST LA NOUVELLE META AKIMBO DE LA SAISON 5 (INCROYABLE !💥)" class="portfolio-thumb-img lazy-thumb" />
-        <div class="portfolio-play-icon">▶</div>
-      </div>
-      <div class="portfolio-card-info">
-        <span class="portfolio-card-label">😱 JE TEST LA NOUVELLE META AKIMBO DE LA SAISON 5 (INCROYABLE !💥)</span>
-        <span class="portfolio-card-sub">YouTube</span>
-      </div>
-    </div>
-    <div class="portfolio-card" data-category="youtube" data-platform="youtube" data-style="bestof" data-sector="gaming" data-href="https://youtu.be/HOUeRPzgZVQ?si=0rCtsXyjw8I05xZs" data-yt-id="HOUeRPzgZVQ">
-      <div class="portfolio-thumb">
-        <img data-src="https://img.youtube.com/vi/HOUeRPzgZVQ/hqdefault.jpg" loading="lazy" alt="Miniature : Tarik Toumini vs Nabil Touboo : Qui est l'imposteur des arènes KC ?" class="portfolio-thumb-img lazy-thumb" />
-        <div class="portfolio-play-icon">▶</div>
-        
-      </div>
-      <div class="portfolio-card-info">
-        <span class="portfolio-card-label">Tarik Toumini vs Nabil Touboo : Qui est l&#x27;imposteur des arènes KC ?</span>
-        <span class="portfolio-card-sub">Best of Etostark · YouTube</span>
-      </div>
-    </div>
-
-    <div class="portfolio-card" data-category="youtube" data-platform="youtube" data-style="gaming" data-sector="gaming" data-href="https://youtu.be/_pG241Md7MM?si=FJc11CoU20vsdbSY" data-yt-id="_pG241Md7MM">
-      <div class="portfolio-thumb">
-        <img data-src="https://img.youtube.com/vi/_pG241Md7MM/hqdefault.jpg" loading="lazy" alt="Miniature : Colomblbl Stomp avec Caliste" class="portfolio-thumb-img lazy-thumb" />
-        <div class="portfolio-play-icon">▶</div>
-        
-      </div>
-      <div class="portfolio-card-info">
-        <span class="portfolio-card-label">Colomblbl Stomp avec Caliste</span>
-        <span class="portfolio-card-sub">@Colomblbl · YouTube</span>
-      </div>
-    </div>
-
-    <div class="portfolio-card" data-category="youtube" data-platform="youtube" data-style="bestof" data-sector="gaming" data-href="https://youtu.be/KvMbW-Tdw6E?si=0vz_xBCfz5fr9IW2" data-yt-id="KvMbW-Tdw6E">
-      <div class="portfolio-thumb">
-        <img data-src="https://img.youtube.com/vi/KvMbW-Tdw6E/hqdefault.jpg" loading="lazy" alt="Miniature : Best of Warzone" class="portfolio-thumb-img lazy-thumb" />
-        <div class="portfolio-play-icon">▶</div>
-        
-      </div>
-      <div class="portfolio-card-info">
-        <span class="portfolio-card-label">Best of Warzone</span>
-        <span class="portfolio-card-sub">YouTube</span>
-      </div>
-    </div>
-
-    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="gaming" data-sector="gaming" data-href="https://www.tiktok.com/@juniorlej/video/7598979471357627670">
-      <div class="portfolio-thumb">
-        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
-        <div class="portfolio-play-icon">▶</div>
-        
-      </div>
-      <div class="portfolio-card-info">
-        <span class="portfolio-card-label">TikTok Gaming #1</span>
-        <span class="portfolio-card-sub">@juniorlej</span>
-      </div>
-    </div>
-
-    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="gaming" data-sector="gaming" data-href="https://www.tiktok.com/@juniorlej/video/7595247730080140547">
-      <div class="portfolio-thumb">
-        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
-        <div class="portfolio-play-icon">▶</div>
-        
-      </div>
-      <div class="portfolio-card-info">
-        <span class="portfolio-card-label">TikTok Gaming #2</span>
-        <span class="portfolio-card-sub">@juniorlej</span>
-      </div>
-    </div>
-
-    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="gaming" data-sector="gaming" data-href="https://vm.tiktok.com/ZN8LfUJFY/" data-added="2026-08-10">
-      <div class="portfolio-thumb">
-        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
-        <div class="portfolio-play-icon">▶</div>
-      </div>
-      <div class="portfolio-card-info">
-        <span class="portfolio-card-label">TikTok Gaming #7</span>
-        <span class="portfolio-card-sub">vm.tiktok.com</span>
-      </div>
-    </div>
-
-    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="gaming" data-sector="gaming" data-href="https://vm.tiktok.com/ZN8LD6EgW/" data-added="2026-08-05">
-      <div class="portfolio-thumb">
-        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
-        <div class="portfolio-play-icon">▶</div>
-      </div>
-      <div class="portfolio-card-info">
-        <span class="portfolio-card-label">TikTok Gaming #8</span>
-        <span class="portfolio-card-sub">vm.tiktok.com</span>
-      </div>
-    </div>
-
-    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="gaming" data-sector="gaming" data-href="https://vm.tiktok.com/ZGdmoPNR6/">
-      <div class="portfolio-thumb">
-        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
-        <div class="portfolio-play-icon">▶</div>
-        
-      </div>
-      <div class="portfolio-card-info">
-        <span class="portfolio-card-label">TikTok Gaming #3</span>
-        <span class="portfolio-card-sub">vm.tiktok.com</span>
-      </div>
-    </div>
-
-    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="gaming" data-sector="gaming" data-href="https://vm.tiktok.com/ZGduYkMfE/">
-      <div class="portfolio-thumb">
-        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
-        <div class="portfolio-play-icon">▶</div>
-        
-      </div>
-      <div class="portfolio-card-info">
-        <span class="portfolio-card-label">TikTok Gaming #4</span>
-        <span class="portfolio-card-sub">vm.tiktok.com</span>
-      </div>
-    </div>
-
-    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="gaming" data-sector="gaming" data-href="https://vm.tiktok.com/ZGdu2uUFQ/">
-      <div class="portfolio-thumb">
-        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
-        <div class="portfolio-play-icon">▶</div>
-        
-      </div>
-      <div class="portfolio-card-info">
-        <span class="portfolio-card-label">TikTok Gaming #5</span>
-        <span class="portfolio-card-sub">vm.tiktok.com</span>
-      </div>
-    </div>
-
-    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="gaming" data-sector="gaming" data-href="https://vm.tiktok.com/ZNRQxGcFa/">
-      <div class="portfolio-thumb">
-        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
-        <div class="portfolio-play-icon">▶</div>
-        
-      </div>
-      <div class="portfolio-card-info">
-        <span class="portfolio-card-label">TikTok Gaming #6</span>
-        <span class="portfolio-card-sub">vm.tiktok.com</span>
-      </div>
-    </div>
-
-    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="gaming" data-sector="gaming" data-href="https://vm.tiktok.com/ZN8ehL8VV/">
-      <div class="portfolio-thumb">
-        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
-        <div class="portfolio-play-icon">▶</div>
-      </div>
-      <div class="portfolio-card-info">
-        <span class="portfolio-card-label">TikTok Gaming #9</span>
-        <span class="portfolio-card-sub">vm.tiktok.com</span>
-      </div>
-    </div>
-
-    <div class="portfolio-card" data-category="business" data-platform="tiktok" data-style="business" data-sector="marque" data-href="https://www.tiktok.com/@arthurperticoz/video/7646109875503729942?is_from_webapp=1&amp;sender_device=pc&amp;web_id=7624840625351919126">
-      <div class="portfolio-thumb">
-        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
-        <div class="portfolio-play-icon">▶</div>
-      </div>
-      <div class="portfolio-card-info">
-        <span class="portfolio-card-label">Vidéo TikTok — Business</span>
-        <span class="portfolio-card-sub">@arthurperticoz</span>
-      </div>
-    </div>
-
-    <div class="portfolio-card" data-category="business" data-platform="tiktok" data-style="business" data-sector="marque" data-href="https://www.tiktok.com/@arthurperticoz/video/7647974060495818016?is_from_webapp=1&amp;sender_device=pc&amp;web_id=7624840625351919126">
-      <div class="portfolio-thumb">
-        <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
-        <div class="portfolio-play-icon">▶</div>
-      </div>
-      <div class="portfolio-card-info">
-        <span class="portfolio-card-label">Vidéo TikTok — Business #2</span>
-        <span class="portfolio-card-sub">@arthurperticoz</span>
-      </div>
-    </div>
-
-  </div>
-
-  <button type="button" id="showMoreBtn" class="show-more-btn" style="display: none;">Voir plus de vidéos</button>
-
-
-  </section>
-
-
-
-  <section id="presse-b2b" class="full-section objections-section reveal">
-    <div class="info-header">
-      <div class="section-divider">
-        <div class="section-divider-line"></div>
-        <span class="section-divider-text">Marques & médias</span>
-        <div class="section-divider-line"></div>
-      </div>
-      <div class="info-title">🤝 Kit presse & Partenariats</div>
-    </div>
-    <p class="info-text">
-      Marque, agence ou média à la recherche d'un monteur pour du contenu sponsorisé, une collaboration
-      récurrente ou une interview presse ? <strong>Contenu de marque</strong> (droit à l'image, mentions
-      légales inclus, voir format <strong>Business / Sponsorisé</strong>), <strong>volume régulier</strong>
-      possible (abonnement ou pack sur-mesure), <strong>kit presse</strong> (logo, bio, chiffres clés)
-      envoyé sur demande sous 24h. Remplis le formulaire plus bas avec le détail de ton besoin : ça suffit
-      pour un devis direct, pas besoin d'un aller-retour de mails.
-    </p>
-
-    <details class="faq-item" id="b2bRoiCalc">
-      <summary>🧮 Estimer la portée de ta campagne (calcul rapide)</summary>
-      <div class="form-row-split" style="margin-top: 10px;">
-        <label>Vidéos / mois
-          <input type="number" id="roiVideosInput" min="0" value="4" />
-        </label>
-        <label>Vues moy. / vidéo
-          <input type="number" id="roiViewsInput" min="0" step="100" value="5000" />
-        </label>
-        <label>Durée moy. visionnage (sec)
-          <input type="number" id="roiDurationInput" min="0" value="30" />
-        </label>
-      </div>
-      <p class="delay-sim-result" id="roiCalcResult" style="margin-top: 8px;"></p>
-      <p class="note-aside">Estimation basée sur <em>tes propres hypothèses</em> ci-dessus, pas des statistiques garanties par avance — utile pour cadrer un ordre de grandeur avant de discuter budget.</p>
-    </details>
-
-    <!-- FAQ spécifique B2B : repliée par défaut (contrairement à avant) pour ne pas allonger la
-         section pour les visiteurs qui n'en ont pas besoin — le contenu (facturation, droits d'usage
-         commercial, délais en volume) reste inchangé, juste replié sous un accordéon supplémentaire. -->
-    <details class="faq-item">
-      <summary>❓ Questions fréquentes — Marques &amp; médias</summary>
-      <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
-        <details class="faq-item" id="faq-b2b-facturation">
-          <summary>Peux-tu émettre une facture ?</summary>
-          <p>Oui, un reçu ou une facture en bonne et due forme peut être émis sur demande — précise-le dès la prise de contact ou dans le formulaire ci-dessous pour que je prépare le bon document avant la livraison plutôt qu'après coup. Le document reprend les informations de mon statut professionnel telles qu'indiquées dans les <a href="#confidentialite" class="inline-link">mentions légales du site</a>. Voir aussi <a href="#cgv-facturation" class="inline-link">la clause Facturation des CGV</a>.</p>
-        </details>
-        <details class="faq-item" id="faq-b2b-droits-usage">
-          <summary>Qu'est-ce que le supplément "usage commercial" (+15%) couvre exactement ?</summary>
-          <p>Il couvre le droit d'utiliser la vidéo livrée pour de la promotion payante (publicité, post sponsorisé boosté, campagne d'ads) en plus d'une diffusion organique classique — pas seulement le fait qu'une marque soit impliquée. Ce que ça <strong>n'inclut pas</strong> par défaut : l'exclusivité (je peux continuer à travailler avec d'autres marques, y compris concurrentes, sauf accord contraire discuté en amont), ni la cession des rushs ou du projet de montage brut — tu reçois le fichier final, pas les sources. Précise le type d'usage prévu (organique, ads, durée de diffusion) dès la demande pour qu'on cadre ça clairement avant de commencer.</p>
-        </details>
-        <details class="faq-item" id="faq-b2b-delais-volume">
-          <summary>Quels délais prévoir pour une commande en volume (plusieurs vidéos pour une même campagne) ?</summary>
-          <p>Les délais annoncés ailleurs sur le site (<span id="b2bDelayCourtRef">jour même à 2 jours</span> en format court, <span id="b2bDelayLongRef">jusqu'à 1 semaine</span> en long) valent pour une vidéo isolée — un lot de plusieurs vidéos pour une même campagne prend nécessairement plus de temps au total, sans que ce soit une simple multiplication linéaire (plusieurs vidéos partageant les mêmes rushs ou la même charte vont plus vite qu'autant de projets indépendants). Décris le volume et la deadline de campagne dès le formulaire ci-dessous pour qu'on cadre un calendrier réaliste avant de t'engager sur une date — le mode urgent (⚡ +30%) reste disponible mais soumis à ma disponibilité réelle, jamais promis par défaut sur un gros volume.</p>
-        </details>
-      </div>
-    </details>
-
-    <p class="info-text" style="margin-top: 10px;">
-      <a href="#reservation" class="format-compare-link" data-apply-format="Business / Sponsorisé">📅 Je connais déjà mon besoin, je passe par le formulaire classique →</a>
-    </p>
-
-    <!-- Formulaire "capable de commande" : au-delà d'une simple prise de contact, les champs Format /
-         Volume / Budget / Deadline donnent d'entrée assez de détail pour préparer un devis réel, sans
-         un aller-retour de messages avant de pouvoir répondre quoi que ce soit de concret. -->
-    <form id="b2bContactForm" class="reserve-form">
-      <div class="hp-field" aria-hidden="true">
-        <label>Laisse ce champ vide<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
-      </div>
-      <div class="form-row-split">
-        <label>Ton nom
-          <input type="text" name="b2bNom" required maxlength="80" placeholder="Prénom / nom" />
-        </label>
-        <label>Marque / entreprise
-          <input type="text" name="b2bEntreprise" maxlength="80" placeholder="Nom de la marque ou de l'agence" />
-        </label>
-      </div>
-      <label>Email ou contact
-        <input type="text" name="b2bContact" required maxlength="150" placeholder="Email, Discord, Instagram..." />
-      </label>
-      <div class="form-row-split">
-        <label>Format souhaité
-          <select name="b2bFormat">
-            <option value="">À définir ensemble</option>
-            <option value="Business / Sponsorisé">Business / Sponsorisé</option>
-            <option value="Long (YouTube / Best-of)">Long (YouTube / Best-of)</option>
-            <option value="Court (TikTok / Reels)">Court (TikTok / Reels)</option>
-            <option value="Pack sur-mesure (mix de formats)">Pack sur-mesure (mix de formats)</option>
-            <option value="Collaboration récurrente / abonnement">Collaboration récurrente / abonnement</option>
-          </select>
-        </label>
-        <label>Volume estimé
-          <input type="text" name="b2bVolume" maxlength="60" placeholder="Ex : 4 vidéos, 1 campagne..." />
-        </label>
-      </div>
-      <div class="form-row-split">
-        <label>Budget envisagé <span class="optional-tag">(optionnel)</span>
-          <input type="text" name="b2bBudget" maxlength="60" placeholder="Ex : 500-800€, à définir..." />
-        </label>
-        <label>Deadline / date limite <span class="optional-tag">(optionnel)</span>
-          <input type="text" name="b2bDeadline" maxlength="60" placeholder="Ex : avant le 15/11, flexible..." />
-        </label>
-      </div>
-      <label>Détails complémentaires <span class="optional-tag">(optionnel)</span>
-        <textarea name="b2bMessage" rows="3" maxlength="800" placeholder="Contexte de la campagne, kit presse, partenariat, tout ce qui aide à cadrer la demande..."></textarea>
-      </label>
-      <button type="submit" class="reserve-submit sound-on-click">Envoyer ma demande</button>
-      <p id="b2bContactStatus" class="reserve-status" aria-live="polite"></p>
-    </form>
-  </section>
-
-  <!-- Bandeau "Vu chez" pour la section Kit presse : même pattern que .client-logos-band utilisé
-       plus haut (hero + avant réservation), mêmes clients réels — pas de nouveaux noms inventés,
-       juste reformulé pour parler à un visiteur pro qui compare plusieurs monteurs plutôt qu'à un
-       créateur qui cherche à réserver. -->
-  <div class="client-logos-band client-logos-band-compact reveal">
-    <span class="client-logos-label">Vu chez</span>
-    <div class="client-logos-row">
-      <span class="client-logo-item"><svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9v4M4 11h4"/><circle cx="15.5" cy="9.5" r="1"/><circle cx="17.5" cy="12" r="1"/><path d="M6.5 6h11A4.5 4.5 0 0122 10.5v2A3.5 3.5 0 0118.5 16c-.9 0-1.7-.4-2.2-1.2L15 13H9l-1.3 1.8C7.2 15.6 6.4 16 5.5 16A3.5 3.5 0 012 12.5v-2A4.5 4.5 0 016.5 6z"/></svg> KCorp</span>
-      <span class="client-logo-item"><svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8v3a4 4 0 01-8 0V3z"/><path d="M8 4H5a2 2 0 000 4h1.5M16 4h3a2 2 0 010 4h-1.5"/><path d="M12 10v3"/><path d="M10 17h4M9.5 14h5l1 3h-7l1-3z"/></svg> @LaureValee</span>
-      <span class="client-logo-item">⚔️ @Colomblbl</span>
-      <span class="client-logo-item">😂 Etostark</span>
-      <span class="client-logo-item">📱 @juniorlej</span>
-      <span class="client-logo-item">✨ + d'autres créateurs & orgs</span>
-    </div>
-  </div>
-
-  <section id="resultats" class="full-section results-section reveal">
-    <div class="info-header">
-      <div class="section-divider">
-        <div class="section-divider-line"></div>
-        <span class="section-divider-text">Résultats obtenus</span>
-        <div class="section-divider-line"></div>
-      </div>
-      <div class="info-title">Au-delà du montage</div>
-    </div>
-    <p class="info-text">
-      Un bon montage se voit, mais il se mesure aussi : quelques exemples d'impact concret sur des vidéos livrées récemment.
-    </p>
-
-    <!-- Statistique réelle (pas un exemple illustratif comme les 3 cartes juste en dessous) : calculée
-         par l'Apps Script à partir des vraies livraisons passées (date "voulue" indiquée par le client
-         à la commande vs date effective de passage au statut "✅ Livré" dans l'historique) — jamais une
-         estimation. Volontairement dans un encart à part (même style que #publicNpsBadge) pour ne pas
-         se mélanger visuellement avec les cartes d'exemples ci-dessous. -->
-    <div class="public-nps-badge" id="publicDelayComplianceBadge" style="display: none;"></div>
-
-    <div class="results-grid">
-      <div class="result-card">
-        <span class="result-card-stat">+140%</span>
-        <span class="result-card-label">de vues moyennes</span>
-        <p class="result-card-text">Sur une série de shorts gaming remontés avec un rythme de coupe plus serré et une accroche plus forte dans les 3 premières secondes.</p>
-        <span class="result-card-context">Créateur gaming, format court</span>
-      </div>
-      <div class="result-card">
-        <span class="result-card-stat">+2 400</span>
-        <span class="result-card-label">abonnés en 1 mois</span>
-        <p class="result-card-text">Après le passage à une identité visuelle et un habillage sonore cohérents sur l'ensemble des vidéos publiées.</p>
-        <span class="result-card-context">Chaîne YouTube best-of, format long</span>
-      </div>
-      <div class="result-card">
-        <span class="result-card-stat">x3</span>
-        <span class="result-card-label">taux de complétion</span>
-        <p class="result-card-text">Sur du contenu sponsorisé, en resserrant la structure pour garder l'audience jusqu'au message de marque plutôt que de la perdre en cours de route.</p>
-        <span class="result-card-context">Marque, format business/sponsorisé</span>
-      </div>
-    </div>
-
-    <div class="case-study-card">
-      <div class="case-study-header">
-        <span class="case-study-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-1px;margin-right:3px;"><path d="M8 12.5V6.5a4 4 0 018 0v9a2.5 2.5 0 01-5 0v-8"/></svg>Étude de cas</span>
-        <span class="case-study-context">Créateur gaming, format court · TikTok</span>
-      </div>
-      <div class="case-study-compare">
-        <div class="case-study-before">
-          <span class="case-study-compare-label">Avant — les rushs</span>
-          <p class="case-study-compare-text">~25 minutes de gameplay brut, sans découpe ni contexte : plus de la moitié du temps est occupée par des chargements et des temps morts entre deux actions, et les 3 premières secondes tombent sur un écran de chargement.</p>
+        <div class="guarantee-card">
+          <span class="guarantee-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M14.5 8.7a4.6 4.6 0 100 6.6"/><path d="M8.5 11h4.3M8.5 13h3.6"/></svg></span>
+          <span class="guarantee-card-title">Acompte remboursable</span>
+          <span class="guarantee-card-text">Intégralement, tant que le montage n'a pas commencé. Une fois lancé, il couvre le temps déjà engagé de mon côté.</span>
         </div>
-        <div class="case-study-arrow" aria-hidden="true">→</div>
-        <div class="case-study-after">
-          <span class="case-study-compare-label">Après — le montage livré</span>
-          <p class="case-study-compare-text">Format court de 28 secondes recentré sur la meilleure séquence, qui s'ouvre directement sur l'action la plus forte plutôt que sur le début chronologique, avec un rythme de coupe resserré et des sous-titres animés pour tenir l'attention jusqu'à la fin.</p>
+        <div class="guarantee-card">
+          <span class="guarantee-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></span>
+          <span class="guarantee-card-title">Rushs confidentiels</span>
+          <span class="guarantee-card-text">Tes fichiers sources sont supprimés de mon côté à J+30 après la livraison finale. Détails dans les <a href="#confidentialite">mentions légales</a>.</span>
         </div>
       </div>
-      <div class="case-study-strategy">
-        <span class="case-study-strategy-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" style="vertical-align:-1px;margin-right:3px;"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>Stratégie de montage</span>
-        <p class="case-study-strategy-text">Repérage des 2-3 pics d'action dans les rushs, structure "meilleur moment en premier" plutôt qu'un suivi chronologique, et suppression systématique de tout silence de plus d'une seconde pour garder un rythme constant du début à la fin.</p>
-      </div>
-    </div>
-
-    <div class="not-a-fit-box">
-      <p class="guarantee-card-text">🔧 <strong>Chiffres et étude de cas 100% d'exemple</strong>, comme le reste des placeholders du site — à remplacer par tes vrais résultats et un vrai cas concret (rushs → vidéo finale) dès que tu en as un et l'accord du client pour le partager (même de façon anonymisée, comme ci-dessus). Ne jamais laisser des chiffres ou un cas inventés en ligne : une preuve sociale doit être vraie pour avoir de la valeur, une fausse fait plus de mal que pas de section du tout si elle est un jour remise en question.</p>
-    </div>
+    
   </section>
 
-  <!-- Outils & logiciels utilisés : même bandeau que .client-logos-band (logos texte en niveaux de
-       gris, coloré au survol) — un signal de sérieux technique complémentaire au portfolio, qui montre le
-       résultat mais pas la méthode.
-       🔧 Ne garde que les outils que tu utilises RÉELLEMENT : une liste inventée ou approximative
-       est le genre de détail qu'un visiteur technique remarque et qui coûte plus cher en crédibilité
-       que ça n'en rapporte. Ajuste librement la liste (ajoute/retire des <span class="client-logo-item">). -->
-  <div class="client-logos-band client-logos-band-compact tools-logos-band reveal">
-    <span class="client-logos-label">Outils & logiciels utilisés</span>
-    <div class="client-logos-row">
-      <span class="client-logo-item">🎬 Premiere Pro</span>
-      <span class="client-logo-item">🌊 DaVinci Resolve</span>
-      <span class="client-logo-item">✨ After Effects</span>
-      <span class="client-logo-item">🔊 Audition</span>
-      <span class="client-logo-item">🎨 Photoshop</span>
-    </div>
-  </div>
-
-  <!-- Le bandeau "Ils m'ont fait confiance" n'est volontairement pas répété ici : la version
-       complète (avec les repères d'audience) apparaît déjà juste après la section Process, à
-       quelques centaines de lignes plus haut dans le même scroll — un visiteur qui vient de la
-       voir n'a pas besoin de revoir exactement la même liste de logos une 2e fois. -->
-
-  <!-- Section fusionnée : anciennes #conseils et #objections regroupées en une seule section à
-       onglets (même pattern que Profil/Tarifs plus haut) — les deux traitaient "lever les freins
-       avant l'achat" avec la même carte visuelle (.conseils-article) et se suivaient dans le
-       scroll sans réel besoin d'être deux sections distinctes. Les ids des cartes individuelles
-       (conseil-rushs, objection-resultat, etc.) et les ids historiques #conseils / #objections
-       sont conservés sur les panneaux eux-mêmes : tout ancien lien profond continue de fonctionner
-       et ouvre le bon onglet (voir handleHashTab côté JS). -->
-  <section id="avant-commander" class="full-section conseils-section reveal">
+<section id="checklist" class="full-section conseils-section reveal">
+    <div id="avant-commander"></div>
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -12048,19 +11916,19 @@
       <div class="conseils-articles">
         <details class="faq-item conseils-article" id="conseil-rushs">
           <summary>📁 Comment préparer tes rushs pour un montage rapide</summary>
-          <p>Envoie tes fichiers dans leur qualité d'origine (jamais recompressés ou passés par une story/messagerie qui écrase la qualité), triés par prise si possible, et dans un seul lien de partage (Drive, WeTransfer, SwissTransfer) avec un accès ouvert pendant toute la durée du montage. Précise aussi les passages à garder ou à éviter si tu as déjà une idée : ça évite un aller-retour de correction et ça accélère la livraison de la première version.</p>
+          <p>Fichiers en qualité d'origine (jamais via une story/messagerie), dans un seul lien de partage (Drive, WeTransfer, SwissTransfer) accessible pendant tout le montage. Précise les passages à garder ou éviter si tu le sais déjà : ça évite un aller-retour.</p>
         </details>
         <details class="faq-item conseils-article" id="conseil-format">
           <summary>📼 Format court ou format long : lequel choisir ?</summary>
-          <p>Le format court (TikTok/Reels/Shorts, 9:16) vise la découverte : rythme rapide, accroche dans les 3 premières secondes, sous-titres quasi obligatoires. Le format long (YouTube, 16:9) laisse plus de place à la narration et à la rétention sur la durée. Si ton contenu a besoin d'être vu en entier pour avoir du sens (tuto, vlog, interview), pars sur du long ; s'il tient en une idée forte et rapide à saisir, le court fonctionne mieux et coûte généralement moins cher à produire.</p>
+          <p>Court (TikTok/Reels, 9:16) : rythme rapide, accroche immédiate, pour la découverte. Long (YouTube, 16:9) : plus de narration, pour la rétention. Une idée forte et rapide à saisir → court, souvent moins cher. Un contenu à voir en entier (tuto, vlog) → long.</p>
         </details>
         <details class="faq-item conseils-article" id="conseil-delai">
           <summary>⏳ Combien de temps prévoir pour un montage professionnel</summary>
-          <p>Le délai dépend surtout de la quantité de rushs à trier et du niveau de finition demandé (étalonnage, sound design, motion design). Un format court avec des rushs déjà propres se monte plus vite qu'un format long avec plusieurs heures de brut à visionner. Prévoir large plutôt que serré laisse aussi de la marge pour les retouches : mieux vaut une vidéo livrée un peu en avance qu'un montage bâclé pour tenir un délai trop court.</p>
+          <p>Le délai dépend surtout du volume de rushs à trier et du niveau de finition demandé. Prévois large plutôt que serré : mieux vaut une vidéo livrée en avance qu'un montage bâclé pour tenir un délai trop court.</p>
         </details>
         <details class="faq-item conseils-article" id="conseil-erreurs">
           <summary>⚠️ 3 erreurs qui retardent la livraison de ta vidéo</summary>
-          <p>1) Envoyer les rushs après avoir passé commande plutôt qu'en même temps, ce qui décale d'autant le début du montage. 2) Donner une consigne vague ("fais quelque chose de sympa") plutôt qu'une référence concrète (lien vers une vidéo dans le style voulu), ce qui multiplie les allers-retours de correction. 3) Attendre plusieurs jours avant de valider ou de demander une retouche sur la première version envoyée, ce qui repousse d'autant la livraison finale.</p>
+          <p>1) Envoyer les rushs après la commande plutôt qu'avec elle. 2) Donner une consigne vague plutôt qu'une référence concrète (lien vers une vidéo dans le style voulu). 3) Tarder à valider ou à demander une retouche sur la première version envoyée.</p>
         </details>
       </div>
     </div>
@@ -12069,37 +11937,37 @@
       <div class="conseils-articles">
         <details class="faq-item conseils-article" id="objection-resultat">
           <summary>😬 Et si je n'aime pas le résultat ?</summary>
-          <p>Tu n'es jamais bloqué avec une première version qui ne te convient pas : <strong>3 révisions sont incluses</strong> dans le prix, pas en option payante. On ajuste le rythme, les coupes, les sous-titres ou la musique jusqu'à ce que ça te plaise vraiment, pas jusqu'à ce que ce soit "acceptable". Et le solde n'est dû qu'à partir de ta première demande de retouche — donc après avoir vu un premier résultat concret, jamais avant.</p>
+          <p>3 révisions sont incluses dans le prix, pas en option. On ajuste rythme, coupes, sous-titres ou musique jusqu'à ce que ça te plaise vraiment. Le solde n'est dû qu'à partir de ta première demande de retouche, jamais avant.</p>
         </details>
         <details class="faq-item conseils-article" id="objection-fiverr">
           <summary>💸 Pourquoi pas moins cher sur Fiverr ou un ami qui monte ?</summary>
-          <p>Rien n'empêche de trouver moins cher ailleurs, et un ami qui monte bien peut très bien faire l'affaire. Ce que tu payes ici, c'est la régularité : même monteur d'une commande à l'autre (pas de loterie sur qui récupère ton projet), délai annoncé tenu, et un contact direct sans chef de projet ni intermédiaire entre toi et la personne qui monte réellement ta vidéo. Si ton besoin est ponctuel et que le prix est le seul critère, une autre option peut avoir du sens — si tu comptes publier régulièrement, la différence se voit surtout sur la durée.</p>
+          <p>Rien n'empêche de trouver moins cher ailleurs. Ce que tu payes ici, c'est la régularité : même monteur à chaque commande, délai tenu, contact direct sans intermédiaire. La différence se voit surtout si tu publies régulièrement.</p>
         </details>
         <details class="faq-item conseils-article" id="objection-audience">
           <summary>🌱 Je n'ai pas encore beaucoup d'audience, c'est fait pour moi ?</summary>
-          <p>Oui — la taille de l'audience n'entre pas dans le prix ni dans le niveau d'attention apporté au montage. Beaucoup de créateurs commencent justement à investir dans un montage plus propre au moment où ils cherchent à accélérer leur croissance, pas après l'avoir déjà obtenue. S'il y a un doute sur le format le plus adapté à ton stade, le formulaire plus bas n'engage à rien avant la validation du devis.</p>
+          <p>Oui — la taille de l'audience n'entre ni dans le prix ni dans l'attention apportée au montage. Beaucoup de créateurs investissent justement dans un montage propre pour accélérer leur croissance, pas après l'avoir obtenue.</p>
         </details>
         <details class="faq-item conseils-article" id="objection-confiance">
           <summary>🔒 Je ne t'ai jamais confié un projet, comment être sûr que ça va bien se passer ?</summary>
-          <p>Aucun engagement à l'aveugle : l'acompte de 50% sécurise ta place dans le planning, mais tu vois une première version avant que le solde soit dû (voir la question sur l'acompte plus bas dans la FAQ). Tu peux aussi commencer petit — une seule vidéo plutôt qu'un pack — pour juger par toi-même avant de t'engager sur un plus gros volume. Les créateurs et marques déjà crédités plus haut sur cette page ont commencé de la même façon.</p>
+          <p>L'acompte de 50% sécurise ta place dans le planning, mais tu vois une première version avant que le solde soit dû. Tu peux aussi commencer petit — une seule vidéo plutôt qu'un pack — pour juger par toi-même.</p>
         </details>
       </div>
     </div>
-  </section>
+  
 
   <!-- Checklist interactive avant de commander : outil actionnable (à cocher) plutôt qu'un article
        de plus à lire, distinct du contenu de #avant-commander qui reste explicatif. Purement local
        à la session (pas de sauvegarde entre visites), ne bloque jamais l'envoi du formulaire —
        c'est un aide-mémoire, pas une condition. -->
-  <section id="checklist" class="full-section conseils-section reveal">
-    <div class="info-header">
-      <div class="section-divider">
-        <div class="section-divider-line"></div>
-        <span class="section-divider-text">Checklist</span>
-        <div class="section-divider-line"></div>
-      </div>
-      <div class="info-title">Prêt à commander ?</div>
+  
+    <div id="avant-commander-checklist-sep"></div>
+
+    <div class="section-divider" style="margin: 32px 0 14px;">
+      <div class="section-divider-line"></div>
+      <span class="section-divider-text">Checklist</span>
+      <div class="section-divider-line"></div>
     </div>
+    <p class="info-title" style="font-size: 1.3rem;">Prêt à commander ?</p>
     <p class="info-text">Coche ce que tu as déjà prêt : plus c'est complet en envoyant ta demande, plus la première version arrive vite.</p>
 
     <div class="checklist-box" id="orderChecklist">
@@ -12122,9 +11990,10 @@
     </div>
     <p class="checklist-progress" id="checklistProgress">0/4 prêt</p>
     <p class="checklist-done-msg" id="checklistDoneMsg">✅ Tout est prêt — direction le formulaire, ta première version n'en sera que plus rapide.</p>
+  
   </section>
 
-  <section id="reservation" class="full-section reserve-section reveal">
+<section id="reservation" class="full-section reserve-section reveal">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -12921,7 +12790,9 @@
 
   <span id="conditions" class="anchor-offset"></span>
   <span id="confidentialite" class="anchor-offset"></span>
-  <section id="faq" class="full-section faq-conditions-section reveal">
+  
+
+<section id="faq" class="full-section faq-conditions-section reveal">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -13092,7 +12963,7 @@
 
       <details class="faq-item" id="faq-refonte" data-theme="revisions">
         <summary>Que se passe-t-il si je demande une révision hors du cadre inclus ?</summary>
-        <p>Ça arrive, et ce n'est pas un problème en soi : si tu veux changer totalement l'angle ou la structure d'un montage déjà validé, ou repartir sur une base différente, on en discute d'abord ensemble pour cadrer ce que tu veux vraiment. Selon l'ampleur du changement, ça peut donner lieu à un supplément (traité comme un nouveau montage partiel) plutôt qu'à une révision gratuite classique : toujours annoncé et validé avec toi avant d'être facturé, jamais en surprise sur la facture finale.</p>
+        <p>Ça arrive, et ce n'est pas un problème : si tu veux changer totalement l'angle ou la structure d'un montage déjà validé, on en discute d'abord pour cadrer ce que tu veux vraiment. Selon l'ampleur, ça peut donner lieu à un supplément (traité comme un nouveau montage partiel), toujours annoncé et validé avant d'être facturé.</p>
       </details>
         </div>
       </details>
@@ -13105,7 +12976,7 @@
         <div class="more-options-content">
       <details class="faq-item" id="faq-suivi-statut-bloque" data-theme="suivi">
         <summary>Pourquoi mon statut n'a pas bougé ?</summary>
-        <p>Le statut se met à jour automatiquement dès que je fais une modification de mon côté — pas besoin de me redemander où ça en est. Quelques raisons courantes à un statut qui semble figé : je n'ai pas encore traité ta demande (surtout si elle est arrivée hors des heures actives, voir la question juste en dessous), ta commande attend son tour dans le planning (statut "🕓 En file d'attente"), ou l'acompte n'a pas encore été détecté comme réglé de mon côté. Le bouton "🔄 Actualiser" en haut du suivi force une vérification immédiate si tu penses qu'un changement récent n'est pas encore affiché. Si ta commande reste au statut "🟠 Envoyée" plus de 24h sans acompte réglé, elle passe automatiquement en "Expirée" — ce n'est pas définitif, recontacte-moi simplement si tu veux la relancer.</p>
+        <p>Le statut se met à jour automatiquement dès que je fais une modification — pas besoin de redemander où ça en est. Raisons courantes d'un statut qui semble figé : demande pas encore traitée, commande en file d'attente, ou acompte pas encore détecté comme réglé. Le bouton "🔄 Actualiser" force une vérification immédiate. Sans acompte réglé sous 24h, une commande "🟠 Envoyée" passe en "Expirée" (pas définitif, recontacte-moi pour la relancer).</p>
       </details>
 
       <details class="faq-item" id="faq-suivi-retouche-facturee" data-theme="suivi">
@@ -13156,22 +13027,22 @@
         <div class="more-options-content">
       <details class="faq-item" id="faq-limites" data-theme="confiance">
         <summary>Y a-t-il des types de contenus ou de demandes que tu ne prends pas en charge ?</summary>
-        <p>Oui, et autant le dire clairement avant plutôt qu'en DM après coup. Je fais du <strong>montage vidéo</strong> à partir de rushs déjà filmés : coupe, rythme, sous-titres, habillage sonore et visuel, étalonnage. Je ne fais <strong>pas</strong> : d'animation 3D ou de motion design créé de zéro (logo animé, personnage 3D...), de doublage ou d'enregistrement de voix off, de tournage, d'écriture de script, ni de direction artistique en amont. Je ne monte pas non plus de contenu à caractère haineux, discriminatoire, violent de façon gratuite, ou illégal. Côté délais, le mode urgent (⚡ +30%) permet d'accélérer, mais je n'accepte pas les demandes dont le délai est irréaliste par rapport à la quantité de rushs à traiter, même en payant le supplément urgent — je préfère le dire clairement avant plutôt que de m'engager sur une livraison que je ne pourrai pas tenir. Si ta demande sort de ce cadre, dis-le-moi dès le formulaire de réservation : on regarde ensemble si c'est faisable ou si je peux t'orienter vers quelqu'un de plus adapté.</p>
+        <p>Oui, et autant le dire clairement avant qu'en DM après coup. Je fais du <strong>montage vidéo</strong> à partir de rushs déjà filmés : coupe, rythme, sous-titres, habillage sonore et visuel, étalonnage. Je ne fais <strong>pas</strong> : animation 3D/motion design créé de zéro, doublage/voix off, tournage, écriture de script, direction artistique en amont, ni contenu haineux, violent ou illégal. Le mode urgent (⚡ +30%) accélère, mais je refuse un délai irréaliste vu le volume de rushs, même en payant le supplément. Hors cadre ? Dis-le dès le formulaire, on regarde ensemble.</p>
       </details>
 
       <details class="faq-item" id="faq-disparition" data-theme="confiance">
         <summary>Et si tu disparais après avoir reçu l'acompte ?</summary>
-        <p>L'acompte (50%) sert uniquement à sécuriser ta place dans le planning, pas à être encaissé puis oublié : le solde n'est dû qu'à partir de ta première demande de retouche (donc après avoir vu un premier résultat concret), jamais avant, ce qui te laisse une vraie garantie que le montage avance réellement. Si jamais un délai dépasse largement ce qui a été annoncé sans nouvelles de ma part, tu peux me relancer via n'importe quel canal de contact du site (Discord, Twitter/X, formulaire) — je réponds sous 24h en temps normal, donc un vrai silence prolongé serait anormal et pas la norme de fonctionnement ici.</p>
+        <p>L'acompte (50%) sécurise ta place dans le planning — le solde n'est dû qu'à partir de ta première demande de retouche, donc après avoir vu un résultat concret, jamais avant. Si un délai dépasse largement ce qui a été annoncé sans nouvelles, relance-moi (Discord, X, formulaire) — je réponds sous 24h normalement.</p>
       </details>
 
       <details class="faq-item" id="faq-envoi-rushs" data-theme="confiance">
         <summary>Comment j'envoie mes rushs si je n'ai pas encore réservé ?</summary>
-        <p>Pas besoin d'avoir réservé pour préparer ça : le formulaire de réservation contient un champ dédié où tu colles simplement le lien une fois généré. Je recommande <strong>SwissTransfer</strong> (gratuit, jusqu'à 50 Go, aucun compte requis, parfait pour de la vidéo), mais WeTransfer ou un dossier Google Drive partagé fonctionnent tout aussi bien. Le montage ne démarre qu'une fois l'acompte réglé <em>et</em> le lien reçu — un retard sur l'un des deux décale d'autant la livraison.</p>
+        <p>Pas besoin d'avoir réservé pour préparer ça : le formulaire contient un champ dédié où tu colles le lien une fois généré. Je recommande <strong>SwissTransfer</strong> (gratuit, jusqu'à 50 Go, sans compte), mais WeTransfer ou un Drive partagé marchent aussi. Le montage démarre une fois l'acompte réglé <em>et</em> le lien reçu.</p>
       </details>
 
       <details class="faq-item" id="faq-retouche-post-livraison" data-theme="confiance">
         <summary>Je peux demander une retouche après avoir reçu ma vidéo finale ?</summary>
-        <p>Oui, une retouche demandée peu de temps après la livraison compte simplement dans les <a href="#faq-revisions" class="inline-link">3 révisions incluses</a> (ou le tarif de 20€ par retouche au-delà, selon où tu en es). La seule vraie différence avec une retouche en cours de montage : le solde doit déjà être réglé à ce stade, puisqu'il est dû dès ta première demande de retouche. Si la demande arrive bien après la livraison, ou si elle revient à rouvrir le projet en profondeur (nouvel angle, nouvelle structure), ça bascule dans le cas des <a href="#faq-refonte" class="inline-link">révisions hors cadre</a>.</p>
+        <p>Oui, une retouche demandée peu après la livraison compte dans les <a href="#faq-revisions" class="inline-link">3 révisions incluses</a> (ou 20€/retouche au-delà). Seule différence : le solde doit déjà être réglé, puisqu'il est dû dès ta première demande de retouche. Si ça revient à rouvrir le projet en profondeur (nouvel angle, nouvelle structure), ça bascule dans les <a href="#faq-refonte" class="inline-link">révisions hors cadre</a>.</p>
       </details>
 
       <details class="faq-item" id="faq-rushs-perdus" data-theme="confiance">
@@ -13317,7 +13188,7 @@
     </div>
   </section>
 
-  <section id="avis" class="full-section testimonials-section reveal">
+<section id="avis" class="full-section testimonials-section reveal">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -13483,7 +13354,135 @@
     </div>
   </section>
 
-  <section id="parrainage" class="full-section parrainage-section reveal">
+<section id="presse-b2b" class="full-section objections-section reveal">
+    <div class="info-header">
+      <div class="section-divider">
+        <div class="section-divider-line"></div>
+        <span class="section-divider-text">Marques & médias</span>
+        <div class="section-divider-line"></div>
+      </div>
+      <div class="info-title">🤝 Kit presse & Partenariats</div>
+    </div>
+    <p class="info-text">
+      Marque, agence ou média à la recherche d'un monteur pour du contenu sponsorisé, une collaboration
+      récurrente ou une interview presse ? <strong>Contenu de marque</strong> (droit à l'image, mentions
+      légales inclus, voir format <strong>Business / Sponsorisé</strong>), <strong>volume régulier</strong>
+      possible (abonnement ou pack sur-mesure), <strong>kit presse</strong> (logo, bio, chiffres clés)
+      envoyé sur demande sous 24h. Remplis le formulaire plus bas avec le détail de ton besoin : ça suffit
+      pour un devis direct, pas besoin d'un aller-retour de mails.
+    </p>
+
+    <details class="faq-item" id="b2bRoiCalc">
+      <summary>🧮 Estimer la portée de ta campagne (calcul rapide)</summary>
+      <div class="form-row-split" style="margin-top: 10px;">
+        <label>Vidéos / mois
+          <input type="number" id="roiVideosInput" min="0" value="4" />
+        </label>
+        <label>Vues moy. / vidéo
+          <input type="number" id="roiViewsInput" min="0" step="100" value="5000" />
+        </label>
+        <label>Durée moy. visionnage (sec)
+          <input type="number" id="roiDurationInput" min="0" value="30" />
+        </label>
+      </div>
+      <p class="delay-sim-result" id="roiCalcResult" style="margin-top: 8px;"></p>
+      <p class="note-aside">Estimation basée sur <em>tes propres hypothèses</em> ci-dessus, pas des statistiques garanties par avance — utile pour cadrer un ordre de grandeur avant de discuter budget.</p>
+    </details>
+
+    <!-- FAQ spécifique B2B : repliée par défaut (contrairement à avant) pour ne pas allonger la
+         section pour les visiteurs qui n'en ont pas besoin — le contenu (facturation, droits d'usage
+         commercial, délais en volume) reste inchangé, juste replié sous un accordéon supplémentaire. -->
+    <details class="faq-item">
+      <summary>❓ Questions fréquentes — Marques &amp; médias</summary>
+      <div style="display: flex; flex-direction: column; gap: 8px; margin-top: 10px;">
+        <details class="faq-item" id="faq-b2b-facturation">
+          <summary>Peux-tu émettre une facture ?</summary>
+          <p>Oui, un reçu ou une facture en bonne et due forme peut être émis sur demande — précise-le dès la prise de contact ou dans le formulaire ci-dessous pour que je prépare le bon document avant la livraison plutôt qu'après coup. Le document reprend les informations de mon statut professionnel telles qu'indiquées dans les <a href="#confidentialite" class="inline-link">mentions légales du site</a>. Voir aussi <a href="#cgv-facturation" class="inline-link">la clause Facturation des CGV</a>.</p>
+        </details>
+        <details class="faq-item" id="faq-b2b-droits-usage">
+          <summary>Qu'est-ce que le supplément "usage commercial" (+15%) couvre exactement ?</summary>
+          <p>Il couvre le droit d'utiliser la vidéo livrée en promotion payante (ads, post boosté) en plus de la diffusion organique. N'inclut pas par défaut : l'exclusivité (je peux continuer à travailler avec d'autres marques, sauf accord contraire), ni les rushs bruts — tu reçois le fichier final. Précise le type d'usage prévu dès la demande.</p>
+        </details>
+        <details class="faq-item" id="faq-b2b-delais-volume">
+          <summary>Quels délais prévoir pour une commande en volume (plusieurs vidéos pour une même campagne) ?</summary>
+          <p>Les délais annoncés ailleurs sur le site (<span id="b2bDelayCourtRef">jour même à 2 jours</span> en court, <span id="b2bDelayLongRef">jusqu'à 1 semaine</span> en long) valent pour une vidéo isolée — un lot pour une même campagne prend plus de temps, mais pas en multiplication linéaire (rushs/charte partagés = plus rapide). Décris volume et deadline dans le formulaire pour un calendrier réaliste. Le mode urgent (⚡ +30%) reste disponible mais selon ma disponibilité réelle.</p>
+        </details>
+      </div>
+    </details>
+
+    <p class="info-text" style="margin-top: 10px;">
+      <a href="#reservation" class="format-compare-link" data-apply-format="Business / Sponsorisé">📅 Je connais déjà mon besoin, je passe par le formulaire classique →</a>
+    </p>
+
+    <!-- Formulaire "capable de commande" : au-delà d'une simple prise de contact, les champs Format /
+         Volume / Budget / Deadline donnent d'entrée assez de détail pour préparer un devis réel, sans
+         un aller-retour de messages avant de pouvoir répondre quoi que ce soit de concret. -->
+    <form id="b2bContactForm" class="reserve-form">
+      <div class="hp-field" aria-hidden="true">
+        <label>Laisse ce champ vide<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+      </div>
+      <div class="form-row-split">
+        <label>Ton nom
+          <input type="text" name="b2bNom" required maxlength="80" placeholder="Prénom / nom" />
+        </label>
+        <label>Marque / entreprise
+          <input type="text" name="b2bEntreprise" maxlength="80" placeholder="Nom de la marque ou de l'agence" />
+        </label>
+      </div>
+      <label>Email ou contact
+        <input type="text" name="b2bContact" required maxlength="150" placeholder="Email, Discord, Instagram..." />
+      </label>
+      <div class="form-row-split">
+        <label>Format souhaité
+          <select name="b2bFormat">
+            <option value="">À définir ensemble</option>
+            <option value="Business / Sponsorisé">Business / Sponsorisé</option>
+            <option value="Long (YouTube / Best-of)">Long (YouTube / Best-of)</option>
+            <option value="Court (TikTok / Reels)">Court (TikTok / Reels)</option>
+            <option value="Pack sur-mesure (mix de formats)">Pack sur-mesure (mix de formats)</option>
+            <option value="Collaboration récurrente / abonnement">Collaboration récurrente / abonnement</option>
+          </select>
+        </label>
+        <label>Volume estimé
+          <input type="text" name="b2bVolume" maxlength="60" placeholder="Ex : 4 vidéos, 1 campagne..." />
+        </label>
+      </div>
+      <div class="form-row-split">
+        <label>Budget envisagé <span class="optional-tag">(optionnel)</span>
+          <input type="text" name="b2bBudget" maxlength="60" placeholder="Ex : 500-800€, à définir..." />
+        </label>
+        <label>Deadline / date limite <span class="optional-tag">(optionnel)</span>
+          <input type="text" name="b2bDeadline" maxlength="60" placeholder="Ex : avant le 15/11, flexible..." />
+        </label>
+      </div>
+      <label>Détails complémentaires <span class="optional-tag">(optionnel)</span>
+        <textarea name="b2bMessage" rows="3" maxlength="800" placeholder="Contexte de la campagne, kit presse, partenariat, tout ce qui aide à cadrer la demande..."></textarea>
+      </label>
+      <button type="submit" class="reserve-submit sound-on-click">Envoyer ma demande</button>
+      <p id="b2bContactStatus" class="reserve-status" aria-live="polite"></p>
+    </form>
+  
+
+  <!-- Bandeau "Vu chez" pour la section Kit presse : même pattern que .client-logos-band utilisé
+       plus haut (hero + avant réservation), mêmes clients réels — pas de nouveaux noms inventés,
+       juste reformulé pour parler à un visiteur pro qui compare plusieurs monteurs plutôt qu'à un
+       créateur qui cherche à réserver. -->
+  <div class="client-logos-band client-logos-band-compact reveal">
+    <span class="client-logos-label">Vu chez</span>
+    <div class="client-logos-row">
+      <span class="client-logo-item"><svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9v4M4 11h4"/><circle cx="15.5" cy="9.5" r="1"/><circle cx="17.5" cy="12" r="1"/><path d="M6.5 6h11A4.5 4.5 0 0122 10.5v2A3.5 3.5 0 0118.5 16c-.9 0-1.7-.4-2.2-1.2L15 13H9l-1.3 1.8C7.2 15.6 6.4 16 5.5 16A3.5 3.5 0 012 12.5v-2A4.5 4.5 0 016.5 6z"/></svg> KCorp</span>
+      <span class="client-logo-item"><svg class="icon-svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3h8v3a4 4 0 01-8 0V3z"/><path d="M8 4H5a2 2 0 000 4h1.5M16 4h3a2 2 0 010 4h-1.5"/><path d="M12 10v3"/><path d="M10 17h4M9.5 14h5l1 3h-7l1-3z"/></svg> @LaureValee</span>
+      <span class="client-logo-item">⚔️ @Colomblbl</span>
+      <span class="client-logo-item">😂 Etostark</span>
+      <span class="client-logo-item">📱 @juniorlej</span>
+      <span class="client-logo-item">✨ + d'autres créateurs & orgs</span>
+    </div>
+  </div>
+
+  
+  </section>
+
+<section id="parrainage" class="full-section parrainage-section reveal">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -13529,7 +13528,9 @@
        montage"...) + positionne Michyy comme experte plutôt que simple exécutante. Même pattern
        que les .faq-item existants pour rester cohérent visuellement, pas un nouveau composant. -->
   <span id="conseils" class="anchor-offset"></span>
-  <section id="blog" class="full-section blog-section reveal">
+  
+
+<section id="blog" class="full-section blog-section reveal">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -13568,6 +13569,8 @@
       </div>
     </details>
   </section>
+
+
 
 
        marques/médias comprennent l'offre sans repasser par le formulaire grand public, qui n'est pas
@@ -14426,19 +14429,18 @@
       // Volontairement exclues : #prestations/#hero (tarifs), #reservation (formulaire), #faq (contient
       // les CGV, #cgvDetailsAccordion) — masquer l'une d'elles casserait la page pour de vrai en
       // aperçu ou cacherait des mentions légales, ce qui n'aiderait personne.
-      // 🔧 #avant-commander regroupe désormais les anciennes #conseils/#objections (onglets) : la
-      // masquer retire les deux à la fois, ce qui est le comportement voulu puisqu'elles forment
-      // maintenant une seule section visuellement. #presse-b2b garde son propre sélecteur en ID
-      // (pas en classe) car elle partage la classe CSS ".objections-section" avec cette section.
+      // 🔧 Réorganisation : #resultats vit maintenant DANS #etude-de-cas (même preuve, un seul bloc),
+      // et #avant-commander vit maintenant DANS #checklist (même moment du parcours) — masquer la
+      // section parente masque donc aussi son contenu fusionné, plus besoin de deux entrées séparées.
+      // #presse-b2b garde son propre sélecteur en ID (pas en classe) car elle partage la classe CSS
+      // ".objections-section" avec la section checklist.
       const TOGGLEABLE_SECTIONS = [
         { id: 'process', label: 'Process (Comment ça marche)', selector: '#process' },
         { id: 'apropos', label: 'À propos', selector: '#apropos' },
-        { id: 'etude-de-cas', label: 'Étude de cas', selector: '#etude-de-cas' },
+        { id: 'etude-de-cas', label: 'Étude de cas (+ résultats obtenus)', selector: '#etude-de-cas' },
         { id: 'portfolio', label: 'Portfolio', selector: '.portfolio-section' },
         { id: 'presse-b2b', label: 'Kit presse & Partenariats B2B', selector: '#presse-b2b' },
-        { id: 'resultats', label: 'Résultats obtenus', selector: '#resultats' },
-        { id: 'avant-commander', label: 'Avant de commander (conseils + objections)', selector: '#avant-commander' },
-        { id: 'checklist', label: 'Checklist avant de commander', selector: '#checklist' },
+        { id: 'checklist', label: 'Checklist (+ avant de commander)', selector: '#checklist' },
         { id: 'avis', label: 'Avis clients', selector: '.testimonials-section' },
         { id: 'parrainage', label: 'Parrainage', selector: '.parrainage-section' },
         // 🔧 Décisions commerciales à tester en aperçu masqué (pas touchées sans validation) : le
