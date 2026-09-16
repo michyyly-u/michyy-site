@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Michyy · Portfolio</title>
+  <title>Michyy · Monteur vidéo — TikTok, Reels, YouTube</title>
 
   <!-- Vérification de propriété Google Search Console — ne pas retirer, sinon le statut
        "propriétaire confirmé" est perdu et il faudrait revalider. -->
@@ -18,18 +18,24 @@
   <meta property="og:description" content="Montage vidéo formats courts et longs : TikTok, Reels, YouTube, best-of. Devis sous 24h, réservation directement sur le site." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://michyy-portfolio.pages.dev" />
+  <!-- Image de prévisualisation réseaux sociaux (1200x630, générée) : dépose og-image.png
+       à la racine du site, à côté d'index.html, pour que ce chemin fonctionne. -->
+  <meta property="og:image" content="https://michyy-portfolio.pages.dev/og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
   <link rel="canonical" href="https://michyy-portfolio.pages.dev/" />
 
-  <meta name="twitter:card" content="summary" />
+  <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="Michyy · Monteur vidéo" />
   <meta name="twitter:description" content="Montage vidéo formats courts et longs : TikTok, Reels, YouTube, best-of. Devis sous 24h." />
+  <meta name="twitter:image" content="https://michyy-portfolio.pages.dev/og-image.png" />
 
   <!-- Favicon (monogramme "M" en dégradé, cohérent avec l'avatar du site) -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ff3c3c'/%3E%3Cstop offset='1' stop-color='%23ff9a00'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='44' font-family='Arial, sans-serif' font-weight='800' font-size='36' fill='white' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=DM+Sans:wght@300;400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -45,7 +51,7 @@
       top: -100px;
       left: 12px;
       z-index: 9999;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       color: white;
       font-family: 'Syne', sans-serif;
       font-weight: 700;
@@ -79,11 +85,45 @@
 
     html.route-not-found #notFoundOverlay { display: flex; }
 
+    /* --- Page CGU autonome (?page=cgu), même principe que l'overlay 404 juste au-dessus : un seul
+         fichier HTML, pas de fichier cgu.html séparé à héberger. Le contenu affiché est cloné depuis
+         #tabPanelCgu (voir JS) pour ne jamais avoir deux versions du texte à maintenir en parallèle. --- */
+    #cguPageOverlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      background: var(--bg, #0a0a0a);
+      overflow-y: auto;
+      padding: 48px 20px 80px;
+    }
+    html.cgu-page-mode #cguPageOverlay { display: block; }
+    html.cgu-page-mode body { overflow: hidden; }
+    .cgu-page-inner { max-width: 760px; margin: 0 auto; }
+    .cgu-page-back {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 24px;
+    }
+    .cgu-page-back:hover { color: var(--text); }
+    .cgu-page-title {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.6rem, 4vw, 2.1rem);
+      margin-bottom: 24px;
+      color: var(--text);
+    }
+
     .not-found-logo {
       width: 48px;
       height: 48px;
       border-radius: 12px;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -99,7 +139,7 @@
       font-weight: 800;
       font-size: clamp(3.5rem, 12vw, 6rem);
       line-height: 1;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -115,7 +155,7 @@
     }
 
     .not-found-text {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 0.95rem;
       color: var(--text-secondary);
       max-width: 380px;
@@ -176,20 +216,23 @@
     }
 
     :root {
-      /* Fond aplati (uni) à la demande — l'ancien dégradé radial doux donnait une impression de flou. */
-      --bg: #0a0a0a;
-      --surface: #131313;
-      --surface-soft: #1a1a1a;
-      --border: #262626;
-      --border-soft: #2a2a2a;
-      --text: #ffffff;
-      --text-secondary: #999999;
-      --text-tertiary: #828282;
-      --text-faint: #828282;
+      /* Palette v2 (refonte design) : fond légèrement moins "trou noir", accent rouge affiné,
+         + 3e couleur (sarcelle, --accent-3) pour les liens/focus/actions secondaires — évite le
+         classique "un seul accent chaud sur fond noir" et donne une vraie hiérarchie. */
+      --bg: #0e0f12;
+      --surface: #16181d;
+      --surface-soft: #1c1f25;
+      --border: #262931;
+      --border-soft: #2c2f38;
+      --text: #f5f4f1;
+      --text-secondary: #9ca0a8;
+      --text-tertiary: #7d8189;
+      --text-faint: #7d8189;
       --success: #8be28b;
-      --accent-1: #ff3c3c;
-      --accent-2: #ff9a00;
-      --accent-glow: rgba(255, 106, 40, 0.35);
+      --accent-1: #ff4438;
+      --accent-2: #ffb020;
+      --accent-3: #4de8c9;
+      --accent-glow: rgba(255, 68, 56, 0.35);
       --glass-bg: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
       --glass-border: rgba(255,255,255,0.09);
     }
@@ -205,9 +248,10 @@
       --text-tertiary: #6e6960;
       --text-faint: #6e6960;
       --success: #1f7a3f;
-      --accent-1: #ff3c3c;
-      --accent-2: #ff9a00;
-      --accent-glow: rgba(255, 106, 40, 0.22);
+      --accent-1: #ff4438;
+      --accent-2: #ffb020;
+      --accent-3: #0f9c86;
+      --accent-glow: rgba(255, 68, 56, 0.22);
       --glass-bg: linear-gradient(160deg, rgba(255,255,255,0.75), rgba(255,255,255,0.5));
       --glass-border: rgba(23,20,15,0.08);
     }
@@ -314,7 +358,7 @@
       width: 46px;
       height: 46px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       color: #fff;
       border: none;
       font-size: 18px;
@@ -395,7 +439,7 @@
       font-weight: 700;
       font-size: 13px;
       color: #fff;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       border: none;
       padding: 12px 18px;
       border-radius: 999px;
@@ -476,7 +520,7 @@
     }
 
     .social-follow-subtitle {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 12px;
       color: var(--text-tertiary);
       max-width: 380px;
@@ -513,14 +557,14 @@
 
     .find-me-card:hover {
       transform: translateY(-2px);
-      border-color: #ff9a0066;
+      border-color: #FFB02066;
     }
 
     /* Discord et X sont les 2 canaux principaux (voir consigne) : légèrement mis en avant par
        rapport à d'éventuelles cartes TikTok/YouTube futures, via un fin liseré de couleur. */
     .find-me-card-primary {
-      border: 1px solid #ff9a0044;
-      background: linear-gradient(160deg, #ff9a0010, var(--surface-soft));
+      border: 1px solid #FFB02044;
+      background: linear-gradient(160deg, #FFB02010, var(--surface-soft));
     }
 
     .find-me-icon {
@@ -550,7 +594,7 @@
     }
 
     .find-me-preview {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 11px;
       color: var(--text-tertiary);
       line-height: 1.35;
@@ -563,7 +607,7 @@
       text-underline-offset: 2px;
     }
 
-    .inline-link:hover { color: var(--text); text-decoration-color: var(--text); }
+    .inline-link:hover { color: var(--accent-3); text-decoration-color: var(--accent-3); }
 
     /* --- Easter egg : mini carte de visite au survol du nom, desktop uniquement --- */
     .name-hover {
@@ -636,7 +680,7 @@
       width: 34px;
       height: 34px;
       border-radius: 12px;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       color: #fff;
       font-family: 'Syne', sans-serif;
       font-weight: 800;
@@ -660,7 +704,7 @@
     }
 
     .business-card-role {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 11px;
       color: var(--text-secondary);
       line-height: 1.3;
@@ -689,7 +733,7 @@
     }
 
     .contact-eyebrow .icon-svg {
-      color: #ff9a00;
+      color: #FFB020;
       vertical-align: -1px;
     }
 
@@ -711,7 +755,7 @@
       z-index: 100;
       background: #4a1a1a;
       color: #ffd6d6;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
       line-height: 1.5;
       text-align: center;
@@ -725,7 +769,7 @@
       left: 0;
       height: 3px;
       width: 0%;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       z-index: 60;
       transition: width 0.1s ease-out;
     }
@@ -777,7 +821,7 @@
       height: 100%;
       width: 0%;
       border-radius: 999px;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       transition: width 0.25s ease;
     }
 
@@ -842,7 +886,7 @@
     }
 
     .delay-sim-controls select {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 12px;
       color: var(--text);
       background: var(--surface);
@@ -856,7 +900,7 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 12px;
       color: var(--text-secondary);
       cursor: pointer;
@@ -864,7 +908,7 @@
     }
 
     .delay-sim-result {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
       color: var(--text);
       line-height: 1.5;
@@ -911,7 +955,7 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 11px;
       font-weight: 600;
       padding: 2px 8px;
@@ -957,7 +1001,7 @@
       display: inline-flex;
       align-items: center;
       gap: 5px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 11px;
       color: var(--text-tertiary);
       background: var(--surface);
@@ -975,14 +1019,14 @@
       font-size: 11px;
       color: #ffc98a;
       background: #241708;
-      border: 1px solid #ff9a0055;
+      border: 1px solid #FFB02055;
       padding: 6px 12px;
       border-radius: 999px;
     }
 
     [data-theme="light"] .slots-badge {
       background: #fff3e2;
-      border-color: #ff9a0066;
+      border-color: #FFB02066;
       color: #a15b00;
     }
 
@@ -999,8 +1043,8 @@
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: #ff9a00;
-      box-shadow: 0 0 6px #ff9a0099;
+      background: #FFB020;
+      box-shadow: 0 0 6px #FFB02099;
       animation: slotsPulse 1.8s ease-in-out infinite;
     }
 
@@ -1071,7 +1115,7 @@
       flex-direction: column;
       align-items: center;
       padding: 3rem 1.5rem 4rem;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       transition: background 0.4s ease, color 0.4s ease;
     }
 
@@ -1171,7 +1215,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(135deg, #ff3c3c 0%, #ff9a00 45%, transparent 45%);
+      background: linear-gradient(135deg, #FF4438 0%, #FFB020 45%, transparent 45%);
       opacity: 0.85;
     }
 
@@ -1240,7 +1284,7 @@
     }
 
     .portfolio-banner a {
-      color: #ff9a00;
+      color: #FFB020;
       font-weight: 700;
       text-decoration: none;
     }
@@ -1272,7 +1316,7 @@
       text-align: center;
       width: 100%;
       margin-bottom: 12px;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -1305,12 +1349,12 @@
 
     .contact-pill.pill-x:hover { border-color: #ffffff88; background: #1c1c1c; transform: translateY(-1px); }
     .contact-pill.pill-discord:hover { border-color: #5865F2aa; background: #1a1c2a; transform: translateY(-1px); }
-    .contact-pill.pill-reserve { border-color: #ff9a0055; background: #1c150e; }
-    .contact-pill.pill-reserve:hover { border-color: #ff9a00; background: #241a0e; transform: translateY(-1px); }
+    .contact-pill.pill-reserve { border-color: #FFB02055; background: #1c150e; }
+    .contact-pill.pill-reserve:hover { border-color: #FFB020; background: #241a0e; transform: translateY(-1px); }
     .contact-pill:active { transform: scale(0.97); }
 
     .icon-reserve {
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       font-size: 14px;
     }
 
@@ -1434,7 +1478,7 @@
     }
 
     .reach-badges-item {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 11px;
       font-weight: 600;
       color: var(--text-tertiary);
@@ -1501,7 +1545,7 @@
       position: absolute;
       inset: -6px;
       z-index: -1;
-      background: conic-gradient(from 0deg, #ff3c3c, #ff9a00, #ffd23c, #ff3c3c);
+      background: conic-gradient(from 0deg, #FF4438, #FFB020, #ffd23c, #FF4438);
       animation: avatarRingSpin 10s linear infinite;
       transition: animation-duration 0.4s ease;
     }
@@ -1592,7 +1636,7 @@
     .hero-proof-more {
       font-size: 11px;
       font-weight: 700;
-      color: #ff9a00;
+      color: #FFB020;
       text-decoration: none;
     }
 
@@ -1673,7 +1717,7 @@
 
     .hero-quick-link--primary {
       color: #fff;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       border-color: transparent;
     }
 
@@ -1805,9 +1849,9 @@
       margin-left: 6px;
       font-size: 11px;
       font-weight: 700;
-      color: #ff9a00;
-      background: #ff9a0018;
-      border: 0.5px solid #ff9a0044;
+      color: #FFB020;
+      background: #FFB02018;
+      border: 0.5px solid #FFB02044;
       border-radius: 999px;
       padding: 2px 8px;
       text-decoration: none;
@@ -1835,7 +1879,7 @@
       margin: 14px 0;
       padding: 10px 14px;
       border-radius: 10px;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       color: #fff;
     }
     .seasonal-promo-text {
@@ -1844,7 +1888,7 @@
       font-size: 13px;
     }
     .seasonal-promo-countdown {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-weight: 700;
       font-size: 12px;
       background: rgba(0, 0, 0, 0.22);
@@ -1862,7 +1906,7 @@
     .stat-counter strong {
       font-family: 'Syne', sans-serif;
       font-weight: 800;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -1900,7 +1944,7 @@
 
     .filter-btn.active {
       color: #fff;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       border-color: transparent;
     }
 
@@ -1913,7 +1957,7 @@
     }
 
     .portfolio-filter-summary {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 12px;
       color: var(--text-tertiary);
       margin: -8px 0 16px;
@@ -1926,7 +1970,7 @@
     }
 
     .filter-reset-btn {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 11px;
       color: var(--text-faint);
       background: transparent;
@@ -2030,8 +2074,8 @@
 
     /* --- Contour animé pendant qu'une vidéo joue dans la carte (distingue "en lecture" du reste) --- */
     @keyframes portfolio-playing-ring {
-      0%, 100% { box-shadow: 0 0 0 2px #ff9a00, 0 0 18px 2px #ff9a0055; }
-      50% { box-shadow: 0 0 0 2px #ff3c3c, 0 0 24px 4px #ff3c3c55; }
+      0%, 100% { box-shadow: 0 0 0 2px #FFB020, 0 0 18px 2px #FFB02055; }
+      50% { box-shadow: 0 0 0 2px #FF4438, 0 0 24px 4px #FF443855; }
     }
 
     .portfolio-card.is-playing {
@@ -2039,7 +2083,7 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      .portfolio-card.is-playing { animation: none; box-shadow: 0 0 0 2px #ff9a00; }
+      .portfolio-card.is-playing { animation: none; box-shadow: 0 0 0 2px #FFB020; }
     }
 
     .portfolio-thumb {
@@ -2068,7 +2112,7 @@
       content: '';
       position: absolute;
       inset: 0;
-      background: linear-gradient(100deg, var(--surface-soft) 25%, #ff9a0022 45%, #ff3c3c1a 55%, var(--surface-soft) 75%);
+      background: linear-gradient(100deg, var(--surface-soft) 25%, #FFB02022 45%, #FF44381a 55%, var(--surface-soft) 75%);
       background-size: 200% 100%;
       animation: thumb-shimmer 1.6s ease-in-out infinite;
       opacity: 0;
@@ -2381,7 +2425,7 @@
       left: 6px;
       z-index: 3;
       background: #1a1a1a;
-      border: 1px solid #ff9a0066;
+      border: 1px solid #FFB02066;
       color: #ffc98a;
       font-family: 'Syne', sans-serif;
       font-weight: 700;
@@ -2392,7 +2436,7 @@
 
     [data-theme="light"] .portfolio-most-viewed-badge {
       background: #fff3e2;
-      border-color: #ff9a0066;
+      border-color: #FFB02066;
       color: #a15b00;
     }
 
@@ -2400,8 +2444,8 @@
        reste de la grille, pour orienter l'attention vers la preuve la plus forte plutôt que de
        présenter toutes les cartes à plat. */
     .portfolio-card[data-most-viewed="true"] {
-      border: 1px solid #ff9a0066;
-      box-shadow: 0 0 0 1px #ff9a0022;
+      border: 1px solid #FFB02066;
+      box-shadow: 0 0 0 1px #FFB02022;
     }
 
     /* Badge auto-géré en JS (voir initPortfolioRecentBadges), positionné en bas à gauche de la
@@ -2457,7 +2501,7 @@
       font-size: 10px;
       font-weight: 700;
       font-family: 'Syne', sans-serif;
-      color: #ff9a00;
+      color: #FFB020;
       text-decoration: none;
       margin-top: 6px;
     }
@@ -2518,7 +2562,7 @@
     .section-divider-line {
       flex: 1;
       height: 0.5px;
-      background: linear-gradient(90deg, transparent, #ff9a0066, #ff3c3c66, transparent);
+      background: linear-gradient(90deg, transparent, #FFB02066, #FF443866, transparent);
       background-size: 200% 100%;
       animation: dividerShimmer 6s ease-in-out infinite;
     }
@@ -2538,7 +2582,7 @@
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 2px;
-      color: #ff9a00;
+      color: #FFB020;
       white-space: nowrap;
     }
 
@@ -2604,7 +2648,7 @@
     .bio-note {
       font-size: 13px;
       color: var(--text-secondary);
-      border-left-color: #ff9a0066;
+      border-left-color: #FFB02066;
       margin: 2px 0 4px;
     }
 
@@ -2747,7 +2791,7 @@
     }
 
     .checklist-item-label {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 0.9rem;
       color: var(--text);
       line-height: 1.5;
@@ -2762,7 +2806,7 @@
     }
 
     .checklist-progress {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 0.85rem;
       color: var(--text-tertiary);
       margin-top: 4px;
@@ -2770,7 +2814,7 @@
 
     .checklist-done-msg {
       display: none;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 0.9rem;
       color: #6fcf73;
       margin-top: 6px;
@@ -2817,7 +2861,7 @@
       font-family: 'Syne', sans-serif;
       font-weight: 800;
       font-size: 28px;
-      background: linear-gradient(90deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(90deg, #FF4438, #FFB020);
       -webkit-background-clip: text;
       background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -2861,7 +2905,7 @@
       display: flex;
       align-items: flex-start;
       gap: 10px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 12.5px;
       color: #8be28b;
       background: #123312;
@@ -3090,7 +3134,7 @@
       width: 72px;
       height: 72px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       color: #fff;
       font-family: 'Syne', sans-serif;
       font-weight: 800;
@@ -3160,11 +3204,11 @@
 
     .format-quiz-dot.is-active,
     .format-quiz-dot.is-done {
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
     }
 
     .format-quiz-question {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-weight: 700;
       font-size: 13px;
       color: var(--text-secondary);
@@ -3183,7 +3227,7 @@
       border: 0.5px solid var(--border-soft);
       border-radius: 12px;
       padding: 10px 12px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
       color: var(--text-secondary);
       cursor: pointer;
@@ -3191,7 +3235,7 @@
     }
 
     .format-quiz-option:hover {
-      border-color: #ff9a0066;
+      border-color: #FFB02066;
       transform: translateX(2px);
     }
 
@@ -3201,7 +3245,7 @@
       background: none;
       border: none;
       padding: 0;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 11px;
       color: var(--text-tertiary);
       cursor: pointer;
@@ -3243,7 +3287,7 @@
       background: none;
       border: none;
       padding: 0;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 12px;
       color: var(--text-tertiary);
       text-decoration: underline;
@@ -3283,15 +3327,15 @@
     }
 
     .style-gallery-tile:hover {
-      border-color: #ff9a0066;
+      border-color: #FFB02066;
     }
 
     /* État actif porté directement par la vignette (remplace l'ancienne ligne de boutons texte
        .style-filter-btn, désormais fusionnée ici) : léger contour marque + légende en couleur
        plutôt qu'un changement de fond qui casserait la lisibilité de la miniature. */
     .style-gallery-tile.active {
-      border-color: #ff9a00;
-      box-shadow: 0 0 0 1px #ff9a0055;
+      border-color: #FFB020;
+      box-shadow: 0 0 0 1px #FFB02055;
     }
 
     .style-gallery-tile.active .style-gallery-label {
@@ -3357,8 +3401,8 @@
 
     .time-saved-result {
       text-align: center;
-      background: linear-gradient(135deg, #ff3c3c14, #ff9a0014);
-      border: 0.5px solid #ff9a0044;
+      background: linear-gradient(135deg, #FF443814, #FFB02014);
+      border: 0.5px solid #FFB02044;
       border-radius: 12px;
       padding: 14px 12px;
       margin: 14px 0 8px;
@@ -3369,7 +3413,7 @@
       font-family: 'Syne', sans-serif;
       font-weight: 700;
       font-size: 26px;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -3426,7 +3470,7 @@
     .format-compare-link {
       display: inline-block;
       margin-top: 8px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 11px;
       font-weight: 600;
       color: var(--text-tertiary);
@@ -3444,7 +3488,7 @@
 
     @keyframes compareRowFlash {
       0%, 100% { background: transparent; }
-      15%, 60% { background: #ff9a0022; }
+      15%, 60% { background: #FFB02022; }
     }
 
     .format-compare-callout {
@@ -3456,8 +3500,8 @@
     }
 
     .format-card-highlight {
-      border: 1px solid #ff9a0066;
-      background: linear-gradient(160deg, #ff9a0014, var(--surface-soft));
+      border: 1px solid #FFB02066;
+      background: linear-gradient(160deg, #FFB02014, var(--surface-soft));
     }
 
     /* Flash de repérage quand une carte est ciblée par le résultat du quiz (voir #formatQuiz) —
@@ -3479,8 +3523,8 @@
       font-size: 10px;
       letter-spacing: 0.3px;
       color: #ff7a1a;
-      background: #ff9a0018;
-      border: 0.5px solid #ff9a0044;
+      background: #FFB02018;
+      border: 0.5px solid #FFB02044;
       border-radius: 999px;
       padding: 3px 9px;
     }
@@ -3556,14 +3600,14 @@
       font-family: 'Syne', sans-serif;
       font-weight: 800;
       font-size: 15px;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
     }
 
     .format-price span {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-weight: 400;
       font-size: 10px;
       color: #666;
@@ -3576,6 +3620,24 @@
     .subscription-price .price-mode-perunit { display: none; }
     body.price-mode-perunit .subscription-price .price-mode-monthly { display: none; }
     body.price-mode-perunit .subscription-price .price-mode-perunit { display: inline; }
+
+    /* Bug corrigé : .price-mode-monthly / .price-mode-perunit sont des <span>, donc la règle
+       générique ".format-price span" (pensée pour la petite unité "/ mois", "le pack"...) les
+       attrapait aussi et réduisait TOUT le prix (ex. "280€ / mois") à la petite taille grise — le
+       prix de l'abonnement devenait quasi illisible à côté du gros chiffre en dégradé des autres
+       cartes. On leur redonne explicitement le même style que le gros chiffre ; seul le <span>
+       imbriqué à l'intérieur ("/ mois", "/ vidéo") reste petit et gris, via la règle générique. */
+    .format-price .price-mode-monthly,
+    .format-price .price-mode-perunit {
+      font-family: 'Sora', sans-serif;
+      font-weight: 800;
+      font-size: 15px;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+    }
 
     .price-mode-toggle {
       display: flex;
@@ -3600,7 +3662,7 @@
     }
     .price-mode-toggle-btn.active {
       color: #fff;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       border-color: transparent;
     }
 
@@ -3778,7 +3840,7 @@
 
     .delivered-counter strong {
       color: var(--accent, #ff5a1f);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-weight: 700;
     }
 
@@ -3824,10 +3886,37 @@
       margin-bottom: 8px;
     }
 
-    .budget-estimator input[type="range"] {
-      width: 100%;
-      accent-color: #ff7a1a;
+    .budget-estimator-rate-row {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
       margin-bottom: 16px;
+    }
+
+    .budget-estimator-rate-btn {
+      flex: 1 1 44px;
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 13px;
+      color: var(--text-secondary);
+      background: var(--surface);
+      border: 1px solid var(--border-soft);
+      border-radius: 10px;
+      padding: 10px 6px;
+      cursor: pointer;
+      transition: color 0.15s, border-color 0.15s, background 0.15s, transform 0.1s;
+    }
+
+    .budget-estimator-rate-btn:hover {
+      border-color: var(--text-faint);
+      color: var(--text);
+    }
+
+    .budget-estimator-rate-btn.active {
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      border-color: transparent;
+      transform: translateY(-1px);
     }
 
     .budget-estimator-results {
@@ -4075,7 +4164,7 @@
       border-radius: 10px;
       padding: 10px 12px;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
       outline: none;
     }
@@ -4147,7 +4236,7 @@
       border-radius: 8px;
       padding: 8px 10px;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
       outline: none;
     }
@@ -4189,7 +4278,7 @@
       font-weight: 700;
       font-size: 13px;
       color: #fff;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       padding: 13px 16px;
       border-radius: 12px;
       transition: opacity 0.15s, transform 0.1s;
@@ -4245,8 +4334,8 @@
     }
 
     .reserve-section {
-      border: 1px solid #ff9a0055;
-      box-shadow: 0 0 0 1px #ff9a0011, 0 16px 40px -20px #ff5c1a55;
+      border: 1px solid #FFB02055;
+      box-shadow: 0 0 0 1px #FFB02011, 0 16px 40px -20px #ff5c1a55;
       position: relative;
     }
 
@@ -4257,7 +4346,7 @@
       left: 18px;
       right: 18px;
       height: 2px;
-      background: linear-gradient(90deg, transparent, #ff3c3c, #ff9a00, transparent);
+      background: linear-gradient(90deg, transparent, #FF4438, #FFB020, transparent);
       border-radius: 0 0 4px 4px;
     }
 
@@ -4268,7 +4357,7 @@
     }
 
     .portfolio-section {
-      border: 1px solid #ff9a0033;
+      border: 1px solid #FFB02033;
       box-shadow: 0 12px 28px -20px #ff5c1a44;
       position: relative;
     }
@@ -4280,7 +4369,7 @@
       left: 18px;
       right: 18px;
       height: 2px;
-      background: linear-gradient(90deg, transparent, #ff9a0099, transparent);
+      background: linear-gradient(90deg, transparent, #FFB02099, transparent);
       border-radius: 0 0 4px 4px;
     }
 
@@ -4293,15 +4382,102 @@
     .portfolio-section {
       background-image:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E"),
-        radial-gradient(ellipse 700px 380px at 12% 0%, #ff9a0014, transparent 62%);
+        radial-gradient(ellipse 700px 380px at 12% 0%, #FFB02014, transparent 62%);
       background-color: var(--surface);
     }
 
     .reserve-section {
       background-image:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E"),
-        radial-gradient(ellipse 700px 380px at 88% 0%, #ff3c3c14, transparent 62%);
+        radial-gradient(ellipse 700px 380px at 88% 0%, #FF443814, transparent 62%);
       background-color: var(--surface);
+    }
+
+    /* --- Timeline du processus de commande (#reservation) : 5 étapes, avant le formulaire, pour
+       rassurer sur le déroulé complet avant même que la personne commence à taper quoi que ce
+       soit. Ligne horizontale sur desktop, empilée verticalement en mobile (voir media query). --- */
+    .order-process-timeline {
+      display: flex;
+      list-style: none;
+      margin: 0 0 20px;
+      padding: 16px;
+      gap: 4px;
+      background: var(--surface-soft);
+      border: 0.5px solid var(--border-soft);
+      border-radius: 14px;
+    }
+
+    .order-process-step {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 4px;
+      position: relative;
+      padding: 0 4px;
+    }
+
+    .order-process-step:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      top: 13px;
+      left: calc(50% + 20px);
+      right: calc(-50% + 20px);
+      height: 1.5px;
+      background: var(--border-soft);
+    }
+
+    .order-process-step-num {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      color: #fff;
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
+      z-index: 1;
+    }
+
+    .order-process-step-label {
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 12.5px;
+      color: var(--text);
+      margin-top: 2px;
+    }
+
+    .order-process-step-detail {
+      font-size: 10.5px;
+      color: var(--text-tertiary);
+      line-height: 1.3;
+    }
+
+    @media (max-width: 620px) {
+      .order-process-timeline {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 14px;
+      }
+      .order-process-step {
+        flex-direction: row;
+        text-align: left;
+        gap: 10px;
+        padding: 0;
+      }
+      .order-process-step:not(:last-child)::after {
+        top: 30px;
+        left: 13px;
+        right: auto;
+        width: 1.5px;
+        height: calc(100% + 4px);
+      }
+      .order-process-step-num { flex-shrink: 0; }
+      .order-process-step-label { margin-top: 0; }
     }
 
     .faq-conditions-section {
@@ -4314,7 +4490,7 @@
     .testimonials-section {
       background-image:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.05 0'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)'/%3E%3C/svg%3E"),
-        radial-gradient(ellipse 700px 380px at 88% 100%, #ff9a0012, transparent 62%);
+        radial-gradient(ellipse 700px 380px at 88% 100%, #FFB02012, transparent 62%);
       background-color: var(--surface);
     }
 
@@ -4354,7 +4530,7 @@
       border-radius: 16px;
       background-image:
         url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix type='matrix' values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.04 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E"),
-        radial-gradient(ellipse 260px 160px at 20% 0%, #ff9a0016, transparent 65%);
+        radial-gradient(ellipse 260px 160px at 20% 0%, #FFB02016, transparent 65%);
       background-repeat: repeat, no-repeat;
       pointer-events: none;
       z-index: -1;
@@ -4368,7 +4544,7 @@
       z-index: 0;
       opacity: 0;
       transition: opacity 0.5s ease;
-      background: radial-gradient(420px 420px at var(--gx, 50%) var(--gy, 15%), #ff9a0022, transparent 70%);
+      background: radial-gradient(420px 420px at var(--gx, 50%) var(--gy, 15%), #FFB02022, transparent 70%);
       border-radius: inherit;
     }
 
@@ -4421,7 +4597,7 @@
       height: 240px;
       top: -70px;
       left: 8%;
-      background: radial-gradient(circle, #ff3c3c, transparent 70%);
+      background: radial-gradient(circle, #FF4438, transparent 70%);
       animation: blob-drift-1 24s ease-in-out infinite;
     }
 
@@ -4430,7 +4606,7 @@
       height: 200px;
       top: 35%;
       right: 2%;
-      background: radial-gradient(circle, #ff9a00, transparent 70%);
+      background: radial-gradient(circle, #FFB020, transparent 70%);
       animation: blob-drift-2 28s ease-in-out infinite;
     }
 
@@ -4531,7 +4707,7 @@
       border: 0.5px solid var(--border-soft);
       border-radius: 999px;
       padding: 7px 10px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 11px;
       color: var(--text-secondary);
       cursor: pointer;
@@ -4550,11 +4726,11 @@
 
     .mini-calc-format:hover {
       transform: translateY(-1px);
-      border-color: #ff9a0055;
+      border-color: #FFB02055;
     }
 
     .mini-calc-format.active {
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       border-color: transparent;
       color: #fff;
       font-weight: 700;
@@ -4583,9 +4759,9 @@
       width: 16px;
       height: 16px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       border: 2px solid var(--surface-soft);
-      box-shadow: 0 0 0 1px #ff9a0055;
+      box-shadow: 0 0 0 1px #FFB02055;
       cursor: pointer;
     }
 
@@ -4593,9 +4769,9 @@
       width: 16px;
       height: 16px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       border: 2px solid var(--surface-soft);
-      box-shadow: 0 0 0 1px #ff9a0055;
+      box-shadow: 0 0 0 1px #FFB02055;
       cursor: pointer;
     }
 
@@ -4631,7 +4807,7 @@
       font-family: 'Syne', sans-serif;
       font-weight: 800;
       font-size: 22px;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -4710,7 +4886,7 @@
       border: 0.5px solid var(--border-soft);
     }
     .form-step-segment.is-active {
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       border-color: transparent;
     }
     .form-step-text {
@@ -4734,7 +4910,7 @@
       height: 100%;
       width: 0%;
       border-radius: 999px;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       transition: width 0.25s ease;
     }
 
@@ -4779,13 +4955,13 @@
     }
 
     .form-express-link {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 12px;
       font-weight: 700;
-      color: #ff9a00;
+      color: #FFB020;
       background: none;
       border: none;
-      border-bottom: 1px solid #ff9a0055;
+      border-bottom: 1px solid #FFB02055;
       padding: 0;
       cursor: pointer;
     }
@@ -4804,13 +4980,13 @@
     }
 
     .example-devis-link {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
       font-weight: 700;
-      color: #ff9a00;
+      color: #FFB020;
       background: none;
       border: none;
-      border-bottom: 1px solid #ff9a0055;
+      border-bottom: 1px solid #FFB02055;
       padding: 0;
       cursor: pointer;
     }
@@ -4878,7 +5054,7 @@
       border-radius: 12px;
       padding: 10px 12px;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
       font-weight: 400;
       outline: none;
@@ -4910,7 +5086,7 @@
       background: none;
       border: none;
       padding: 0;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
       font-weight: 600;
       color: var(--text-tertiary);
@@ -4926,7 +5102,7 @@
     .promo-referral-link {
       display: block;
       margin-top: 8px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 11px;
       color: var(--text-tertiary);
       text-decoration: underline;
@@ -4938,20 +5114,20 @@
     .reserve-form input:focus,
     .reserve-form select:focus,
     .reserve-form textarea:focus {
-      border-color: #ff9a00aa;
-      box-shadow: 0 0 0 3px #ff9a0026, 0 0 14px 1px #ff5c1a22;
+      border-color: #FFB020aa;
+      box-shadow: 0 0 0 3px #FFB02026, 0 0 14px 1px #ff5c1a22;
       transition: border-color 0.15s, box-shadow 0.15s;
     }
 
     .reserve-submit {
       align-self: flex-start;
-      font-family: 'Syne', sans-serif;
+      font-family: 'Sora', sans-serif;
       font-weight: 700;
       font-size: 13px;
       color: #fff;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, var(--accent-1), var(--accent-2));
       border: none;
-      padding: 12px 22px;
+      padding: 13px 24px;
       border-radius: 12px;
       cursor: pointer;
       transition: opacity 0.15s, transform 0.1s;
@@ -5063,7 +5239,7 @@
     }
 
     .info-tip-btn:hover, .info-tip-btn.active {
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       border-color: transparent;
       color: #fff;
     }
@@ -5103,9 +5279,9 @@
       font-family: 'Syne', sans-serif;
       font-weight: 700;
       font-size: 12px;
-      color: #ff9a00;
-      background: #ff9a0014;
-      border: 1px solid #ff9a0044;
+      color: #FFB020;
+      background: #FFB02014;
+      border: 1px solid #FFB02044;
       padding: 11px 16px;
       border-radius: 12px;
       cursor: pointer;
@@ -5120,7 +5296,7 @@
       padding: 9px 14px;
       border-radius: 12px;
       font-size: 13.5px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       background: #1fbf8f14;
       border: 1px solid #1fbf8f40;
       color: #6fcf73;
@@ -5149,7 +5325,7 @@
     #dateLivraisonHint.is-heavy-day { color: #d99a3d; }
     #dateLivraisonHint.is-full-day { color: #e2685f; }
 
-    .reserve-duplicate:hover { color: var(--text); border-color: #ff9a0088; background: #ff9a0022; }
+    .reserve-duplicate:hover { color: var(--text); border-color: #FFB02088; background: #FFB02022; }
 
     /* --- Bannière "reprendre ma dernière demande", tout en haut de page (sous le mini-toc-bar) :
        même famille visuelle que .reservation-avail-banner (pilule discrète, pas un bandeau plein
@@ -5164,15 +5340,15 @@
       padding: 9px 14px;
       border-radius: 12px;
       font-size: 13px;
-      font-family: 'DM Sans', sans-serif;
-      background: #ff9a0014;
-      border: 1px solid #ff9a0044;
+      font-family: 'Manrope', sans-serif;
+      background: #FFB02014;
+      border: 1px solid #FFB02044;
       color: var(--text-secondary);
     }
     .resume-last-request-link {
       font-family: 'Syne', sans-serif;
       font-weight: 700;
-      color: #ff9a00;
+      color: #FFB020;
       text-decoration: none;
       white-space: nowrap;
     }
@@ -5238,8 +5414,8 @@
       font-family: 'Syne', sans-serif;
       font-weight: 700;
       font-size: 14px;
-      color: #fff;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      color: #14100e;
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       border-radius: 999px;
       padding: 14px;
       text-decoration: none;
@@ -5248,9 +5424,15 @@
     @media (prefers-reduced-motion: reduce) {
       .mobile-reserve-bar { transition: opacity 0.15s ease; transform: none; }
     }
-    /* Les deux boutons flottants existants remontent le temps que la barre est affichée,
-       pour ne jamais se superposer à elle. */
-    body.mobile-reserve-bar-active .mobile-contact-fab,
+    /* Les deux boutons flottants existants remontent le temps que la barre est affichée. Le FAB
+       "Une question ?" est carrément masqué (et pas juste déplacé) : sur mobile, avoir la barre de
+       réservation sticky ET le FAB affichés en même temps, c'est deux éléments flottants qui se
+       disputent l'attention pour un objectif très proche (contacter vs réserver) — la barre de
+       réservation est la priorité une fois qu'elle apparaît. Le bouton "remonter en haut" reste, lui,
+       un simple utilitaire (pas un CTA) donc il peut cohabiter, juste repositionné au-dessus. */
+    body.mobile-reserve-bar-active .mobile-contact-fab {
+      display: none;
+    }
     body.mobile-reserve-bar-active .scroll-top-btn {
       bottom: 82px;
       transition: bottom 0.25s ease;
@@ -5368,7 +5550,7 @@
       padding: 1px 5px;
       margin-left: 4px;
       border-radius: 999px;
-      background: #ff9a00;
+      background: #FFB020;
       color: #1a1200;
       font-size: 11px;
       font-weight: 700;
@@ -5377,7 +5559,7 @@
     }
 
     .price-formula-note {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       margin: 4px 0 -2px;
     }
 
@@ -5430,7 +5612,7 @@
     }
 
     .delay-estimate-value {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-weight: 400;
       font-size: 13px;
       color: var(--text);
@@ -5516,7 +5698,7 @@
     }
 
     .deposit-faq-item summary {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
       font-weight: 600;
       color: var(--text-secondary);
@@ -5642,7 +5824,7 @@
       width: 18px;
       height: 18px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       color: #fff;
       font-family: 'Syne', sans-serif;
       font-weight: 700;
@@ -5735,15 +5917,15 @@
       font-family: 'Syne', sans-serif;
       font-weight: 700;
       font-size: 13px;
-      color: #ff9a00;
-      background: #ff9a0014;
-      border: 0.5px solid #ff9a0044;
+      color: #FFB020;
+      background: #FFB02014;
+      border: 0.5px solid #FFB02044;
       border-radius: 8px;
       padding: 4px 8px;
       cursor: pointer;
     }
 
-    .live-recap-last-order-code:hover { background: #ff9a0024; }
+    .live-recap-last-order-code:hover { background: #FFB02024; }
 
     .live-recap-last-order-hint {
       color: var(--text-faint);
@@ -5777,7 +5959,7 @@
       transition: border-color 0.15s, background 0.15s;
     }
 
-    .live-recap-share-btn:hover { border-color: var(--text-faint); background: #ff9a0014; }
+    .live-recap-share-btn:hover { border-color: var(--text-faint); background: #FFB02014; }
 
     .live-recap-share-hint {
       margin-top: 4px;
@@ -5883,7 +6065,7 @@
       gap: 10px;
     }
     .video-extra-block label {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
       display: flex;
       flex-direction: column;
@@ -5891,7 +6073,7 @@
     }
     .video-extra-block input[type="text"],
     .video-extra-block textarea {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       background: var(--surface);
       border: 0.5px solid var(--border);
       border-radius: 8px;
@@ -5906,7 +6088,7 @@
       font-weight: 700;
       font-size: 13px;
       color: #fff;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       border: none;
       padding: 12px 24px;
       border-radius: 999px;
@@ -6107,7 +6289,7 @@
     }
 
     .order-journey-step.is-current .order-journey-step-icon {
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       border-color: transparent;
     }
 
@@ -6178,7 +6360,7 @@
       border: 1px solid var(--border-soft, rgba(255,255,255,0.14));
       background: var(--surface-soft);
       color: var(--text-secondary);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 12.5px;
       cursor: pointer;
       transition: border-color 0.15s ease, color 0.15s ease;
@@ -6291,7 +6473,7 @@
     }
     .admin-toolbar-more-item:hover { background: var(--surface-soft); }
     .admin-toolbar-more-shortcut {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-weight: 500;
       font-size: 10px;
       color: var(--text-faint);
@@ -6367,7 +6549,7 @@
       border-radius: 8px;
       padding: 10px 12px;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 14px;
       text-align: center;
       letter-spacing: 2px;
@@ -6396,7 +6578,7 @@
       background: var(--surface);
       color: var(--text);
       border: 0.5px solid var(--border-soft);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
     }
     .admin-section option {
       background: var(--surface);
@@ -6409,7 +6591,7 @@
       border-radius: 8px;
       padding: 8px 10px;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
       font-weight: 700;
     }
@@ -6663,7 +6845,7 @@
 
     .admin-engagement-row-delete:hover {
       opacity: 1;
-      background: #ff3c3c22;
+      background: #FF443822;
     }
 
     .admin-engagement-empty {
@@ -6720,7 +6902,7 @@
       border-radius: 8px;
       padding: 7px 10px;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 12px;
       margin-top: 6px;
     }
@@ -6735,7 +6917,7 @@
       display: block;
     }
 
-    .admin-client-message-label { color: #ff9a00; }
+    .admin-client-message-label { color: #FFB020; }
     .admin-client-feedback-label { color: #a5aefc; }
     .admin-client-feedback-log {
       font-size: 12px;
@@ -6771,11 +6953,11 @@
     .admin-client-message-input {
       width: 100%;
       background: var(--surface);
-      border: 0.5px solid #ff9a0044;
+      border: 0.5px solid #FFB02044;
       border-radius: 8px;
       padding: 7px 10px;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 12px;
       margin-top: 6px;
     }
@@ -6788,18 +6970,18 @@
     }
 
     .admin-template-btn {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 11px;
-      color: #ff9a00;
-      background: #ff9a0012;
-      border: 0.5px solid #ff9a0044;
+      color: #FFB020;
+      background: #FFB02012;
+      border: 0.5px solid #FFB02044;
       padding: 4px 9px;
       border-radius: 999px;
       cursor: pointer;
       white-space: nowrap;
     }
 
-    .admin-template-btn:hover { background: #ff9a0022; }
+    .admin-template-btn:hover { background: #FFB02022; }
 
     .admin-skeleton-card {
       background: var(--surface-soft);
@@ -6853,7 +7035,7 @@
       width: 100%;
       max-width: 980px;
       background: #201607;
-      border: 1px solid #ff9a0055;
+      border: 1px solid #FFB02055;
       color: #ffc98a;
       font-size: 13px;
       text-align: center;
@@ -6869,7 +7051,7 @@
 
     [data-theme="light"] .quick-preview-banner {
       background: #fff3e2;
-      border-color: #ff9a0066;
+      border-color: #FFB02066;
       color: #a15b00;
     }
 
@@ -6929,7 +7111,7 @@
     .draft-resume-dismiss:hover { opacity: 1; }
 
     .quick-preview-exit {
-      color: #ff9a00;
+      color: #FFB020;
       font-weight: 700;
       text-decoration: underline;
     }
@@ -6946,7 +7128,7 @@
     }
 
     .utility-more-item.quick-preview-active {
-      background: linear-gradient(135deg, #ff3c3c22, #ff9a0022);
+      background: linear-gradient(135deg, #FF443822, #FFB02022);
       border-radius: 8px;
     }
 
@@ -6984,7 +7166,7 @@
 
     .admin-tab-btn.active {
       color: #fff;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       border-color: transparent;
     }
 
@@ -7008,7 +7190,7 @@
       border: 0.5px solid var(--border-soft);
       background: var(--surface-soft);
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
     }
 
@@ -7019,7 +7201,7 @@
     }
 
     .admin-subtab-btn {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-weight: 600;
       font-size: 12px;
       color: var(--text-tertiary);
@@ -7087,7 +7269,7 @@
       border-radius: 8px;
       padding: 7px 10px;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 12px;
       width: 100%;
       margin-top: 8px;
@@ -7107,7 +7289,7 @@
       gap: 6px;
       font-size: 12px;
       color: var(--text-tertiary);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
     }
 
     .admin-date-input {
@@ -7116,7 +7298,7 @@
       border-radius: 8px;
       padding: 6px 8px;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 12px;
     }
 
@@ -7127,7 +7309,7 @@
       border-radius: 8px;
       padding: 9px 12px;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
       margin-bottom: 14px;
     }
@@ -7160,7 +7342,7 @@
       border-radius: 8px;
       padding: 7px 10px;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 12px;
     }
 
@@ -7168,7 +7350,7 @@
       width: 16px;
       height: 16px;
       flex-shrink: 0;
-      accent-color: #ff9a00;
+      accent-color: #FFB020;
       cursor: pointer;
     }
 
@@ -7249,7 +7431,7 @@
     .admin-pin-btn.is-pinned { opacity: 1; filter: drop-shadow(0 0 2px #ffd54f); }
 
     .admin-daily-summary {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
       line-height: 1.5;
       color: var(--text-tertiary);
@@ -7405,7 +7587,7 @@
       border-radius: 8px;
       padding: 6px 8px;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 11px;
     }
     .admin-delivery-version-add-btn {
@@ -7506,10 +7688,10 @@
     .admin-copy-prefill-link-btn,
     .admin-toggle-qr-btn {
       padding: 7px 10px;
-      background: #ff9a0018;
-      border: 0.5px solid #ff9a0055;
+      background: #FFB02018;
+      border: 0.5px solid #FFB02055;
       border-radius: 6px;
-      color: #ff9a00;
+      color: #FFB020;
       font-family: 'Syne', sans-serif;
       font-weight: 700;
       font-size: 11px;
@@ -7518,7 +7700,7 @@
     }
     .admin-copy-prefill-link-btn { flex: 1; }
     .admin-copy-prefill-link-btn:hover,
-    .admin-toggle-qr-btn:hover { background: #ff9a0030; }
+    .admin-toggle-qr-btn:hover { background: #FFB02030; }
     .admin-prefill-qr {
       margin-bottom: 10px;
       padding: 10px;
@@ -7591,7 +7773,7 @@
     }
 
     .admin-relance-btn {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 11px;
       color: #ffb020;
       background: transparent;
@@ -7649,7 +7831,7 @@
       border-radius: 8px;
       padding: 10px 12px;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
       line-height: 1.5;
       resize: vertical;
@@ -7663,7 +7845,7 @@
     }
 
     .relance-preview-cancel {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 12px;
       color: var(--text-tertiary);
       background: transparent;
@@ -7778,7 +7960,7 @@
     .admin-rename-btn:hover { opacity: 1; }
 
     .admin-order-date {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 10px;
       color: var(--text-faint);
       white-space: nowrap;
@@ -7829,7 +8011,7 @@
       color: #ffb020;
     }
     .admin-manual-sort-hint {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 11px;
       color: var(--text-faint);
     }
@@ -7852,7 +8034,7 @@
       border-radius: 20px;
       padding: 2px 8px;
       font-size: 11px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
     }
     .admin-custom-tag-remove {
       background: transparent;
@@ -8005,7 +8187,7 @@
       padding: 10px 12px;
       text-align: left;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
     }
     .admin-client-card-header:hover { background: #ffffff11; }
     .admin-client-name { font-weight: 600; font-size: 13px; }
@@ -8036,7 +8218,7 @@
       border-radius: 8px;
       padding: 7px 10px;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 12px;
       margin-top: 6px;
     }
@@ -8097,7 +8279,7 @@
 
     .admin-hidden-toggle {
       display: block;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 11px;
       color: var(--text-tertiary);
       background: none;
@@ -8136,7 +8318,7 @@
       border-radius: 8px;
       padding: 7px 10px;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
     }
 
@@ -8246,7 +8428,7 @@
       border-radius: 8px;
       padding: 10px 12px;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
       outline: none;
     }
@@ -8393,7 +8575,7 @@
       border-radius: 8px;
       padding: 8px 10px;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
       resize: vertical;
     }
@@ -8404,7 +8586,7 @@
       font-weight: 700;
       font-size: 12px;
       color: #fff;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       border: none;
       padding: 8px 16px;
       border-radius: 8px;
@@ -8419,7 +8601,7 @@
       font-family: 'Syne', sans-serif;
       font-weight: 700;
       font-size: 11px;
-      color: #ff9a00;
+      color: #FFB020;
       margin-bottom: 4px;
     }
 
@@ -8428,7 +8610,7 @@
       margin-right: 4px;
     }
 
-    .order-tracking-result .tracking-status.status-sent { color: #ff9a00; }
+    .order-tracking-result .tracking-status.status-sent { color: #FFB020; }
     .order-tracking-result .tracking-status.status-confirmed { color: #3ddc84; }
     .order-tracking-result .tracking-status.status-cancelled { color: #e28b8b; }
 
@@ -8492,8 +8674,8 @@
       border-color: #3ddc84;
     }
     .tracking-progress-step.is-current .tracking-progress-dot {
-      background: #ff9a00;
-      border-color: #ff9a00;
+      background: #FFB020;
+      border-color: #FFB020;
       box-shadow: 0 0 0 3px rgba(255, 154, 0, 0.22);
     }
     .tracking-progress-label {
@@ -8581,7 +8763,7 @@
       font-family: 'Syne', sans-serif;
     }
 
-    .status-legend-item.status-sent { color: #ff9a00; }
+    .status-legend-item.status-sent { color: #FFB020; }
     .status-legend-item.status-confirmed { color: #3ddc84; }
     .status-legend-item.status-cancelled { color: #e28b8b; }
 
@@ -8597,15 +8779,15 @@
     .order-tracking-result .tracking-client-message {
       margin-top: 10px;
       padding: 8px 10px;
-      background: #ff9a0014;
-      border: 0.5px solid #ff9a0044;
+      background: #FFB02014;
+      border: 0.5px solid #FFB02044;
       border-radius: 8px;
       font-size: 12px;
       color: var(--text-secondary);
       line-height: 1.4;
     }
 
-    .order-tracking-result .tracking-client-message strong { color: #ff9a00; }
+    .order-tracking-result .tracking-client-message strong { color: #FFB020; }
 
     .order-tracking-result .tracking-delivery-btn {
       display: inline-flex;
@@ -8679,7 +8861,7 @@
       border-radius: 8px;
       padding: 8px 10px;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 12px;
       margin-bottom: 6px;
       resize: vertical;
@@ -8721,7 +8903,7 @@
       background: none;
       border: none;
       padding: 0;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 11px;
       color: #a5aefc;
       cursor: pointer;
@@ -8743,7 +8925,7 @@
       border-radius: 8px;
       padding: 8px 10px;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 12px;
     }
     .tracking-email-notify-send-btn {
@@ -8800,7 +8982,7 @@
 
     .order-tracking-result .tracking-add-local-btn {
       margin-top: 10px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 11px;
       color: var(--text);
       background: var(--surface);
@@ -8844,7 +9026,7 @@
     }
 
     .tab-quick-nav a {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 11px;
       color: var(--text-tertiary);
       text-decoration: none;
@@ -8915,10 +9097,10 @@
 
     .mini-toc-dot--prestations,
     .mini-toc-dot--tarifs { background: #6fcf73; }
-    .mini-toc-dot--portfolio { background: #ff9a00; }
+    .mini-toc-dot--portfolio { background: #FFB020; }
     .mini-toc-dot--process { background: #7c3cff; }
     .mini-toc-dot--conseils { background: #14b8a6; }
-    .mini-toc-dot--reservation { background: #ff3c3c; }
+    .mini-toc-dot--reservation { background: #FF4438; }
     .mini-toc-dot--faq,
     .mini-toc-dot--conditions { background: var(--text-faint); }
     .mini-toc-dot--avis { background: #ffcf40; }
@@ -8941,14 +9123,14 @@
        reprend le même dégradé que l'ancien indicateur du sommaire à points retiré. */
     .mini-toc-links a.active {
       color: var(--text);
-      background: linear-gradient(135deg, #ff3c3c22, #ff9a0022);
+      background: linear-gradient(135deg, #FF443822, #FFB02022);
     }
     .mini-toc-links a.active .mini-toc-dot {
       transform: scale(1.3);
     }
 
     .mini-toc-progress {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 11px;
       color: var(--text-faint);
       white-space: nowrap;
@@ -8986,7 +9168,7 @@
 
     .tab-btn.active {
       color: #fff;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       border-color: transparent;
     }
 
@@ -8997,7 +9179,7 @@
       border-radius: 12px;
       padding: 11px 14px;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
       outline: none;
     }
@@ -9037,7 +9219,7 @@
 
     .faq-item summary::after {
       content: '+';
-      color: #ff9a00;
+      color: #FFB020;
       font-size: 17px;
       font-weight: 400;
       margin-left: 12px;
@@ -9110,7 +9292,7 @@
     }
 
     .external-reviews-label {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 11.5px;
       color: var(--text-tertiary);
     }
@@ -9119,7 +9301,7 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-weight: 600;
       font-size: 12px;
       color: var(--text-secondary);
@@ -9155,7 +9337,7 @@
       font-weight: 700;
       font-size: 13px;
       color: #fff;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       border: none;
       padding: 10px 20px;
       border-radius: 999px;
@@ -9188,7 +9370,7 @@
       border-radius: 8px;
       padding: 8px 10px;
       color: var(--text);
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 13px;
     }
 
@@ -9302,7 +9484,7 @@
     }
 
     .testimonial-average-count {
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-weight: 400;
       color: var(--text-faint);
       font-size: 12px;
@@ -9313,7 +9495,7 @@
       align-items: center;
       gap: 6px;
       margin-top: 6px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 12px;
       color: var(--text-tertiary);
     }
@@ -9342,7 +9524,7 @@
       width: 28px;
       height: 28px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       color: #fff;
       font-family: 'Syne', sans-serif;
       font-weight: 800;
@@ -9375,7 +9557,7 @@
       font-family: 'Syne', sans-serif;
       font-weight: 700;
       font-size: 12px;
-      background: linear-gradient(135deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(135deg, #FF4438, #FFB020);
       -webkit-background-clip: text;
       background-clip: text;
       color: transparent;
@@ -9585,10 +9767,10 @@
     .howitworks-step-link {
       display: inline-block;
       margin-top: 6px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 12px;
       font-weight: 700;
-      color: #ff9a00;
+      color: #FFB020;
       text-decoration: none;
       border-bottom: 1px solid transparent;
       transition: color 0.15s, border-color 0.15s;
@@ -9701,7 +9883,7 @@
     }
 
     .availability-calendar-day.is-today {
-      box-shadow: 0 0 0 1.5px #ff9a00;
+      box-shadow: 0 0 0 1.5px #FFB020;
     }
 
     .availability-calendar-legend {
@@ -9727,14 +9909,14 @@
 
     .availability-legend-dot.free { background: #1fbf8f; }
     .availability-legend-dot.busy { background: #ff6b6b; }
-    .availability-legend-dot.today { border: 1.5px solid #ff9a00; }
+    .availability-legend-dot.today { border: 1.5px solid #FFB020; }
 
     .availability-export-btn {
       display: inline-flex;
       align-items: center;
       gap: 6px;
       margin-top: 12px;
-      font-family: 'DM Sans', sans-serif;
+      font-family: 'Manrope', sans-serif;
       font-size: 11px;
       font-weight: 600;
       color: var(--text-tertiary);
@@ -9792,7 +9974,7 @@
       padding: 8px 14px;
       border-radius: 8px;
       border: none;
-      background: linear-gradient(90deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(90deg, #FF4438, #FFB020);
       color: #fff;
       cursor: pointer;
       white-space: nowrap;
@@ -9812,7 +9994,7 @@
 
     /* ==========================================================================================
        PASSE D'HABILLAGE — ajoute de la profondeur (grain, ombres, relief) sans changer la marque
-       (rouge/orange, Syne/DM Sans) déjà posée sur des dizaines de composants. Le signature element
+       (rouge/orange, Syne/Manrope) déjà posée sur des dizaines de composants. Le signature element
        choisi est un motif de "forme d'onde" (waveform), vocabulaire direct du montage vidéo/audio,
        utilisé une seule fois derrière le hero pour ne pas diluer son impact.
        ========================================================================================== */
@@ -9871,7 +10053,7 @@
     }
 
     .portfolio-card:hover {
-      box-shadow: 0 1px 0 0 rgba(255,255,255,0.12) inset, 0 26px 50px -14px rgba(0,0,0,0.7), 0 0 0 1.5px #ff9a0088, 0 0 44px -2px #ff9a0077;
+      box-shadow: 0 1px 0 0 rgba(255,255,255,0.12) inset, 0 26px 50px -14px rgba(0,0,0,0.7), 0 0 0 1.5px #FFB02088, 0 0 44px -2px #FFB02077;
     }
 
     .format-card {
@@ -9879,8 +10061,8 @@
     }
     .format-card:hover {
       transform: translateY(-5px);
-      border-color: #ff9a0099;
-      box-shadow: 0 1px 0 0 rgba(255,255,255,0.1) inset, 0 26px 46px -16px rgba(0,0,0,0.7), 0 0 40px -2px #ff9a0066;
+      border-color: #FFB02099;
+      box-shadow: 0 1px 0 0 rgba(255,255,255,0.1) inset, 0 26px 46px -16px rgba(0,0,0,0.7), 0 0 40px -2px #FFB02066;
     }
 
     .testimonial-card {
@@ -9932,7 +10114,7 @@
       min-width: 3px;
       height: 100%;
       border-radius: 4px;
-      background: linear-gradient(180deg, #ff3c3c, #ff9a00);
+      background: linear-gradient(180deg, #FF4438, #FFB020);
       transform-origin: bottom;
       animation: hero-waveform-pulse 3.6s ease-in-out infinite;
     }
@@ -10078,7 +10260,7 @@
     select:focus-visible,
     summary:focus-visible,
     [tabindex]:focus-visible {
-      outline: 2px solid #ff9a4d;
+      outline: 2px solid var(--accent-3);
       outline-offset: 2px;
       border-radius: 4px;
     }
@@ -10123,7 +10305,26 @@
       transition: border-color 0.15s, color 0.15s;
     }
     .faq-toolbar-btn:hover { color: var(--text); border-color: var(--text-faint); }
+
+    /* --- Anti-spam (honeypot) : champ invisible pour un humain, mais que les bots
+         remplissent souvent automatiquement. Volontairement PAS en display:none/visibility:hidden
+         (certains bots les détectent et les ignorent) : il est repoussé hors-écran à la place,
+         et retiré de la navigation clavier + du lecteur d'écran. Voir isLikelySpam() dans le JS. --- */
+    .hp-field {
+      position: absolute;
+      left: -9999px;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+    }
   </style>
+
+  <!-- Cloudflare Web Analytics : léger, respectueux de la vie privée (aucun bandeau cookie
+       nécessaire), gratuit si le site est déjà hébergé sur Cloudflare Pages. Remplace
+       COLLE_TON_TOKEN_ANALYTICS par le token généré dans ton dashboard Cloudflare
+       (Analytics & Logs > Web Analytics > Add a site). Tant que le token n'est pas
+       renseigné, ce script ne fait rien d'utile mais ne casse rien. -->
+  <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "COLLE_TON_TOKEN_ANALYTICS"}'></script>
 </head>
 <body>
   <!-- Icônes partagées (Discord/PayPal) : le base64 était dupliqué 5 fois dans le fichier
@@ -10149,6 +10350,81 @@
        au Tab de sauter directement à la réservation sans devoir tabuler à travers tout le hero,
        les garanties, le portfolio et le about avant. -->
   <a href="#reservation" class="skip-link">Aller directement à la réservation</a>
+
+  <!-- Bandeau d'information stockage local : le site n'utilise aucun cookie tiers/publicitaire
+       (voir #rgpd-stockage-local), donc pas de "consentement" à recueillir au sens CNIL — mais
+       on informe quand même, de façon non bloquante, sur l'usage du localStorage (thème,
+       brouillon de formulaire, historique de commandes). Fermé une fois pour toutes via localStorage. -->
+  <div id="cookieNotice" class="cookie-notice" role="dialog" aria-live="polite" aria-label="Information sur le stockage local" style="display:none;">
+    <p class="cookie-notice-text">
+      🍪 Ce site n'utilise aucun cookie publicitaire ni traceur tiers. Il garde juste quelques infos dans le stockage local de ton navigateur (thème choisi, brouillon de formulaire, historique de commandes) pour te faciliter la navigation.
+      <a href="#confidentialite" class="cookie-notice-link">En savoir plus</a>
+    </p>
+    <button type="button" id="cookieNoticeCloseBtn" class="cookie-notice-btn">J'ai compris</button>
+  </div>
+
+  <style>
+    .cookie-notice {
+      position: fixed;
+      left: 16px;
+      right: 16px;
+      bottom: 16px;
+      z-index: 9998;
+      max-width: 480px;
+      margin: 0 auto;
+      background: var(--surface);
+      border: 0.5px solid var(--border-soft);
+      border-radius: 14px;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.25);
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .cookie-notice-text {
+      font-size: 12.5px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+    .cookie-notice-link {
+      color: var(--accent-1);
+      text-decoration: underline;
+    }
+    .cookie-notice-btn {
+      align-self: flex-end;
+      font-family: 'Sora', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      color: #fff;
+      background: linear-gradient(135deg, #4338ca, #be185d);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+    }
+    @media (max-width: 480px) {
+      .cookie-notice { left: 10px; right: 10px; bottom: 10px; padding: 14px; }
+    }
+  </style>
+
+  <script>
+    (function() {
+      try {
+        if (localStorage.getItem('michyy_cookie_notice_ack') === '1') return;
+      } catch (e) { /* localStorage indisponible (navigation privée stricte) : on affiche quand même */ }
+      document.addEventListener('DOMContentLoaded', function() {
+        var notice = document.getElementById('cookieNotice');
+        var closeBtn = document.getElementById('cookieNoticeCloseBtn');
+        if (!notice || !closeBtn) return;
+        notice.style.display = 'flex';
+        closeBtn.addEventListener('click', function() {
+          notice.style.display = 'none';
+          try { localStorage.setItem('michyy_cookie_notice_ack', '1'); } catch (e) {}
+        });
+      });
+    })();
+  </script>
 
   <!--
     📝 NOTE MAINTENANCE — hiérarchie de longueur de la page :
@@ -10210,6 +10486,7 @@
       <a href="#conditions"><span class="mini-toc-dot mini-toc-dot--conditions" aria-hidden="true"></span>Conditions</a>
       <a href="#avis"><span class="mini-toc-dot mini-toc-dot--avis" aria-hidden="true"></span>Avis</a>
       <a href="#parrainage"><span class="mini-toc-dot mini-toc-dot--parrainage" aria-hidden="true"></span>Parrainage</a>
+      <a href="#conseils"><span class="mini-toc-dot mini-toc-dot--conseils" aria-hidden="true"></span>Conseils</a>
     </div>
     <span class="mini-toc-progress" id="miniTocProgress"></span>
   </nav>
@@ -10593,6 +10870,9 @@
                le formulaire classique reste la voie normale pour tout le reste. -->
           <a href="#" class="format-compare-link discovery-call-link">📞 Réserver un appel découverte</a>
         </div>
+        <!-- Formule "8 vidéos" masquée (à la demande) dans la grille de choix principale : deux
+             formules d'abonnement affichées côte à côte compliquaient le choix pour un nouveau
+             visiteur. Reste commentée plutôt que supprimée pour pouvoir la remettre facilement.
         <div class="format-card" id="formatCardAbonnement">
           <span class="format-card-promo-tag"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true" style="vertical-align:-1px;margin-right:2px;"><path d="M12 3.5l2.4 5 5.6.6-4.1 3.8 1.1 5.6L12 15.8l-5 2.7 1.1-5.6-4.1-3.8 5.6-.6L12 3.5z"/></svg>Populaire</span>
           <div class="format-label">Abonnement créateur — 8 vidéos</div>
@@ -10601,11 +10881,13 @@
           <a href="#abonnementCompareRow" class="format-compare-link">📊 Comparer les formules</a>
           <a href="#" class="format-compare-link discovery-call-link">📞 Réserver un appel découverte</a>
         </div>
+        -->
         <div class="format-card" id="formatCardAbonnement4">
+          <span class="format-card-promo-tag"><svg width="10" height="10" viewBox="0 0 24 24" fill="currentColor" stroke="none" aria-hidden="true" style="vertical-align:-1px;margin-right:2px;"><path d="M12 3.5l2.4 5 5.6.6-4.1 3.8 1.1 5.6L12 15.8l-5 2.7 1.1-5.6-4.1-3.8 5.6-.6L12 3.5z"/></svg>Populaire</span>
           <div class="format-label">Abonnement créateur — 4 vidéos</div>
           <div class="format-sub">4 vidéos courtes / mois, prioritaire</div>
           <div class="format-price subscription-price"><span class="price-mode-monthly">145€ <span>/ mois</span></span><span class="price-mode-perunit">36€ <span>/ vidéo</span></span></div>
-          <a href="#abonnementCompareRow" class="format-compare-link">📊 Comparer les formules</a>
+          <a href="#" class="format-compare-link discovery-call-link">📞 Réserver un appel découverte</a>
         </div>
       </div>
 
@@ -10665,10 +10947,17 @@
             <p class="budget-estimator-sub">Pour les créateurs qui publient régulièrement — ce que ça coûterait à l'unité vs en abonnement, sans sortir la calculatrice.</p>
           </div>
         </div>
-        <label class="budget-estimator-slider-label" for="budgetEstimatorInput">
-          Tu publies <strong id="budgetEstimatorValue">2</strong> vidéo(s) courte(s) / semaine
-        </label>
-        <input type="range" id="budgetEstimatorInput" min="0.5" max="5" step="0.5" value="2" aria-label="Nombre de vidéos courtes publiées par semaine" />
+        <p class="budget-estimator-slider-label">
+          Tu publies environ combien de vidéos courtes par semaine ?
+        </p>
+        <div class="budget-estimator-rate-row" id="budgetEstimatorRateRow" role="group" aria-label="Nombre de vidéos courtes publiées par semaine">
+          <button type="button" class="budget-estimator-rate-btn" data-rate="0.5">0,5</button>
+          <button type="button" class="budget-estimator-rate-btn" data-rate="1">1</button>
+          <button type="button" class="budget-estimator-rate-btn active" data-rate="2" aria-pressed="true">2</button>
+          <button type="button" class="budget-estimator-rate-btn" data-rate="3">3</button>
+          <button type="button" class="budget-estimator-rate-btn" data-rate="4">4</button>
+          <button type="button" class="budget-estimator-rate-btn" data-rate="5">5+</button>
+        </div>
         <div class="budget-estimator-results">
           <div class="budget-estimator-result">
             <span class="budget-estimator-result-label">À l'unité (45€/vidéo)</span>
@@ -11581,6 +11870,9 @@
          Volume / Budget / Deadline donnent d'entrée assez de détail pour préparer un devis réel, sans
          un aller-retour de messages avant de pouvoir répondre quoi que ce soit de concret. -->
     <form id="b2bContactForm" class="reserve-form">
+      <div class="hp-field" aria-hidden="true">
+        <label>Laisse ce champ vide<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+      </div>
       <div class="form-row-split">
         <label>Ton nom
           <input type="text" name="b2bNom" required maxlength="80" placeholder="Prénom / nom" />
@@ -11850,6 +12142,38 @@
       <span class="example-devis-link-hint">pour savoir à quoi t'attendre avant de remplir le formulaire</span>
     </p>
 
+    <!-- Timeline du processus de commande : rassure sur le déroulé complet AVANT même que la
+         personne commence à remplir le formulaire (elle sait à quoi s'attendre après avoir cliqué
+         "Envoyer"). Délais repris tels qu'affichés dans les CGV (#cgv-delais) pour rester cohérent
+         avec le reste du site plutôt que d'inventer un chiffre différent ici. -->
+    <ol class="order-process-timeline">
+      <li class="order-process-step">
+        <span class="order-process-step-num">1</span>
+        <span class="order-process-step-label">Tu réserves</span>
+        <span class="order-process-step-detail">Formulaire + acompte 50%</span>
+      </li>
+      <li class="order-process-step">
+        <span class="order-process-step-num">2</span>
+        <span class="order-process-step-label">Brief</span>
+        <span class="order-process-step-detail">On cale le besoin ensemble</span>
+      </li>
+      <li class="order-process-step">
+        <span class="order-process-step-num">3</span>
+        <span class="order-process-step-label">Montage</span>
+        <span class="order-process-step-detail">Jour même à 1 semaine selon le format</span>
+      </li>
+      <li class="order-process-step">
+        <span class="order-process-step-num">4</span>
+        <span class="order-process-step-label">Révisions</span>
+        <span class="order-process-step-detail">3 incluses par vidéo</span>
+      </li>
+      <li class="order-process-step">
+        <span class="order-process-step-num">5</span>
+        <span class="order-process-step-label">Livraison</span>
+        <span class="order-process-step-detail">Fichier final + solde</span>
+      </li>
+    </ol>
+
     <!-- Bandeau "Prochaine dispo", juste au-dessus du formulaire : réutilise AVAILABLE et
          SLOTS_AVAILABLE_THIS_WEEK (déjà définis pour #statusCard en haut de page) et DELAY_RANGES
          (déjà la source unique des délais partout ailleurs sur le site) et respecte
@@ -11967,6 +12291,9 @@
 
     <div class="reserve-layout">
     <form id="reserveForm" class="reserve-form">
+      <div class="hp-field" aria-hidden="true">
+        <label>Laisse ce champ vide<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+      </div>
       <p class="form-express-banner" id="formExpressBanner">⚡ Pressé·e ? <button type="button" id="formExpandToggle" class="form-express-link">Passer en mode express</button> (nom, contact, format et description seulement).</p>
 
       <div class="form-section-label">👤 Tes coordonnées</div>
@@ -12505,6 +12832,9 @@
         je te préviens dès qu'une place se libère, sans engagement de ta part.
       </p>
       <form id="waitlistForm" class="waitlist-form">
+        <div class="hp-field" aria-hidden="true">
+          <label>Laisse ce champ vide<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+        </div>
         <label>Ton nom / pseudo
           <input type="text" name="nom" required />
         </label>
@@ -12536,6 +12866,9 @@
            périodique, juste une notification ponctuelle quand une place se libère. -->
       <div class="waitlist-divider"><span>ou</span></div>
       <form id="notifyEmailForm" class="notify-email-form">
+        <div class="hp-field" aria-hidden="true">
+          <label>Laisse ce champ vide<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+        </div>
         <label class="sr-only" for="notifyEmailInput">Ton email</label>
         <div class="notify-email-row">
           <input type="email" id="notifyEmailInput" name="email" placeholder="ton@email.com" required />
@@ -12587,6 +12920,7 @@
   </section>
 
   <span id="conditions" class="anchor-offset"></span>
+  <span id="confidentialite" class="anchor-offset"></span>
   <section id="faq" class="full-section faq-conditions-section reveal">
     <div class="info-header">
       <div class="section-divider">
@@ -12600,6 +12934,7 @@
     <div class="tab-row">
       <button type="button" class="tab-btn active" data-tab="faq">❓ FAQ</button>
       <button type="button" class="tab-btn" data-tab="conditions">📋 Conditions (CGV)</button>
+      <button type="button" class="tab-btn" data-tab="cgu">📄 CGU</button>
       <button type="button" class="tab-btn" data-tab="confidentialite">🔒 Confidentialité</button>
     </div>
 
@@ -12924,6 +13259,30 @@
       <button type="button" id="cgvAcceptBtn" class="cgv-accept-btn sound-on-click">✅ J'ai lu et j'accepte les CGV</button>
     </div>
 
+    <!-- CGU (conditions générales d'UTILISATION du site) : différentes des CGV ci-dessus, qui elles
+         couvrent la prestation de montage vendue. Les CGU couvrent l'usage du site en tant que tel
+         (navigation, stockage local, propriété intellectuelle du site, responsabilité, liens
+         externes). Même remarque que pour la confidentialité plus bas : gabarit à relire, pas un
+         avis juridique personnalisé. -->
+    <div id="tabPanelCgu" class="tab-panel" style="display: none;">
+      <div class="section-divider" style="margin-bottom: 14px;">
+        <div class="section-divider-line"></div>
+        <span class="section-divider-text">Conditions générales d'utilisation</span>
+        <div class="section-divider-line"></div>
+      </div>
+      <ul class="checklist-items conditions-list">
+        <li id="cgu-objet"><strong>Objet :</strong> les présentes CGU encadrent l'accès et la navigation sur ce site (portfolio, tarifs, prise de contact). Elles sont distinctes des <a href="#conditions" class="inline-link">CGV</a>, qui encadrent la prestation de montage vidéo elle-même une fois commandée.</li>
+        <li id="cgu-acces"><strong>Accès au site :</strong> le site est accessible gratuitement à tout visiteur disposant d'un accès internet. Michyy s'efforce d'assurer une disponibilité continue mais ne peut garantir une accessibilité sans interruption (maintenance, panne d'hébergement, cas de force majeure).</li>
+        <li id="cgu-comptes"><strong>Pas de compte utilisateur :</strong> le site ne propose pas de création de compte. Le formulaire de réservation et l'historique de commandes affiché sont conservés uniquement dans le stockage local de ton propre navigateur (voir détail dans la <a href="#confidentialite" class="inline-link">politique de confidentialité</a>) — rien n'est accessible depuis un autre appareil.</li>
+        <li id="cgu-propriete-site"><strong>Propriété intellectuelle du site :</strong> la structure, le design, les textes et le code de ce site sont la propriété de Michyy. Les miniatures et extraits vidéo présentés en portfolio restent la propriété de leurs créateurs respectifs et sont affichés à titre d'exemple de travail avec leur accord. Toute reproduction du site sans autorisation est interdite.</li>
+        <li id="cgu-comportement"><strong>Usage autorisé :</strong> tu t'engages à utiliser les formulaires du site conformément à leur objet (demande de devis, contact, avis). Toute utilisation frauduleuse, tentative de contournement des protections du site ou envoi automatisé (spam, bot) est interdite et peut entraîner un blocage d'accès.</li>
+        <li id="cgu-liens-externes"><strong>Liens externes :</strong> le site contient des liens vers des services tiers (Discord, PayPal, TikTok, YouTube...). Michyy n'est pas responsable du contenu ni des pratiques de confidentialité de ces sites tiers, régis par leurs propres conditions.</li>
+        <li id="cgu-responsabilite"><strong>Responsabilité :</strong> Michyy met tout en œuvre pour fournir des informations à jour (tarifs, délais) mais ne saurait être tenue responsable d'une erreur ponctuelle, d'une indisponibilité temporaire du site ou d'un dysfonctionnement lié à ton propre matériel/navigateur.</li>
+        <li id="cgu-modification"><strong>Modification des CGU :</strong> ces conditions peuvent être mises à jour à tout moment pour refléter l'évolution du site ; la version en vigueur est celle affichée sur cette page au moment de ta visite.</li>
+        <li id="cgu-droit"><strong>Droit applicable :</strong> les présentes CGU sont soumises au droit français. En cas de litige, une solution amiable sera recherchée en priorité avant toute autre démarche.</li>
+      </ul>
+    </div>
+
     <!-- Mentions légales + politique de confidentialité (RGPD) : gabarit solide et adapté à ce que
          le site fait réellement (formulaires, webhook Discord, Google Sheets/Apps Script, PayPal),
          mais reste un GABARIT — les champs entre [crochets] doivent être complétés avec les vraies
@@ -12938,8 +13297,6 @@
         <div class="section-divider-line"></div>
       </div>
       <ul class="checklist-items conditions-list">
-        <li id="ml-publication"><strong>Directeur de la publication :</strong> [Ton nom / prénom], en sa qualité d'éditrice du site mentionné ci-dessus.</li>
-        <li id="ml-hebergement"><strong>Hébergement :</strong> [Ton nom / prénom], également hébergeuse du site.</li>
         <li id="ml-propriete"><strong>Propriété intellectuelle :</strong> les textes, visuels et code de ce site sont la propriété de Michyy, sauf mention contraire (ex. miniatures de vidéos appartenant à leurs créateurs respectifs, affichées à titre de portfolio avec leur accord). Toute reproduction sans autorisation est interdite.</li>
       </ul>
 
@@ -13168,7 +13525,51 @@
     </p>
   </section>
 
-  <!-- Kit presse / Partenariats B2B : section publique à part (pas juste un mailto) pour que les
+  <!-- Mini blog / conseils : levier SEO à moyen terme (mots-clés "montage TikTok", "erreurs
+       montage"...) + positionne Michyy comme experte plutôt que simple exécutante. Même pattern
+       que les .faq-item existants pour rester cohérent visuellement, pas un nouveau composant. -->
+  <span id="conseils" class="anchor-offset"></span>
+  <section id="blog" class="full-section blog-section reveal">
+    <div class="info-header">
+      <div class="section-divider">
+        <div class="section-divider-line"></div>
+        <span class="section-divider-text">Conseils</span>
+        <div class="section-divider-line"></div>
+      </div>
+      <div class="info-title">Conseils & astuces montage</div>
+      <p class="info-text">Quelques réflexes utiles avant d'envoyer tes rushs, que tu passes par moi ou pas.</p>
+    </div>
+
+    <details class="faq-item">
+      <summary>🎬 3 erreurs à éviter en montage TikTok</summary>
+      <div class="faq-item-body">
+        <p><strong>1. Un texte d'accroche trop tard.</strong> Sur TikTok/Reels, tu perds une bonne partie de l'audience dans les 2-3 premières secondes. Le message ou l'accroche doit apparaître dès le début, pas après un générique ou une intro de 5 secondes.</p>
+        <p><strong>2. Des sous-titres illisibles ou absents.</strong> Une grande partie du visionnage se fait sans le son (transport, lieu public). Sans sous-titrage dynamique bien contrasté, une partie du message se perd tout simplement.</p>
+        <p><strong>3. Un rythme de coupe trop lent pour le format.</strong> Ce qui marche en format long (plans qui respirent) ne fonctionne pas pareil en court : sur un format de 30-60 secondes, chaque plan qui traîne un peu trop est une occasion de perdre le spectateur avant la fin.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>📁 Bien préparer ses rushs avant de les envoyer</summary>
+      <div class="faq-item-body">
+        <p>Quelques minutes de tri avant l'envoi font gagner beaucoup de temps (et donc de délai) une fois le montage lancé :</p>
+        <p><strong>Trie le meilleur, pas tout.</strong> Envoyer 3h de rushs bruts sans indication ralentit forcément le repérage des meilleurs moments — un petit message avec les passages à privilégier aide énormément.</p>
+        <p><strong>Vérifie le son en même temps que l'image.</strong> Un rush inutilisable à cause d'un son saturé ou d'un micro mal branché ne se rattrape pas toujours au montage.</p>
+        <p><strong>Un seul lien de transfert, pas dix.</strong> Regrouper tous les fichiers dans un seul dossier partagé (WeTransfer, Drive...) évite les allers-retours et les fichiers oubliés.</p>
+      </div>
+    </details>
+
+    <details class="faq-item">
+      <summary>⚖️ Format court vs format long : lequel choisir ?</summary>
+      <div class="faq-item-body">
+        <p><strong>Format court (TikTok/Reels/Shorts)</strong> : idéal pour la découverte et la viralité — un bon extrait ponctuel peut toucher un public qui ne te connaît pas encore. Demande un rythme de coupe rapide et une accroche immédiate.</p>
+        <p><strong>Format long (YouTube/Best-of)</strong> : meilleur pour fidéliser une audience déjà acquise et raconter une histoire complète (session de jeu, événement, retour d'expérience). Plus de place pour respirer, mais demande aussi plus de rushs exploitables en amont.</p>
+        <p>Beaucoup de créateurs utilisent les deux en complément : le format long comme contenu principal, découpé ensuite en plusieurs formats courts pour la découverte.</p>
+      </div>
+    </details>
+  </section>
+
+
        marques/médias comprennent l'offre sans repasser par le formulaire grand public, qui n'est pas
        pensé pour ça (pas de champ "budget campagne", "exclusivité", etc.). Le CTA principal renvoie
        quand même vers #reservation en pré-remplissant le format "Business / Sponsorisé" via
@@ -13183,12 +13584,33 @@
        du formulaire sont identiques à avant, seul l'emplacement change. -->
   <footer class="site-footer">
     <a class="portfolio-link" id="portfolioOnlyLink" href="?portfolio=1" style="display: none;">Voir la version portfolio uniquement ↗</a>
+    <a class="footer-legal-link" href="/mes-outils">🛠️ Mes outils (logiciels, plugins, presets)</a>
     <a class="footer-legal-link" href="#confidentialite">Mentions légales & confidentialité</a>
+    <a class="footer-legal-link" href="?page=cgu">CGU</a>
     <button type="button" class="footer-report-link" id="footerReportBtn">Signaler un problème (bug, faute, lien cassé)</button>
   </footer>
 
   <script>
   document.addEventListener('DOMContentLoaded', () => {
+    // --- Anti-spam partagé pour tous les formulaires publics : deux vérifications légères,
+    //     invisibles pour un humain normal.
+    //     1) Honeypot : le champ "website" (voir .hp-field) doit rester vide. Un humain ne le voit
+    //        jamais (hors-écran + aria-hidden) donc ne le remplit jamais ; beaucoup de bots
+    //        remplissent tous les champs de formulaire sans distinction.
+    //     2) Délai minimum : un bot soumet en général en une fraction de seconde après le
+    //        chargement de la page, un humain met toujours au moins quelques secondes à lire et
+    //        remplir. En dessous de PAGE_LOAD_TIME + 2.5s, on considère l'envoi suspect.
+    //     Utilisation : if (isLikelySpam(form)) { e.preventDefault(); return; } en tout début de
+    //     chaque handler 'submit'. En cas de détection, on ne prévient pas le bot (pas de message
+    //     d'erreur visible) : on simule un envoi normal pour ne pas l'aider à s'adapter.
+    const PAGE_LOAD_TIME = Date.now();
+    window.isLikelySpam = function isLikelySpam(form) {
+      const honeypot = form.querySelector('input[name="website"]');
+      if (honeypot && honeypot.value.trim() !== '') return true;
+      if (Date.now() - PAGE_LOAD_TIME < 2500) return true;
+      return false;
+    };
+
     // --- Décale .page-wrap (photo + Prestations, sticky à partir de 901px — voir CSS) juste sous
     // .mini-toc-bar (lui-même sticky top:0), en mesurant sa hauteur réelle plutôt qu'une valeur fixe
     // : elle peut varier (bannière promo saisonnière, retour à la ligne sur écran étroit...). Appelé
@@ -13220,6 +13642,26 @@
       document.body.classList.add('portfolio-only');
     }
     document.getElementById('backToFullLink').href = window.location.pathname;
+
+    // Page CGU autonome via ?page=cgu : clone le contenu de l'onglet CGU existant (#tabPanelCgu)
+    // dans l'overlay plein écran #cguPageOverlay (voir CSS), pour avoir un vrai lien direct/partageable
+    // sans dupliquer le texte ni ajouter un second fichier à héberger.
+    if (urlParams.get('page') === 'cgu') {
+      const cguSource = document.getElementById('tabPanelCgu');
+      const cguTarget = document.getElementById('cguPageContent');
+      if (cguSource && cguTarget) {
+        const clone = cguSource.cloneNode(true);
+        clone.style.display = 'block';
+        clone.removeAttribute('id');
+        // Le premier enfant est le séparateur "Conditions générales d'utilisation" du bloc onglet,
+        // redondant avec le <h1> déjà affiché juste au-dessus dans l'overlay.
+        const divider = clone.querySelector('.section-divider');
+        if (divider) divider.remove();
+        cguTarget.appendChild(clone);
+        document.title = "Conditions générales d'utilisation · Michyy";
+        document.documentElement.classList.add('cgu-page-mode');
+      }
+    }
 
     // 🔧 Clé admin déplacée ici (avant le tracking d'engagement juste en dessous) pour pouvoir
     // exclure les visites en mode admin des statistiques de temps du site : sinon chaque visite
@@ -13774,12 +14216,12 @@
     // client, qui s'exécute pour tous les visiteurs, pas seulement en mode admin.
     const STATUS_ICON_DEFS = [
       { test: s => s.includes('Test'), color: '#8a8a8a', paths: '<path d="M9 2v6l-5 9a2 2 0 0 0 1.7 3h12.6a2 2 0 0 0 1.7-3l-5-9V2"/><path d="M9 2h6"/><path d="M8 15h8"/>' },
-      { test: s => s.includes('Envoyée'), color: '#ff9a00', paths: '<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/>' },
+      { test: s => s.includes('Envoyée'), color: '#FFB020', paths: '<path d="M22 2 11 13"/><path d="M22 2 15 22l-4-9-9-4 20-7z"/>' },
       { test: s => s.includes('acompte') && s.includes('attente'), color: '#ffd23c', paths: '<path d="M6 2h12M6 22h12M8 2c0 4.5 3 6 4 8-1 2-4 3.5-4 8M16 2c0 4.5-3 6-4 8 1 2 4 3.5 4 8"/>' },
       { test: s => s.includes('Acompte reçu'), color: '#5865F2', paths: '<rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 10h20"/>' },
       { test: s => s.includes('file d\'attente'), color: '#c9a24a', paths: '<circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/>' },
       { test: s => s.includes('En pause'), color: '#9b9b9b', paths: '<rect x="7" y="5" width="3" height="14" rx="1"/><rect x="14" y="5" width="3" height="14" rx="1"/>' },
-      { test: s => s.includes('montage'), color: '#ff3c3c', paths: '<path d="M3 8l2.5-4h3l-2 4M9 8l2-4h3l-2 4M15 8l2-4h3l-1.5 4"/><rect x="3" y="8" width="18" height="12" rx="1.5"/>' },
+      { test: s => s.includes('montage'), color: '#FF4438', paths: '<path d="M3 8l2.5-4h3l-2 4M9 8l2-4h3l-2 4M15 8l2-4h3l-1.5 4"/><rect x="3" y="8" width="18" height="12" rx="1.5"/>' },
       { test: s => s.includes('Modifications demandées'), color: '#ff8fa3', paths: '<path d="M3 12a9 9 0 1 1 3 6.7"/><path d="M3 21v-5h5"/>' },
       { test: s => s.includes('relecture'), color: '#7f8bfa', paths: '<circle cx="11" cy="11" r="7"/><path d="M21 21l-4.35-4.35"/>' },
       { test: s => s.includes('solde'), color: '#3cc8dc', paths: '<circle cx="12" cy="12" r="9"/><path d="M12 7v10M9 9.5c0-1.4 1.3-2.5 3-2.5s3 1.1 3 2.5-1.3 2-3 2.5-3 1.1-3 2.5 1.3 2.5 3 2.5 3-1.1 3-2.5"/>' },
@@ -13998,7 +14440,14 @@
         { id: 'avant-commander', label: 'Avant de commander (conseils + objections)', selector: '#avant-commander' },
         { id: 'checklist', label: 'Checklist avant de commander', selector: '#checklist' },
         { id: 'avis', label: 'Avis clients', selector: '.testimonials-section' },
-        { id: 'parrainage', label: 'Parrainage', selector: '.parrainage-section' }
+        { id: 'parrainage', label: 'Parrainage', selector: '.parrainage-section' },
+        // 🔧 Décisions commerciales à tester en aperçu masqué (pas touchées sans validation) : le
+        // bandeau promo du hero, le mini-blog, et chacune des deux formules d'abonnement peuvent
+        // être cachés séparément pour voir l'effet sur la page avant une suppression définitive.
+        { id: 'promo-banner', label: 'Bandeau promo (hero)', selector: '#seasonalPromoBanner' },
+        { id: 'blog', label: 'Mini blog / Conseils & astuces', selector: '#blog' },
+        { id: 'abonnement-8', label: 'Formule abonnement 280€/mois (8 vidéos)', selector: '#abonnementCompareRow' },
+        { id: 'abonnement-4', label: 'Formule abonnement 145€/mois (4 vidéos)', selector: '#abonnement4CompareRow' }
       ];
       (function initAdminSectionToggles() {
         const list = document.getElementById('adminSectionToggleList');
@@ -14803,7 +15252,7 @@
             return `
               <div class="admin-stat-card admin-litige-history-card" style="align-items: flex-start; text-align: left;">
                 <span class="admin-stat-label">${escapeHtml(orderId)}</span>
-                <span class="admin-stat-label" style="color: ${isDue ? '#ff9a00' : 'var(--text-tertiary)'};">${isDue ? '⏰ Dû' : '⏳ Prévu'} le ${new Date(dueAt).toLocaleDateString('fr-FR')}</span>
+                <span class="admin-stat-label" style="color: ${isDue ? '#FFB020' : 'var(--text-tertiary)'};">${isDue ? '⏰ Dû' : '⏳ Prévu'} le ${new Date(dueAt).toLocaleDateString('fr-FR')}</span>
                 ${currentStatus ? `<span class="tracking-status status-sent" style="margin-top: 4px;">${statusIconHtml(currentStatus, 12)}${escapeHtml(stripStatusEmoji(currentStatus))}</span>` : ''}
                 <div style="display: flex; gap: 6px; margin-top: 6px;">
                   <button type="button" class="filter-reset-btn admin-pause-reminder-goto" data-order-id="${escapeHtml(orderId)}">🔗 Voir</button>
@@ -14905,7 +15354,7 @@
           return `
             <div class="admin-stat-card admin-litige-history-card" style="align-items: flex-start; text-align: left;">
               <span class="admin-stat-label">⏸️ ${escapeHtml(orderId)}${item.row ? ' — ' + escapeHtml(clientName) : ''}</span>
-              <span class="admin-stat-label" style="color: #ff9a00;">⏰ Rappel dû depuis le ${new Date(item.dueAt).toLocaleDateString('fr-FR')}</span>
+              <span class="admin-stat-label" style="color: #FFB020;">⏰ Rappel dû depuis le ${new Date(item.dueAt).toLocaleDateString('fr-FR')}</span>
               ${currentStatus ? `<span class="tracking-status status-sent" style="margin-top: 4px;">${statusIconHtml(currentStatus, 12)}${escapeHtml(stripStatusEmoji(currentStatus))}</span>` : ''}
               <div style="display: flex; gap: 6px; margin-top: 6px;">
                 <button type="button" class="filter-reset-btn admin-today-reminder-goto" data-order-id="${escapeHtml(orderId)}">🔗 Voir</button>
@@ -18173,7 +18622,7 @@
     // Petite pluie de confettis discrète, jouée une fois à la confirmation de commande
     function launchConfetti(container) {
       if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-      const colors = ['#ff3c3c', '#ff9a00', '#ffd23c', '#3ddc84'];
+      const colors = ['#FF4438', '#FFB020', '#ffd23c', '#3ddc84'];
       const count = 18;
       for (let i = 0; i < count; i++) {
         const piece = document.createElement('span');
@@ -18402,12 +18851,14 @@
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabPanelFaq = document.getElementById('tabPanelFaq');
     const tabPanelConditions = document.getElementById('tabPanelConditions');
+    const tabPanelCgu = document.getElementById('tabPanelCgu');
     const tabPanelConfidentialite = document.getElementById('tabPanelConfidentialite');
 
     function activateTab(tabName) {
       tabBtns.forEach(b => b.classList.toggle('active', b.dataset.tab === tabName));
       tabPanelFaq.style.display = tabName === 'faq' ? 'block' : 'none';
       tabPanelConditions.style.display = tabName === 'conditions' ? 'block' : 'none';
+      if (tabPanelCgu) tabPanelCgu.style.display = tabName === 'cgu' ? 'block' : 'none';
       if (tabPanelConfidentialite) tabPanelConfidentialite.style.display = tabName === 'confidentialite' ? 'block' : 'none';
     }
     tabBtns.forEach(btn => btn.addEventListener('click', () => activateTab(btn.dataset.tab)));
@@ -18415,6 +18866,7 @@
     function handleHashTab() {
       const hash = location.hash;
       if (hash === '#conditions' || hash.startsWith('#cgv-')) activateTab('conditions');
+      else if (hash === '#cgu' || hash.startsWith('#cgu-')) activateTab('cgu');
       else if (hash === '#confidentialite' || hash.startsWith('#ml-') || hash.startsWith('#rgpd-')) activateTab('confidentialite');
       else if (hash === '#faq' || hash.startsWith('#faq-')) activateTab('faq');
     }
@@ -19113,20 +19565,19 @@
     // couvrent les deux formules existantes (4 ou 8 vidéos/mois) — au-delà, invite à venir en discuter
     // plutôt que d'inventer un 3e palier de prix qui n'existe pas.
     (function initBudgetEstimator() {
-      const input = document.getElementById('budgetEstimatorInput');
-      const valueLabel = document.getElementById('budgetEstimatorValue');
+      const rateRow = document.getElementById('budgetEstimatorRateRow');
       const unitCostEl = document.getElementById('budgetEstimatorUnitCost');
       const packCostEl = document.getElementById('budgetEstimatorPackCost');
       const packLabelEl = document.getElementById('budgetEstimatorPackLabel');
       const savingsEl = document.getElementById('budgetEstimatorSavings');
-      if (!input || !unitCostEl) return;
+      if (!rateRow || !unitCostEl) return;
       const UNIT_PRICE = 45;
       const PACK_PRICE = 30;
       const WEEKS_PER_MONTH = 4.33;
+      let currentRate = parseFloat(rateRow.querySelector('.active')?.dataset.rate || '2');
       let trackedOnce = false;
       function render() {
-        const perWeek = parseFloat(input.value);
-        valueLabel.textContent = perWeek % 1 === 0 ? perWeek : perWeek.toFixed(1);
+        const perWeek = currentRate;
         const perMonth = Math.max(1, Math.round(perWeek * WEEKS_PER_MONTH));
         const unitCost = perMonth * UNIT_PRICE;
         const packCost = perMonth * PACK_PRICE;
@@ -19142,9 +19593,16 @@
         const savings = unitCost - packCost;
         savingsEl.textContent = `📈 ${savings}€ d'économie par mois avec l'abonnement (≈ ${perMonth} vidéos/mois estimées).`;
       }
-      input.addEventListener('input', () => {
-        render();
-        if (!trackedOnce) { trackToolUsage('budget-estimator'); trackedOnce = true; }
+      rateRow.querySelectorAll('.budget-estimator-rate-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          rateRow.querySelectorAll('.budget-estimator-rate-btn').forEach(b => {
+            b.classList.toggle('active', b === btn);
+            b.setAttribute('aria-pressed', b === btn ? 'true' : 'false');
+          });
+          currentRate = parseFloat(btn.dataset.rate);
+          render();
+          if (!trackedOnce) { trackToolUsage('budget-estimator'); trackedOnce = true; }
+        });
       });
       render();
     })();
@@ -19428,6 +19886,7 @@
 
       waitlistForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        if (isLikelySpam(waitlistForm)) return;
         const data = new FormData(waitlistForm);
 
         const payload = {
@@ -19472,6 +19931,7 @@
       if (notifyEmailForm) {
         notifyEmailForm.addEventListener('submit', async (e) => {
           e.preventDefault();
+          if (isLikelySpam(notifyEmailForm)) return;
           const email = new FormData(notifyEmailForm).get('email');
 
           const payload = {
@@ -20347,6 +20807,7 @@
     const bugReportStatus = document.getElementById('bugReportStatus');
     bugReportForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (isLikelySpam(bugReportForm)) return;
       const data = new FormData(bugReportForm);
       const payload = {
         content: "@everyone",
@@ -20396,6 +20857,7 @@
     if (b2bContactForm) {
       b2bContactForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        if (isLikelySpam(b2bContactForm)) return;
         const data = new FormData(b2bContactForm);
         const fields = [
           { name: "Nom", value: data.get('b2bNom') || 'non précisé' },
@@ -22445,6 +22907,7 @@
 
     reserveForm.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (isLikelySpam(reserveForm)) return;
       const data = new FormData(reserveForm);
 
       if (!reserveConfirmed) {
@@ -22952,10 +23415,10 @@
 
         if (platform === 'court' && frequency === 'regulier') {
           return {
-            title: '🎬 Abonnement créateur — 280€/mois',
-            text: "Format court régulier : l'abonnement (8 vidéos courtes/mois) revient moins cher qu'une commande ponctuelle équivalente, et te garantit une place prioritaire dans le planning. Volume plus léger ? La formule 4 vidéos/mois à 145€ reste avantageuse sur un volume plus léger.",
-            cardId: 'abonnementCompareRow',
-            formatValue: 'Abonnement créateur'
+            title: '🎬 Abonnement créateur — 145€/mois',
+            text: "Format court régulier : l'abonnement (4 vidéos courtes/mois) revient moins cher qu'une commande ponctuelle équivalente, et te garantit une place prioritaire dans le planning. Besoin d'un volume plus important ? Contacte-moi directement, on peut voir un forfait sur-mesure.",
+            cardId: 'abonnement4CompareRow',
+            formatValue: 'Abonnement créateur (4 vidéos)'
           };
         }
         if (platform === 'court') {
@@ -23689,6 +24152,9 @@
         passe pas par la demande de montage.
       </p>
       <form id="bugReportForm" class="reserve-form">
+        <div class="hp-field" aria-hidden="true">
+          <label>Laisse ce champ vide<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
+        </div>
         <textarea name="bugDescription" rows="3" required placeholder="Décris le problème rencontré (ce que tu as fait, ce qui s'est mal passé)..."></textarea>
         <button type="submit" class="reserve-submit sound-on-click">Envoyer le signalement</button>
         <p id="bugReportStatus" class="reserve-status"></p>
@@ -23716,6 +24182,18 @@
     <div class="not-found-actions">
       <a href="./" class="not-found-btn-primary">Retour à l'accueil</a>
       <a href="#" id="notFoundFaqLink" class="not-found-btn-secondary">Voir la FAQ</a>
+    </div>
+  </div>
+
+  <!-- Page CGU autonome (?page=cgu) : accessible par un vrai lien direct (utile à partager, à
+       indexer par Google, ou à coller dans un email) sans avoir à héberger un second fichier.
+       Le contenu (#cguPageContent) est rempli en JS à partir de #tabPanelCgu — une seule source
+       de vérité pour le texte des CGU, qu'on le lise ici ou dans l'onglet de la page principale. -->
+  <div id="cguPageOverlay" role="region" aria-label="Conditions générales d'utilisation">
+    <div class="cgu-page-inner">
+      <a href="./" class="cgu-page-back">← Retour à l'accueil</a>
+      <h1 class="cgu-page-title">Conditions générales d'utilisation</h1>
+      <div id="cguPageContent"></div>
     </div>
   </div>
 
