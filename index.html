@@ -7253,60 +7253,6 @@
     .key-figure { flex: 1 1 150px; text-align: center; padding: 12px; border: 1px solid var(--border-soft); border-radius: 14px; }
     .key-figure b { display: block; font-family: 'Syne', sans-serif; font-size: 1.7rem; background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
     .key-figure span { font-size: 12px; opacity: .8; }
-    .format-quiz-result-price { font-size: 1.5rem; font-weight: 800; margin: 4px 0; background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .format-quiz-result-alt { font-size: 12px; opacity: .8; margin: 4px 0 10px; }
-    /* Suivi client plus visuel */
-    .tracking-progress .tracking-progress-step.is-done .tracking-progress-dot { background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); border-color: transparent; }
-    .tracking-progress .tracking-progress-step.is-done .tracking-progress-dot::after { content: '✓'; color: #fff; font-size: 9px; display: flex; align-items: center; justify-content: center; height: 100%; }
-    .tracking-progress .tracking-progress-step.is-current .tracking-progress-dot { transform: scale(1.4); box-shadow: 0 0 0 4px var(--accent-2)33; animation: trackPulse 1.8s ease-in-out infinite; }
-    .tracking-progress .tracking-progress-step.is-current .tracking-progress-label { font-weight: 800; }
-    @keyframes trackPulse { 50% { box-shadow: 0 0 0 8px transparent; } }
-    @media (prefers-reduced-motion: reduce) { .tracking-progress .tracking-progress-step.is-current .tracking-progress-dot { animation: none; } }
-    /* Nouveaux blocs publics */
-    .yt-facade { position: relative; aspect-ratio: 16/9; border-radius: 14px; overflow: hidden; cursor: pointer; background: #000; }
-    .yt-facade img, .yt-facade iframe { width: 100%; height: 100%; object-fit: cover; border: 0; display: block; }
-    .yt-facade::after { content: '▶'; position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-size: 2.6rem; color: #fff; text-shadow: 0 2px 12px #0008; }
-    .yt-facade.is-playing::after { display: none; }
-    .ba-slider { position: relative; aspect-ratio: 16/9; border-radius: 14px; overflow: hidden; user-select: none; }
-    .ba-slider img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-    .ba-slider .ba-top { clip-path: inset(0 50% 0 0); }
-    .ba-slider input[type=range] { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize; margin: 0; }
-    .ba-line { position: absolute; top: 0; bottom: 0; left: 50%; width: 3px; background: #fff; box-shadow: 0 0 8px #0008; pointer-events: none; }
-    .ba-tag { position: absolute; top: 8px; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 700; background: #000a; color: #fff; }
-    .limites-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; margin: 14px 0; text-align: left; }
-    .limites-card { border: 1px solid #e2685f55; background: #e2685f10; border-radius: 14px; padding: 12px; font-size: 13px; }
-    .limites-card b { display: block; margin-bottom: 2px; }
-    #portfolioGrid.portfolio-compact { display: grid !important; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important; gap: 8px !important; }
-    #portfolioGrid.portfolio-compact .portfolio-card-info, #portfolioGrid.portfolio-compact .portfolio-card-sub { display: none; }
-    #portfolioGrid.portfolio-compact .portfolio-card { width: auto !important; max-width: none !important; }
-    .theme-fab { position: fixed; left: 14px; bottom: 14px; z-index: 9990; width: 42px; height: 42px; border-radius: 50%; border: 1px solid var(--border-soft); background: var(--surface, #16161a); color: inherit; font-size: 18px; cursor: pointer; box-shadow: 0 6px 18px #0004; }
-    .form-free-input { width: 100%; margin-top: 6px; }
-    .form-free-input[hidden] { display: none !important; }
-    .ba-chips { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
-    .compare-wrap { overflow-x: auto; margin-bottom: 16px; }
-    .compare-table { width: 100%; border-collapse: collapse; font-size: 13px; text-align: center; min-width: 520px; }
-    .compare-table th, .compare-table td { padding: 9px 6px; border-top: 1px solid var(--border-soft); }
-    .compare-table td:first-child { text-align: left; opacity: .8; }
-    .compare-table .compare-hl { background: #7f8bfa14; }
-    .wz-off { display: none !important; }
-    .wz-bar { display: flex; gap: 6px; margin-bottom: 12px; }
-    .wz-dot { flex: 1; border: 1px solid var(--border-soft); background: transparent; color: inherit; border-radius: 999px; padding: 7px 8px; font-size: 12px; cursor: pointer; opacity: .6; }
-    .wz-dot b { display: inline-block; width: 20px; height: 20px; line-height: 20px; border-radius: 50%; background: var(--border-soft); margin-right: 4px; }
-    .wz-dot.is-active { opacity: 1; border-color: var(--accent-2); } .wz-dot.is-active b { background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); color: #fff; }
-    .wz-nav { display: flex; justify-content: space-between; align-items: center; gap: 8px; margin-top: 14px; font-size: 12px; }
-    .wz-nav button { border: 0; border-radius: 999px; padding: 9px 18px; font-weight: 700; cursor: pointer; }
-    .wz-next { color: #fff; background: linear-gradient(135deg, var(--accent-1), var(--accent-2)); } .wz-prev { background: var(--border-soft); color: inherit; }
-    .verified-reviews { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 12px; margin: 16px 0; }
-    .verified-review { border: 1px solid var(--border-soft); border-radius: 14px; padding: 14px; font-size: 13px; }
-    .verified-review small { display: block; margin-top: 8px; opacity: .8; }
-    /* --- Hero allégé : on ne garde que le badge de disponibilité + les boutons d'action --- */
-    .hero-proof-strip, .hero-promo-badge, .hero-availability-strip, .hero-response-badge:not(.hero-next-slot-badge) { display: none !important; }
-    .garanties-page { text-align: center; }
-    .garanties-h2 { font-family: 'Syne', sans-serif; margin: 0 0 4px; }
-    .garanties-lead, .garanties-foot { font-size: 13px; opacity: .8; }
-    .garanties-grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 12px; margin: 16px 0; text-align: left; }
-    .garanties-grid-4 .guarantee-card { padding: 18px; border-radius: 16px; border: 1px solid var(--border-soft); display: flex; flex-direction: column; gap: 6px; }
-    .garanties-grid-4 .guarantee-card-icon { font-size: 1.8rem; }
     .cal-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; margin-top: 6px; }
     .cal-head { font-size: 10px; text-align: center; opacity: .6; }
     .cal-day { min-height: 42px; border-radius: 8px; border: 1px solid var(--border-soft); padding: 3px; font-size: 10px; cursor: pointer; position: relative; }
@@ -7846,12 +7792,6 @@
     }
     .admin-prefill-qr img { display: block; }
 
-    /* ── Grille de couleurs des badges de commande (admin) — à respecter avant d'en ajouter un ──
-       🟠 ambre  #ffb020 → .admin-order-badge-stale   : ça traîne / à surveiller (retard, pause trop longue, bloquée)
-       🟣 violet #7f8bfa → .admin-order-badge-tag     : information neutre / étiquette automatique (repli, tags, facture)
-       🔴 rouge  #ff6b6b → .admin-order-badge-warning : action requise (client difficile, prix incohérent, retour à lire)
-       Règle : 3 teintes = 3 niveaux (info < à surveiller < action requise). Pas de 4e couleur : réutilise
-       l'une d'elles et joue sur l'icône. Vert/bleu sont réservés aux statuts de commande et aux boutons. */
     .admin-order-badges {
       display: flex;
       flex-wrap: wrap;
@@ -9253,6 +9193,7 @@
        rester distinct du process, #64748b (gris-ardoise) marque le registre "pro/B2B" sans piocher
        dans les couleurs déjà prises par les sections grand public. */
     .mini-toc-dot--apropos { background: #3c8dff; }
+    .mini-toc-dot--garanties { background: #22c55e; }
     .mini-toc-dot--parrainage { background: #0ea5e9; }
     .mini-toc-dot--presse { background: #64748b; }
 
@@ -10579,11 +10520,11 @@
   <nav class="mini-toc-bar" id="miniTocBar" aria-label="Sommaire rapide">
     <div class="mini-toc-links">
       <a href="#apropos"><span class="mini-toc-dot mini-toc-dot--apropos" aria-hidden="true"></span>À propos</a>
+      <a href="#garanties"><span class="mini-toc-dot mini-toc-dot--garanties" aria-hidden="true"></span>Garanties</a>
       <a href="#portfolio"><span class="mini-toc-dot mini-toc-dot--portfolio" aria-hidden="true"></span>Portfolio</a>
       <a href="#avis"><span class="mini-toc-dot mini-toc-dot--avis" aria-hidden="true"></span>Avis</a>
       <a href="#prestations"><span class="mini-toc-dot mini-toc-dot--prestations" aria-hidden="true"></span>Tarifs</a>
       <a href="#process"><span class="mini-toc-dot mini-toc-dot--process" aria-hidden="true"></span>Process</a>
-      <a href="#garanties"><span class="mini-toc-dot"></span>Garanties</a>
       <a href="#faq"><span class="mini-toc-dot mini-toc-dot--faq" aria-hidden="true"></span>FAQ &amp; CGV</a>
       <a href="#reservation"><span class="mini-toc-dot mini-toc-dot--reservation" aria-hidden="true"></span>Réserver</a>
       <a href="#parrainage"><span class="mini-toc-dot mini-toc-dot--parrainage" aria-hidden="true"></span>Parrainage</a>
@@ -10907,8 +10848,6 @@
   
 
 <div class="key-figures" id="keyFigures" style="display:none;"></div>
-<section id="showreel" class="full-section" style="display:none;"><div class="yt-facade" id="showreelBox"></div></section>
-<section id="beforeAfter" class="full-section" style="display:none;"><div id="beforeAfterBox"></div></section>
 <section id="apropos" class="full-section about-section reveal">
     <div class="info-header">
       <div class="section-divider">
@@ -10943,6 +10882,40 @@
         </a>
       </div>
     </div>
+  </section>
+
+<section id="garanties" class="full-section guarantees-page-section reveal">
+    <div class="info-header">
+      <div class="section-divider">
+        <div class="section-divider-line"></div>
+        <span class="section-divider-text">Garanties</span>
+        <div class="section-divider-line"></div>
+      </div>
+      <div class="info-title">Ce qui est garanti, point final</div>
+    </div>
+      <div class="guarantees-grid">
+        <div class="guarantee-card">
+          <span class="guarantee-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4.5 8h11a4 4 0 014 4v1"/><path d="M8 4.5L4.5 8 8 11.5"/><path d="M19.5 16h-11a4 4 0 01-4-4v-1"/><path d="M16 12.5l3.5 3.5-3.5 3.5"/></svg></span>
+          <span class="guarantee-card-title">3 révisions incluses</span>
+          <span class="guarantee-card-text">Pas satisfait du premier jet ? Je retouche jusqu'à 3 fois par vidéo sans supplément. Au-delà, chaque retouche supplémentaire est facturée 20€.</span>
+        </div>
+        <div class="guarantee-card">
+          <span class="guarantee-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M14.5 8.7a4.6 4.6 0 100 6.6"/><path d="M8.5 11h4.3M8.5 13h3.6"/></svg></span>
+          <span class="guarantee-card-title">Acompte remboursable</span>
+          <span class="guarantee-card-text">Intégralement, tant que le montage n'a pas commencé. Une fois lancé, il couvre le temps déjà engagé de mon côté.</span>
+        </div>
+        <div class="guarantee-card">
+          <span class="guarantee-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
+          <span class="guarantee-card-title">Délais annoncés tenus</span>
+          <span class="guarantee-card-text">Le délai indiqué au moment du devis est celui qui compte. S'il devait glisser, tu es prévenu avant l'échéance, pas après — jamais un silence qui traîne. Détails dans <a href="#faq-delais">la FAQ délais</a>.</span>
+        </div>
+        <div class="guarantee-card">
+          <span class="guarantee-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></span>
+          <span class="guarantee-card-title">Rushs confidentiels</span>
+          <span class="guarantee-card-text">Tes fichiers sources sont supprimés de mon côté à J+30 après la livraison finale. Détails dans les <a href="#confidentialite">mentions légales</a>.</span>
+        </div>
+      </div>
+      <p class="info-text" style="text-align:center;margin-top:14px;">Le détail complet (clause par clause) reste dans les <a href="#cgv-remuneration" class="inline-link">CGV</a>, pour qui veut tout lire.</p>
   </section>
 
 <section id="portfolio" class="full-section portfolio-section reveal">
@@ -11007,7 +10980,6 @@
     <button class="filter-btn category-filter-btn" data-filter="youtube">YouTube</button>
     <button class="filter-btn category-filter-btn" data-filter="tiktok">TikTok</button>
     <button class="filter-btn category-filter-btn" data-filter="esport">Esport</button>
-    <button type="button" class="filter-btn" id="portfolioCompactBtn" title="Grille plus dense, moins de texte">▦ Compact</button>
     <button type="button" class="filter-reset-btn" id="filterResetBtn" style="display: none;">✕ Réinitialiser les filtres</button>
   </div>
 
@@ -11388,6 +11360,53 @@
       </div>
     </div>
 
+    <!-- 🆕 2e et 3e exemples avant/après, chacun sur un style différent du 1er (gaming/court ci-dessus)
+         pour couvrir les mêmes 3 contextes que les .result-card au-dessus — même disclaimer
+         "100% d'exemple" juste en dessous, qui s'applique aux 3 cartes de ce bloc. -->
+    <div class="case-study-card">
+      <div class="case-study-header">
+        <span class="case-study-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-1px;margin-right:3px;"><path d="M8 12.5V6.5a4 4 0 018 0v9a2.5 2.5 0 01-5 0v-8"/></svg>Étude de cas</span>
+        <span class="case-study-context">Chaîne YouTube best-of, format long</span>
+      </div>
+      <div class="case-study-compare">
+        <div class="case-study-before">
+          <span class="case-study-compare-label">Avant — les rushs</span>
+          <p class="case-study-compare-text">Plusieurs sessions filmées sur des semaines différentes, sans fil conducteur commun, avec des passages redondants et une qualité d'image inégale entre les prises.</p>
+        </div>
+        <div class="case-study-arrow" aria-hidden="true">→</div>
+        <div class="case-study-after">
+          <span class="case-study-compare-label">Après — le montage livré</span>
+          <p class="case-study-compare-text">Format long de 9 minutes structuré autour d'un fil narratif unique, étalonnage harmonisé entre toutes les prises, et habillage sonore/visuel cohérent posé sur l'ensemble de la vidéo pour donner une identité reconnaissable.</p>
+        </div>
+      </div>
+      <div class="case-study-strategy">
+        <span class="case-study-strategy-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" style="vertical-align:-1px;margin-right:3px;"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>Stratégie de montage</span>
+        <p class="case-study-strategy-text">Tri des rushs par thème plutôt que par ordre de tournage, choix d'un fil narratif unique pour relier les passages entre eux, et une grille d'étalonnage commune appliquée à toutes les séquences avant le montage final.</p>
+      </div>
+    </div>
+
+    <div class="case-study-card">
+      <div class="case-study-header">
+        <span class="case-study-tag"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" style="vertical-align:-1px;margin-right:3px;"><path d="M8 12.5V6.5a4 4 0 018 0v9a2.5 2.5 0 01-5 0v-8"/></svg>Étude de cas</span>
+        <span class="case-study-context">Marque, format business/sponsorisé</span>
+      </div>
+      <div class="case-study-compare">
+        <div class="case-study-before">
+          <span class="case-study-compare-label">Avant — les rushs</span>
+          <p class="case-study-compare-text">Un brief produit dense avec beaucoup d'informations à faire passer, et des rushs qui perdaient l'audience avant d'arriver au message clé de la marque.</p>
+        </div>
+        <div class="case-study-arrow" aria-hidden="true">→</div>
+        <div class="case-study-after">
+          <span class="case-study-compare-label">Après — le montage livré</span>
+          <p class="case-study-compare-text">Structure resserrée qui place le message de marque plus tôt dans la vidéo, avec des rappels visuels discrets (logo, accroche) répétés jusqu'à la fin pour maximiser le taux de complétion.</p>
+        </div>
+      </div>
+      <div class="case-study-strategy">
+        <span class="case-study-strategy-label"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true" style="vertical-align:-1px;margin-right:3px;"><circle cx="12" cy="12" r="8.5"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.2" fill="currentColor" stroke="none"/></svg>Stratégie de montage</span>
+        <p class="case-study-strategy-text">Message de marque déplacé plus tôt dans la structure, rappels visuels espacés régulièrement plutôt que concentrés en fin de vidéo, et coupe franche dès qu'un passage n'apporte plus d'information nouvelle.</p>
+      </div>
+    </div>
+
     <div class="not-a-fit-box">
       <p class="guarantee-card-text">🔧 <strong>Chiffres et étude de cas 100% d'exemple</strong> — à remplacer par tes vrais résultats dès que tu en as, avec l'accord du client pour les partager. Ne jamais laisser des chiffres inventés en ligne : une fausse preuve sociale fait plus de mal qu'aucune section.</p>
     </div>
@@ -11591,9 +11610,7 @@
       <button type="button" id="publicReviewSubmitBtn" class="review-submit-btn">Envoyer mon avis</button>
       <p id="publicReviewStatus" class="review-status" aria-live="polite"></p>
     </div>
-    <div class="verified-reviews" id="verifiedReviews" style="display:none;"></div>
-  <div class="verified-reviews" id="videoReviews" style="display:none;"></div>
-</section>
+  </section>
 
 <section id="prestations" class="full-section reveal">
     <div class="info-header">
@@ -11691,15 +11708,6 @@
 
     <div class="prestations-tab-panel" data-tab-panel="tarifs">
     <div class="format-block" id="tarifs">
-      <div class="compare-wrap"><table class="compare-table" id="formatCompare">
-        <thead><tr><th></th><th>📱 Court</th><th>🎥 Long</th><th class="compare-hl">🔁 Abonnement 4</th><th class="compare-hl">🔁 Abonnement 8 ⭐</th></tr></thead>
-        <tbody>
-          <tr><td>Prix</td><td data-price="Court (TikTok / Reels)"></td><td data-price="Long (YouTube / Best-of)"></td><td class="compare-hl" data-price="Abonnement créateur (4 vidéos)"></td><td class="compare-hl" data-price="Abonnement créateur"></td></tr>
-          <tr><td>Délai</td><td>Jour même à 2 jours</td><td>Jusqu'à 1 semaine</td><td class="compare-hl">Prioritaire</td><td class="compare-hl">Prioritaire</td></tr>
-          <tr><td>Idéal pour</td><td>TikTok, Reels, Shorts</td><td>YouTube, vlog, best-of</td><td class="compare-hl">Publier chaque semaine</td><td class="compare-hl">Publier presque chaque jour</td></tr>
-          <tr><td>Révisions</td><td>3 incluses</td><td>3 incluses</td><td class="compare-hl">3 incluses / vidéo</td><td class="compare-hl">3 incluses / vidéo</td></tr>
-          <tr><td></td><td><a href="#reservation" class="packs-highlight-cta" data-apply-format="Court (TikTok / Reels)">Choisir</a></td><td><a href="#reservation" class="packs-highlight-cta" data-apply-format="Long (YouTube / Best-of)">Choisir</a></td><td class="compare-hl"><a href="#reservation" class="packs-highlight-cta" data-apply-format="Abonnement créateur (4 vidéos)">Choisir</a></td><td class="compare-hl"><a href="#reservation" class="packs-highlight-cta" data-apply-format="Abonnement créateur">Choisir</a></td></tr>
-        </tbody></table></div>
       <p class="tarifs-base-price"><span class="tarifs-base-price-label">À partir de</span> <span class="tarifs-base-price-amount">45€</span> <span class="tarifs-base-price-label">/ vidéo</span></p>
       <p class="tarifs-guarantee-banner"><span class="tarifs-guarantee-banner-icon"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l7 3.2v4.3c0 5-3 8.3-7 10.5-4-2.2-7-5.5-7-10.5V6.2L12 3z"/></svg></span> Pas satisfait du premier jet ? <strong>3 révisions incluses par vidéo</strong> — au-delà, +20€ par retouche supplémentaire (à l'unité).</p>
       <div class="tarifs-intro-badges">
@@ -12047,8 +12055,55 @@
     <!-- Mini-quiz de décision, positionné juste après les comparatifs de prix/formats : pour
          quelqu'un qui a lu les tableaux ci-dessus et hésite encore entre court/long/abonnement,
          3 questions rapides suffisent à trancher plutôt que de le laisser repartir indécis. -->
-    <div class="format-quiz" id="formatQuiz" aria-live="polite"><div class="format-quiz-title">🧭 Toujours indécis ? Réponds à 3 questions</div><div class="format-quiz-sub">15 secondes · prix calculé avec mes tarifs actuels · aucune donnée personnelle collectée.</div><div class="format-quiz-progress"><span class="format-quiz-dot" data-step="0"></span><span class="format-quiz-dot" data-step="1"></span><span class="format-quiz-dot" data-step="2"></span></div><div class="format-quiz-step" data-quiz-step="0"><p class="format-quiz-question">Quel type de vidéo veux-tu faire monter ?</p><div class="format-quiz-options"><button type="button" class="format-quiz-option" data-key="type" data-value="court">📱 TikTok / Reels / Shorts</button><button type="button" class="format-quiz-option" data-key="type" data-value="long">🎥 YouTube / Vlog / Best-of</button><button type="button" class="format-quiz-option" data-key="type" data-value="esport">🎮 Long complexe / Esport</button><button type="button" class="format-quiz-option" data-key="type" data-value="business">💼 Marque / contenu sponsorisé</button><button type="button" class="format-quiz-option" data-key="type" data-value="mix">🔀 Un mix court + long</button></div></div><div class="format-quiz-step" data-quiz-step="1" hidden><p class="format-quiz-question">Combien de vidéos par mois ?</p><div class="format-quiz-options"><button type="button" class="format-quiz-option" data-key="qty" data-value="1">1 vidéo (ponctuel)</button><button type="button" class="format-quiz-option" data-key="qty" data-value="3">2 à 3 vidéos</button><button type="button" class="format-quiz-option" data-key="qty" data-value="4">4 vidéos</button><button type="button" class="format-quiz-option" data-key="qty" data-value="8">5 à 8 vidéos</button><button type="button" class="format-quiz-option" data-key="qty" data-value="10">Plus de 8 vidéos</button></div><button type="button" class="format-quiz-back" data-back-to="0">← Retour</button></div><div class="format-quiz-step" data-quiz-step="2" hidden><p class="format-quiz-question">Pour quand en as-tu besoin ?</p><div class="format-quiz-options"><button type="button" class="format-quiz-option" data-key="speed" data-value="normal">🗓️ Délais habituels</button><button type="button" class="format-quiz-option" data-key="speed" data-value="urgent">⚡ Le plus vite possible (surcoût urgent)</button></div><button type="button" class="format-quiz-back" data-back-to="1">← Retour</button></div><div class="format-quiz-result" id="formatQuizResult" hidden><p class="format-quiz-result-title" id="formatQuizResultTitle"></p><p class="format-quiz-result-price" id="formatQuizResultPrice"></p><p class="format-quiz-result-text" id="formatQuizResultText"></p><p class="format-quiz-result-alt" id="formatQuizResultAlt"></p><div class="format-quiz-result-actions"><button type="button" id="formatQuizCta" class="price-estimate-btn">Pré-remplir le formulaire</button><button type="button" id="formatQuizRestart" class="format-quiz-restart">↺ Recommencer</button><button type="button" id="formatQuizResultBack" class="format-quiz-restart">← Modifier ma dernière réponse</button></div></div></div>
-  <ul class="terms-list">
+    <div class="format-quiz" id="formatQuiz">
+      <div class="format-quiz-title">🧭 Toujours indécis ? Réponds à 3 questions</div>
+      <div class="format-quiz-sub">15 secondes, aucune donnée personnelle collectée.</div>
+
+      <div class="format-quiz-progress">
+        <span class="format-quiz-dot" data-step="0"></span>
+        <span class="format-quiz-dot" data-step="1"></span>
+        <span class="format-quiz-dot" data-step="2"></span>
+      </div>
+
+      <div class="format-quiz-step" data-quiz-step="0">
+        <p class="format-quiz-question">Quelle plateforme vises-tu principalement ?</p>
+        <div class="format-quiz-options">
+          <button type="button" class="format-quiz-option" data-key="platform" data-value="court">📱 TikTok / Reels / Shorts</button>
+          <button type="button" class="format-quiz-option" data-key="platform" data-value="long">🎥 YouTube / Vlog / Best-of</button>
+          <button type="button" class="format-quiz-option" data-key="platform" data-value="both">🔀 Les deux</button>
+        </div>
+      </div>
+
+      <div class="format-quiz-step" data-quiz-step="1" hidden>
+        <p class="format-quiz-question">À quelle fréquence comptes-tu publier ?</p>
+        <div class="format-quiz-options">
+          <button type="button" class="format-quiz-option" data-key="frequency" data-value="ponctuel">🎯 Un projet ponctuel</button>
+          <button type="button" class="format-quiz-option" data-key="frequency" data-value="regulier">🔁 Régulièrement (plusieurs vidéos/mois)</button>
+        </div>
+        <button type="button" class="format-quiz-back" data-back-to="0">← Retour</button>
+      </div>
+
+      <div class="format-quiz-step" data-quiz-step="2" hidden>
+        <p class="format-quiz-question">Ton budget se rapproche plutôt de...</p>
+        <div class="format-quiz-options">
+          <button type="button" class="format-quiz-option" data-key="budget" data-value="ponctuel">💶 À l'unité, au cas par cas</button>
+          <button type="button" class="format-quiz-option" data-key="budget" data-value="optimise">📉 Je veux optimiser le coût sur la durée</button>
+        </div>
+        <button type="button" class="format-quiz-back" data-back-to="1">← Retour</button>
+      </div>
+
+      <div class="format-quiz-result" id="formatQuizResult" hidden>
+        <p class="format-quiz-result-title" id="formatQuizResultTitle"></p>
+        <p class="format-quiz-result-text" id="formatQuizResultText"></p>
+        <div class="format-quiz-result-actions">
+          <button type="button" id="formatQuizCta" class="price-estimate-btn">Voir ce tarif</button>
+          <button type="button" id="formatQuizRestart" class="format-quiz-restart">↺ Recommencer</button>
+          <button type="button" id="formatQuizResultBack" class="format-quiz-restart">← Modifier ma dernière réponse</button>
+        </div>
+      </div>
+    </div>
+
+    <ul class="terms-list">
       <li class="highlight-term"><span class="terms-icon">💳</span> Acompte de 50% demandé avant le début du montage, solde à régler dès ta première retouche demandée (pas besoin d'attendre la livraison finale) : une sécurité pour les deux parties.</li>
       <li><span class="terms-icon">⏱️</span> Format court livré le jour même, sous 2 jours max.</li>
       <li><span class="terms-icon">📅</span> Format long livré sous 1 semaine max (variable selon la quantité de travail).</li>
@@ -12168,32 +12223,6 @@
   <span id="confidentialite" class="anchor-offset"></span>
   
 
-<section id="garanties" class="full-section  reveal garanties-page">
-  <h2 class="garanties-h2">🛡️ Mes engagements, noir sur blanc</h2>
-  <p class="garanties-lead">Quatre promesses simples, valables sur chaque commande.</p>
-  <div class="guarantees-grid garanties-grid-4">
-    <div class="guarantee-card"><span class="guarantee-card-icon">🔁</span><span class="guarantee-card-title">3 révisions incluses</span><span class="guarantee-card-text">Pas satisfait du premier jet ? Je retouche jusqu'à 3 fois par vidéo sans supplément. Au-delà, 20€ par retouche.</span></div>
-    <div class="guarantee-card"><span class="guarantee-card-icon">🔐</span><span class="guarantee-card-title">Compte protégé</span><span class="guarantee-card-text">Je n'ai jamais besoin de tes identifiants ni de tes mots de passe : tu m'envoies tes rushs, je te renvoie un MP4.</span></div>
-    <div class="guarantee-card"><span class="guarantee-card-icon">⏱️</span><span class="guarantee-card-title">Délais annoncés</span><span class="guarantee-card-text">Court : jour même à 2 jours. Long : jusqu'à 1 semaine. Le mode urgent est prioritaire, selon ma disponibilité.</span></div>
-    <div class="guarantee-card"><span class="guarantee-card-icon">🗑️</span><span class="guarantee-card-title">Rushs supprimés à J+30</span><span class="guarantee-card-text">Tes fichiers sources sont effacés de mon côté 30 jours après la livraison finale. Voir les <a href="#confidentialite">mentions légales</a>.</span></div>
-  </div>
-  <p class="garanties-foot">💳 Acompte remboursable intégralement tant que le montage n'a pas commencé. <a href="#faq">Une question ?</a> · <a href="#conditions">Conditions complètes (CGV)</a></p>
-</section>
-
-<section id="limites" class="full-section  reveal garanties-page">
-  <h2 class="garanties-h2">🚫 Ce que je ne fais jamais</h2>
-  <p class="garanties-lead">Dit clairement avant la commande, pas en DM après coup.</p>
-  <div class="limites-grid">
-    <div class="limites-card"><b>Animation 3D / motion design de zéro</b>Je monte des rushs déjà filmés.</div>
-    <div class="limites-card"><b>Voix off & doublage</b>Ni enregistrement, ni voix générée.</div>
-    <div class="limites-card"><b>Tournage & script</b>Ni prise de vues, ni écriture de scénario.</div>
-    <div class="limites-card"><b>Direction artistique en amont</b>Je travaille à partir de ton matériel.</div>
-    <div class="limites-card"><b>Contenu haineux, violent ou illégal</b>Refus systématique.</div>
-    <div class="limites-card"><b>Délais irréalistes</b>Même avec le mode urgent : je refuse si le volume de rushs ne le permet pas.</div>
-  </div>
-  <p class="garanties-foot">Hors cadre ? Dis-le dès le formulaire, on regarde ensemble. <a href="#garanties">Voir mes garanties</a></p>
-</section>
-
 <section id="faq" class="full-section faq-conditions-section reveal">
     <div class="info-header">
       <div class="section-divider">
@@ -12206,7 +12235,7 @@
 
     <div class="tab-row">
       <button type="button" class="tab-btn active" data-tab="faq">❓ FAQ</button>
-      <button type="button" class="tab-btn" data-tab="conditions">📋 Conditions (CGV)</button>
+      <button type="button" class="tab-btn" data-tab="conditions">🛡️ Garanties &amp; CGV</button>
       <button type="button" class="tab-btn" data-tab="cgu">📄 CGU</button>
       <button type="button" class="tab-btn" data-tab="confidentialite">🔒 Confidentialité</button>
     </div>
@@ -12384,7 +12413,7 @@
         <div class="more-options-content">
       <details class="faq-item" id="faq-revisions" data-theme="revisions">
         <summary>Combien de révisions sont incluses, et jusqu'où ça va ?</summary>
-        <p><strong>3 révisions incluses par vidéo (rythme, coupe, sous-titres, habillage sonore…), puis 20€ par retouche supplémentaire. Une refonte complète du montage est traitée à part. Détails dans <a href="#garanties" class="inline-link">Garanties</a>.</p>
+        <p><strong>3 révisions incluses par vidéo</strong> : ajustements de rythme, de coupe, de sous-titres, d'habillage sonore ou de placement d'éléments. C'est exactement ce qui couvre le cas où le premier jet ne te convainc pas encore — jamais de surprise ni de blocage, l'objectif reste que le résultat te corresponde. Au-delà de la 3e, chaque retouche supplémentaire est facturée <strong>20€</strong>, à l'unité (jamais par lot). Ce qui sort de ce cadre, c'est une refonte complète du montage (changer totalement l'angle ou la structure de la vidéo une fois validée), traitée à part (voir la question sur les révisions hors cadre) plutôt que décomptée dans les 3.</p>
       </details>
 
         </div>
@@ -12447,7 +12476,7 @@
         <div class="more-options-content">
       <details class="faq-item" id="faq-limites" data-theme="confiance">
         <summary>Y a-t-il des types de contenus ou de demandes que tu ne prends pas en charge ?</summary>
-        <p>Oui : la liste complète est maintenant dans la section <a href="#limites" class="inline-link">Ce que je ne fais jamais</a>.</p>
+        <p>Oui, et autant le dire clairement avant qu'en DM après coup. Je fais du <strong>montage vidéo</strong> à partir de rushs déjà filmés : coupe, rythme, sous-titres, habillage sonore et visuel, étalonnage. Je ne fais <strong>pas</strong> : animation 3D/motion design créé de zéro, doublage/voix off, tournage, écriture de script, direction artistique en amont, ni contenu haineux, violent ou illégal. Le mode urgent (⚡ +30%) accélère, mais je refuse un délai irréaliste vu le volume de rushs, même en payant le supplément. Hors cadre ? Dis-le dès le formulaire, on regarde ensemble.</p>
       </details>
 
       <details class="faq-item" id="faq-disparition" data-theme="confiance">
@@ -12462,7 +12491,7 @@
 
       <details class="faq-item" id="faq-retouche-post-livraison" data-theme="confiance">
         <summary>Je peux demander une retouche après avoir reçu ma vidéo finale ?</summary>
-        <p>Oui, une retouche demandée peu après la livraison compte dans les <a href="#faq-revisions" class="inline-link">3 révisions incluses</a> (ou 20€/retouche au-delà). Seule différence : le solde doit déjà être réglé, puisqu'il est dû dès ta première demande de retouche. Si ça revient à rouvrir le projet en profondeur (nouvel angle, nouvelle structure), ça bascule dans les <a href="#faq-revisions" class="inline-link">révisions hors cadre</a>.</p>
+        <p>Oui, une retouche demandée peu après la livraison compte dans les <a href="#faq-revisions" class="inline-link">3 révisions incluses</a> (ou 20€/retouche au-delà). Seule différence : le solde doit déjà être réglé, puisqu'il est dû dès ta première demande de retouche. Si ça revient à rouvrir le projet en profondeur (nouvel angle, nouvelle structure), ça bascule dans les <a href="#faq-refonte" class="inline-link">révisions hors cadre</a>.</p>
       </details>
 
       <details class="faq-item" id="faq-rushs-perdus" data-theme="confiance">
@@ -12503,6 +12532,7 @@
     </div>
 
     <div id="tabPanelConditions" class="tab-panel" style="display: none;">
+<p class="info-text" style="margin-bottom: 14px;">Le résumé visuel des garanties (révisions, acompte, délais, rushs) a sa propre section : <a href="#garanties" class="inline-link">voir "Garanties"</a> plus haut sur la page. Ci-dessous, le détail complet clause par clause.</p>
 <div class="section-divider" style="margin:18px 0 10px;"><div class="section-divider-line"></div><span class="section-divider-text">Conditions générales de vente</span><div class="section-divider-line"></div></div>
 
       <!-- Résumé toujours visible des 3 clauses qui reviennent le plus souvent en question, avant
@@ -12840,7 +12870,6 @@
         </div>
       </div>
 
-      <label>Comment m'as-tu connu ? <select name="source"><option value="">— (optionnel)</option><option>TikTok</option><option>Discord</option><option>YouTube</option><option>Bouche-à-oreille / parrainage</option><option>Autre</option></select></label>
       <div class="form-section-label">🎬 Ton projet</div>
 
       <div class="mini-calc" id="miniCalc">
@@ -13110,50 +13139,76 @@
       <div class="form-section-label">🎯 Pour aller plus vite</div>
       <div class="form-row-split">
         <label>Ambiance recherchée
-          <select name="ambiance">
+          <select name="ambiance" id="ambianceSelect">
             <option value="Peu importe, à toi de voir">Peu importe, à toi de voir</option>
             <option value="Dynamique / énergique">Dynamique / énergique</option>
             <option value="Posée / sérieuse">Posée / sérieuse</option>
             <option value="Drôle / fun">Drôle / fun</option>
-          <option value="Autre">Autre…</option></select>
-          <input type="text" name="ambianceAutre" class="form-free-input" placeholder="Décris l'ambiance que tu veux" maxlength="120" hidden>
+            <option value="Autres">Autres (précise juste en dessous)</option>
+          </select>
         </label>
         <label>Sous-titres
-          <select name="sousTitresSouhaites">
+          <select name="sousTitresSouhaites" id="sousTitresSelect">
             <option value="Comme tu penses le mieux">Comme tu penses le mieux</option>
             <option value="Oui, obligatoire">Oui, obligatoire</option>
             <option value="Non merci">Non merci</option>
           </select>
-          <input type="text" name="policeSousTitres" class="form-free-input" placeholder="Une police précise ? (optionnel) ex : Montserrat, Impact…" maxlength="120" hidden>
         </label>
+      </div>
+      <div class="conditional-field" id="ambianceAutreField">
+        <div class="conditional-field-inner">
+          <label>Précise l'ambiance que tu as en tête
+            <input type="text" name="ambianceAutre" placeholder="ex : mystérieuse, nostalgique, façon documentaire..." />
+          </label>
+        </div>
+      </div>
+      <div class="conditional-field" id="policeEcritureField">
+        <div class="conditional-field-inner">
+          <label>Police d'écriture souhaitée pour les sous-titres <span class="optional-tag">(optionnel)</span>
+            <input type="text" name="policeEcriture" placeholder="ex : Montserrat, une police manuscrite, peu importe..." />
+          </label>
+        </div>
       </div>
       <label>Tes rushs sont…
         <select name="rushsDisponibles">
           <option value="Prêts, je les envoie avec cette demande">Prêts, je les envoie avec cette demande</option>
           <option value="Bientôt prêts (dans les prochains jours)">Bientôt prêts (dans les prochains jours)</option>
           <option value="Pas encore tournés">Pas encore tournés</option>
-        <option value="Je fournis déjà la vidéo">Je fournis déjà la vidéo (lien ou nom)</option></select>
-          <input type="text" name="videoFournie" class="form-free-input" placeholder="Lien ou nom de la vidéo que tu fournis" maxlength="120" hidden>
+        </select>
       </label>
       <label>Objectif principal de la vidéo <span class="optional-tag">(optionnel)</span>
-        <select name="objectifVideo">
+        <select name="objectifVideo" id="objectifVideoSelect">
           <option value="">À définir ensemble</option>
           <option value="Vues / visibilité">Vues / visibilité</option>
           <option value="Engagement communauté">Engagement communauté</option>
           <option value="Image de marque / pro">Image de marque / pro</option>
           <option value="Vente / conversion">Vente / conversion</option>
           <option value="Souvenir / plaisir personnel">Souvenir / plaisir personnel</option>
-        <option value="Autre">Autre…</option></select>
-          <input type="text" name="objectifAutre" class="form-free-input" placeholder="Dis-moi ton objectif avec tes mots" maxlength="120" hidden>
+          <option value="Autres">Autres (précise juste en dessous)</option>
+        </select>
       </label>
+      <div class="conditional-field" id="objectifAutreField">
+        <div class="conditional-field-inner">
+          <label>Précise l'objectif que tu as en tête
+            <input type="text" name="objectifVideoAutre" placeholder="ex : postuler à un concours, présenter un projet..." />
+          </label>
+        </div>
+      </div>
       <label class="form-advanced">Musique <span class="optional-tag">(optionnel)</span>
-        <select name="musique">
+        <select name="musique" id="musiqueSelect">
           <option value="">À définir ensemble</option>
           <option value="Je fournis la musique">Je fournis la musique</option>
           <option value="Choisis une musique libre de droits">Choisis une musique libre de droits</option>
           <option value="Pas de musique">Pas de musique</option>
         </select>
       </label>
+      <div class="conditional-field form-advanced" id="musiqueLienField">
+        <div class="conditional-field-inner">
+          <label>Lien ou nom du morceau que tu fournis
+            <input type="text" name="musiqueLien" placeholder="ex : lien Drive/YouTube, ou juste le titre et l'artiste" />
+          </label>
+        </div>
+      </div>
       <label class="form-advanced">Ta chaîne / ton compte <span class="optional-tag">(optionnel)</span>
         <input type="text" name="lienChaine" maxlength="200" placeholder="Lien TikTok/YouTube/Instagram, pour voir ton style actuel" />
       </label>
@@ -14263,6 +14318,36 @@
       return { weight: (weight != null ? weight : WORKLOAD_FALLBACK_WEIGHT) * qty, formatKey, qty };
     }
 
+    // 🆕 Réponses vidéo courtes aux questions FAQ : lecture de la table { faqId: url } depuis
+    // n'importe quel contexte (public ET admin), donc définie ici, hors du bloc admin plus bas —
+    // l'écriture (saveFaqVideoMap), elle, ne vit que côté admin puisque seul l'admin doit pouvoir
+    // associer une vidéo à une question.
+    const FAQ_VIDEO_KEY = 'michyy_faq_videos';
+    function getFaqVideoMap() {
+      try { return JSON.parse(localStorage.getItem(FAQ_VIDEO_KEY) || '{}'); } catch (e) { return {}; }
+    }
+    // Affiche, sous chaque question FAQ qui a une vidéo associée, un petit lecteur (fichier vidéo
+    // direct) ou un lien (YouTube et autres plateformes externes) — décidé simplement par
+    // l'extension de l'URL, pas de détection de plateforme exhaustive.
+    (function initFaqVideoAnswers() {
+      const map = getFaqVideoMap();
+      const entries = Object.entries(map);
+      if (!entries.length) return;
+      entries.forEach(([id, url]) => {
+        const el = document.getElementById(id);
+        const p = el && el.querySelector('p');
+        if (!el || !p || p.querySelector('.faq-video-answer')) return;
+        const isDirectVideo = /\.(mp4|webm|mov)(\?|$)/i.test(url);
+        const wrap = document.createElement('div');
+        wrap.className = 'faq-video-answer';
+        wrap.style.marginTop = '8px';
+        wrap.innerHTML = isDirectVideo
+          ? `<video controls preload="none" style="max-width:100%;border-radius:8px;" src="${url}"></video>`
+          : `<a href="${url}" target="_blank" rel="noopener" class="inline-link">▶️ Voir la réponse en vidéo (30s)</a>`;
+        p.insertAdjacentElement('afterend', wrap);
+      });
+    })();
+
     if (isAdminUnlocked) {
       const adminPanel = document.getElementById('adminPanel');
       const adminOrdersList = document.getElementById('adminOrdersList');
@@ -14331,14 +14416,11 @@
       // réorganisation du site) pour que l'admin s'y retrouve facilement lors de l'aperçu.
       const TOGGLEABLE_SECTIONS = [
         { id: 'apropos', label: 'À propos', selector: '#apropos' },
+        { id: 'garanties', label: 'Garanties', selector: '#garanties' },
         { id: 'portfolio', label: 'Portfolio', selector: '.portfolio-section' },
         { id: 'etude-de-cas', label: 'Étude de cas (+ résultats obtenus)', selector: '#etude-de-cas' },
         { id: 'avis', label: 'Avis clients', selector: '.testimonials-section' },
         { id: 'abonnements', label: 'Abonnements (tableau comparatif)', selector: '#abonnementCompareRow' },
-        { id: 'garanties', label: 'Garanties (4 engagements)', selector: '#garanties' },
-        { id: 'limites', label: 'Ce que je ne fais jamais', selector: '#limites' },
-        { id: 'showreel', label: 'Showreel', selector: '#showreel' },
-        { id: 'beforeafter', label: 'Avant / Après', selector: '#beforeAfter' },
         { id: 'process', label: 'Process (Comment ça marche)', selector: '#process' },
       ];
       (function initAdminSectionToggles() {
@@ -14427,7 +14509,7 @@
           try { localStorage.setItem('michyy_doc_issuer', issuer); } catch (e) {}
           const w = window.open('', '_blank'); if (!w) { alert('Autorise les pop-ups pour générer le PDF.'); return; }
           w.document.write(`<!doctype html><meta charset="utf-8"><title>${type} ${esc(r[0])}</title><style>body{font-family:Arial,sans-serif;max-width:720px;margin:40px auto;color:#111}h1{margin:0 0 4px}table{width:100%;border-collapse:collapse;margin:24px 0}td,th{border-bottom:1px solid #ccc;padding:10px;text-align:left}.r{text-align:right}pre{white-space:pre-wrap;font:inherit;font-size:12px;color:#555}</style>
-            ${(() => { let lg = ''; try { lg = localStorage.getItem('michyy_doc_logo') || ''; } catch (e) {} return /^data:image\//.test(lg) ? `<img src="${lg}" style="max-height:64px;margin-bottom:10px">` : ''; })()}<h1>${type} n° ${esc(r[0])}</h1><p>Date : ${today}</p><pre>${esc(issuer)}</pre><p><strong>Client :</strong> ${esc(f.nom || r[5] || '')}</p>
+            <h1>${type} n° ${esc(r[0])}</h1><p>Date : ${today}</p><pre>${esc(issuer)}</pre><p><strong>Client :</strong> ${esc(f.nom || r[5] || '')}</p>
             <table><tr><th>Prestation</th><th class="r">Montant</th></tr><tr><td>${esc($('docLabel').value || f.nomCommande || 'Montage vidéo')}</td><td class="r">${amt.toFixed(2)} €</td></tr><tr><th>Total</th><th class="r">${amt.toFixed(2)} €</th></tr></table>
             <p style="font-size:12px;color:#555">${type === 'Devis' ? 'Devis valable 30 jours. Acompte de 50% à la commande.' : 'Paiement à réception.'}</p><script>onload=()=>print()<\/script>`);
           w.document.close();
@@ -14492,194 +14574,6 @@
         setTimeout(fillTpl, 0);
         if ($('docTemplate')) $('docTemplate').addEventListener('change', e => { const t = (window.__tpls || [])[e.target.value]; if (t) { $('docLabel').value = t.label; $('docAmount').value = t.amount; } });
         if ($('docTplSave')) $('docTplSave').addEventListener('click', () => { const label = $('docLabel').value.trim(), amount = parseFloat($('docAmount').value); if (!label || isNaN(amount)) return; const a = loadT(); a.push({ label, amount }); try { localStorage.setItem(tplKey, JSON.stringify(a)); } catch (e) {} fillTpl(); });
-      })();
-
-      // --- Vue « aujourd'hui », relance acompte J+3, sources, checklist de livraison ---
-      const DEPOSIT_REMINDER_DAYS = 3; // 🔧 délai avant relance d'un acompte manquant (⚠️ tes CGV annulent à 24h : à harmoniser)
-      const DELIVERY_ITEMS = ['Export final vérifié', 'Sous-titres relus', 'Miniature prête', 'Musique libre de droits', 'Lien de livraison envoyé', 'Solde encaissé'];
-      function depositDue(r) {
-        if (!/attente de l.acompte/i.test(r[1] || '') || !r[3]) return false;
-        const age = (Date.now() - new Date(r[3]).getTime()) / 864e5; if (isNaN(age) || age < DEPOSIT_REMINDER_DAYS) return false;
-        let d = {}; try { d = JSON.parse(localStorage.getItem('michyy_deposit_reminded') || '{}'); } catch (e) {}
-        return !d[r[0]] || (Date.now() - d[r[0]]) / 864e5 >= DEPOSIT_REMINDER_DAYS;
-      }
-      function renderTodayCard(rows) {
-        const host = document.getElementById('adminTodayBody'); if (!host) return;
-        const w = computeNext7DaysWorkload(rows), late = rows.filter(r => orderLateDays(r) > 0), dep = rows.filter(depositDue);
-        const unpaid = rows.filter(r => statusCategory(r[1] || '') === 'delivered' && (r[7] || '').trim().toLowerCase() !== 'oui');
-        const dorm = buildClientGroups(rows).filter(g => g.isDormant).length, ids = os => os.map(r => r[0]).join(', ') || '—';
-        const line = (t, n, extra) => `<div class="price-log-row"><span>${t}</span><span><strong>${n}</strong>${extra ? ' · ' + extra : ''}</span></div>`;
-        host.innerHTML = line('📦 À livrer aujourd\'hui', w.days[0].orders.length, ids(w.days[0].orders)) + line('⏰ Demain', w.days[1].orders.length, ids(w.days[1].orders)) + line('⚠️ En retard', late.length, ids(late)) +
-          line('💸 Soldes à relancer', unpaid.length, ids(unpaid)) + line('💤 Clients dormants', dorm, '') +
-          `<strong style="font-size:12px;display:block;margin-top:6px;">💳 Acompte manquant depuis ≥ ${DEPOSIT_REMINDER_DAYS} j (${dep.length})</strong>` +
-          (dep.map(r => `<div class="price-log-row"><span>${r[0]} · ${parseNoteQuickFields(r[2] || '').nom || ''}</span><button type="button" class="filter-reset-btn" data-dep="${r[0]}">✉️ Copier la relance</button></div>`).join('') || '<p class="info-text" style="font-size:12px;">Rien à relancer 🎉</p>');
-      }
-      function renderSourcesAndChecklist(rows) {
-        const $ = id => document.getElementById(id), amount = r => parseBudgetAmount(parseNoteQuickFields(r[2] || '')) || 0;
-        if ($('adminSources')) {
-          const by = {}; rows.filter(r => statusCategory(r[1] || '') !== 'cancelled').forEach(r => { const m = /📣\s*([^·]+?)\s*(?:·|$)/.exec(r[2] || ''), k = m ? m[1] : 'Non renseignée'; (by[k] = by[k] || { n: 0, ca: 0 }); by[k].n++; by[k].ca += amount(r); });
-          $('adminSources').innerHTML = '<table class="admin-mini-table"><tr><th>Source</th><th>Cmd</th><th>CA</th></tr>' + Object.entries(by).sort((a, b) => b[1].n - a[1].n).map(([k, o]) => `<tr><td>${k}</td><td>${o.n}</td><td>${Math.round(o.ca)} €</td></tr>`).join('') + '</table>';
-        }
-        const sel = $('dlOrder'); if (!sel || sel.contains(document.activeElement)) return;
-        const cur = sel.value; sel.innerHTML = rows.filter(r => statusCategory(r[1] || '') !== 'cancelled').map(r => `<option value="${r[0]}">${r[0]}</option>`).join(''); if (cur) sel.value = cur; renderDeliveryChecklist();
-      }
-      function renderDeliveryChecklist() {
-        const id = document.getElementById('dlOrder').value, body = document.getElementById('dlBody'); if (!body) return;
-        let d = {}; try { d = JSON.parse(localStorage.getItem('michyy_delivery_checklist') || '{}'); } catch (e) {}
-        const st = d[id] || [], n = DELIVERY_ITEMS.filter((_, i) => st[i]).length;
-        body.innerHTML = id ? `<p class="admin-promo-usage"><strong>${n}/${DELIVERY_ITEMS.length}</strong> prêt${n === DELIVERY_ITEMS.length ? ' ✅ tu peux livrer' : ''}</p>` + DELIVERY_ITEMS.map((t, i) => `<label style="display:block;font-size:12px;"><input type="checkbox" data-di="${i}"${st[i] ? ' checked' : ''}> ${t}</label>`).join('') : '';
-      }
-      (function initExtras7() {
-        const $ = id => document.getElementById(id), real = () => lastAdminOrders.filter(r => !String(r[1] || '').includes('Test (pas'));
-        if ($('adminTodayCard')) $('adminTodayCard').addEventListener('click', e => {
-          const b = e.target.closest('[data-dep]'); if (!b) return; const r = real().find(x => x[0] === b.dataset.dep); if (!r) return;
-          const nom = parseNoteQuickFields(r[2] || '').nom || '';
-          const msg = `Salut ${nom} ! Je n'ai pas encore reçu l'acompte pour ta commande ${r[0]} 🙂 Dis-moi si tu as besoin du lien de paiement : je lance le montage dès réception.`;
-          if (navigator.clipboard) navigator.clipboard.writeText(msg);
-          let d = {}; try { d = JSON.parse(localStorage.getItem('michyy_deposit_reminded') || '{}'); d[r[0]] = Date.now(); localStorage.setItem('michyy_deposit_reminded', JSON.stringify(d)); } catch (x) {}
-          b.textContent = '✅ Copié'; setTimeout(() => renderTodayCard(real()), 900);
-        });
-        if ($('dlOrder')) $('dlOrder').addEventListener('change', renderDeliveryChecklist);
-        if ($('dlBody')) $('dlBody').addEventListener('change', e => { const c = e.target.closest('[data-di]'); if (!c) return; const id = $('dlOrder').value; let d = {}; try { d = JSON.parse(localStorage.getItem('michyy_delivery_checklist') || '{}'); } catch (x) {} d[id] = d[id] || []; d[id][+c.dataset.di] = c.checked ? 1 : 0; try { localStorage.setItem('michyy_delivery_checklist', JSON.stringify(d)); } catch (x) {} renderDeliveryChecklist(); });
-      })();
-
-      // --- Rapport mensuel PDF, export agenda, radar clients, logo des devis ---
-      function deliveryList(rows) {
-        return rows.filter(r => !['delivered', 'cancelled'].includes(statusCategory(r[1] || ''))).map(r => ({ r, d: /^\d{4}-\d{2}-\d{2}/.test(r[8] || '') ? r[8].slice(0, 10) : parseNoteQuickFields(r[2] || '').dateVoulue })).filter(x => x.d).sort((a, b) => a.d.localeCompare(b.d));
-      }
-      const nextDay = d => { const t = new Date(d + 'T00:00:00'); t.setDate(t.getDate() + 1); return t.getFullYear() + String(t.getMonth() + 1).padStart(2, '0') + String(t.getDate()).padStart(2, '0'); };
-      function renderGcalList(rows) {
-        const host = document.getElementById('gcalList'); if (!host) return;
-        host.innerHTML = deliveryList(rows).slice(0, 8).map(x => { const f = parseNoteQuickFields(x.r[2] || ''), title = encodeURIComponent(`📦 Livraison ${x.r[0]} — ${f.nom || ''}`); return `<div class="price-log-row"><span>${x.d} · ${x.r[0]}</span><a href="https://calendar.google.com/calendar/render?action=TEMPLATE&text=${title}&dates=${x.d.replace(/-/g, '')}/${nextDay(x.d)}" target="_blank" rel="noopener">＋ Google Agenda</a></div>`; }).join('') || '<p class="info-text" style="font-size:12px;">Aucune livraison datée à venir.</p>';
-      }
-      function renderRadar(rows) {
-        const host = document.getElementById('adminRadar'); if (!host) return;
-        const pts = buildClientGroups(rows).map(g => {
-          const ds = g.orders.filter(r => statusCategory(r[1] || '') !== 'cancelled').map(r => r[3] ? new Date(r[3]).getTime() : 0).filter(t => t > 0).sort((a, b) => a - b);
-          if (!ds.length) return null; const since = (Date.now() - ds[ds.length - 1]) / 864e5, avg = ds.length > 1 ? Math.max(1, (ds[ds.length - 1] - ds[0]) / 864e5 / (ds.length - 1)) : null, ratio = avg ? since / avg : null;
-          return { n: g.displayName, tot: g.totalSpent, since, c: ds.length, ratio };
-        }).filter(Boolean);
-        if (!pts.length) { host.innerHTML = '<p class="info-text" style="font-size:12px;">Pas encore de clients.</p>'; return; }
-        const med = pts.map(p => p.tot).sort((a, b) => a - b)[Math.floor(pts.length / 2)];
-        pts.forEach(p => { p.seg = (p.ratio != null && p.ratio >= 1) || p.since > 90 ? 'risk' : p.tot >= med && p.c >= 2 ? 'top' : 'ok'; });
-        const maxX = Math.max(60, ...pts.map(p => p.since)), maxY = Math.max(50, ...pts.map(p => p.tot)), col = { risk: '#ff6b6b', top: '#3ddc84', ok: '#7f8bfa' };
-        const dots = pts.map(p => `<circle cx="${30 + p.since / maxX * 260}" cy="${160 - p.tot / maxY * 140}" r="${4 + Math.min(6, p.c)}" fill="${col[p.seg]}" fill-opacity=".7"><title>${p.n} · ${Math.round(p.tot)} € · ${p.c} cmd · dernière il y a ${Math.round(p.since)} j</title></circle>`).join('');
-        const risk = pts.filter(p => p.seg === 'risk').sort((a, b) => b.tot - a.tot).slice(0, 5);
-        host.innerHTML = `<svg viewBox="0 0 300 180" style="width:100%;max-width:420px;"><line x1="30" y1="160" x2="295" y2="160" stroke="#8886"/><line x1="30" y1="10" x2="30" y2="160" stroke="#8886"/>${dots}<text x="160" y="176" font-size="9" text-anchor="middle" fill="#888">jours depuis la dernière commande →</text><text x="4" y="14" font-size="9" fill="#888">€ ↑</text></svg><p class="admin-promo-usage">🟢 fort potentiel · 🟣 actif · 🔴 à relancer (rythme dépassé ou &gt; 90 j)</p>` + (risk.length ? '<strong style="font-size:12px;">À relancer en priorité</strong>' + risk.map(p => `<div class="price-log-row"><span>${p.n}</span><span>${Math.round(p.tot)} € · ${Math.round(p.since)} j</span></div>`).join('') : '');
-      }
-      (function initExtras9() {
-        const $ = id => document.getElementById(id), real = () => lastAdminOrders.filter(r => !String(r[1] || '').includes('Test (pas'));
-        if ($('reportMonth')) $('reportMonth').value = new Date().toISOString().slice(0, 7);
-        if ($('reportBtn')) $('reportBtn').addEventListener('click', () => {
-          const ym = $('reportMonth').value, amt = r => parseBudgetAmount(parseNoteQuickFields(r[2] || '')) || 0, esc = t => String(t == null ? '' : t).replace(/[&<>]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
-          const rows = real().filter(r => { const d = r[3] ? new Date(r[3]) : null; return d && !isNaN(d) && d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') === ym; });
-          const live = rows.filter(r => statusCategory(r[1] || '') !== 'cancelled'), tot = live.reduce((t, r) => t + amt(r), 0);
-          const grp = fn => { const o = {}; live.forEach(r => { const k = fn(r) || 'Non renseigné'; o[k] = o[k] || { n: 0, ca: 0 }; o[k].n++; o[k].ca += amt(r); }); return Object.entries(o).sort((a, b) => b[1].ca - a[1].ca); };
-          const table = (t, list) => `<h3>${t}</h3><table><tr><th></th><th>Cmd</th><th>CA</th></tr>${list.slice(0, 8).map(([k, v]) => `<tr><td>${esc(k)}</td><td>${v.n}</td><td>${Math.round(v.ca)} €</td></tr>`).join('') || '<tr><td colspan="3">—</td></tr>'}</table>`;
-          const w = window.open('', '_blank'); if (!w) { alert('Autorise les pop-ups pour générer le PDF.'); return; }
-          w.document.write(`<!doctype html><meta charset="utf-8"><title>Rapport ${ym}</title><style>body{font-family:Arial,sans-serif;max-width:760px;margin:30px auto;color:#111}table{width:100%;border-collapse:collapse;margin-bottom:14px}td,th{border-bottom:1px solid #ccc;padding:6px;text-align:left}.k{display:flex;gap:12px}.k div{flex:1;border:1px solid #ccc;border-radius:8px;padding:10px}.k b{font-size:22px;display:block}</style><h1>Rapport mensuel — ${ym}</h1><div class="k"><div><b>${Math.round(tot)} €</b>CA estimé</div><div><b>${live.length}</b>commandes</div><div><b>${live.filter(r => statusCategory(r[1] || '') === 'delivered').length}</b>livrées</div><div><b>${rows.length - live.length}</b>annulées</div><div><b>${live.length ? Math.round(tot / live.length) : 0} €</b>panier moyen</div></div>${table('Par format', grp(r => parseNoteQuickFields(r[2] || '').format))}${table('Par source', grp(r => (/📣\s*([^·]+?)\s*(?:·|$)/.exec(r[2] || '') || [])[1]))}${table('Top clients', grp(r => parseNoteQuickFields(r[2] || '').nom))}${table('Codes promo', grp(r => parseNoteQuickFields(r[2] || '').promoCode).filter(([k]) => k !== 'Non renseigné'))}<p style="font-size:11px;color:#666">Montants estimés d'après les budgets déclarés.</p><script>onload=()=>print()<\/script>`); w.document.close();
-        });
-        if ($('icsBtn')) $('icsBtn').addEventListener('click', () => {
-          const list = deliveryList(real()); if (!list.length) { alert('Aucune livraison datée à exporter.'); return; }
-          const stamp = new Date().toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
-          const ev = list.map(x => { const f = parseNoteQuickFields(x.r[2] || ''); return ['BEGIN:VEVENT', `UID:${x.r[0]}@michyy`, `DTSTAMP:${stamp}`, `DTSTART;VALUE=DATE:${x.d.replace(/-/g, '')}`, `DTEND;VALUE=DATE:${nextDay(x.d)}`, `SUMMARY:📦 Livraison ${x.r[0]} — ${(f.nom || '').replace(/[,;\n]/g, ' ')}`, 'END:VEVENT'].join('\r\n'); });
-          const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['BEGIN:VCALENDAR\r\nVERSION:2.0\r\nPRODID:-//Michyy//Livraisons//FR\r\n' + ev.join('\r\n') + '\r\nEND:VCALENDAR'], { type: 'text/calendar' })); a.download = 'livraisons-michyy.ics'; a.click();
-        });
-        if ($('docLogo')) {
-          $('docLogo').addEventListener('change', e => { const f = e.target.files[0]; if (!f) return; if (f.size > 300 * 1024) { $('docLogoStatus').textContent = '⚠️ Trop lourd (max 300 Ko).'; return; } const rd = new FileReader(); rd.onload = () => { try { localStorage.setItem('michyy_doc_logo', rd.result); $('docLogoStatus').textContent = '✅ Logo enregistré'; } catch (x) { $('docLogoStatus').textContent = '⚠️ Stockage plein.'; } }; rd.readAsDataURL(f); });
-          $('docLogoClear').addEventListener('click', () => { try { localStorage.removeItem('michyy_doc_logo'); } catch (x) {} $('docLogoStatus').textContent = 'Logo retiré'; });
-          try { if (localStorage.getItem('michyy_doc_logo')) $('docLogoStatus').textContent = '✅ Logo enregistré'; } catch (x) {}
-        }
-      })();
-
-      // --- Objectifs par type de client, bibliothèque de messages, stats mini-outils ---
-      const MSG_TEMPLATES = [
-        { n: 'Acompte manquant', t: "Salut {nom} ! Je n'ai pas encore reçu l'acompte pour ta commande {id} 🙂 Dis-moi si tu as besoin du lien de paiement : je lance le montage dès réception." },
-        { n: 'Livraison', t: 'Salut {nom} ! Ta vidéo ({id}) est prête 🎉 {lien} Dis-moi ce que tu en penses, il te reste des retouches incluses.' },
-        { n: 'Solde à régler', t: 'Salut {nom} ! Ta vidéo ({id}) est livrée. Il reste le solde de {montant} € — dis-moi si tu as besoin du lien de paiement.' },
-        { n: 'Demande d\'avis', t: 'Salut {nom} ! Content que ta vidéo te plaise 🙌 Si tu as 30 secondes, un petit avis m\'aiderait beaucoup.' },
-        { n: 'Client dormant', t: 'Salut {nom} ! Ça fait un moment 👋 Tu as de nouveaux contenus à monter ? Je peux te faire un tarif sur ta prochaine commande.' },
-        { n: 'Retard (excuses)', t: 'Salut {nom}, je suis un peu en retard sur ta commande {id}, désolé ! Je te la livre au plus vite et je te tiens au courant.' },
-        { n: 'Merci + parrainage', t: 'Merci {nom} ! Si tu connais quelqu\'un qui cherche un monteur, PARRAIN10 lui donne -10% et tu gagnes une remise sur ta prochaine commande.' }
-      ];
-      function renderTypeGoals(rows) {
-        const host = document.getElementById('adminTypeGoals'); if (!host || host.contains(document.activeElement)) return;
-        let g = {}; try { g = JSON.parse(localStorage.getItem('michyy_type_goals') || '{}'); } catch (e) {}
-        const now = new Date(), by = {};
-        rows.filter(r => statusCategory(r[1] || '') !== 'cancelled' && r[3]).forEach(r => { const d = new Date(r[3]); if (d.getFullYear() !== now.getFullYear() || d.getMonth() !== now.getMonth()) return; const t = parseNoteQuickFields(r[2] || '').typeClient || 'Particulier'; by[t] = (by[t] || 0) + (parseBudgetAmount(parseNoteQuickFields(r[2] || '')) || 0); });
-        const types = Array.from(new Set(Object.keys(by).concat(Object.keys(g), ['Particulier', 'Créateur', 'Entreprise'])));
-        host.innerHTML = types.map(t => { const ca = by[t] || 0, goal = +g[t] || 0, pct = goal ? Math.min(100, ca / goal * 100) : 0; return `<div style="margin-bottom:8px;"><div class="price-log-row" style="border:0;"><span>${t} : <strong>${Math.round(ca)} €</strong></span><input type="number" data-tg="${t}" value="${goal || ''}" placeholder="Objectif €" style="width:100px;"></div><div class="ca-gauge-track"><div class="ca-gauge-fill" style="width:${pct}%"></div></div></div>`; }).join('');
-      }
-      function customTpls() { try { return JSON.parse(localStorage.getItem('michyy_msg_templates') || '[]'); } catch (e) { return []; } }
-      function fillMsg() {
-        const i = +document.getElementById('msgTpl').value, all = MSG_TEMPLATES.concat(customTpls()), t = all[i]; if (!t) return;
-        const r = lastAdminOrders.find(x => x[0] === document.getElementById('msgOrder').value), f = r ? parseNoteQuickFields(r[2] || '') : {};
-        document.getElementById('msgText').value = t.t.replace(/\{nom\}/g, f.nom || '…').replace(/\{id\}/g, r ? r[0] : '…').replace(/\{montant\}/g, r ? (parseBudgetAmount(f) || '…') : '…').replace(/\{lien\}/g, r && r[6] ? r[6] : '[lien]');
-      }
-      function renderMsgLib(rows) {
-        const st = document.getElementById('msgTpl'), so = document.getElementById('msgOrder'); if (!st || st.contains(document.activeElement) || so.contains(document.activeElement)) return;
-        const cv = st.value, co = so.value;
-        st.innerHTML = MSG_TEMPLATES.concat(customTpls()).map((t, i) => `<option value="${i}">${t.n}${i >= MSG_TEMPLATES.length ? ' ★' : ''}</option>`).join('');
-        so.innerHTML = '<option value="">(sans commande)</option>' + rows.filter(r => statusCategory(r[1] || '') !== 'cancelled').map(r => `<option value="${r[0]}">${r[0]}</option>`).join('');
-        if (cv) st.value = cv; if (co) so.value = co; if (!document.getElementById('msgText').value) fillMsg();
-      }
-      (function initExtras8() {
-        const $ = id => document.getElementById(id);
-        if ($('adminTypeGoals')) $('adminTypeGoals').addEventListener('change', e => { const i = e.target.closest('[data-tg]'); if (!i) return; let g = {}; try { g = JSON.parse(localStorage.getItem('michyy_type_goals') || '{}'); } catch (x) {} g[i.dataset.tg] = i.value; try { localStorage.setItem('michyy_type_goals', JSON.stringify(g)); } catch (x) {} document.activeElement.blur(); renderTypeGoals(lastAdminOrders.filter(r => !String(r[1] || '').includes('Test (pas'))); });
-        if ($('msgTpl')) { $('msgTpl').addEventListener('change', fillMsg); $('msgOrder').addEventListener('change', fillMsg); }
-        if ($('msgCopy')) $('msgCopy').addEventListener('click', () => { if (navigator.clipboard) navigator.clipboard.writeText($('msgText').value); });
-        if ($('msgSave')) $('msgSave').addEventListener('click', () => { const t = $('msgText').value.trim(), n = prompt('Nom du modèle ?'); if (!t || !n) return; const a = customTpls(); a.push({ n, t }); try { localStorage.setItem('michyy_msg_templates', JSON.stringify(a)); } catch (x) {} $('msgTpl').innerHTML = ''; renderMsgLib(lastAdminOrders); });
-        if ($('msgDel')) $('msgDel').addEventListener('click', () => { const i = +$('msgTpl').value - MSG_TEMPLATES.length; if (i < 0) { alert('Les modèles de base ne se suppriment pas.'); return; } const a = customTpls(); a.splice(i, 1); try { localStorage.setItem('michyy_msg_templates', JSON.stringify(a)); } catch (x) {} renderMsgLib(lastAdminOrders); });
-        if ($('toolStatsBtn')) $('toolStatsBtn').addEventListener('click', async () => {
-          const out = $('toolStatsBody'); out.textContent = 'Chargement…';
-          try {
-            const d = await (await fetch(`${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=toolStats`)).json();
-            if (!d || !d.success || !d.tools) throw new Error('unsupported');
-            const rows = Object.entries(d.tools).sort((a, b) => b[1] - a[1]), max = rows.length ? rows[0][1] : 1;
-            out.innerHTML = '<table class="admin-mini-table"><tr><th>Outil</th><th>Usages</th><th></th></tr>' + rows.map(([k, v]) => `<tr><td>${k}</td><td>${v}</td><td>${v < max * 0.1 ? '🔻 peu utilisé' : ''}</td></tr>`).join('') + '</table>';
-          } catch (e) { out.textContent = "⚠️ Ton Apps Script ne répond pas à l'action « toolStats ». Ajoute le snippet du fichier apps-script-michyy.gs puis redéploie."; }
-        });
-      })();
-
-      // --- Relance groupée, churn, historique Prix libre ---
-      function renderPrixLibre(rows) {
-        const host = document.getElementById('prixLibreBody'); if (!host || host.contains(document.activeElement)) return;
-        let dec = {}; try { dec = JSON.parse(localStorage.getItem('michyy_prixlibre') || '{}'); } catch (e) {}
-        const list = rows.map(r => { const m = String(r[2] || '').match(/Prix libre\s*[—–-]\s*([\d.,]+)\s*€/); if (!m) return null; const cat = statusCategory(r[1] || ''); return { id: r[0], amt: parseFloat(m[1].replace(',', '.')), v: dec[r[0]] || (cat === 'delivered' || cat === 'inProgress' ? 'ok' : cat === 'cancelled' ? 'no' : '') }; }).filter(x => x && !isNaN(x.amt));
-        if (!list.length) { host.innerHTML = '<p class="info-text" style="font-size:12px;">Aucune commande « Prix libre » pour l\'instant.</p>'; return; }
-        const ok = list.filter(x => x.v === 'ok').map(x => x.amt), no = list.filter(x => x.v === 'no').map(x => x.amt);
-        const minOk = ok.length ? Math.min(...ok) : null, maxNo = no.length ? Math.max(...no) : null;
-        let sum = ok.length + no.length ? `Acceptés : ${ok.length} · Refusés : ${no.length} (${Math.round(ok.length / (ok.length + no.length) * 100)}% d'acceptation)` : 'Aucune décision encore.';
-        if (minOk != null) sum += ` · le plus bas accepté : ${minOk} €`; if (maxNo != null) sum += ` · le plus haut refusé : ${maxNo} €`;
-        if (minOk != null && maxNo != null) sum += maxNo < minOk ? ` → seuil conseillé ≈ ${Math.round((minOk + maxNo) / 2)} €` : ' → seuil flou (des refus au-dessus de certains acceptés)';
-        host.innerHTML = `<p class="admin-promo-usage"><strong>${sum}</strong></p>` + list.sort((a, b) => b.amt - a.amt).map(x => `<div class="price-log-row"><span>${x.id} · ${x.amt} €</span><select data-pl="${x.id}"><option value="">—</option><option value="ok"${x.v === 'ok' ? ' selected' : ''}>✅ Accepté</option><option value="no"${x.v === 'no' ? ' selected' : ''}>❌ Refusé</option></select></div>`).join('') + '<p class="info-text" style="font-size:11px;">Décision déduite du statut de la commande (en cours/livrée = accepté, annulée = refusé), modifiable ici.</p>';
-      }
-      (function initExtras6() {
-        const $ = id => document.getElementById(id);
-        const real = () => lastAdminOrders.filter(r => !String(r[1] || '').includes('Test (pas'));
-        if ($('prixLibreBody')) $('prixLibreBody').addEventListener('change', e => { const sl = e.target.closest('[data-pl]'); if (!sl) return; let d = {}; try { d = JSON.parse(localStorage.getItem('michyy_prixlibre') || '{}'); } catch (x) {} if (sl.value) d[sl.dataset.pl] = sl.value; else delete d[sl.dataset.pl]; try { localStorage.setItem('michyy_prixlibre', JSON.stringify(d)); } catch (x) {} document.activeElement.blur(); renderPrixLibre(real()); });
-        if ($('relanceAllBtn')) $('relanceAllBtn').addEventListener('click', () => {
-          const unpaid = real().filter(r => statusCategory(r[1] || '') === 'delivered' && (r[7] || '').trim().toLowerCase() !== 'oui');
-          if (!unpaid.length) { $('relanceMsg').value = 'Aucun solde en attente 🎉'; return; }
-          $('relanceMsg').rows = 12;
-          $('relanceMsg').value = unpaid.map(r => { const f = parseNoteQuickFields(r[2] || ''); return `➡️ ${f.nom || r[5] || ''} (${r[0]})\nSalut ${f.nom || ''} ! Ta vidéo (${r[0]}) est livrée 🎉 Il reste le solde de ${parseBudgetAmount(f) || '…'} € — dis-moi si tu as besoin du lien de paiement.`; }).join('\n\n———\n\n');
-          $('relanceAllBtn').textContent = `✉️ ${unpaid.length} relance(s) générée(s) — copie-les ci-dessus`;
-        });
-        if ($('adminExportChurnCsvBtn')) $('adminExportChurnCsvBtn').addEventListener('click', () => {
-          const st = $('adminChurnStatus'), now = Date.now(), esc = v => `"${String(v == null ? '' : v).replace(/"/g, '""')}"`;
-          const out = [];
-          buildClientGroups(real()).forEach(g => {
-            const ds = g.orders.filter(r => statusCategory(r[1] || '') !== 'cancelled').map(r => r[3] ? new Date(r[3]).getTime() : 0).filter(t => t > 0).sort((a, b) => a - b);
-            if (ds.length < 2) return;
-            const avg = Math.max(1, (ds[ds.length - 1] - ds[0]) / 864e5 / (ds.length - 1)), since = (now - ds[ds.length - 1]) / 864e5, ratio = since / avg;
-            out.push({ n: g.displayName, c: ds.length, avg, since, ratio, risk: ratio >= 2 ? 'élevé' : ratio >= 1.3 ? 'moyen' : ratio >= 1 ? 'à surveiller' : 'ok', tot: g.totalSpent, last: new Date(ds[ds.length - 1]).toISOString().slice(0, 10) });
-          });
-          if (!out.length) { st.textContent = '⚠️ Pas assez d\'historique : il faut des clients avec au moins 2 commandes.'; return; }
-          out.sort((a, b) => b.ratio - a.ratio);
-          const lines = ['client;nb_commandes;intervalle_moyen_jours;jours_depuis_derniere;ratio_retard;risque;total_depense_eur;derniere_commande'].concat(out.map(o => [esc(o.n), o.c, o.avg.toFixed(0), o.since.toFixed(0), o.ratio.toFixed(2), o.risk, o.tot.toFixed(2), o.last].join(';')));
-          const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8;' })); a.download = `clients-risque-churn-${new Date().toISOString().slice(0, 10)}.csv`; a.click();
-          st.textContent = `✅ ${out.length} client(s) analysé(s) — ${out.filter(o => o.ratio >= 1).length} en retard sur leur rythme habituel (ratio ≥ 1).`;
-        });
       })();
 
       // --- Calendrier mensuel des livraisons ---
@@ -14783,7 +14677,6 @@
       // --- Bloc codes promo : pré-remplit le champ du formulaire et y amène le visiteur ---
       document.querySelectorAll('[data-use-promo]').forEach(btn => btn.addEventListener('click', () => {
         const input = document.getElementById('promoCodeInput'), tog = document.getElementById('promoCodeToggle');
-        if (window.goToReserveStep) window.goToReserveStep(2);
         if (tog && input && input.offsetParent === null) tog.click();
         if (input) { input.value = btn.dataset.usePromo; input.dispatchEvent(new Event('input', { bubbles: true })); }
         const r = document.getElementById('reservation'); if (r) r.scrollIntoView({ behavior: 'smooth' });
@@ -14866,18 +14759,19 @@
         const host = document.getElementById('adminSectionIdeas');
         if (!host) return;
         const IDEAS = [
-          { t: 'add', id: 'a-admin-chrono', label: 'Admin : chrono de temps passé par commande (start/stop) → taux horaire automatique', why: 'Fini la saisie manuelle des heures.' },
-          { t: 'add', id: 'a-admin-score-client', label: 'Admin : score de fidélité sur la fiche client', why: 'Repère vite tes meilleurs clients.' },
-          { t: 'add', id: 'a-admin-mobile', label: 'Admin : vue mobile compacte des cartes commande', why: 'Plus rapide depuis le téléphone.' },
-          { t: 'add', id: 'a-admin-alerte-pic-mail', label: 'Admin : alerte par e-mail quand un pic de charge est prévu', why: 'Tu anticipes au lieu de subir.' },
-          { t: 'add', id: 'a-site-video-presentation', label: 'Site : vidéo de présentation dans « À propos »', why: 'Humanise ton offre.' },
-          { t: 'add', id: 'a-site-calc-abo', label: 'Site : « combien j’économise avec l’abonnement ? » (curseur)', why: 'Pousse vers les abonnements.' },
-          { t: 'add', id: 'a-site-tarifs-pdf', label: 'Site : bouton « télécharger la grille de tarifs » (PDF)', why: 'Pour les marques et agences.' },
-          { t: 'add', id: 'a-site-zone-clients', label: 'Site : espace « mes commandes » avec historique et re-commande en 1 clic', why: 'Fidélise.' },
-          { t: 'remove', id: 'r-galerie-styles', label: 'Retirer la galerie de styles si elle n’est pas utilisée', why: 'Allège la page.' },
-          { t: 'remove', id: 'r-mini-calc', label: 'Retirer le mini-calculateur de prix (doublon avec estimateur, quiz et tableau comparatif)', why: 'Quatre outils proches = confusion.' },
-          { t: 'remove', id: 'r-faq-courtes', label: 'Regrouper les questions FAQ de 1-2 lignes en une seule « Réponses rapides »', why: 'Moins d’accordéons à ouvrir.' },
-          { t: 'remove', id: 'r-etude-cas', label: 'Retirer l’étude de cas tant que ses chiffres sont des exemples', why: 'Une fausse preuve sociale nuit plus qu’elle n’aide.' }
+          { t: 'add', id: 'a-avant-apres', label: 'Slider Avant / Après', why: 'Montre la valeur du montage en 2 secondes.' },
+          { t: 'add', id: 'a-places', label: 'Bandeau « X places restantes ce mois »', why: 'Urgence alimentée par ta charge réelle.' },
+          { t: 'add', id: 'a-showreel', label: 'Showreel vidéo en haut de page', why: 'Premier contact visuel avant le portfolio.' },
+          { t: 'add', id: 'a-formulaire-etapes', label: 'Formulaire de réservation en 3 étapes', why: 'Moins intimidant, meilleur taux de complétion.' },
+          { t: 'add', id: 'a-admin-relance-auto', label: 'Admin : relance auto planifiée (rappel J+3 si pas d’acompte)', why: 'Moins de commandes qui s’éteignent.' },
+          { t: 'add', id: 'a-admin-stats-sources', label: 'Admin : sources des commandes (TikTok, Discord, bouche-à-oreille)', why: 'Sait où investir ton énergie.' },
+          { t: 'add', id: 'a-admin-modeles-reponse', label: 'Admin : bibliothèque de réponses classées par situation', why: 'Réponses cohérentes en 1 clic.' },
+          { t: 'add', id: 'a-admin-checklist-livraison', label: 'Admin : checklist de livraison par commande (export, sous-titres, miniature…)', why: 'Zéro oubli avant d’envoyer.' },
+          { t: 'add', id: 'a-site-offre-limitee', label: 'Site : offre limitée dans le temps avec compte à rebours', why: 'Réutilise ton bandeau promo saisonnier.' },
+          { t: 'add', id: 'a-site-avis-google', label: 'Site : bloc « avis vérifiés » avec captures/liens', why: 'Preuve sociale plus crédible.' },
+          { t: 'remove', id: 'r-hero-doublons', label: 'Alléger le hero (garder badge dispo + 2 boutons, retirer le reste)', why: 'Un message principal = plus de clics.' },
+          { t: 'remove', id: 'r-faq-restantes', label: 'Fusionner faq-delais / faq-revisions dans les CGV (liens vers la CGV)', why: 'Toujours des doublons avec les CGV.' },
+          { t: 'remove', id: 'r-outils-peu-utilises', label: 'Retirer les mini-outils peu utilisés (voir stats d’usage des outils)', why: 'trackTool te dit lesquels ne servent à rien.' }
         ];
         const KEY = 'michyy_section_wishlist';
         const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return {}; } };
@@ -16244,7 +16138,31 @@
           adminClientsList.innerHTML = '<p class="info-text">Aucun client identifiable pour l\'instant (le nom ou le contact renseigné dans la note sert à regrouper les commandes).</p>';
           return;
         }
+        // 🆕 Radar de clients : 4 axes normalisés relativement aux AUTRES clients affichés (pas une
+        // échelle absolue) — Fidélité (nb commandes), Valeur (dépensé), Récence (inverse des jours
+        // depuis la dernière commande, sur l'échelle du seuil dormant), Fiabilité (pénalisée par un
+        // litige passé ou beaucoup de révisions). Purement visuel, aucune nouvelle donnée stockée.
+        const maxCount = Math.max(1, ...groups.map(g => g.count));
+        const maxSpent = Math.max(1, ...groups.map(g => g.totalSpent));
+        function clientRadarScores(g) {
+          const fidelite = g.count / maxCount;
+          const valeur = g.totalSpent / maxSpent;
+          const recence = g.daysSinceLastOrder === null ? 0.5 : Math.max(0, 1 - g.daysSinceLastOrder / DORMANT_CLIENT_DAYS);
+          const fiabilite = g.reliability.hadLitige ? 0.2 : Math.max(0.3, 1 - g.reliability.totalRevisions / 10);
+          return [fidelite, valeur, recence, fiabilite];
+        }
+        function buildClientRadarSvg(scores) {
+          const cx = 36, cy = 36, maxR = 26;
+          const angles = [-90, 0, 90, 180].map(a => a * Math.PI / 180);
+          const pt = (r, i) => [cx + r * Math.cos(angles[i]), cy + r * Math.sin(angles[i])];
+          const grid = [0.33, 0.66, 1].map(f => `<polygon points="${angles.map((a, i) => pt(maxR * f, i).join(',')).join(' ')}" fill="none" stroke="var(--border-soft)" stroke-width="1"/>`).join('');
+          const axes = angles.map((a, i) => { const [x, y] = pt(maxR, i); return `<line x1="${cx}" y1="${cy}" x2="${x}" y2="${y}" stroke="var(--border-soft)" stroke-width="1"/>`; }).join('');
+          const scorePoly = scores.map((s, i) => pt(maxR * Math.max(0.06, Math.min(1, s)), i).join(',')).join(' ');
+          return `<svg width="52" height="52" viewBox="0 0 72 72" class="admin-client-radar" aria-hidden="true">${grid}${axes}<polygon points="${scorePoly}" fill="#7f8bfa4d" stroke="#7f8bfa" stroke-width="1.5"/></svg>`;
+        }
         adminClientsList.innerHTML = groups.map(g => {
+          const radarScores = clientRadarScores(g);
+          const radarTitle = `Radar (relatif aux autres clients) : Fidélité ${Math.round(radarScores[0] * 100)}% · Valeur ${Math.round(radarScores[1] * 100)}% · Récence ${Math.round(radarScores[2] * 100)}% · Fiabilité ${Math.round(radarScores[3] * 100)}%`;
           const ordersHtml = g.orders
             .slice()
             .sort((a, b) => {
@@ -16257,6 +16175,7 @@
           return `
             <div class="admin-client-card">
               <button type="button" class="admin-client-card-header" data-client-search="${escapeHtml(g.displayName)}" title="Cliquer pour retrouver ces commandes dans l'onglet Commandes">
+                <span title="${escapeHtml(radarTitle)}">${buildClientRadarSvg(radarScores)}</span>
                 <span class="admin-client-name">${escapeHtml(g.displayName)}${g.daysSinceLastOrder !== null ? ` <span class="admin-order-badge admin-order-badge-tag" title="Nombre de jours depuis la dernière commande/demande de ce client (cet appareil) — visible même sous le seuil de ${DORMANT_CLIENT_DAYS}j qui déclenche le badge ⏰ À relancer ci-dessous">📅 dernière commande il y a ${g.daysSinceLastOrder}j</span>` : ''}${g.isDormant ? ` <span class="admin-order-badge admin-order-badge-stale" title="Aucune commande active depuis ${g.daysSinceLastOrder} jours">⏰ À relancer</span>` : ''}${g.reliability.hadLitige ? ` <span class="admin-order-badge admin-order-badge-stale" title="Au moins une commande de ce client est passée par le statut ⚠️ Litige / réclamation (cet appareil)">⚠️ Litige passé</span>` : ''}${g.reliability.hadRevisionLoop ? ` <span class="admin-order-badge admin-order-badge-tag" title="Total de révisions/retouches demandées sur toutes les commandes de ce client (cet appareil) — utile pour repérer un motif récurrent avant d'ajuster la grille tarifaire">🔁 ${g.reliability.totalRevisions} révisions au total</span>` : ''}${g.reliability.avgRevisionDelayDays !== null ? ` <span class="admin-order-badge admin-order-badge-tag" title="Délai moyen entre la livraison et la 1ère demande de retouche qui suit, sur les commandes de ce client où l'historique local le permet (cet appareil) — plus c'est court, plus le client valide vite">⏱️ ${g.reliability.avgRevisionDelayDays.toFixed(1)}j délai retouche</span>` : ''}</span>
                 <span class="admin-client-stats">${g.count} commande${g.count > 1 ? 's' : ''} · ~${Math.round(g.totalSpent)}€</span>
               </button>
@@ -18169,13 +18088,6 @@
           renderAdminExtras3(realRows);
           renderAdminExtras4(realRows);
           renderAdminExtras5(realRows);
-          renderPrixLibre(realRows);
-          renderTodayCard(realRows);
-          renderSourcesAndChecklist(realRows);
-          renderTypeGoals(realRows);
-          renderMsgLib(realRows);
-          renderRadar(realRows);
-          renderGcalList(realRows);
           renderDailySummary(dataRows);
           renderAdminOrdersList(dataRows);
           renderClientsList(dataRows);
@@ -18307,16 +18219,6 @@
         const isTyping = activeTag === 'INPUT' || activeTag === 'TEXTAREA' || activeTag === 'SELECT';
         if (isTyping) return;
 
-        if (e.key === '/') { e.preventDefault(); activateAdminTab('commandes'); adminSearchInput.focus(); adminSearchInput.select(); return; }
-        if (e.key === 'n' || e.key === 'N') {
-          e.preventDefault(); activateAdminTab('stats'); activateAdminSubtab('outils');
-          const nd = document.getElementById('adminNewOrderDetails');
-          if (nd) { nd.open = true; nd.scrollIntoView({ behavior: 'smooth', block: 'center' }); const fi = nd.querySelector('input, select'); if (fi) fi.focus(); }
-          return;
-        }
-        if (e.key === 't' || e.key === 'T') { activateAdminTab('commandes'); const tc = document.getElementById('adminTodayCard'); if (tc) tc.scrollIntoView({ behavior: 'smooth', block: 'start' }); return; }
-        if (e.key === 'b' || e.key === 'B') { activateAdminTab('commandes'); const kb = document.getElementById('kanbanToggleBtn'); if (kb) kb.click(); return; }
-
         if (e.key === 'j' || e.key === 'J') {
           e.preventDefault();
           setActiveCard(activeCardIndex + 1);
@@ -18436,6 +18338,197 @@
           const monthsCount = downloadRevisionRatioCsv(lastAdminOrders);
           if (adminRevisionRatioStatus) {
             adminRevisionRatioStatus.textContent = `✅ Export généré — ${monthsCount} mois couverts, sur les ${lastAdminOrders.length} commande(s) actuellement chargée(s).`;
+          }
+        });
+      }
+
+      // --- 🆕 Logo optionnel pour les PDF (devis client + rapport mensuel) : juste stocké en
+      // local, chargé au démarrage et appliqué à chaque génération de PDF plus bas. ---
+      const ADMIN_LOGO_KEY = 'michyy_pdf_logo';
+      const adminLogoUrlInput = document.getElementById('adminLogoUrlInput');
+      const adminLogoStatus = document.getElementById('adminLogoStatus');
+      if (adminLogoUrlInput) {
+        try { adminLogoUrlInput.value = localStorage.getItem(ADMIN_LOGO_KEY) || ''; } catch (e) {}
+        adminLogoUrlInput.addEventListener('input', () => {
+          try { localStorage.setItem(ADMIN_LOGO_KEY, adminLogoUrlInput.value.trim()); } catch (e) {}
+          if (adminLogoStatus) adminLogoStatus.textContent = adminLogoUrlInput.value.trim() ? '✅ Logo enregistré, utilisé au prochain PDF généré.' : '';
+        });
+      }
+      function getStoredPdfLogo() {
+        try { return localStorage.getItem(ADMIN_LOGO_KEY) || ''; } catch (e) { return ''; }
+      }
+
+      // --- 🆕 Export calendrier (.ics) des commandes actives avec une date de livraison connue —
+      // même principe que exportAvailabilityIcs côté public (voir plus haut dans le fichier) : un
+      // événement "journée entière" par commande, généré côté client, sans flux resynchronisable.
+      // N'inclut que les commandes non annulées/expirées/test, avec une date exploitable (colonne
+      // I si redéfinie à la main, sinon "Voulu le JJ/MM/AAAA" dans la note). ---
+      const adminExportOrdersIcsBtn = document.getElementById('adminExportOrdersIcsBtn');
+      const adminOrdersIcsStatus = document.getElementById('adminOrdersIcsStatus');
+      if (adminExportOrdersIcsBtn) {
+        adminExportOrdersIcsBtn.addEventListener('click', () => {
+          const rows = lastAdminOrders.filter(r => statusCategory(r[1] || '') !== 'cancelled' && !(r[1] || '').includes('Test'));
+          const now = new Date();
+          const dtstamp = `${now.getFullYear()}${pad2(now.getMonth() + 1)}${pad2(now.getDate())}T${pad2(now.getHours())}${pad2(now.getMinutes())}${pad2(now.getSeconds())}Z`;
+          const events = [];
+          rows.forEach(r => {
+            const dateStr = /^\d{4}-\d{2}-\d{2}/.test(r[8] || '') ? r[8].slice(0, 10) : parseNoteQuickFields(r[2] || '').dateVoulue;
+            if (!dateStr) return;
+            const d = new Date(dateStr + 'T00:00:00');
+            if (isNaN(d.getTime())) return;
+            const yyyy = d.getFullYear(), mm = pad2(d.getMonth() + 1), dd = pad2(d.getDate());
+            const next = new Date(d.getTime() + 86400000);
+            const nyyyy = next.getFullYear(), nmm = pad2(next.getMonth() + 1), ndd = pad2(next.getDate());
+            const clientName = parseNoteQuickFields(r[2] || '').nom || 'Client';
+            events.push([
+              'BEGIN:VEVENT',
+              `UID:michyy-cmd-${escapeHtml(r[0])}@michyy-portfolio.pages.dev`,
+              `DTSTAMP:${dtstamp}`,
+              `DTSTART;VALUE=DATE:${yyyy}${mm}${dd}`,
+              `DTEND;VALUE=DATE:${nyyyy}${nmm}${ndd}`,
+              `SUMMARY:🎬 ${r[0]} — ${clientName} (${(r[1] || '').replace(/[,;]/g, ' ')})`,
+              `DESCRIPTION:Statut au moment de l'export : ${(r[1] || 'non précisé').replace(/[,;]/g, ' ')}`,
+              'TRANSP:TRANSPARENT',
+              'END:VEVENT'
+            ].join('\r\n'));
+          });
+          if (!events.length) {
+            if (adminOrdersIcsStatus) adminOrdersIcsStatus.textContent = '⚠️ Aucune commande active avec une date de livraison exploitable pour le moment.';
+            return;
+          }
+          const icsContent = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Michyy//Commandes//FR', 'CALSCALE:GREGORIAN', ...events, 'END:VCALENDAR'].join('\r\n');
+          const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
+          const url = URL.createObjectURL(blob);
+          const link = document.createElement('a');
+          link.href = url;
+          link.download = `michyy-commandes-${now.toISOString().slice(0, 10)}.ics`;
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          URL.revokeObjectURL(url);
+          if (adminOrdersIcsStatus) adminOrdersIcsStatus.textContent = `✅ ${events.length} commande(s) exportée(s) — importe le fichier dans Google Agenda (Paramètres → Importer et exporter).`;
+        });
+      }
+
+      // --- 🆕 Rapport mensuel PDF : réutilise loadJsPdfLib (déjà chargé à la demande pour le devis
+      // client, voir plus bas dans le fichier) et computeMonthlyRevisionStats (déjà défini plus
+      // haut pour l'export CSV équivalent) pour ne pas dupliquer de logique de calcul. ---
+      // --- 🆕 Réponses vidéo courtes aux questions FAQ : gestion admin (associer une URL vidéo à
+      // une question). getFaqVideoMap/FAQ_VIDEO_KEY sont définis plus haut, hors de ce bloc admin,
+      // pour rester lisibles aussi côté public (voir initFaqVideoAnswers). ---
+      function saveFaqVideoMap(map) {
+        try { localStorage.setItem(FAQ_VIDEO_KEY, JSON.stringify(map)); } catch (e) {}
+      }
+      (function initFaqVideoAdmin() {
+        const select = document.getElementById('faqVideoQuestionSelect');
+        const urlInput = document.getElementById('faqVideoUrlInput');
+        const saveBtn = document.getElementById('faqVideoSaveBtn');
+        const listEl = document.getElementById('faqVideoList');
+        if (!select || !urlInput || !saveBtn || !listEl) return;
+
+        // Construit la liste des questions disponibles à partir des vrais <details class="faq-item">
+        // de la page — jamais une liste codée en dur qui pourrait désynchroniser si une question
+        // est ajoutée/retirée de la FAQ plus tard.
+        const faqItems = Array.from(document.querySelectorAll('.faq-item[id]')).map(el => ({
+          id: el.id,
+          question: el.querySelector('summary')?.textContent.trim() || el.id
+        }));
+        select.innerHTML = faqItems.map(f => `<option value="${f.id}">${f.question.slice(0, 70)}</option>`).join('');
+
+        function renderList() {
+          const map = getFaqVideoMap();
+          const entries = Object.entries(map).filter(([id]) => faqItems.some(f => f.id === id));
+          listEl.innerHTML = entries.length
+            ? entries.map(([id, url]) => {
+                const q = faqItems.find(f => f.id === id);
+                return `<div class="price-log-row"><span>${(q ? q.question : id).slice(0, 50)}</span><span><button type="button" class="filter-reset-btn" data-faqvid-del="${id}">✕</button></span></div>`;
+              }).join('')
+            : '<p class="info-text" style="font-size:12px;">Aucune réponse vidéo associée pour l\'instant.</p>';
+          listEl.querySelectorAll('[data-faqvid-del]').forEach(b => {
+            b.addEventListener('click', () => {
+              const m = getFaqVideoMap();
+              delete m[b.dataset.faqvidDel];
+              saveFaqVideoMap(m);
+              renderList();
+            });
+          });
+        }
+        renderList();
+
+        saveBtn.addEventListener('click', () => {
+          const url = urlInput.value.trim();
+          if (!select.value || !url) return;
+          const m = getFaqVideoMap();
+          m[select.value] = url;
+          saveFaqVideoMap(m);
+          urlInput.value = '';
+          renderList();
+        });
+      })();
+
+      const adminMonthlyReportBtn = document.getElementById('adminMonthlyReportBtn');
+      const adminMonthlyReportStatus = document.getElementById('adminMonthlyReportStatus');
+      if (adminMonthlyReportBtn) {
+        adminMonthlyReportBtn.addEventListener('click', async () => {
+          if (!lastAdminOrders.length) {
+            if (adminMonthlyReportStatus) adminMonthlyReportStatus.textContent = '⚠️ Aucune commande chargée pour le moment.';
+            return;
+          }
+          const original = adminMonthlyReportBtn.textContent;
+          adminMonthlyReportBtn.disabled = true;
+          adminMonthlyReportBtn.textContent = '⏳ Génération...';
+          try {
+            await loadJsPdfLib();
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            const now = new Date();
+            const monthLabel = now.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+            const inMonth = lastAdminOrders.filter(r => {
+              const d = r[3] ? new Date(r[3]) : null;
+              return d && d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
+            });
+            const ca = inMonth.reduce((t, r) => t + amount(r), 0);
+            const delivered = inMonth.filter(r => (r[1] || '').includes('Livré')).length;
+            const revStats = computeMonthlyRevisionStats(lastAdminOrders);
+            const key = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
+            const monthRev = revStats.get(key) || { orders: 0, revisions: 0 };
+            const ratio = monthRev.orders ? (monthRev.revisions / monthRev.orders).toFixed(2) : '0.00';
+
+            let y = 20;
+            const logo = getStoredPdfLogo();
+            if (logo) {
+              try { doc.addImage(logo, 'PNG', 14, 10, 24, 24); y = 42; } catch (e) { /* format d'image invalide, on continue sans */ }
+            }
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(18);
+            doc.text(`Rapport mensuel — ${monthLabel}`, logo ? 44 : 14, y - (logo ? 22 : 6));
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(10);
+            doc.setTextColor(120);
+            doc.text(`Généré le ${now.toLocaleDateString('fr-FR')}`, logo ? 44 : 14, y - (logo ? 15 : 0));
+
+            const lines = [
+              ['Commandes créées ce mois', String(inMonth.length)],
+              ['Commandes livrées ce mois', String(delivered)],
+              ['CA estimé du mois', `${ca.toFixed(0)} €`],
+              ['Révisions / commande ce mois', `${ratio} (${monthRev.revisions} révision(s) sur ${monthRev.orders} commande(s))`]
+            ];
+            doc.setTextColor(20);
+            lines.forEach(([label, value]) => {
+              doc.setFont('helvetica', 'bold');
+              doc.setFontSize(11);
+              doc.text(`${label} :`, 14, y);
+              doc.setFont('helvetica', 'normal');
+              doc.text(String(value), 100, y);
+              y += 10;
+            });
+            doc.save(`rapport-michyy-${key}.pdf`);
+            if (adminMonthlyReportStatus) adminMonthlyReportStatus.textContent = '✅ Rapport généré et téléchargé.';
+          } catch (err) {
+            if (adminMonthlyReportStatus) adminMonthlyReportStatus.textContent = '⚠️ Échec de la génération, réessaie.';
+          } finally {
+            adminMonthlyReportBtn.disabled = false;
+            adminMonthlyReportBtn.textContent = original;
           }
         });
       }
@@ -20994,6 +21087,44 @@
     reseauSelect.addEventListener('change', toggleWhatsappField);
     toggleWhatsappField();
 
+    // 🆕 Champs "Autres" (précision libre) pour ambiance/objectif, lien pour la musique fournie
+    // par le client, et police d'écriture optionnelle pour les sous-titres — même principe que
+    // toggleWhatsappField ci-dessus : un champ .conditional-field caché par défaut, affiché
+    // seulement quand le choix du select le rend pertinent.
+    (function initFormExtraConditionalFields() {
+      const ambianceSelect = document.getElementById('ambianceSelect');
+      const ambianceAutreField = document.getElementById('ambianceAutreField');
+      const objectifVideoSelect = document.getElementById('objectifVideoSelect');
+      const objectifAutreField = document.getElementById('objectifAutreField');
+      const musiqueSelect = document.getElementById('musiqueSelect');
+      const musiqueLienField = document.getElementById('musiqueLienField');
+      const sousTitresSelect = document.getElementById('sousTitresSelect');
+      const policeEcritureField = document.getElementById('policeEcritureField');
+
+      function toggle(select, field, matchValue) {
+        if (!select || !field) return;
+        field.classList.toggle('is-visible', select.value === matchValue);
+      }
+      if (ambianceSelect) {
+        ambianceSelect.addEventListener('change', () => toggle(ambianceSelect, ambianceAutreField, 'Autres'));
+        toggle(ambianceSelect, ambianceAutreField, 'Autres');
+      }
+      if (objectifVideoSelect) {
+        objectifVideoSelect.addEventListener('change', () => toggle(objectifVideoSelect, objectifAutreField, 'Autres'));
+        toggle(objectifVideoSelect, objectifAutreField, 'Autres');
+      }
+      if (musiqueSelect) {
+        musiqueSelect.addEventListener('change', () => toggle(musiqueSelect, musiqueLienField, 'Je fournis la musique'));
+        toggle(musiqueSelect, musiqueLienField, 'Je fournis la musique');
+      }
+      // Police d'écriture : pertinente tant que des sous-titres sont prévus (donc pas si "Non merci").
+      if (sousTitresSelect && policeEcritureField) {
+        const togglePolice = () => policeEcritureField.classList.toggle('is-visible', sousTitresSelect.value !== 'Non merci');
+        sousTitresSelect.addEventListener('change', togglePolice);
+        togglePolice();
+      }
+    })();
+
     // Affiche une note invitant à utiliser le formulaire B2B dédié (#presse-b2b) quand "Entreprise"
     // est choisi dans "Tu réserves en tant que" — ce formulaire grand public n'a pas de champ budget
     // de campagne ni exclusivité, voir la note HTML juste au-dessus du champ.
@@ -21427,13 +21558,21 @@
           const doc = new jsPDF();
           const { lines, nom } = buildQuotePdfData();
 
+          // 🆕 Logo optionnel (réglé depuis l'admin, Stats & outils → Sauvegarde) : décale le titre
+          // vers la droite s'il est présent pour ne pas se chevaucher.
+          let logoOffset = 0;
+          try {
+            const logo = localStorage.getItem('michyy_pdf_logo') || '';
+            if (logo) { doc.addImage(logo, 'PNG', 14, 10, 24, 24); logoOffset = 30; }
+          } catch (e) { /* logo invalide ou stockage indisponible, on continue sans */ }
+
           doc.setFont('helvetica', 'bold');
           doc.setFontSize(18);
-          doc.text('Devis — Montage vidéo', 14, 20);
+          doc.text('Devis — Montage vidéo', 14 + logoOffset, 20);
           doc.setFont('helvetica', 'normal');
           doc.setFontSize(10);
           doc.setTextColor(120);
-          doc.text(`Généré le ${new Date().toLocaleDateString('fr-FR')} depuis michyy-portfolio.pages.dev`, 14, 27);
+          doc.text(`Généré le ${new Date().toLocaleDateString('fr-FR')} depuis michyy-portfolio.pages.dev`, 14 + logoOffset, 27);
 
           let y = 40;
           doc.setTextColor(20);
@@ -23866,6 +24005,22 @@
       if (isLikelySpam(reserveForm)) return;
       const data = new FormData(reserveForm);
 
+      // 🆕 Valeurs "Autres" (précision libre) pour objectif/ambiance, lien/nom pour la musique
+      // fournie par le client, et police d'écriture optionnelle pour les sous-titres — calculées
+      // une seule fois ici, réutilisées dans les 3 endroits plus bas qui affichent ces champs
+      // (aperçu avant envoi, message Discord, résumé une ligne) pour ne pas avoir à dupliquer la
+      // même logique 3 fois.
+      const objectifEffective = data.get('objectifVideo') === 'Autres'
+        ? ((data.get('objectifVideoAutre') || '').trim() || 'Autres (non précisé)')
+        : data.get('objectifVideo');
+      const ambianceEffective = data.get('ambiance') === 'Autres'
+        ? ((data.get('ambianceAutre') || '').trim() || 'Autres (non précisé)')
+        : data.get('ambiance');
+      const musiqueEffective = (data.get('musique') === 'Je fournis la musique' && (data.get('musiqueLien') || '').trim())
+        ? `${data.get('musique')} — ${(data.get('musiqueLien') || '').trim()}`
+        : data.get('musique');
+      const policeEcriture = (data.get('policeEcriture') || '').trim();
+
       if (!reserveConfirmed) {
         const isCommercialPreview = data.get('usageCommercial') === 'on';
         const isUrgentPreview = data.get('urgent') === 'on';
@@ -23889,11 +24044,12 @@
           ...(preuvePreview ? [{ icon: '💳', label: 'Preuve de paiement', value: preuvePreview }] : []),
           { icon: '📁', label: 'Lien des rushs', value: data.get('driveLink') || '⚠️ non fourni', warn: !data.get('driveLink') },
           { icon: '📝', label: 'Description', value: descriptionPreview || 'non précisé' },
-          { icon: '🎨', label: 'Ambiance recherchée', value: data.get('ambiance') || 'non précisé' },
+          { icon: '🎨', label: 'Ambiance recherchée', value: ambianceEffective || 'non précisé' },
           { icon: '💬', label: 'Sous-titres', value: data.get('sousTitresSouhaites') || 'non précisé' },
           { icon: '🎞️', label: 'Rushs', value: data.get('rushsDisponibles') || 'non précisé' },
-          ...(data.get('objectifVideo') ? [{ icon: '🎯', label: 'Objectif de la vidéo', value: data.get('objectifVideo') }] : []),
-          ...(data.get('musique') ? [{ icon: '🎵', label: 'Musique', value: data.get('musique') }] : []),
+          ...(data.get('objectifVideo') ? [{ icon: '🎯', label: 'Objectif de la vidéo', value: objectifEffective }] : []),
+          ...(data.get('musique') ? [{ icon: '🎵', label: 'Musique', value: musiqueEffective }] : []),
+          ...(policeEcriture ? [{ icon: '🔤', label: 'Police souhaitée (sous-titres)', value: policeEcriture }] : []),
           ...(data.get('lienChaine') ? [{ icon: '🔗', label: 'Chaîne / compte', value: data.get('lienChaine') }] : []),
           ...(data.get('contraintes') ? [{ icon: '🚫', label: 'À éviter / contraintes', value: data.get('contraintes') }] : []),
           ...(data.getAll('bonus').length ? [{ icon: '✨', label: 'Bonus', value: `${data.getAll('bonus').join(', ')} (+${bonusTotalFromValues(data.getAll('bonus'))}€)` }] : [])
@@ -23984,15 +24140,18 @@
         { name: "Code promo", value: promoAbuseInfo && promoAbuseInfo.abused ? `❌ ${promoCodeRaw} refusé (déjà utilisé, commande ${escapeHtml(promoAbuseInfo.previousOrderId)})` : (appliedPromo ? `🎟️ ${promoCodeRaw} (${appliedPromo.label})` : 'Aucun') },
         { name: "Budget indicatif", value: data.get('budget') || 'Non précisé' },
         { name: "Description", value: data.get('description') },
-        { name: "🎨 Ambiance recherchée", value: data.get('ambiance') || 'non précisé' },
+        { name: "🎨 Ambiance recherchée", value: ambianceEffective || 'non précisé' },
         { name: "💬 Sous-titres", value: data.get('sousTitresSouhaites') || 'non précisé' },
         { name: "🎞️ Rushs", value: data.get('rushsDisponibles') || 'non précisé' },
-        { name: "🎯 Objectif de la vidéo", value: data.get('objectifVideo') || 'non précisé' },
-        { name: "🎵 Musique", value: data.get('musique') || 'non précisé' },
+        { name: "🎯 Objectif de la vidéo", value: objectifEffective || 'non précisé' },
+        { name: "🎵 Musique", value: musiqueEffective || 'non précisé' },
         { name: "Statut", value: validityStatus }
       ];
       if (data.get('lienChaine')) {
         fields.push({ name: "🔗 Chaîne / compte", value: data.get('lienChaine') });
+      }
+      if (policeEcriture) {
+        fields.push({ name: "🔤 Police souhaitée (sous-titres)", value: policeEcriture });
       }
       if (data.get('contraintes')) {
         fields.push({ name: "🚫 À éviter / contraintes", value: data.get('contraintes') });
@@ -24082,7 +24241,7 @@
         syncOrderToAdminSheet(
           orderId,
           '🟠 Envoyée, en attente de réponse',
-          `${data.get('nom') || 'non précisé'} (${data.get('typeClient') || 'Particulier'}) · 🎬 ${data.get('nomCommande') || 'non précisé'} · 🎥 ${formatBreakdown(data)} · 💶 ${data.get('budget') || 'non précisé'}${isUrgent ? ' · ⚡ Urgent' : ''}${data.get('dateLivraisonSouhaitee') ? ' · 📅 Voulu le ' + new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR') : ''}${appliedPromo ? ` · 🎟️ Code ${promoCodeRaw}` : ''}${promoAbuseInfo && promoAbuseInfo.abused ? ` · ⚠️ ${promoCodeRaw} refusé (déjà utilisé, cmd ${promoAbuseInfo.previousOrderId}) — vérifie le prix` : ''}${parrainPseudo ? ` · 🤝 Parrain : ${parrainPseudo}` : ''}${data.get('source') ? ` · 📣 ${data.get('source')}` : ''}${data.get('driveLink') ? ` · 📁 ${data.get('driveLink')}` : ''}${perVideoText ? ` · 🎬 Détail par vidéo : ${perVideoText.replace(/\n/g, ' | ')}` : ''} · 🎨 ${data.get('ambiance') || 'non précisé'} · 💬 Sous-titres : ${data.get('sousTitresSouhaites') || 'non précisé'} · 🎞️ Rushs : ${data.get('rushsDisponibles') || 'non précisé'}${data.get('objectifVideo') ? ` · 🎯 Objectif : ${data.get('objectifVideo')}` : ''}${data.get('musique') ? ` · 🎵 Musique : ${data.get('musique')}` : ''}${data.get('lienChaine') ? ` · 🔗 Chaîne : ${data.get('lienChaine')}` : ''}${data.get('contraintes') ? ` · 🚫 À éviter : ${data.get('contraintes')}` : ''} · via formulaire complet`,
+          `${data.get('nom') || 'non précisé'} (${data.get('typeClient') || 'Particulier'}) · 🎬 ${data.get('nomCommande') || 'non précisé'} · 🎥 ${formatBreakdown(data)} · 💶 ${data.get('budget') || 'non précisé'}${isUrgent ? ' · ⚡ Urgent' : ''}${data.get('dateLivraisonSouhaitee') ? ' · 📅 Voulu le ' + new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR') : ''}${appliedPromo ? ` · 🎟️ Code ${promoCodeRaw}` : ''}${promoAbuseInfo && promoAbuseInfo.abused ? ` · ⚠️ ${promoCodeRaw} refusé (déjà utilisé, cmd ${promoAbuseInfo.previousOrderId}) — vérifie le prix` : ''}${parrainPseudo ? ` · 🤝 Parrain : ${parrainPseudo}` : ''}${data.get('driveLink') ? ` · 📁 ${data.get('driveLink')}` : ''}${perVideoText ? ` · 🎬 Détail par vidéo : ${perVideoText.replace(/\n/g, ' | ')}` : ''} · 🎨 ${ambianceEffective || 'non précisé'} · 💬 Sous-titres : ${data.get('sousTitresSouhaites') || 'non précisé'} · 🎞️ Rushs : ${data.get('rushsDisponibles') || 'non précisé'}${data.get('objectifVideo') ? ` · 🎯 Objectif : ${objectifEffective}` : ''}${data.get('musique') ? ` · 🎵 Musique : ${musiqueEffective}` : ''}${policeEcriture ? ` · 🔤 Police : ${policeEcriture}` : ''}${data.get('lienChaine') ? ` · 🔗 Chaîne : ${data.get('lienChaine')}` : ''}${data.get('contraintes') ? ` · 🚫 À éviter : ${data.get('contraintes')}` : ''} · via formulaire complet`,
           `${data.get('reseau') || 'non précisé'} · ${data.get('contact') || 'non précisé'}${data.get('reseau') === 'WhatsApp' && data.get('whatsappNumber') ? ' · 📱 ' + data.get('whatsappNumber') : ''}`
         );
 
@@ -24376,155 +24535,161 @@
       render(); setTimeout(render, 3000); setTimeout(render, 8000);
     })();
 
-    // --- Formulaire de réservation en 3 étapes (regroupe les sections existantes, sans toucher aux champs) ---
-    (function initReserveWizard() {
-      const form = document.getElementById('reserveForm'); if (!form) return;
-      const kids = Array.from(form.children), map = new Map(); let lab = 0, step = 1;
-      kids.forEach(k => { if (k.classList.contains('form-section-label') && !k.classList.contains('form-advanced')) lab++; map.set(k, lab <= 1 ? 1 : lab <= 3 ? 2 : 3); });
-      const bar = document.createElement('div'); bar.className = 'wz-bar';
-      bar.innerHTML = ['Toi', 'Ton projet', 'Détails & envoi'].map((t, i) => `<button type="button" class="wz-dot" data-wz="${i + 1}"><b>${i + 1}</b>${t}</button>`).join('');
-      form.insertBefore(bar, form.firstChild);
-      const nav = document.createElement('div'); nav.className = 'wz-nav';
-      nav.innerHTML = '<button type="button" class="wz-prev">← Retour</button><span>🔁 3 révisions incluses par vidéo · <a href="#garanties">mes garanties</a></span><button type="button" class="wz-next">Suivant →</button>';
-      form.appendChild(nav);
-      const prev = nav.querySelector('.wz-prev'), next = nav.querySelector('.wz-next');
-      function show(n, scroll) {
-        step = n; kids.forEach(k => k.classList.toggle('wz-off', map.get(k) !== n));
-        bar.querySelectorAll('.wz-dot').forEach((d, i) => d.classList.toggle('is-active', i + 1 === n));
-        prev.style.visibility = n > 1 ? 'visible' : 'hidden'; next.style.display = n < 3 ? '' : 'none';
-        if (scroll) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
-      function valid(n) {
-        const els = kids.filter(k => map.get(k) === n).flatMap(k => Array.from(k.querySelectorAll('input,select,textarea')).concat(k.matches('input,select,textarea') ? [k] : []));
-        for (const el of els) { if (el.type === 'hidden' || el.offsetParent === null) continue; if (!el.checkValidity()) { el.reportValidity(); return false; } }
-        return true;
-      }
-      next.addEventListener('click', () => { if (valid(step)) show(step + 1, true); });
-      prev.addEventListener('click', () => show(step - 1, true));
-      bar.addEventListener('click', e => { const d = e.target.closest('[data-wz]'); if (!d) return; const n = +d.dataset.wz; if (n < step || valid(step)) show(n, true); });
-      form.addEventListener('keydown', e => { if (e.key === 'Enter' && step < 3 && !['TEXTAREA', 'BUTTON', 'A'].includes(e.target.tagName)) { e.preventDefault(); next.click(); } });
-      form.addEventListener('invalid', e => { const k = kids.find(x => x === e.target || x.contains(e.target)); if (k && map.get(k) !== step) { e.preventDefault(); show(map.get(k)); } }, true);
-      window.goToReserveStep = n => show(n);
-      show(1);
-      setTimeout(() => { try { if (typeof applyFormatToForm === 'function') { const o = applyFormatToForm; window.applyFormatToForm = function () { const r = o.apply(this, arguments); if (r) show(2); return r; }; } } catch (e) {} }, 0);
-    })();
-
-    // --- Avis vérifiés (🔧 ajoute de VRAIS avis avec un lien source ; vide = bloc masqué) ---
-    const VERIFIED_REVIEWS = []; // ex : { author: 'Pseudo', text: 'Super boulot !', source: 'TikTok', url: 'https://…' }
-    (function initVerifiedReviews() {
-      const box = document.getElementById('verifiedReviews'); if (!box || !VERIFIED_REVIEWS.length) return;
-      const esc = t => String(t == null ? '' : t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-      box.innerHTML = VERIFIED_REVIEWS.map(r => `<div class="verified-review">« ${esc(r.text)} »<small><strong>${esc(r.author)}</strong> · ✔ Avis vérifié${/^https?:\/\//.test(r.url || '') ? ` · <a href="${esc(r.url)}" target="_blank" rel="noopener">voir sur ${esc(r.source || 'la source')}</a>` : ''}</small></div>`).join('');
-      box.style.display = '';
-    })();
-
-    // 🔧 CONTENUS À REMPLIR (vide = bloc masqué, rien d'inventé) :
-    const SHOWREEL_YT_ID = '';            // ex : 'dQw4w9WgXcQ'
-    const BEFORE_AFTER = [];              // ex : [{ style: 'Esport', label: 'Rythme & sous-titres', before: 'https://…/avant.jpg', after: 'https://…/apres.jpg' }]
-    const FAQ_VIDEOS = {};                // ex : { 'faq-delais': 'xxxxxxxxxxx', 'faq-revisions': 'yyyyyyyyyyy' } (réponses vidéo de 30 s)
-    const VIDEO_REVIEWS = [];             // ex : [{ author: 'Pseudo', youtubeId: 'xxxxxxxxxxx' }]
-    setTimeout(() => { document.querySelectorAll('#formatCompare [data-price]').forEach(td => { const k = td.dataset.price, t = SUBSCRIPTION_TIERS[k]; td.textContent = t ? t.price + ' € / mois (' + t.videos + ' vidéos)' : (PRICE_FIXED[k] || '?') + ' € / vidéo'; }); }, 0);
-    (function initMediaBlocks() {
-      const esc = t => String(t == null ? '' : t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-      const ytOk = id => /^[\w-]{11}$/.test(id || '');
-      function facade(el, id, title) {
-        if (!ytOk(id)) return false; el.classList.add('yt-facade'); el.innerHTML = `<img loading="lazy" src="https://img.youtube.com/vi/${id}/hqdefault.jpg" alt="${esc(title)}">`;
-        el.addEventListener('click', () => { if (el.classList.contains('is-playing')) return; el.classList.add('is-playing'); el.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0" allow="autoplay; encrypted-media; picture-in-picture" allowfullscreen title="${esc(title)}"></iframe>`; }); return true;
-      }
-      const sr = document.getElementById('showreel'); if (sr && facade(document.getElementById('showreelBox'), SHOWREEL_YT_ID, 'Showreel')) sr.style.display = '';
-      const vr = document.getElementById('videoReviews');
-      if (vr && VIDEO_REVIEWS.length) { vr.innerHTML = VIDEO_REVIEWS.filter(v => ytOk(v.youtubeId)).map((v, i) => `<div><div id="vr${i}"></div><small>🎥 ${esc(v.author)} · avis vidéo</small></div>`).join(''); VIDEO_REVIEWS.filter(v => ytOk(v.youtubeId)).forEach((v, i) => facade(document.getElementById('vr' + i), v.youtubeId, 'Avis de ' + v.author)); vr.style.display = ''; }
-      const ba = document.getElementById('beforeAfter'), bb = document.getElementById('beforeAfterBox');
-      if (ba && BEFORE_AFTER.length) {
-        const items = BEFORE_AFTER.filter(x => /^https?:\/\//.test(x.before) && /^https?:\/\//.test(x.after)), styles = Array.from(new Set(items.map(x => x.style).filter(Boolean)));
-        const chips = styles.length >= 2 ? `<div class="ba-chips"><button type="button" class="filter-btn active" data-bas="">Tous</button>${styles.map(st => `<button type="button" class="filter-btn" data-bas="${esc(st)}">${esc(st)}</button>`).join('')}</div>` : '';
-        bb.innerHTML = chips + items.map(x => `<div class="ba-item" data-style="${esc(x.style || '')}" style="margin-bottom:14px;"><div class="ba-slider"><img src="${esc(x.after)}" alt="Après" loading="lazy"><img class="ba-top" src="${esc(x.before)}" alt="Avant" loading="lazy"><span class="ba-tag" style="left:8px;">Avant</span><span class="ba-tag" style="right:8px;">Après</span><div class="ba-line"></div><input type="range" min="0" max="100" value="50" aria-label="Comparer avant et après"></div><small>${esc(x.label || '')}</small></div>`).join('');
-        bb.querySelectorAll('.ba-slider').forEach(sl => sl.querySelector('input').addEventListener('input', e => { const v = e.target.value; sl.querySelector('.ba-top').style.clipPath = `inset(0 ${100 - v}% 0 0)`; sl.querySelector('.ba-line').style.left = v + '%'; }));
-        bb.querySelectorAll('[data-bas]').forEach(b => b.addEventListener('click', () => { bb.querySelectorAll('[data-bas]').forEach(x => x.classList.toggle('active', x === b)); bb.querySelectorAll('.ba-item').forEach(it => { it.style.display = !b.dataset.bas || it.dataset.style === b.dataset.bas ? '' : 'none'; }); }));
-        if (items.length) ba.style.display = '';
-      }
-      Object.entries(FAQ_VIDEOS).forEach(([faqId, yt]) => { const d = document.getElementById(faqId); if (!d || !ytOk(yt)) return; const box = document.createElement('div'); box.style.cssText = 'margin-top:10px;max-width:520px;'; (d.querySelector('.faq-item-body') || d).appendChild(box); facade(box, yt, 'Réponse en vidéo'); });
-      // Portfolio compact (mémorisé)
-      const cb = document.getElementById('portfolioCompactBtn'), grid = document.getElementById('portfolioGrid');
-      if (cb && grid) { const apply = on => { grid.classList.toggle('portfolio-compact', on); cb.classList.toggle('active', on); }; let on = false; try { on = localStorage.getItem('michyy_portfolio_compact') === '1'; } catch (e) {} apply(on); cb.addEventListener('click', () => { on = !on; apply(on); try { localStorage.setItem('michyy_portfolio_compact', on ? '1' : '0'); } catch (e) {} }); }
-      // Bouton thème clair/sombre visible (déclenche le bouton existant du menu)
-      const tb = document.getElementById('themeToggleBtn');
-      if (tb) { const fab = document.createElement('button'); fab.type = 'button'; fab.className = 'theme-fab'; fab.setAttribute('aria-label', 'Basculer thème clair / sombre'); document.body.appendChild(fab);
-        const sync = () => { fab.textContent = document.documentElement.getAttribute('data-theme') === 'light' ? '🌙' : '☀️'; }; sync(); fab.addEventListener('click', () => { tb.click(); setTimeout(sync, 50); });
-        new MutationObserver(sync).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] }); }
-    })();
-
-    // --- Champs libres du formulaire : « Autre… », police des sous-titres, vidéo fournie. La saisie est
-    // injectée dans la value de l'option choisie, donc l'envoi existant (data.get('...')) la reprend tel quel.
-    (function initFormFreeText() {
-      const form = document.getElementById('reserveForm'); if (!form) return;
-      const q = n => form.querySelector(`[name="${n}"]`);
-      function wire(selName, inpName, show, compose) {
-        const sel = q(selName), inp = q(inpName); if (!sel || !inp) return;
-        Array.from(sel.options).forEach(o => { o.dataset.orig = o.value; });
-        const upd = () => {
-          const o = sel.selectedOptions[0]; if (!o) return; const orig = o.dataset.orig;
-          Array.from(sel.options).forEach(x => { x.value = x.dataset.orig; });
-          const vis = show(orig); inp.hidden = !vis;
-          if (vis && inp.value.trim()) o.value = compose(orig, inp.value.trim());
-        };
-        sel.addEventListener('change', upd); inp.addEventListener('input', upd); form.addEventListener('reset', () => setTimeout(upd, 0)); upd();
-      }
-      wire('ambiance', 'ambianceAutre', v => v === 'Autre', (b, t) => 'Autre : ' + t);
-      wire('objectifVideo', 'objectifAutre', v => v === 'Autre', (b, t) => 'Autre : ' + t);
-      wire('sousTitresSouhaites', 'policeSousTitres', v => v !== 'Non merci', (b, t) => b + ' · police : ' + t);
-      wire('rushsDisponibles', 'videoFournie', v => v === 'Je fournis déjà la vidéo', (b, t) => 'Je fournis la vidéo : ' + t);
-    })();
-
     (function initFormatQuiz() {
-      const quiz = document.getElementById('formatQuiz'); if (!quiz) return;
-      const steps = Array.from(quiz.querySelectorAll('[data-quiz-step]')), dots = Array.from(quiz.querySelectorAll('.format-quiz-dot'));
-      const $ = id => document.getElementById(id), box = $('formatQuizResult'), answers = {};
-      const FORMATS = { court: 'Court (TikTok / Reels)', long: 'Long (YouTube / Best-of)', esport: 'Long Complexe / Esport', business: 'Business / Sponsorisé', mix: 'Les deux' };
-      const eur = n => Math.round(n).toLocaleString('fr-FR') + ' €';
-      function showStep(i) { steps.forEach((st, k) => { st.hidden = k !== i; }); box.hidden = true; dots.forEach((d, k) => { d.classList.toggle('is-active', k === i); d.classList.toggle('is-done', k < i); }); }
-      // Recommandation : compare l'achat à l'unité (avec paliers dégressifs, +urgence) et les abonnements
-      // qui couvrent réellement le volume demandé, à partir des vraies constantes de prix du site.
-      // Prix calculé ici sans lire l'état du formulaire (computePrice dépend des cases « urgent »,
-      // « usage commercial » et du code promo déjà saisis, ce qui fausserait l'estimation du quiz).
-      function quotePrice(fk, n, urgent) {
-        let t = (PRICE_FIXED[fk] || PRICE_FIXED['Court (TikTok / Reels)']) * n; const hints = [];
-        const b = BUNDLE_DISCOUNTS.find(x => n >= x.minQty); if (b) { t *= b.rate; hints.push(`Pack dégressif (-${Math.round((1 - b.rate) * 100)}% dès ${b.minQty} vidéos)`); }
-        if (urgent) { t *= URGENT_SURCHARGE; hints.push('mode urgent inclus'); }
-        return { total: Math.round(t / 5) * 5, hints };
+      const quiz = document.getElementById('formatQuiz');
+      if (!quiz) return;
+
+      const steps = Array.from(quiz.querySelectorAll('[data-quiz-step]'));
+      const dots = Array.from(quiz.querySelectorAll('.format-quiz-dot'));
+      const resultBox = document.getElementById('formatQuizResult');
+      const resultTitle = document.getElementById('formatQuizResultTitle');
+      const resultText = document.getElementById('formatQuizResultText');
+      const ctaBtn = document.getElementById('formatQuizCta');
+      const restartBtn = document.getElementById('formatQuizRestart');
+      const answers = {};
+      let cardTargetId = null;
+
+      function updateDots(activeIndex) {
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('is-active', i === activeIndex);
+          dot.classList.toggle('is-done', i < activeIndex);
+        });
       }
-      function compute() {
-        const n = +answers.qty, urgent = answers.speed === 'urgent', fk = FORMATS[answers.type];
-        const unit = quotePrice(fk, answers.type === 'mix' ? Math.max(1, Math.round(n / 2)) : n, urgent), unitTotal = unit.total; // « Les deux » = paires (1 court + 1 long)
-        const opts = [{ fk, total: unitTotal, sub: false, hint: unit.hints.join(' · ') }];
-        if (answers.type === 'court') Object.entries(SUBSCRIPTION_TIERS).forEach(([k, t]) => { if (n <= t.videos && n >= Math.ceil(t.videos / 2)) opts.push({ fk: k, total: t.price, sub: true, videos: t.videos }); });
-        opts.sort((a, b) => a.total - b.total || (b.sub ? 1 : 0) - (a.sub ? 1 : 0));
-        return { best: opts[0], alt: opts[1] || null, unitTotal, n, urgent };
+
+      function showStep(index) {
+        steps.forEach((step, i) => { step.hidden = i !== index; });
+        resultBox.hidden = true;
+        updateDots(index);
       }
+
+      // Décide de la recommandation à partir des 3 réponses. Le budget nuance surtout le message
+      // (mention des packs dégressifs) plutôt que de changer radicalement le format recommandé.
+      // 🔧 Quantité suggérée quand la publication est "régulière" : alignée sur le palier -10% dès 3
+      // vidéos déjà annoncé ailleurs sur le site (PACK_DISCOUNTS), pour rester cohérent avec le
+      // reste des tarifs plutôt que d'inventer un autre chiffre de référence.
+      const REGULAR_FREQUENCY_SUGGESTED_QTY = 3;
+      function computeResult() {
+        const { platform, frequency, budget } = answers;
+        const suggestedQty = frequency === 'regulier' ? REGULAR_FREQUENCY_SUGGESTED_QTY : null;
+
+        if (platform === 'court' && frequency === 'regulier') {
+          return {
+            title: '🎬 Abonnement créateur — 145€/mois',
+            text: "Format court régulier : l'abonnement (4 vidéos courtes/mois) revient moins cher qu'une commande ponctuelle équivalente, et te garantit une place prioritaire dans le planning. Besoin d'un volume plus important ? Contacte-moi directement, on peut voir un forfait sur-mesure.",
+            cardId: 'abonnementCompareRow',
+            formatValue: 'Abonnement créateur (4 vidéos)',
+            suggestedQty: null // quantité déjà fixée par la formule d'abonnement, rien à préremplir ici
+          };
+        }
+        if (platform === 'court') {
+          return {
+            title: '📱 Format court — 45€/vidéo',
+            text: budget === 'optimise'
+              ? "Pour du court ponctuel, le tarif à l'unité baisse déjà avec la quantité (-10% dès 3 vidéos, -20% dès 10) — pas besoin de l'abonnement si tu ne publies pas encore à rythme régulier."
+              : "Le format court est fait pour TikTok/Reels/Shorts : livré le jour même ou sous 2 jours, sous-titres et habillage sonore inclus.",
+            cardId: null,
+            formatValue: 'Court (TikTok / Reels)',
+            suggestedQty
+          };
+        }
+        if (platform === 'long') {
+          return {
+            title: '🎥 Format long — 125€/vidéo',
+            text: budget === 'optimise' && frequency === 'regulier'
+              ? "Pour du long régulier, l'abonnement créateur ne couvre que le format court — sur du long, la vraie économie vient des packs dégressifs (-10% dès 3, -20% dès 10 vidéos)."
+              : "Le format long convient à YouTube, vlog ou best-of : étalonnage, sous-titres et habillage sonore inclus, livré sous 1 semaine max.",
+            cardId: null,
+            formatValue: 'Long (YouTube / Best-of)',
+            suggestedQty
+          };
+        }
+        // platform === 'both'
+        return {
+          title: '🔀 Court + Long — à combiner',
+          text: "Tu vises les deux formats : sélectionne \"Les deux\" dans le formulaire pour indiquer une quantité de vidéos courtes et longues séparément, avec le prix calculé sur chaque partie.",
+          cardId: null,
+          formatValue: 'Les deux',
+          suggestedQty: null // quantités court/long séparées dans ce format, pas ce curseur unique
+        };
+      }
+
       function showResult() {
-        const r = compute(), b = r.best;
-        $('formatQuizResultTitle').textContent = b.sub ? `🎬 ${b.fk} — ${b.videos} vidéos courtes / mois` : `🎯 ${b.fk}${answers.type === 'mix' ? ' × ' + Math.max(1, Math.round(r.n / 2)) + ' paire(s) court + long' : r.n > 1 ? ' × ' + r.n : ''}`;
-        $('formatQuizResultPrice').textContent = 'Environ ' + eur(b.total) + (b.sub ? ' / mois' : '');
-        $('formatQuizResultText').textContent = b.sub
-          ? `À ce volume l'abonnement est le plus avantageux${r.unitTotal > b.total ? ` (tu économises environ ${eur(r.unitTotal - b.total)} par rapport à l'unité)` : ''}, avec traitement prioritaire.`
-          : (b.hint || 'Tarif à l\'unité, paliers dégressifs appliqués automatiquement selon la quantité.') + (answers.type === 'mix' ? ' Tu précises les quantités court / long dans le formulaire.' : '') + ' Estimation hors code promo et usage commercial.';
-        $('formatQuizResultAlt').textContent = r.alt ? (r.alt.sub ? `Alternative : abonnement ${eur(r.alt.total)} / mois (${r.alt.videos} vidéos)` : `Alternative : à l'unité ≈ ${eur(r.alt.total)}`) : '';
-        const cta = $('formatQuizCta'); cta.dataset.fk = b.fk; cta.dataset.qty = b.sub || answers.type === 'mix' ? '' : r.n;
-        steps.forEach(st => { st.hidden = true; }); box.hidden = false; dots.forEach(d => { d.classList.add('is-done'); d.classList.remove('is-active'); });
+        const result = computeResult();
+        resultTitle.textContent = result.title;
+        resultText.textContent = result.text + (result.suggestedQty
+          ? ` Je préremplis directement sur ${result.suggestedQty} vidéos (palier -10%) dans le formulaire, ajustable en un clic.`
+          : '');
+        cardTargetId = result.cardId;
+        ctaBtn.dataset.formatValue = result.formatValue;
+        ctaBtn.dataset.suggestedQty = result.suggestedQty || '';
+        steps.forEach(step => { step.hidden = true; });
+        resultBox.hidden = false;
+        dots.forEach(dot => dot.classList.add('is-done'));
+        dots.forEach(dot => dot.classList.remove('is-active'));
       }
-      quiz.querySelectorAll('.format-quiz-option').forEach(btn => btn.addEventListener('click', () => {
-        trackToolUsage('format-quiz'); answers[btn.dataset.key] = btn.dataset.value;
-        const cur = steps.findIndex(x => !x.hidden); cur < steps.length - 1 ? showStep(cur + 1) : showResult();
-      }));
-      quiz.querySelectorAll('.format-quiz-back').forEach(btn => btn.addEventListener('click', () => showStep(+btn.dataset.backTo)));
-      $('formatQuizResultBack').addEventListener('click', () => showStep(steps.length - 1));
-      $('formatQuizRestart').addEventListener('click', () => { Object.keys(answers).forEach(k => delete answers[k]); showStep(0); });
-      $('formatQuizCta').addEventListener('click', e => {
-        const d = e.currentTarget.dataset, ok = applyFormatToForm(d.fk, d.qty ? { quantity: +d.qty } : {});
-        const target = ok ? $('reservation') : $('abonnementCompareRow') || $('tarifs');
-        if (!ok && typeof showPrestationsTab === 'function') showPrestationsTab('tarifs');
-        if (target) target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+      quiz.querySelectorAll('.format-quiz-option').forEach(btn => {
+        btn.addEventListener('click', () => {
+          trackToolUsage('format-quiz');
+          answers[btn.dataset.key] = btn.dataset.value;
+          const currentIndex = steps.findIndex(s => !s.hidden);
+          if (currentIndex < steps.length - 1) {
+            showStep(currentIndex + 1);
+          } else {
+            showResult();
+          }
+        });
       });
+
+      // Boutons "← Retour" sur chaque étape (sauf la première) : revient à l'étape précédente sans
+      // effacer la réponse déjà donnée à cette étape-là, seulement celle qu'on s'apprêtait à donner.
+      quiz.querySelectorAll('.format-quiz-back').forEach(btn => {
+        btn.addEventListener('click', () => {
+          showStep(parseInt(btn.dataset.backTo, 10));
+        });
+      });
+
+      const resultBackBtn = document.getElementById('formatQuizResultBack');
+      if (resultBackBtn) {
+        resultBackBtn.addEventListener('click', () => {
+          showStep(steps.length - 1);
+        });
+      }
+
+      if (restartBtn) {
+        restartBtn.addEventListener('click', () => {
+          Object.keys(answers).forEach(k => delete answers[k]);
+          showStep(0);
+        });
+      }
+
+      if (ctaBtn) {
+        ctaBtn.addEventListener('click', () => {
+          // Le format recommandé par le quiz est directement appliqué au calculateur du
+          // formulaire (voir applyFormatToForm plus haut) : pas besoin de le re-choisir une
+          // seconde fois une fois arrivé·e sur le formulaire. La quantité suggérée (si la
+          // publication est "régulière", voir computeResult) est préremplie de la même façon.
+          const qty = ctaBtn.dataset.suggestedQty ? parseInt(ctaBtn.dataset.suggestedQty, 10) : null;
+          if (ctaBtn.dataset.formatValue && applyFormatToForm(ctaBtn.dataset.formatValue, qty ? { quantity: qty } : {})) {
+            document.getElementById('reservation').scrollIntoView({ behavior: 'smooth', block: 'start' });
+            return;
+          }
+          if (cardTargetId) {
+            if (typeof showPrestationsTab === 'function') showPrestationsTab('tarifs');
+            const card = document.getElementById(cardTargetId);
+            if (card) {
+              card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              card.classList.remove('quiz-flash');
+              void card.offsetWidth;
+              card.classList.add('quiz-flash');
+            }
+          } else {
+            if (typeof showPrestationsTab === 'function') showPrestationsTab('tarifs');
+            document.getElementById('tarifs').scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      }
+
       showStep(0);
     })();
 
@@ -24779,8 +24944,6 @@
     </div>
 
     <div id="adminTabCommandes" class="admin-tab-panel">
-      <div class="price-log-card" id="adminTodayCard"><div class="info-title">☀️ Aujourd'hui</div><div id="adminTodayBody"></div>
-        <details><summary style="font-size:11px;cursor:pointer;">⌨️ Raccourcis clavier</summary><p class="info-text" style="font-size:11px;">/ recherche · N nouvelle commande · J / K naviguer · Entrée sauvegarder · B Kanban · T ce résumé · Ctrl+R actualiser</p></details></div>
       <div id="backupReminder" class="peak-banner" style="display:none;">💾 Ça fait plus de 30 jours (ou jamais) que tu n'as pas sauvegardé tes données locales : Stats &amp; outils → Sauvegarde.</div>
       <button type="button" id="kanbanToggleBtn" class="filter-reset-btn" style="margin-bottom:6px;">🗂️ Vue Kanban</button>
       <!-- ⚠️ Le glisser-déposer envoie le statut ET tous les autres champs de la commande (note,
@@ -25136,10 +25299,43 @@
              importer dans un tableur pour suivre la tendance. Voir downloadRevisionRatioCsv(). -->
         <button type="button" id="adminExportRevisionRatioCsvBtn" class="admin-btn-primary" style="margin-top: 8px;">📉 Export CSV ratio révisions/commande (par mois)</button>
         <p class="admin-timeline-note" id="adminRevisionRatioStatus" style="margin-top: 4px;"></p>
-        <button type="button" id="adminExportChurnCsvBtn" class="admin-btn-primary" style="margin-top: 8px;">📉 Export CSV clients à risque de churn</button>
-        <p class="admin-timeline-note" id="adminChurnStatus" style="margin-top: 4px;"></p>
         <button type="button" id="adminExportLtvCsvBtn" class="admin-btn-primary" style="margin-top: 8px;">💎 Export CSV valeur vie client (total dépensé + nb commandes)</button>
         <p class="admin-timeline-note" id="adminLtvStatus" style="margin-top: 4px;"></p>
+
+        <!-- 🆕 Export calendrier (.ics) des commandes actives avec une date de livraison connue —
+             même principe que l'export .ics des disponibilités côté public (voir
+             exportAvailabilityIcs), pour importer dans Google Agenda/Apple Calendar/Outlook.
+             Instantané au moment du clic, pas un flux resynchronisé automatiquement. -->
+        <button type="button" id="adminExportOrdersIcsBtn" class="admin-btn-primary" style="margin-top: 8px;">📆 Export calendrier des commandes (.ics)</button>
+        <p class="admin-timeline-note" id="adminOrdersIcsStatus" style="margin-top: 4px;"></p>
+
+        <!-- 🆕 Rapport mensuel PDF : CA du mois, commandes livrées, ratio révisions/commande,
+             réutilise le même chargement jsPDF à la demande que le devis PDF client (loadJsPdfLib),
+             pas de dépendance supplémentaire. Voir generateMonthlyReportPdf(). -->
+        <button type="button" id="adminMonthlyReportBtn" class="admin-btn-primary" style="margin-top: 8px;">📄 Rapport mensuel (PDF)</button>
+        <p class="admin-timeline-note" id="adminMonthlyReportStatus" style="margin-top: 4px;"></p>
+
+        <!-- 🆕 Logo optionnel pour les devis PDF client (#liveRecapPdfBtn) et le rapport mensuel
+             ci-dessus — juste une URL d'image ou un data URI base64, stocké en local. Vide = pas de
+             logo, comportement inchangé. -->
+        <label style="display:block;margin-top:10px;">Logo pour les PDF (devis + rapport) <span class="optional-tag">(optionnel — URL d'image ou data URI)</span>
+          <input type="text" id="adminLogoUrlInput" class="admin-search-input" placeholder="https://... ou data:image/png;base64,..." />
+        </label>
+        <p class="admin-timeline-note" id="adminLogoStatus" style="margin-top: 4px;"></p>
+
+        <!-- 🆕 Réponses vidéo courtes aux questions fréquentes : associe une URL vidéo (fichier
+             .mp4 ou lien YouTube/autre) à une question FAQ existante — stocké en local, affiché
+             automatiquement sous la question correspondante côté public (voir
+             initFaqVideoAnswers plus bas dans le JS). Aucune vidéo n'est hébergée ici, juste le
+             lien vers celle que tu héberges ailleurs (Drive, YouTube non répertorié, etc.). -->
+        <label style="display:block;margin-top:10px;">Réponse vidéo pour une question FAQ <span class="optional-tag">(optionnel)</span>
+          <select id="faqVideoQuestionSelect" class="admin-search-input"></select>
+        </label>
+        <label style="display:block;margin-top:6px;">URL de la vidéo (30s max conseillé)
+          <input type="text" id="faqVideoUrlInput" class="admin-search-input" placeholder="https://... (mp4, ou lien YouTube)" />
+        </label>
+        <button type="button" id="faqVideoSaveBtn" class="filter-reset-btn" style="margin-top:6px;">💾 Associer cette vidéo</button>
+        <div id="faqVideoList" style="margin-top:8px;"></div>
 
         <div class="price-log-card" id="adminCalCard"><div class="info-title">🗓️ Calendrier des livraisons</div>
           <div><button type="button" class="filter-reset-btn" data-cal="-1">◀</button> <strong id="calTitle"></strong> <button type="button" class="filter-reset-btn" data-cal="1">▶</button></div>
@@ -25161,24 +25357,6 @@
         <div class="price-log-card"><div class="info-title">🏖️ Mode vacances / complet</div>
           <p class="info-text" style="font-size:12px;">Aperçu local sur ce navigateur. Pour l'appliquer aux visiteurs : change <code>SITE_STATUS</code> dans le code (et <code>SITE_STATUS_REOPEN</code>).</p>
           <select id="siteStatusPreview"><option value="">Selon le code</option><option value="open">Ouvert</option><option value="full">Complet (liste d'attente)</option><option value="vacation">Vacances</option></select></div>
-        <div class="price-log-card"><div class="info-title">📄 Rapport mensuel (PDF)</div>
-          <div class="price-log-form"><input type="month" id="reportMonth" /><button type="button" id="reportBtn" class="admin-btn-primary">Générer</button></div>
-          <p class="info-text" style="font-size:11px;">S'ouvre dans un nouvel onglet : Imprimer → Enregistrer en PDF.</p></div>
-        <div class="price-log-card"><div class="info-title">📅 Livraisons → Google Agenda</div>
-          <button type="button" id="icsBtn" class="admin-btn-primary">⬇️ Exporter .ics (à importer dans Google Agenda)</button>
-          <div id="gcalList"></div></div>
-        <div class="price-log-card"><div class="info-title">📡 Radar clients</div><div id="adminRadar"></div></div>
-        <div class="price-log-card"><div class="info-title">🎯 Objectifs du mois par type de client</div><div id="adminTypeGoals"></div></div>
-        <div class="price-log-card"><div class="info-title">💬 Bibliothèque de messages</div>
-          <div class="price-log-form"><select id="msgTpl"></select><select id="msgOrder"></select></div>
-          <textarea id="msgText" rows="5" style="width:100%;"></textarea>
-          <button type="button" id="msgCopy" class="admin-btn-primary">📋 Copier</button> <button type="button" id="msgSave" class="filter-reset-btn">💾 Enregistrer comme modèle</button> <button type="button" id="msgDel" class="filter-reset-btn">🗑️ Supprimer ce modèle</button>
-          <p class="info-text" style="font-size:11px;">Variables : {nom} {id} {montant} {lien}</p></div>
-        <div class="price-log-card"><div class="info-title">🧰 Usage des mini-outils</div>
-          <button type="button" id="toolStatsBtn" class="admin-btn-primary">Charger les stats</button><div id="toolStatsBody" class="admin-promo-usage"></div></div>
-        <div class="price-log-card"><div class="info-title">📣 Sources des commandes</div><div id="adminSources"></div></div>
-        <div class="price-log-card"><div class="info-title">📋 Checklist de livraison</div><select id="dlOrder" style="width:100%;"></select><div id="dlBody"></div></div>
-        <div class="price-log-card"><div class="info-title">🕊️ Prix libre : historique des décisions</div><div id="prixLibreBody"></div></div>
         <div class="price-log-card"><div class="info-title">📈 CA sur 12 mois</div><div id="adminCa12" class="ca-bars"></div></div>
         <div class="price-log-card"><div class="info-title">🔔 Notifications</div>
           <p class="info-text" style="font-size:12px;">Alerte navigateur quand une nouvelle commande apparaît lors d'un chargement/rafraîchissement de l'admin (page ouverte).</p>
@@ -25186,7 +25364,6 @@
         <div class="price-log-card"><div class="info-title">🧾 Devis / facture PDF</div>
           <div class="price-log-form"><select id="docTemplate"></select><button type="button" id="docTplSave" class="filter-reset-btn">💾 Modèle</button><select id="docOrder"></select><select id="docType"><option>Devis</option><option>Facture</option></select><input type="text" id="docLabel" placeholder="Prestation" /><input type="number" id="docAmount" placeholder="Montant €" /></div>
           <textarea id="docIssuer" rows="3" style="width:100%;" placeholder="Ton nom / entreprise, SIRET, adresse, mentions légales (ex : TVA non applicable, art. 293 B du CGI — à vérifier selon ton statut)"></textarea>
-          <div style="margin:6px 0;font-size:12px;">🖼️ Logo : <input type="file" id="docLogo" accept="image/*"> <button type="button" id="docLogoClear" class="filter-reset-btn">Retirer</button> <span id="docLogoStatus"></span></div>
           <button type="button" id="docBtn" class="admin-btn-primary" style="margin-top:6px;">Générer (imprimer → Enregistrer en PDF)</button></div>
         <div class="price-log-card"><div class="info-title">📦 Rappel de livraison (J-1)</div><div id="adminDeliveryReminder"></div></div>
         <div class="price-log-card"><div class="info-title">⏱️ Temps passé &amp; taux horaire réel</div>
@@ -25199,8 +25376,7 @@
           <p class="admin-promo-usage" id="caGaugeText"></p></div>
         <div class="price-log-card"><div class="info-title">🔔 File de relances</div><div id="adminFollowUps"></div>
           <textarea id="relanceMsg" rows="4" style="width:100%;margin-top:8px;" placeholder="Clique sur ✉️ Relancer : le message se pré-remplit ici."></textarea>
-          <button type="button" id="relanceCopy" class="admin-btn-primary">📋 Copier le message</button>
-          <button type="button" id="relanceAllBtn" class="admin-btn-primary">✉️ Toutes les relances de solde</button></div>
+          <button type="button" id="relanceCopy" class="admin-btn-primary">📋 Copier le message</button></div>
         <div class="price-log-card"><div class="info-title">🏷️ Codes promo : CA généré &amp; remise donnée</div><div id="adminPromoDash" style="overflow-x:auto;"></div></div>
         <div class="price-log-card"><div class="info-title">💾 Sauvegarde des données locales</div>
           <p class="info-text" style="font-size:12px;">Notes, tags, journal des prix, objectif… vivent dans ce navigateur : exporte-les régulièrement.</p>
