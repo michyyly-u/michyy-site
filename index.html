@@ -3279,6 +3279,7 @@
        (Garanties reste en --success par défaut sur .guarantee-card). */
     .fidelite-grid .guarantee-card { border-left-color: var(--accent-2); }
     .support-grid .guarantee-card { border-left-color: var(--accent-3); }
+    .cas-usage-grid .guarantee-card { border-left-color: var(--accent-3); }
 
     /* 🆕 Carte de statut fidélité (#loyaltyStatusCard) : même grammaire que .revision-rounds/.brief-tpl
        (surface-soft + bordure fine), remplie par le JS à partir du nombre de commandes trouvées dans
@@ -5577,7 +5578,7 @@
       align-items: center;
       justify-content: center;
       gap: 6px;
-      width: 100%;
+      flex: 1;
       font-family: 'Manrope', sans-serif;
       font-weight: 700;
       font-size: 14px;
@@ -5588,6 +5589,23 @@
       text-decoration: none;
       box-shadow: 0 8px 22px -6px var(--accent-glow), 0 2px 10px rgba(0,0,0,0.4);
     }
+    .mobile-reserve-bar-inner {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: var(--surface);
+      border: 0.5px solid var(--border-soft);
+      border-radius: 999px;
+      padding: 6px 6px 6px 16px;
+      box-shadow: 0 8px 22px -6px rgba(0,0,0,0.35);
+    }
+    .mobile-reserve-bar-price {
+      font-family: 'Manrope', sans-serif;
+      font-size: 12px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+    }
+    .mobile-reserve-bar-price strong { color: var(--text); }
     @media (prefers-reduced-motion: reduce) {
       .mobile-reserve-bar { transition: opacity 0.15s ease; transform: none; }
     }
@@ -7470,6 +7488,13 @@
     /* --- Ajouts admin : pic de charge, filtre promo, journal des prix, suggestions de sections --- */
     .peak-badge { display:inline-block; margin-left:6px; padding:1px 7px; border-radius:999px; font-size:10px; font-weight:700; background:#e2685f22; color:#e2685f; border:1px solid #e2685f66; white-space:nowrap; }
     .peak-banner { padding:9px 12px; border-radius:10px; font-size:12px; font-weight:600; background:#e2685f18; border:1px solid #e2685f55; color:#e2685f; margin-bottom:8px; }
+
+    /* 🆕 Bannière "Rappel de livraison (J-1)" en haut de l'onglet Commandes */
+    .admin-delivery-reminder-banner {
+      padding: 10px 14px; border-radius: 12px; margin-bottom: 12px;
+      background: #ffb02018; border: 1px solid #ffb02055;
+    }
+    .admin-delivery-reminder-title { font-family: 'Manrope', sans-serif; font-weight: 700; font-size: 13px; color: var(--text); margin-bottom: 4px; }
     .peak-banner.is-ok { background:#8be28b18; border-color:#8be28b66; color:#3d9a3d; }
     .admin-promo-filter { min-width:170px; }
     .admin-promo-usage { font-size:12px; margin:4px 0 0; opacity:.85; }
@@ -8252,6 +8277,30 @@
     }
 
     .admin-hide-btn:hover { opacity: 1; }
+
+    .admin-files-btn {
+      background: transparent;
+      border: 0.5px solid var(--border-soft);
+      border-radius: 999px;
+      cursor: pointer;
+      font-family: 'Manrope', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-secondary);
+      padding: 3px 9px;
+      margin-right: 4px;
+    }
+    .admin-files-btn:hover { border-color: var(--text-faint); color: var(--text); }
+    .admin-files-result {
+      margin: 6px 0 2px;
+      padding: 8px 10px;
+      border-radius: 10px;
+      background: var(--surface-soft);
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+    .admin-files-result a { color: var(--text); font-weight: 700; }
+    .admin-files-result ul { margin: 4px 0 0; padding-left: 18px; }
 
     /* --- Tri manuel des commandes : flèches ▲▼ sur chaque carte + ligne du bouton de bascule --- */
     .admin-order-move {
@@ -9121,6 +9170,14 @@
       background: #ffb02014;
       border-color: #ffb02040;
     }
+    /* 🆕 Alerte "il te reste 1 seule révision incluse" — avant de dépasser, pas après (voir
+       .tracking-revision-counter-over ci-dessus pour l'état "dépassé"). Même famille de couleur,
+       légèrement moins appuyée pour rester un avertissement et non une facturation déjà actée. */
+    .order-tracking-result .tracking-revision-counter-last {
+      color: #ffc98a;
+      background: #ffb0200a;
+      border-color: #ffb02030;
+    }
     .order-tracking-result .tracking-revision-label {
       font-size: 12px;
       color: #ffc98a;
@@ -9269,6 +9326,16 @@
     }
 
     .order-tracking-result .tracking-add-local-btn:hover { border-color: var(--text-tertiary); }
+
+    /* 🆕 Bouton "Obtenir un lien à partager" côté client (.tracking-share-preview) */
+    .tracking-share-preview { margin: 10px 0; }
+    .tracking-share-preview-btn {
+      font-family: 'Manrope', sans-serif; font-size: 12px; font-weight: 700; padding: 7px 12px;
+      border-radius: 999px; border: 1px solid var(--border); background: transparent; color: var(--text);
+      cursor: pointer;
+    }
+    .tracking-share-preview-btn:hover { border-color: var(--accent-3); }
+    .tracking-share-preview-note { margin: 6px 0 0; font-size: 11.5px; color: var(--text-tertiary); }
 
     .order-tracking-result .tracking-card {
       margin-bottom: 10px;
@@ -11163,6 +11230,48 @@
       padding: 0; line-height: 1;
     }
     .admin-blocked-day-remove:hover { color: var(--accent-1); }
+    /* --- Calendrier public : pas de titre "Voir mes disponibilités", il s'ouvre via le lien "calendrier complet" --- */
+    #disponibilites > summary { display: none; }
+    .availability-close-btn { display: block; margin: 10px auto 0; background: none; border: 0.5px solid var(--border-soft); color: var(--text-secondary); font: 700 12px 'Manrope', sans-serif; padding: 6px 12px; border-radius: 8px; cursor: pointer; }
+    /* --- Admin : calendrier cliquable (onglet Disponibilité) --- */
+    .dispo-nav { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin: 10px 0 6px; text-transform: capitalize; }
+    .dispo-grid { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; max-width: 360px; }
+    .dispo-dow { font-size: 10px; text-align: center; color: var(--text-tertiary); text-transform: uppercase; }
+    .dispo-day { padding: 9px 0; border-radius: 8px; border: 0.5px solid var(--border-soft); background: var(--surface-soft); color: var(--text); font: 700 12px 'Manrope', sans-serif; cursor: pointer; }
+    .dispo-day:disabled { opacity: 0.3; cursor: default; }
+    .dispo-day.is-today { outline: 1.5px solid var(--text-faint); }
+    .dispo-day.is-blocked { background: #e2685f33; border-color: #e2685f88; color: #ff9d96; text-decoration: line-through; }
+    /* --- 🧹 Admin allégé : blocs rarement utiles masqués (le code reste, donc rien ne casse).
+       Pour en remettre un, supprime simplement son sélecteur de cette liste. --- */
+    #adminGroupStatusPage, #adminGroupLitigeHistory, #adminGroupNoResponseReminders, #adminGroupPauseReminders,
+    #adminGroupStuckOrders, #adminGroupDeliveredNoRevision, #adminGroupEngagement, #adminGroupNps,
+    #adminGroupRevisionBilling, #adminGroupDeliveredNoFeedback, #adminGroupNextWeek,
+    #toolStatsCard, #unusedPromoCard, #pjCard, #priceLogCard,
+    #adminExportRevisionRatioCsvBtn, #adminRevisionRatioStatus, #adminExportLtvCsvBtn, #adminLtvStatus,
+    #adminExportDeliveryDelayCsvBtn, #adminDeliveryDelayStatus, #adminExportOrdersIcsBtn, #adminOrdersIcsStatus,
+    #adminWeeklyReportBtn, #adminWeeklyReportStatus, #adminLogoHistory, .admin-vip-settings,
+    label:has(#faqVideoQuestionSelect), label:has(#faqVideoUrlInput), #faqVideoSaveBtn, #faqVideoList,
+    .price-log-card:has(#weeklyReportBtn), .price-log-card:has(#satOrder), .price-log-card:has(#notifBtn),
+    .price-log-card:has(#timeLogOrder), .price-log-card:has(#siteStatusPreview),
+    .admin-shortcuts-hint, #adminDensityToggleBtn, #adminAuthorNameBtn { display: none !important; }
+    /* --- Abonnement : fenêtre dédiée (pas le formulaire de commande) --- */
+    .sub-modal-card { max-width: 440px; }
+    .sub-plan-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+    .sub-plan { text-align: center; padding: 12px 8px; border-radius: 12px; border: 1px solid var(--border-soft); background: var(--surface-soft); color: var(--text); cursor: pointer; font: 700 13px 'Manrope', sans-serif; }
+    .sub-plan small { display: block; font-weight: 600; color: var(--text-tertiary); margin-top: 3px; }
+    .sub-plan.is-on { border-color: var(--accent, #FFB020); background: #ffb02014; }
+    .sub-modal-card select, .sub-modal-card textarea { width: 100%; padding: 9px 11px; border-radius: 8px; border: 0.5px solid var(--border-soft); background: var(--bg); color: var(--text); font: 13px 'Manrope', sans-serif; }
+    .sub-modal-card .hp-field { position: absolute; left: -9999px; }
+    .sub-note { font-size: 11.5px; color: var(--text-tertiary); margin: 8px 0 0; }
+    .other-precision { margin-top: 6px; }
+    .late-rushs-box label { display: block; margin-bottom: 8px; }
+    .attach-inline-btn { display: inline-block; margin-top: 6px; background: none; border: 1px dashed var(--border); border-radius: 999px; color: var(--text-secondary); font: 700 11.5px 'Manrope', sans-serif; padding: 5px 12px; cursor: pointer; }
+    .attach-inline-btn:hover { border-color: var(--text-faint); color: var(--text); }
+    .file-drop-list em { color: var(--text-tertiary); font-style: normal; font-size: 11px; }
+    .referral-card { margin: 14px 0; padding: 16px; border-radius: 14px; border: 1px solid #8be28b55; background: #8be28b12; }
+    .referral-card-title { font: 800 16px 'Syne', sans-serif; color: var(--text); margin-bottom: 6px; }
+    .referral-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+    .referral-row input { flex: 1; min-width: 180px; padding: 9px 11px; border-radius: 8px; border: 0.5px solid var(--border-soft); background: var(--bg); color: var(--text); font: 13px 'Manrope', sans-serif; }
   </style>
 
   <style id="admin-extras-36">
@@ -11195,6 +11304,7 @@
     .rev-bill-list li { display: flex; gap: 10px; align-items: baseline; justify-content: space-between; flex-wrap: wrap; padding: 8px 10px; border-radius: 10px; background: var(--surface-soft); border: 0.5px solid var(--border-soft); font-size: 13px; color: var(--text-secondary); }
     .rev-bill-list li strong { color: var(--text); }
     .rev-bill-fee { color: var(--accent-1); font-weight: 700; white-space: nowrap; }
+    .rev-bill-copy-btn { margin-left: 6px; font-size: 11px; padding: 3px 8px; }
     /* Bloc "Comment comptent les révisions" / "Brief type" / "Exemple de livraison" (page Garanties) :
        regroupés dans une grille (voir .guarantees-extra-grid) pour suivre exactement la même
        grammaire visuelle que .guarantees-grid juste au-dessus (3 colonnes, mêmes tailles de police,
@@ -11266,20 +11376,7 @@
     @media (max-width: 480px) { .revision-rounds-list li { flex-direction: column; gap: 0; } .revision-rounds-list li strong { flex: none; } }
 
     /* Admin : liste de demandes de sections */
-    .admin-section-requests { margin-top: 16px; padding: 12px 14px; border: 0.5px solid var(--border-soft); border-radius: 12px; background: var(--surface-soft); }
-    .admin-sec-req-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 14px; color: var(--text); margin-bottom: 4px; }
-    .admin-sec-req-group { margin-top: 10px; font-size: 12.5px; color: var(--text-secondary); }
-    .admin-sec-req-group > strong { display: block; margin-bottom: 6px; color: var(--text); }
-    .admin-sec-req-chips { display: flex; flex-wrap: wrap; gap: 6px; }
-    .admin-sec-chip { padding: 5px 10px; font-family: 'Manrope', sans-serif; font-size: 12px; font-weight: 600; color: var(--text-secondary); background: transparent; border: 1px dashed var(--text-faint); border-radius: 999px; cursor: pointer; }
-    .admin-sec-chip:hover { color: var(--text); border-color: var(--text-secondary); }
-    .admin-sec-chip.is-on { color: #ff8a8a; background: #ff6b6b1a; border: 1px solid #ff6b6b88; }
-    .admin-sec-chip.is-idea { border-style: dotted; }
-    .admin-sec-add-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 6px; }
-    .admin-sec-add-row input { flex: 1 1 160px; min-width: 0; padding: 7px 9px; font-family: 'Manrope', sans-serif; font-size: 12.5px; border-radius: 8px; }
-    .admin-sec-added { display: flex; flex-direction: column; gap: 4px; margin: 6px 0; }
-    .admin-sec-added-row { display: flex; justify-content: space-between; gap: 8px; align-items: center; padding: 5px 8px; border-radius: 8px; background: var(--surface); }
-  </style>
+      </style>
 
   <style id="reserve-wizard-38">
     /* Réservation en plusieurs étapes (voir initReserveWizard) */
@@ -11515,6 +11612,7 @@
         <button type="button" id="accountLogoutBtn">Se déconnecter</button>
       </div>
     </span>
+    <button type="button" class="account-toc-btn" id="accountRegisterBtn">✨ Créer un compte</button>
   </nav>
 
   <!-- Modale de connexion / inscription — masquée par défaut (.is-open l'affiche), voir
@@ -11554,6 +11652,40 @@
         <span id="accountSwitchToLogin" style="display:none;">Déjà un compte ? <a id="accountSwitchToLoginLink">Se connecter</a></span>
       </p>
       <p class="account-modal-status" id="accountModalStatus"></p>
+    </div>
+  </div>
+
+  <!-- Abonnement créateur : fenêtre dédiée, volontairement différente du formulaire de commande
+       (pas de brief vidéo, pas de délai/budget/acompte) : formule + chaîne + rythme, envoyé sur le
+       même webhook Discord avec un titre distinct. Voir initSubscriptionFlow(). -->
+  <div class="account-modal-overlay" id="subModalOverlay" role="dialog" aria-modal="true" aria-labelledby="subModalTitle">
+    <div class="account-modal-card sub-modal-card">
+      <button type="button" class="account-modal-close" id="subModalCloseBtn" aria-label="Fermer">✕</button>
+      <div class="account-modal-title" id="subModalTitle">🔄 S'abonner</div>
+      <p class="account-modal-sub">Un abonnement mensuel, pas une commande à l'unité : tu choisis ta formule, je te réponds pour caler le démarrage.</p>
+      <form id="subForm">
+        <div class="hp-field" aria-hidden="true"><label>Laisse ce champ vide<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+        <div class="sub-plan-row">
+          <button type="button" class="sub-plan" data-sub-plan="4" aria-pressed="false">4 vidéos<small>145€ / mois</small></button>
+          <button type="button" class="sub-plan is-on" data-sub-plan="8" aria-pressed="true">8 vidéos ⭐<small>280€ / mois</small></button>
+        </div>
+        <div class="account-form-field"><label for="subNom">Ton nom / pseudo</label><input type="text" id="subNom" name="nom" required maxlength="100"></div>
+        <div class="account-form-field"><label for="subPlateforme">Tu publies sur</label>
+          <select id="subPlateforme" name="plateforme"><option>YouTube</option><option>TikTok</option><option>Instagram</option><option>Plusieurs plateformes</option><option>Autre</option></select></div>
+        <div class="account-form-field"><label for="subChaine">Lien de ta chaîne / ton compte</label><input type="text" id="subChaine" name="chaine" required maxlength="200" placeholder="https://…"></div>
+        <div class="account-form-field"><label for="subReseau">Pour te répondre</label>
+          <select id="subReseau" name="reseau"><option>Discord</option><option>X / Twitter</option><option>Instagram</option><option>WhatsApp</option><option>Email</option></select>
+          <input type="text" id="subContact" name="contact" required maxlength="150" placeholder="Pseudo, numéro ou email" style="margin-top:6px;"></div>
+        <div class="account-form-field"><label for="subRythme">Rythme de publication</label>
+          <select id="subRythme" name="rythme"><option>1 vidéo par semaine</option><option>2 vidéos par semaine</option><option>Par lots (rushs envoyés 1 fois par mois)</option><option>Je ne sais pas encore</option></select></div>
+        <div class="account-form-field"><label for="subDebut">Début souhaité</label>
+          <select id="subDebut" name="debut"><option>Dès que possible</option><option>Le mois prochain</option><option>À discuter</option></select></div>
+        <div class="account-form-field"><label for="subMessage">Un mot sur ton contenu <span class="optional-tag">(optionnel)</span></label><textarea id="subMessage" name="message" rows="2" maxlength="500"></textarea></div>
+        <button type="submit" class="account-submit-btn" id="subSubmitBtn">Envoyer ma demande d'abonnement</button>
+        <p class="sub-note">Sans engagement de durée, préavis de 30 jours (voir FAQ). Cette demande n'engage à rien : je te réponds pour valider la formule et le démarrage.</p>
+      </form>
+      <p class="account-modal-status" id="subStatus"></p>
+      <div id="subDone" style="display:none;"><p style="color:#8be28b;font-weight:700;">✅ Demande reçue !</p><p class="sub-note">Je te réponds sur le contact indiqué pour valider ta formule et fixer la date de départ.</p></div>
     </div>
   </div>
 
@@ -11921,6 +12053,43 @@
           </span>
           <span class="find-me-handle">@Michyyfn</span>
         </a>
+      </div>
+    </div>
+  </section>
+
+<!-- 🆕 Cas d'usage par profil : aide chaque visiteur à se reconnaître plus vite, plutôt que de
+     deviner si l'offre lui correspond. Réutilise .guarantees-grid/.guarantee-card (même grammaire
+     visuelle que Garanties/Sécurité/Fidélité/Support), border-left en var(--accent-3) comme les
+     autres blocs "contenu additionnel" (revision-rounds, brief-tpl...). -->
+<section id="cas-usage" class="full-section reveal">
+    <div class="info-header">
+      <div class="section-divider">
+        <div class="section-divider-line"></div>
+        <span class="section-divider-text">Pour qui</span>
+        <div class="section-divider-line"></div>
+      </div>
+      <div class="info-title">Cas d'usage par profil</div>
+    </div>
+    <div class="guarantees-grid cas-usage-grid">
+      <div class="guarantee-card">
+        <span class="guarantee-card-icon" aria-hidden="true">🎮</span>
+        <span class="guarantee-card-title">Streamers & créateurs</span>
+        <span class="guarantee-card-text">Highlights de stream, clips YouTube/TikTok réguliers, rythme qui garde l'attention jusqu'au bout. Le format "Abonnement créateur" est pensé pour ce rythme de publication.</span>
+      </div>
+      <div class="guarantee-card">
+        <span class="guarantee-card-icon" aria-hidden="true">🏆</span>
+        <span class="guarantee-card-title">Équipes & joueurs esport</span>
+        <span class="guarantee-card-text">Montages de matchs, récaps de tournoi, contenu pour sponsors — habillage propre et lisible même pour un public qui ne connaît pas encore le jeu.</span>
+      </div>
+      <div class="guarantee-card">
+        <span class="guarantee-card-icon" aria-hidden="true">🎓</span>
+        <span class="guarantee-card-title">Coachs & formateurs</span>
+        <span class="guarantee-card-text">Extraits de coaching, contenu pédagogique découpé en formats courts, sous-titres soignés pour un visionnage sans le son.</span>
+      </div>
+      <div class="guarantee-card">
+        <span class="guarantee-card-icon" aria-hidden="true">🛍️</span>
+        <span class="guarantee-card-title">E-commerce & marques</span>
+        <span class="guarantee-card-text">Vidéos produit, publicités courtes, contenu pour les réseaux de la marque — format et durée adaptés à la plateforme visée dès le brief.</span>
       </div>
     </div>
   </section>
@@ -12905,6 +13074,7 @@ Date limite :</pre>
           <div class="format-label">Abonnement créateur — 4 vidéos</div>
           <div class="format-sub">4 vidéos courtes / mois, prioritaire</div>
           <div class="format-price subscription-price"><span class="price-mode-monthly">145€ <span>/ mois</span></span><span class="price-mode-perunit">36€ <span>/ vidéo</span></span></div>
+          <a href="#" class="format-compare-link" data-open-subscription="4">🔄 Je m'abonne →</a>
           <a href="#" class="format-compare-link discovery-call-link">📞 Réserver un appel découverte</a>
         </div>
       </div>
@@ -12946,7 +13116,7 @@ Date limite :</pre>
               <tr><td>Économie vs à l'unité</td><td>≈ -20%</td><td>-22% (360€ → 280€)</td></tr>
               <tr><td>Traitement prioritaire</td><td>✔</td><td>✔</td></tr>
               <tr><td>Idéal pour</td><td>Volume léger</td><td>Publication très régulière</td></tr>
-              <tr><td></td><td><a href="#reservation" class="packs-highlight-cta" data-apply-format="Abonnement créateur (4 vidéos)">Je m'abonne →</a></td><td><a href="#reservation" class="packs-highlight-cta" data-apply-format="Abonnement créateur">Je m'abonne →</a></td></tr>
+              <tr><td></td><td><a href="#" class="packs-highlight-cta" data-open-subscription="4">Je m'abonne →</a></td><td><a href="#" class="packs-highlight-cta" data-open-subscription="8">Je m'abonne →</a></td></tr>
             </tbody>
           </table>
         </div>
@@ -13995,8 +14165,7 @@ Date limite :</pre>
 
     <details id="disponibilites" class="more-options reservation-availability">
       <summary class="more-options-summary">
-        <span class="more-options-summary-label">📅 Voir mes disponibilités ce mois-ci</span>
-        <span class="more-options-summary-hint">Calculé à partir des commandes en cours — indicatif, pas une réservation automatique</span>
+        <span class="more-options-summary-label">📅 Calendrier</span>
       </summary>
       <div class="more-options-content">
         <div class="availability-calendar">
@@ -14009,12 +14178,7 @@ Date limite :</pre>
             <span><span class="availability-legend-dot busy"></span>Commande(s) en cours</span>
             <span><span class="availability-legend-dot today"></span>Aujourd'hui</span>
           </div>
-          <!-- Export .ics des jours "complets" du mois affiché ci-dessus, généré côté client à partir
-               des mêmes données (busyDays) que la grille — pas un flux qui se resynchronise tout seul
-               (ça demanderait un vrai calendrier public côté serveur), juste un instantané pratique
-               pour visualiser ces jours directement dans son propre agenda (Google Calendar, Apple
-               Calendar, Outlook acceptent tous l'import .ics). Voir exportAvailabilityIcs en JS. -->
-          <button type="button" id="exportAvailabilityIcsBtn" class="availability-export-btn">📤 Exporter ces jours complets (.ics)</button>
+          <button type="button" class="availability-close-btn" id="availabilityCloseBtn">Fermer le calendrier ✕</button>
         </div>
         <p class="availability-calendar-note">
           💡 "Commande(s) en cours" ne veut pas dire que je ne prends plus de commandes ce jour-là — juste que mon planning est déjà occupé sur cette date. Le formulaire ci-dessous reste ouvert : je m'organise selon l'ordre d'arrivée et je te dis franchement si un délai plus long est à prévoir. Un jour marqué "libre" n'est pas bloqué tant que ta commande n'est pas confirmée. Pour une date précise, le plus sûr reste de me contacter directement.
@@ -14183,6 +14347,7 @@ Date limite :</pre>
       </div>
       <label class="form-advanced">Ta chaîne / ton compte <span class="optional-tag">(optionnel)</span>
         <input type="text" name="lienChaine" maxlength="200" placeholder="Lien TikTok/YouTube/Instagram, pour voir ton style actuel" />
+        <button type="button" class="attach-inline-btn" data-attach-for="Chaîne / compte">📎 Joindre un fichier</button>
       </label>
 
       <div class="form-section-label">🎬 Format &amp; quantité</div>
@@ -14198,7 +14363,7 @@ Date limite :</pre>
           <button type="button" class="mini-calc-format" data-format="Long Complexe / Esport" aria-pressed="false">Complexe<span class="mini-calc-format-price">200€</span></button>
           <button type="button" class="mini-calc-format" data-format="Business / Sponsorisé" aria-pressed="false">Business<span class="mini-calc-format-price">300€</span></button>
           <button type="button" class="mini-calc-format form-advanced" data-format="Les deux" aria-pressed="false">Les deux</button>
-          <button type="button" class="mini-calc-format form-advanced" data-format="Pack sur-mesure" aria-pressed="false">🧩 Pack sur-mesure</button>
+          <button type="button" class="mini-calc-format" data-format="Pack sur-mesure" aria-pressed="false">🧩 Crée ton pack<span class="mini-calc-format-price">mes prix +10%</span></button>
           <button type="button" class="mini-calc-format form-advanced" data-format="Abonnement créateur" aria-pressed="false">Abonnement 8<span class="mini-calc-format-price">280€/mois</span></button>
           <button type="button" class="mini-calc-format form-advanced" data-format="Abonnement créateur (4 vidéos)" aria-pressed="false">Abonnement 4<span class="mini-calc-format-price">145€/mois</span></button>
           <button type="button" class="mini-calc-format form-advanced" data-format="Prix libre" aria-pressed="false">💸 Prix libre</button>
@@ -14215,7 +14380,7 @@ Date limite :</pre>
           <option value="Long Complexe / Esport">Long complexe / Esport (montage avancé)</option>
           <option value="Business / Sponsorisé">Business / Sponsorisé (contenu de marque)</option>
           <option value="Les deux">Les deux (court + long)</option>
-          <option value="Pack sur-mesure">Pack sur-mesure (mix de formats, remise volume automatique)</option>
+          <option value="Pack sur-mesure">Crée ton pack (mix de formats, remise volume, +10% sur-mesure)</option>
           <option value="Abonnement créateur">Abonnement créateur (280€/mois, 8 vidéos courtes)</option>
           <option value="Abonnement créateur (4 vidéos)">Abonnement créateur (145€/mois, 4 vidéos courtes)</option>
           <option value="Prix libre">Prix libre (tu proposes ton propre prix)</option>
@@ -14255,7 +14420,7 @@ Date limite :</pre>
              affiché — FormData lirait sinon le mauvais champ si les deux partageaient un name. Même
              barème de remise volume que partout ailleurs sur le site (BUNDLE_DISCOUNTS), calculé sur
              le total des 4 quantités, voir computeCustomMixPrice() dans le JS. -->
-        <div class="form-advanced" id="customMixQtyRow" style="display: none;">
+        <div id="customMixQtyRow" style="display: none;">
           <div class="form-row-split">
             <label>Vidéos courtes <span class="optional-tag">(45€/u)</span>
               <input type="number" name="mixQtyCourt" id="mixQtyCourtInput" min="0" value="0" />
@@ -14272,7 +14437,7 @@ Date limite :</pre>
               <input type="number" name="mixQtyBusiness" id="mixQtyBusinessInput" min="0" value="0" />
             </label>
           </div>
-          <p class="note-aside">Mixe librement les formats dont tu as besoin dans une seule commande — la remise de volume (voir tableau tarifs plus haut : -10% dès 3 vidéos au total, -15% dès 5, -20% dès 10) s'applique automatiquement sur l'ensemble, tous formats confondus.</p>
+          <p class="note-aside">🧩 Compose ton pack avec mes tarifs à l'unité : la remise de volume s'applique sur le total (-10% dès 3 vidéos, -15% dès 5, -20% dès 10), puis <strong>+10% pour le sur-mesure</strong> par rapport à un pack classique. Le prix se met à jour en direct juste en dessous.</p>
         </div>
 
         <p class="price-formula-note note-aside form-advanced">🧮 <strong>Prix de base</strong> × <strong>quantité</strong> − <strong>remises éventuelles</strong> (pack dégressif, code promo) + <strong>majorations éventuelles</strong> (urgent, commercial)</p>
@@ -14295,11 +14460,6 @@ Date limite :</pre>
             <option value="Flexible / pas pressé">Flexible / pas pressé</option>
           </select>
         </label>
-        <label class="checkbox-label">
-          <input type="checkbox" name="urgent" id="urgentCheck" />
-          <span>⚡ Mode urgent <span class="optional-tag">(livraison rapide prioritaire)</span></span>
-          <button type="button" class="info-tip-btn" aria-label="Plus d'informations sur le mode urgent" data-tip="Je passe ta commande en priorité et je vise la livraison la plus rapide possible. En échange, +30% sur le prix pour compenser la réorganisation de mon planning.">?</button>
-        </label>
       </div>
 
       <div class="delay-estimate-box form-advanced">
@@ -14316,6 +14476,13 @@ Date limite :</pre>
         <button type="button" class="info-tip-btn" aria-label="Plus d'informations sur la date souhaitée" data-tip="Choisis la date à laquelle tu veux recevoir ta vidéo (sortie, event, deadline...). C'est une préférence, pas un engagement automatique : je confirme si c'est jouable avec le mode urgent ou non selon mon planning au moment de la demande. Cette date sert aussi à mon calendrier de disponibilité, d'où son caractère obligatoire.">?</button>
       </label>
       <p class="note-aside" id="dateLivraisonHint" aria-live="polite"></p>
+
+      <label class="checkbox-label">
+        <input type="checkbox" name="urgent" id="urgentCheck" />
+        <span>⚡ Mode urgent <span class="optional-tag">(livraison rapide prioritaire)</span></span>
+        <button type="button" class="info-tip-btn" aria-label="Plus d'informations sur le mode urgent" data-tip="Je passe ta commande en priorité et je vise la livraison la plus rapide possible. En échange, +30% sur le prix pour compenser la réorganisation de mon planning.">?</button>
+      </label>
+
 
       <label class="checkbox-label form-advanced">
         <input type="checkbox" name="usageCommercial" id="usageCommercialCheck" />
@@ -14357,30 +14524,16 @@ Date limite :</pre>
            plutôt qu'une section séparée qu'il fallait remonter chercher. id="parrainage" conservé
            sur ce <details> pour que tous les liens existants (#parrainage) continuent de fonctionner
            sans modification. Compteur et logique JS inchangés (referralCounter, PARRAIN10...). -->
-      <details class="faq-item" id="parrainage">
-        <summary>🤝 Pas de code ? Découvre le programme de parrainage</summary>
-        <p class="delivered-counter" id="referralCounter" style="margin-top: 10px;"><strong><span id="referralCounterNumber">…</span></strong> parrainages réussis</p>
-        <p class="info-text">
-          Tu connais quelqu'un qui cherche un monteur ? Partage-lui ton pseudo (celui utilisé sur ta commande) :
-          il/elle obtient <strong>-10%</strong> sur sa première commande avec le code <strong>PARRAIN10</strong>,
-          et toi <strong>-10%</strong> sur ta prochaine commande dès que la sienne est confirmée.
-        </p>
-        <div class="parrainage-steps">
-          <div class="parrainage-step">
-            <span class="step-num-badge step-num-badge--green">1</span>
-            <span class="parrainage-step-text">Partage ton pseudo (celui utilisé lors de ta commande) à la personne que tu recommandes</span>
-          </div>
-          <div class="parrainage-step">
-            <span class="step-num-badge step-num-badge--green">2</span>
-            <span class="parrainage-step-text">Elle commande avec le code <strong>PARRAIN10</strong> et indique ton pseudo dans le champ "parrain" du formulaire</span>
-          </div>
-          <div class="parrainage-step">
-            <span class="step-num-badge step-num-badge--green">3</span>
-            <span class="parrainage-step-text">Je t'applique <strong>-10%</strong> sur ta prochaine commande une fois la sienne confirmée</span>
-          </div>
+      <div class="referral-card" id="parrainage">
+        <div class="referral-card-title">🤝 Parraine un ami : −10% pour vous deux</div>
+        <p class="delivered-counter" id="referralCounter"><strong><span id="referralCounterNumber">…</span></strong> parrainages réussis</p>
+        <p class="info-text">Donne ton lien à quelqu'un qui cherche un monteur : il a <strong>−10%</strong> sur sa 1re commande (code PARRAIN10 appliqué tout seul), et toi <strong>−10%</strong> sur la prochaine dès que la sienne est confirmée.</p>
+        <div class="referral-row">
+          <input type="text" id="referralPseudoInput" maxlength="60" placeholder="Ton pseudo (celui de ta commande)" autocomplete="off" />
+          <button type="button" class="file-drop-btn" id="referralCopyBtn">🔗 Copier mon lien</button>
         </div>
-        <p class="parrainage-note">💡 La remise du parrain est appliquée manuellement de mon côté : pense à faire indiquer ton pseudo dans le formulaire pour que je puisse te créditer.</p>
-      </details>
+        <p class="file-drop-msg" id="referralMsg" role="status"></p>
+      </div>
 
       <div class="conditional-field" id="parrainPseudoField">
         <!-- Pas en .form-advanced non plus : ce champ dépend du code promo ci-dessus (PARRAIN10),
@@ -14421,10 +14574,12 @@ Date limite :</pre>
         </div>
         <div class="form-row-split">
           <label>Durée finale visée
-            <select name="dureeVideo"><option value="">À définir</option><option>Moins de 30 s</option><option>30 s – 1 min</option><option>1 – 3 min</option><option>3 – 10 min</option><option>Plus de 10 min</option></select>
+            <select name="dureeVideo"><option value="">À définir</option><option>Moins de 30 s</option><option>30 s – 1 min</option><option>1 – 3 min</option><option>3 – 10 min</option><option>Plus de 10 min</option><option>Autre</option></select>
+            <input type="text" name="dureeVideoAutre" class="other-precision" maxlength="60" placeholder="Précise la durée (ex : 45 min)" style="display:none" />
           </label>
           <label>Langue de la vidéo
             <select name="langueVideo"><option value="">Français</option><option>Anglais</option><option>Autre langue</option></select>
+            <input type="text" name="langueVideoAutre" class="other-precision" maxlength="60" placeholder="Précise la langue" style="display:none" />
           </label>
         </div>
         <label>À qui s'adresse la vidéo ? <span class="optional-tag">(optionnel)</span>
@@ -14432,6 +14587,7 @@ Date limite :</pre>
         </label>
         <label>Éléments à faire apparaître <span class="optional-tag">(logo, texte, appel à l'action — optionnel)</span>
           <input type="text" name="elementsMarque" maxlength="160" placeholder="ex : logo en haut à droite, « abonne-toi » à la fin" />
+          <button type="button" class="attach-inline-btn" data-attach-for="Éléments à faire apparaître">📎 Joindre le logo / des fichiers</button>
         </label>
       </div>
 
@@ -14462,9 +14618,10 @@ Date limite :</pre>
       </div>
       <div class="conditional-field" id="policeEcritureField">
         <div class="conditional-field-inner">
-          <label>Police d'écriture souhaitée pour les sous-titres <span class="optional-tag">(optionnel)</span>
-            <input type="text" name="policeEcriture" placeholder="ex : Montserrat, une police manuscrite, peu importe..." />
+          <label>Police d'écriture pour les sous-titres <span class="optional-tag">(optionnel : au choix le nom, un screen, ou le fichier de la police)</span>
+            <input type="text" name="policeEcriture" placeholder="Nom de la police, ex : Montserrat (ou laisse vide si tu joins un screen / le fichier)" />
           </label>
+          <button type="button" class="attach-inline-btn" data-attach-for="Police (sous-titres)">📎 Joindre un screen ou le fichier de la police (.ttf, .otf, image…)</button>
         </div>
       </div>
       <label>Objectif principal de la vidéo <span class="optional-tag">(optionnel)</span>
@@ -14497,12 +14654,14 @@ Date limite :</pre>
         <div class="conditional-field-inner">
           <label>Lien ou nom du morceau que tu fournis
             <input type="text" name="musiqueLien" placeholder="ex : lien Drive/YouTube, ou juste le titre et l'artiste" />
+            <button type="button" class="attach-inline-btn" data-attach-for="Musique">📎 Joindre le morceau</button>
           </label>
         </div>
       </div>
 
       <label class="form-advanced">Exemple de ce que tu veux <span class="optional-tag">(obligatoire, lien ou simple description)</span>
         <textarea name="exemple" rows="2" required placeholder="Colle un lien (TikTok, YouTube...) OU décris simplement le style que tu veux, les deux marchent"></textarea>
+        <button type="button" class="attach-inline-btn" data-attach-for="Exemple">📎 Joindre un fichier</button>
       </label>
       <p class="note-aside form-advanced">🎬 Tu peux aussi piocher un style directement dans <a href="#portfolio" class="inline-link">mon portfolio ci-dessus</a> et me dire quelle vidéo te plaît.</p>
 
@@ -14518,6 +14677,7 @@ Date limite :</pre>
           <option value="Pas encore tournés">Pas encore tournés</option>
         </select>
       </label>
+      <p class="note-aside" id="rushsLaterNote" style="display: none;"></p>
       <div class="files-cols form-advanced">
         <div class="drive-box">
           <div class="drive-box-title">📁 Tes rushs (fichiers sources)</div>
@@ -14561,6 +14721,7 @@ Date limite :</pre>
           <label>Lien de tes rushs <span class="optional-tag">(SwissTransfer recommandé, ou WeTransfer/Drive — ou joins des fichiers juste en dessous)</span>
             <button type="button" class="info-tip-btn" aria-label="Plus d'informations sur l'envoi des rushs" data-tip="SwissTransfer est gratuit, ne demande aucun compte et supporte jusqu'à 50 Go, parfait pour des rushs vidéo. C'est pour ça que je le recommande en premier, mais WeTransfer ou un dossier Drive partagé fonctionnent aussi très bien.">?</button>
             <input type="text" name="driveLink" required placeholder="ex : https://swisstransfer.com/d/..." />
+            <button type="button" class="attach-inline-btn" data-attach-for="Rushs">📎 Joindre un fichier</button>
           </label>
 
           <p class="files-block-hint note-aside">
@@ -14583,6 +14744,7 @@ Date limite :</pre>
       <div class="file-drop" id="orderFileDrop">
         <div class="order-subtitle">📎 Ou envoie tes fichiers directement <span class="optional-tag">(depuis ton ordinateur ou ton téléphone)</span></div>
         <input type="file" id="orderFileInput" multiple hidden />
+        <input type="file" id="attachInlineInput" multiple hidden />
         <button type="button" class="file-drop-btn" id="orderFileBtn">📂 Choisir des fichiers</button>
         <span class="file-drop-hint">ou glisse-les ici · 10 fichiers max · 10 Mo au total</span>
         <ul class="file-drop-list" id="orderFileList" aria-live="polite"></ul>
@@ -14915,6 +15077,19 @@ Date limite :</pre>
         <button type="button" id="resetHistoryBtn" class="paypal-quick-btn paypal-quick-btn-secondary">🗑️ Réinitialiser</button>
       </div>
       <p id="lastSyncNote" class="sync-note"></p>
+      <details class="faq-item late-rushs-box" id="lateRushsBox">
+        <summary>📁 Envoyer mes rushs après ma commande</summary>
+        <div class="faq-item-body">
+          <p>⏳ Si tu as choisi « bientôt prêts » ou « pas encore tournés », tu as <strong>7 jours après ta commande</strong> pour envoyer tes rushs. Sans rushs dans ce délai, la commande est <strong>supprimée automatiquement</strong>.</p>
+          <label>Numéro de commande <input type="text" id="lateRushsOrderId" maxlength="20" placeholder="CMD-AB12CD" /></label>
+          <label>Lien de tes rushs <span class="optional-tag">(SwissTransfer recommandé)</span> <input type="text" id="lateRushsLink" maxlength="300" placeholder="https://swisstransfer.com/d/..." /></label>
+          <input type="file" id="lateRushsFileInput" multiple hidden />
+          <button type="button" class="attach-inline-btn" id="lateRushsAddBtn">📎 Ou joindre des fichiers</button>
+          <ul class="file-drop-list" id="lateRushsFileList"></ul>
+          <button type="button" class="file-drop-btn" id="lateRushsSendBtn" style="margin-top:8px;">📤 Envoyer mes rushs</button>
+          <p class="file-drop-msg" id="lateRushsStatus" role="status"></p>
+        </div>
+      </details>
       <div id="trackingResult" class="order-tracking-result"></div>
 
       <details class="faq-item order-tracking-faq" id="faq-apres-commande">
@@ -15239,17 +15414,11 @@ Date limite :</pre>
     //       }
     //       return jsonOut({ success: true });
     //     }
-    //     if (action === 'delete') {
-    //       const orderId = String(e.parameter.orderId || '').trim();
-    //       const data = sheet.getDataRange().getValues();
-    //       for (let i = 1; i < data.length; i++) {
-    //         if (String(data[i][0]) === orderId) {
-    //           sheet.deleteRow(i + 1);
-    //           return jsonOut({ success: true });
-    //         }
-    //       }
-    //       return jsonOut({ success: false, error: 'orderId introuvable' });
-    //     }
+    // 🆕 Le bouton 🗑️ "Supprimer" du panneau admin n'utilise PLUS d'action "delete" séparée : il
+    // réutilise l'action "update" ci-dessus avec un statut spécial (🗑️ Supprimée par Michyy) et un
+    // message client automatique. Rien à ajouter côté Apps Script pour ça — si tu avais déjà ajouté
+    // une action "delete" suite à une version précédente de ce fichier, tu peux la laisser (elle
+    // n'est simplement plus appelée) ou la retirer, comme tu préfères.
     //     if (action === 'publicRecentDeliveries') {
     //       const rows = sheet.getDataRange().getValues().slice(1);
     //       const delivered = rows
@@ -15505,24 +15674,9 @@ Date limite :</pre>
 
     // Bloc "alerte créneau libéré" retiré côté site (redondant avec le calendrier) — plus besoin de cette section côté Apps Script.
 
-    // ⚠️ IMPORTANT — suppression définitive d'une commande (bouton 🗑️ dans le panneau admin) :
-    // ce fichier appelle maintenant une nouvelle action `action=delete&orderId=...` quand tu cliques
-    // supprimer sur une carte. Ton Apps Script doit trouver la ligne correspondante et la supprimer
-    // du Sheet — par exemple :
-    //   if (action === 'delete') {
-    //     var data = sheet.getDataRange().getValues();
-    //     for (var i = 1; i < data.length; i++) {
-    //       if (data[i][0] === e.parameter.orderId) {
-    //         sheet.deleteRow(i + 1);
-    //         return ContentService.createTextOutput(JSON.stringify({ success: true }))
-    //           .setMimeType(ContentService.MimeType.JSON);
-    //       }
-    //     }
-    //     return ContentService.createTextOutput(JSON.stringify({ success: false, error: 'not-found' }))
-    //       .setMimeType(ContentService.MimeType.JSON);
-    //   }
-    // Sans cette action, le bouton 🗑️ affichera une erreur au clic — rien n'est supprimé tant que
-    // ton script ne gère pas cette action.
+    // 🆕 Le bouton 🗑️ "Supprimer" (panneau admin) ne fait plus de suppression définitive : il pose un
+    // statut "🗑️ Supprimée par Michyy" + un message client via l'action "update" déjà existante
+    // (voir plus haut dans ce fichier). Rien de nouveau à coder côté Apps Script pour ce bouton.
 
     // 💡 Pour savoir si ton script écrit bien le message client / lien de livraison dans les bonnes
     // colonnes : compare simplement ce que tu tapes dans une carte avec ce qui apparaît côté suivi
@@ -15790,6 +15944,7 @@ Date limite :</pre>
       const adminTabPanels = {
         commandes: document.getElementById('adminTabCommandes'),
         stats: document.getElementById('adminTabStats'),
+        dispo: document.getElementById('adminTabDispo'),
         sections: document.getElementById('adminTabSections')
       };
       function activateAdminTab(tabName) {
@@ -15843,6 +15998,7 @@ Date limite :</pre>
       // réorganisation du site) pour que l'admin s'y retrouve facilement lors de l'aperçu.
       const TOGGLEABLE_SECTIONS = [
         { id: 'apropos', label: 'À propos', selector: '#apropos' },
+        { id: 'cas-usage', label: 'Cas d\'usage par profil', selector: '#cas-usage' },
         { id: 'status-card', label: 'Carte de statut du haut de page (le bloc vert)', selector: '#statusCard' },
         { id: 'hero-proof', label: 'Bandeau de preuves du hero', selector: '.hero-proof-strip' },
         { id: 'garanties', label: 'Garanties', selector: '#garanties' },
@@ -15897,164 +16053,79 @@ Date limite :</pre>
         }
       })();
 
-      // --- 📝 Liste de demandes de sections : ce que tu veux retirer ou ajouter, gardé dans ce navigateur, avec un
-      // bouton pour copier la liste et me la coller dans le chat (le retrait / l'ajout définitif se fait dans le
-      // fichier — les cases ci-dessus ne servent qu'à prévisualiser). Les idées proposées ne sont que des
-      // suggestions : rien ne s'ajoute au site tant que tu ne me les demandes pas. ---
-      (function initSectionRequests() {
-        const box = document.getElementById('adminSectionRequests');
-        if (!box) return;
-        const KEY = 'michyy_section_requests';
-        // 🔧 « Brief type à copier-coller » et « Exemple de livraison » sont sortis de cette liste :
-        // les deux sont maintenant de vraies sections en ligne (#brief-type, #exemple-livraison, dans
-        // .guarantees-extra-grid). Le reste des idées originales est conservé, complété par de nouvelles
-        // pistes — plusieurs propositions plutôt qu'une seule, à toi de cocher/décocher ce qui t'intéresse.
-        const IDEAS = [
-          // g: pub = nouvelle partie du site · opt = option / esthétique · adm = menu admin
-          { g: 'pub', t: 'Avant / Après du montage', n: 'curseur glissant sur 2 ou 3 vidéos' },
-          { g: 'pub', t: 'Cas d\'usage par profil', n: 'streamers, coachs, e-commerce… un mini-texte chacun' },
-          { g: 'pub', t: 'Délais réels mesurés', n: 'délai moyen calculé sur les dernières commandes' },
-          { g: 'pub', t: 'Mini-blog conseils montage', n: '3-4 articles courts, utiles pour le référencement' },
-          { g: 'pub', t: 'Vidéo de présentation 30 s', n: 'toi face caméra : humanise la page À propos' },
-          { g: 'pub', t: 'Ma boîte à outils', n: 'logiciels et matériel utilisés, pour la crédibilité' },
-          { g: 'pub', t: 'Témoignages courts en vidéo', n: '10 s par client, plus convaincant que du texte' },
-          { g: 'pub', t: 'Tarif « à partir de » sticky', n: 'un prix d\'entrée toujours visible en bas d\'écran' },
-          { g: 'opt', t: 'Un seul accent de couleur partout', n: 'dégradé rouge→ambre, le reste en neutres' },
-          { g: 'opt', t: 'Sommaire flottant de la page', n: 'points d\'ancre discrets pour naviguer vite' },
-          { g: 'opt', t: 'Bouton « retour en haut »', n: 'utile sur la longue page unique' },
-          { g: 'opt', t: 'Animations réduites (option)', n: 'apparition plus discrète, respecte « réduire les animations »' },
-          { g: 'opt', t: 'Espacements resserrés sur mobile', n: 'moins de défilement entre les blocs' },
-          { g: 'opt', t: 'Contrastes renforcés en mode clair', n: 'textes secondaires plus lisibles' },
-          { g: 'adm', t: 'Message « à facturer » prêt à copier', n: 'récap des tours hors forfait → texte client' },
-          { g: 'adm', t: 'Rentabilité par commande', n: 'prix ÷ nombre de tours consommés' },
-          { g: 'adm', t: 'Charge de la semaine', n: 'heures estimées par commande, alerte si trop chargé' },
-          { g: 'adm', t: 'Rappels J-1 avant livraison', n: 'liste des livraisons de demain en haut du panneau' },
-          { g: 'adm', t: 'Alerte client à 3 tours', n: 'prévenir avant le 3e tour, pas après' },
-          { g: 'adm', t: 'Recherche globale', n: 'client, référence ou statut dans une seule barre' },
-          { g: 'adm', t: 'Export CSV mensuel', n: 'CA, révisions facturées, top clients' },
-          { g: 'adm', t: 'Mode focus « aujourd\'hui »', n: 'masque tout sauf ce qui est à faire aujourd\'hui' },
-          { g: 'adm', t: 'Journal d\'activité', n: 'dernières actions faites dans l\'admin' }
-        ];
-        const IDEA_GROUPS = [['pub', '🧩 Nouvelles parties du site'], ['opt', '🎨 Options & esthétique'], ['adm', '🛠 Menu admin']];
-        let state = { remove: [], add: [] };
-        try { const v = JSON.parse(localStorage.getItem(KEY) || 'null'); if (v && Array.isArray(v.remove) && Array.isArray(v.add)) state = v; } catch (e) { /* départ à vide */ }
-        const save = () => { try { localStorage.setItem(KEY, JSON.stringify(state)); } catch (e) { /* ignore */ } };
-        function render() {
-          box.innerHTML = `
-            <div class="admin-sec-req-title">📝 Ma liste de modifications</div>
-            <div class="info-text" style="font-size:12px;">Marque ce que tu veux retirer ou ajouter, puis copie la liste et colle-la dans le chat : je fais les changements directement dans le fichier.</div>
-            <div class="admin-sec-req-group"><strong>🗑 À supprimer</strong>
-              <div class="admin-sec-req-chips">${TOGGLEABLE_SECTIONS.map(x => `<button type="button" class="admin-sec-chip${state.remove.includes(x.id) ? ' is-on' : ''}${REMOVE_HINTS[x.id] && !state.remove.includes(x.id) ? ' is-idea' : ''}" data-rm="${x.id}" aria-pressed="${state.remove.includes(x.id)}"${REMOVE_HINTS[x.id] ? ` title="${escapeHtml(REMOVE_HINTS[x.id])}"` : ''}>${state.remove.includes(x.id) ? '🗑 ' : (REMOVE_HINTS[x.id] ? '💡 ' : '')}${x.label}</button>`).join('')}</div>
-              <div class="info-text" style="font-size:12px;margin-top:6px;">💡 Suggestions : ${Object.keys(REMOVE_HINTS).map(id => { const x = TOGGLEABLE_SECTIONS.find(t => t.id === id); return x ? `<strong>${escapeHtml(x.label)}</strong> — ${escapeHtml(REMOVE_HINTS[id])}` : ''; }).filter(Boolean).join(' · ')}</div>
-            </div>
-            <div class="admin-sec-req-group"><strong>➕ À ajouter</strong>
-              <div class="admin-sec-add-row"><input type="text" id="adminSecAddTitle" maxlength="60" placeholder="Nom de la section" /><input type="text" id="adminSecAddNote" maxlength="140" placeholder="Idée / contenu (optionnel)" /><button type="button" class="filter-reset-btn" id="adminSecAddBtn">Ajouter</button></div>
-              <div class="admin-sec-added">${state.add.map((a, i) => `<div class="admin-sec-added-row"><span><strong>${escapeHtml(a.t)}</strong>${a.n ? ' — ' + escapeHtml(a.n) : ''}</span><button type="button" class="filter-reset-btn" data-del-add="${i}" aria-label="Retirer">✕</button></div>`).join('')}</div>
-              ${IDEA_GROUPS.map(([g, title]) => `<div class="admin-sec-req-title" style="font-size:12px;margin:8px 0 4px;">${title}</div><div class="admin-sec-req-chips">${IDEAS.filter(id => id.g === g && !state.add.some(a => a.t === id.t)).map(id => `<button type="button" class="admin-sec-chip is-idea" data-idea="${IDEAS.indexOf(id)}" title="${escapeHtml(id.n)}">➕ ${escapeHtml(id.t)}</button>`).join('')}</div>`).join('')}
-            </div>
-            <div class="admin-sec-add-row" style="margin-top:10px;"><button type="button" class="admin-btn-primary" id="adminSecCopyBtn">📋 Copier ma liste</button><button type="button" class="filter-reset-btn" id="adminSecClearBtn">Vider</button><span id="adminSecStatus" class="info-text" style="font-size:12px;align-self:center;"></span></div>`;
-        }
-        function listText() {
-          const rm = state.remove.map(id => (TOGGLEABLE_SECTIONS.find(x => x.id === id) || { label: id }).label);
-          const lines = ['Modifications de sections du site :'];
-          lines.push(rm.length ? `À supprimer : ${rm.join(', ')}` : 'À supprimer : rien');
-          lines.push(state.add.length ? 'À ajouter :\n' + state.add.map(a => `- ${a.t}${a.n ? ' (' + a.n + ')' : ''}`).join('\n') : 'À ajouter : rien');
-          return lines.join('\n');
-        }
-        box.addEventListener('click', async (e) => {
-          const rm = e.target.closest('[data-rm]');
-          const idea = e.target.closest('[data-idea]');
-          const del = e.target.closest('[data-del-add]');
-          if (rm) { const id = rm.dataset.rm; state.remove = state.remove.includes(id) ? state.remove.filter(x => x !== id) : state.remove.concat(id); save(); render(); return; }
-          if (idea) { const it = IDEAS[parseInt(idea.dataset.idea, 10)]; if (it) { state.add.push({ t: it.t, n: it.n }); save(); render(); } return; }
-          if (del) { state.add.splice(parseInt(del.dataset.delAdd, 10), 1); save(); render(); return; }
-          if (e.target.id === 'adminSecAddBtn') {
-            const t = (document.getElementById('adminSecAddTitle').value || '').trim();
-            const n = (document.getElementById('adminSecAddNote').value || '').trim();
-            if (!t) return;
-            state.add.push({ t, n }); save(); render(); return;
-          }
-          if (e.target.id === 'adminSecClearBtn') { state = { remove: [], add: [] }; save(); render(); return; }
-          if (e.target.id === 'adminSecCopyBtn') {
-            const st = document.getElementById('adminSecStatus');
-            try { await navigator.clipboard.writeText(listText()); if (st) st.textContent = '✅ Liste copiée : colle-la dans le chat.'; }
-            catch (err) { prompt('Copie cette liste :', listText()); }
-          }
-        });
-        render();
-      })();
-
-      // --- 🆕 Disponibilité : jours bloqués à la main (#adminAvailabilityTool, onglet 🧩 Sections du
-      // site). Contrairement au reste de cet onglet (qui ne fait que prévisualiser dans CE navigateur),
-      // celui-ci écrit vraiment dans le Sheet via APPS_SCRIPT_URL — donc visible par tout le monde une
-      // fois enregistré. Voir le commentaire au-dessus de loadAdminBlockedDays() (plus bas dans le
-      // script) pour le code Apps Script à coller si "getBlockedDays"/"setBlockedDays" n'existent pas
-      // encore côté script — sans ça, cet outil affiche juste un message d'erreur clair, rien de cassé. ---
+      // --- 📅 Disponibilité (onglet dédié) : on clique un jour du calendrier pour le bloquer/débloquer.
+      // Enregistré dans le Sheet via l'action Apps Script "setBlockedDays" (voir apps-script-jours-bloques.gs).
+      // Si le Sheet ne répond pas, le blocage est gardé sur cet appareil et un message l'explique. ---
       (function initAdminAvailabilityTool() {
-        const input = document.getElementById('adminBlockedDayInput');
-        const addBtn = document.getElementById('adminBlockedDayAddBtn');
+        const grid = document.getElementById('adminDispoGrid');
+        const monthEl = document.getElementById('adminDispoMonth');
         const list = document.getElementById('adminBlockedDaysList');
         const status = document.getElementById('adminBlockedDaysStatus');
-        if (!input || !addBtn || !list || !status) return;
-        let currentDays = [];
+        if (!grid || !monthEl || !list || !status) return;
+        const LOCAL_KEY = 'michyy_blocked_days_local';
+        const p2 = n => String(n).padStart(2, '0');
+        const now0 = new Date();
+        const todayIso = `${now0.getFullYear()}-${p2(now0.getMonth() + 1)}-${p2(now0.getDate())}`;
+        let days = [];
+        let view = new Date(now0.getFullYear(), now0.getMonth(), 1);
+        const configured = () => APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT');
+        const call = (action, extra) => fetch(`${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=${action}${extra || ''}&_ts=${Date.now()}`)
+          .then(r => r.json()).then(d => { if (!d || !d.success) throw new Error('bad-response'); return d; });
+        const LOCAL_MSG = "⚠️ Bloqué seulement sur cet appareil : le Sheet n'a pas répondu à setBlockedDays. Colle le code du fichier apps-script-jours-bloques.gs dans ton Apps Script (et autorise ces actions dans sheets-proxy.js si il filtre).";
 
+        function pushToPublic() {
+          const n = new Date();
+          ADMIN_BLOCKED_DAYS_THIS_MONTH = days.map(s => new Date(s + 'T00:00:00'))
+            .filter(d => !isNaN(d.getTime()) && d.getFullYear() === n.getFullYear() && d.getMonth() === n.getMonth())
+            .map(d => d.getDate());
+          renderAvailabilityCalendar();
+          renderHeroAvailabilityStrip();
+          renderReservationWeekStrip();
+          if (typeof refreshDateLivraisonHint === 'function') refreshDateLivraisonHint();
+        }
         function render() {
-          if (!currentDays.length) {
-            list.innerHTML = '<p class="info-text" style="font-size:12px;">Aucun jour bloqué manuellement pour le moment.</p>';
-            return;
+          const y = view.getFullYear(), m = view.getMonth();
+          monthEl.textContent = view.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
+          const lead = (new Date(y, m, 1).getDay() + 6) % 7;
+          const count = new Date(y, m + 1, 0).getDate();
+          let h = ['lun', 'mar', 'mer', 'jeu', 'ven', 'sam', 'dim'].map(x => `<span class="dispo-dow">${x}</span>`).join('') + '<span></span>'.repeat(lead);
+          for (let d = 1; d <= count; d++) {
+            const s = `${y}-${p2(m + 1)}-${p2(d)}`;
+            h += `<button type="button" class="dispo-day${days.includes(s) ? ' is-blocked' : ''}${s === todayIso ? ' is-today' : ''}" data-iso="${s}"${s < todayIso ? ' disabled' : ''}>${d}</button>`;
           }
-          const sorted = [...currentDays].sort();
-          list.innerHTML = sorted.map(d => `<span class="admin-blocked-day-chip">${d}<button type="button" class="admin-blocked-day-remove" data-day="${d}" aria-label="Débloquer ce jour">✕</button></span>`).join('');
-          list.querySelectorAll('.admin-blocked-day-remove').forEach(btn => {
-            btn.addEventListener('click', () => save(currentDays.filter(d => d !== btn.dataset.day)));
-          });
+          grid.innerHTML = h;
+          const up = days.filter(s => s >= todayIso).sort();
+          list.innerHTML = up.length
+            ? up.map(s => `<span class="admin-blocked-day-chip">${new Date(s + 'T00:00:00').toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })}<button type="button" class="admin-blocked-day-remove" data-iso="${s}" aria-label="Débloquer ce jour">✕</button></span>`).join('')
+            : '<p class="info-text" style="font-size:12px;">Aucun jour bloqué à venir.</p>';
         }
-
-        function save(days) {
-          if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT')) {
-            status.textContent = '⚠️ Apps Script pas encore configuré (APPS_SCRIPT_URL).';
-            return;
-          }
-          addBtn.disabled = true;
+        function save(next) {
+          days = next; render(); pushToPublic();
+          try { localStorage.setItem(LOCAL_KEY, JSON.stringify(days)); } catch (e) { /* ignore */ }
+          if (!configured()) { status.textContent = LOCAL_MSG; return; }
           status.textContent = 'Enregistrement…';
-          fetch(`${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=setBlockedDays&days=${encodeURIComponent(days.join(','))}`)
-            .then(res => res.json())
-            .then(data => {
-              if (!data || !data.success) throw new Error('bad-response');
-              currentDays = days;
-              status.textContent = '✅ Enregistré — visible par tout le monde (calendrier public, frise du hero, ligne au-dessus du formulaire).';
-              render();
-            })
-            .catch(() => { status.textContent = '⚠️ Échec de l\'enregistrement — action "setBlockedDays" pas encore ajoutée côté Apps Script, ou connexion indisponible.'; })
-            .finally(() => { addBtn.disabled = false; });
+          call('setBlockedDays', '&days=' + encodeURIComponent(days.join(',')))
+            .then(() => { status.textContent = '✅ Enregistré — visible par tout le monde.'; })
+            .catch(() => { status.textContent = LOCAL_MSG; });
         }
+        grid.addEventListener('click', (e) => {
+          const b = e.target.closest('[data-iso]');
+          if (!b || b.disabled) return;
+          const s = b.dataset.iso;
+          save(days.includes(s) ? days.filter(x => x !== s) : days.concat(s).sort());
+        });
+        list.addEventListener('click', (e) => { const b = e.target.closest('[data-iso]'); if (b) save(days.filter(x => x !== b.dataset.iso)); });
+        document.getElementById('adminDispoPrev').addEventListener('click', () => { view = new Date(view.getFullYear(), view.getMonth() - 1, 1); render(); });
+        document.getElementById('adminDispoNext').addEventListener('click', () => { view = new Date(view.getFullYear(), view.getMonth() + 1, 1); render(); });
 
         function load() {
-          if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT')) {
-            status.textContent = '⚠️ Apps Script pas encore configuré (APPS_SCRIPT_URL).';
-            return;
-          }
-          status.textContent = 'Chargement…';
-          fetch(`${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=getBlockedDays&_ts=${Date.now()}`)
-            .then(res => res.json())
-            .then(data => {
-              if (!data || !data.success || !Array.isArray(data.days)) throw new Error('bad-response');
-              currentDays = data.days;
-              status.textContent = '';
-              render();
-            })
-            .catch(() => { status.textContent = '⚠️ Action "getBlockedDays" pas encore ajoutée côté Apps Script (voir le commentaire au-dessus de loadAdminBlockedDays() dans le code).'; });
+          try { const l = JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]'); days = Array.isArray(l) ? l : []; } catch (e) { days = []; }
+          render();
+          if (!configured()) return;
+          call('getBlockedDays').then(d => { days = d.days; render(); pushToPublic(); })
+            .catch(() => { if (days.length) { pushToPublic(); status.textContent = LOCAL_MSG; } });
         }
-
-        addBtn.addEventListener('click', () => {
-          const val = input.value;
-          if (!val || !/^\d{4}-\d{2}-\d{2}$/.test(val)) { status.textContent = 'Choisis une date d\'abord.'; return; }
-          if (currentDays.includes(val)) { status.textContent = 'Ce jour est déjà bloqué.'; return; }
-          save([...currentDays, val].sort());
-          input.value = '';
-        });
-
-        load();
+        setTimeout(load, 0); // après la fin du script : ADMIN_BLOCKED_DAYS_THIS_MONTH est déclaré plus bas
       })();
 
       function renderAdminExtras3(dataRows) {
@@ -16772,7 +16843,7 @@ Date limite :</pre>
       // Regroupement des statuts en 3 grandes catégories pour le tableau de bord
       function statusCategory(status) {
         if (status.includes('Livré')) return 'delivered';
-        if (status.includes('Annulée') || status.includes('Expirée')) return 'cancelled';
+        if (status.includes('Annulée') || status.includes('Expirée') || status.includes('Supprimée')) return 'cancelled';
         if (status.includes('attente') || status === '') return 'pending';
         return 'inProgress';
       }
@@ -17262,7 +17333,10 @@ Date limite :</pre>
         const overHtml = over.length ? '<ul class="rev-bill-list">' + over.map(x => {
           const f = parseNoteQuickFields(x.r[2] || '');
           const who = f.nom || x.r[5] || 'Client';
-          return `<li><span><strong>${escapeHtml(who)}</strong> · ${escapeHtml(f.nomCommande || String(x.r[0]))}</span><span>${x.n} tours (${x.n - INCLUDED} hors forfait) <span class="rev-bill-fee">${(x.n - INCLUDED) * PRICE} €</span></span></li>`;
+          const orderLabel = f.nomCommande || String(x.r[0]);
+          const extraCount = x.n - INCLUDED;
+          const fee = extraCount * PRICE;
+          return `<li><span><strong>${escapeHtml(who)}</strong> · ${escapeHtml(orderLabel)}</span><span>${x.n} tours (${extraCount} hors forfait) <span class="rev-bill-fee">${fee} €</span> <button type="button" class="filter-reset-btn rev-bill-copy-btn" data-order-id="${escapeHtml(String(x.r[0]))}" data-who="${escapeHtml(who)}" data-order-label="${escapeHtml(orderLabel)}" data-total="${x.n}" data-extra="${extraCount}" data-fee="${fee}">📋 Message</button></span></li>`;
         }).join('') + '</ul>' : '<p class="info-text">Aucune commande n\'a dépassé les 3 révisions incluses.</p>';
         const rankHtml = rank.length ? '<ul class="rev-bill-list">' + rank.map((x, i) =>
           `<li><span>${medals[i] || (i + 1) + '.'} <strong>${escapeHtml(x.g.displayName)}</strong></span><span>${x.n} tour${x.n > 1 ? 's' : ''} · ${x.g.orders.length} commande${x.g.orders.length > 1 ? 's' : ''}${x.ex ? ` <span class="rev-bill-fee">+${x.ex * PRICE} €</span>` : ''}</span></li>`
@@ -17272,6 +17346,31 @@ Date limite :</pre>
           ${overHtml}
           <div class="rev-bill-h">🏆 Clients qui consomment le plus de tours</div>
           ${rankHtml}`;
+
+        // 🆕 Message "à facturer" prêt à copier : un récap en langage client (pas les chiffres bruts
+        // du tableau admin) pour chaque commande hors forfait, à coller directement en DM/Discord.
+        panel.querySelectorAll('.rev-bill-copy-btn').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const who = btn.dataset.who;
+            const orderLabel = btn.dataset.orderLabel;
+            const orderId = btn.dataset.orderId;
+            const total = btn.dataset.total;
+            const extraN = btn.dataset.extra;
+            const fee = btn.dataset.fee;
+            const message = `Salut ${who} ! 👋\n\n`
+              + `Petit récap pour "${orderLabel}" (${orderId}) : ${total} révisions envoyées au total, dont ${extraN} au-delà des 3 incluses dans le forfait.\n`
+              + `Ça fait ${extraN} × 20€ = ${fee}€ à régler en plus, quand tu peux — pas besoin que ce soit immédiat.\n\n`
+              + `Merci ! 🙏`;
+            const original = btn.textContent;
+            try {
+              await navigator.clipboard.writeText(message);
+              btn.textContent = '✅ Copié !';
+            } catch (err) {
+              prompt('Copie ce message :', message);
+            }
+            setTimeout(() => { btn.textContent = original; }, 1800);
+          });
+        });
       }
       function renderDeliveredNoRevisionPanel(dataRows) {
         const panel = document.getElementById('adminDeliveredNoRevisionPanel');
@@ -18806,13 +18905,16 @@ Date limite :</pre>
       adminBulkDeleteBtn.addEventListener('click', async () => {
         const ids = Array.from(selectedOrderIds);
         if (ids.length === 0) return;
-        if (!confirm(`Supprimer définitivement ${ids.length} commande${ids.length > 1 ? 's' : ''} ? Irréversible : les lignes seront effacées du Sheet.`)) return;
+        if (!confirm(`Marquer ${ids.length} commande${ids.length > 1 ? 's' : ''} comme supprimée${ids.length > 1 ? 's' : ''} ? Chaque client verra "commande supprimée" dans son suivi, avec une invitation à te contacter en DM. Rien n'est effacé du Sheet.`)) return;
         adminBulkDeleteBtn.disabled = true;
-        adminBulkDeleteBtn.textContent = '⏳ Suppression...';
+        adminBulkDeleteBtn.textContent = '⏳ Marquage...';
         let failed = 0;
+        const deletedStatus = '🗑️ Supprimée par Michyy';
+        const deletedMessage = "Cette commande a été supprimée. Contacte-moi en DM sur Discord pour plus d'infos : https://discord.com/users/jlmichyy";
         for (const orderId of ids) {
+          const row = lastAdminOrders.find(r => r[0] === orderId) || [];
           try {
-            const url = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=delete&orderId=${encodeURIComponent(orderId)}`;
+            const url = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=update&orderId=${encodeURIComponent(orderId)}&status=${encodeURIComponent(deletedStatus)}&note=${encodeURIComponent(row[2] || '')}&clientMessage=${encodeURIComponent(deletedMessage)}&deliveryLink=${encodeURIComponent(row[6] || '')}&soldeRecu=${encodeURIComponent(row[7] || '')}&dateLivraisonAdmin=${encodeURIComponent(row[8] || '')}`;
             const res = await fetch(url);
             const data = await res.json();
             if (!data.success) failed++;
@@ -18823,7 +18925,7 @@ Date limite :</pre>
         adminBulkDeleteBtn.disabled = false;
         adminBulkDeleteBtn.textContent = '🗑️ Supprimer la sélection';
         selectedOrderIds.clear();
-        if (failed > 0) alert(`${failed} commande(s) sur ${ids.length} n'ont pas pu être supprimées, réessaie pour celles-ci.`);
+        if (failed > 0) alert(`${failed} commande(s) sur ${ids.length} n'ont pas pu être marquées comme supprimées, réessaie pour celles-ci.`);
         loadAdminOrders(false);
       });
 
@@ -19289,27 +19391,60 @@ Date limite :</pre>
           });
         });
 
-        // --- Supprime DÉFINITIVEMENT une commande (la ligne est effacée du Sheet, irréversible). ---
-        // ⚠️ IMPORTANT — nécessite une nouvelle action côté Apps Script : voir action=delete dans
-        // le bloc d'instructions juste avant le bouton "Enregistrer" plus haut dans ce fichier.
+        // --- Marque une commande comme supprimée : PLUS de suppression physique de la ligne (l'ancien
+        // comportement effaçait la ligne du Sheet ET laissait le client dans le flou — son suivi
+        // affichait soit rien de nouveau, soit un message "Expirée" trompeur après 24h). Ici, on
+        // réutilise l'action "update" déjà en place (aucun changement Apps Script requis) pour poser
+        // un statut ⛔ explicite + un message client automatique : le client le voit dès son prochain
+        // chargement de la page de suivi, avec l'explication et le lien pour te contacter.
         adminOrdersList.querySelectorAll('.admin-hide-btn').forEach(btn => {
           btn.addEventListener('click', async () => {
             const orderId = btn.dataset.orderId;
-            if (!confirm(`Supprimer définitivement ${orderId} ? La ligne sera effacée du Sheet, impossible de revenir en arrière, la commande et tout son historique (notes, messages...) seront perdus.`)) return;
+            if (!confirm(`Marquer ${orderId} comme supprimée ? Le client verra immédiatement "commande supprimée" dans son suivi, avec une invitation à te contacter en DM. La ligne reste dans le Sheet (tu peux filtrer les commandes supprimées avec le filtre de statut) — rien n'est effacé définitivement.`)) return;
             btn.disabled = true;
             const originalContent = btn.textContent;
             btn.textContent = '⏳';
+            const row = lastAdminOrders.find(r => r[0] === orderId) || [];
             try {
-              const url = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=delete&orderId=${encodeURIComponent(orderId)}`;
+              const deletedStatus = '🗑️ Supprimée par Michyy';
+              const deletedMessage = "Cette commande a été supprimée. Contacte-moi en DM sur Discord pour plus d'infos : https://discord.com/users/jlmichyy";
+              const url = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=update&orderId=${encodeURIComponent(orderId)}&status=${encodeURIComponent(deletedStatus)}&note=${encodeURIComponent(row[2] || '')}&clientMessage=${encodeURIComponent(deletedMessage)}&deliveryLink=${encodeURIComponent(row[6] || '')}&soldeRecu=${encodeURIComponent(row[7] || '')}&dateLivraisonAdmin=${encodeURIComponent(row[8] || '')}`;
               const res = await fetch(url);
               const data = await res.json();
               if (!data.success) throw new Error('delete-failed');
-              lastAdminOrders = lastAdminOrders.filter(r => r[0] !== orderId);
+              if (row.length) { row[1] = deletedStatus; row[4] = deletedMessage; }
               renderAdminOrdersList(lastAdminOrders);
             } catch (err) {
-              alert(`Échec de la suppression de ${orderId}. Vérifie que ton Apps Script gère bien l'action "delete" (voir les instructions dans le code), puis réessaie.`);
+              alert(`Échec du marquage de ${orderId} comme supprimée. Vérifie ta connexion, puis réessaie.`);
               btn.disabled = false;
               btn.textContent = originalContent;
+            }
+          });
+        });
+
+        // --- 🆕 Bouton "📁 Fichiers" : liste à la demande les fichiers de cette commande sauvegardés
+        // sur Google Drive (action=listClientFiles, voir le bloc d'instructions "Fichiers clients sur
+        // Google Drive" plus haut dans ce fichier). Chargé uniquement au clic (pas au chargement de la
+        // liste entière) pour ne pas multiplier les appels Apps Script inutilement.
+        adminOrdersList.querySelectorAll('.admin-files-btn').forEach(btn => {
+          btn.addEventListener('click', async () => {
+            const orderId = btn.dataset.orderId;
+            const zone = document.getElementById(`adminFiles-${orderId}`);
+            if (!zone) return;
+            if (zone.style.display !== 'none') { zone.style.display = 'none'; return; } // toggle : referme si déjà ouvert
+            zone.style.display = 'block';
+            zone.textContent = '⏳ Chargement...';
+            try {
+              const url = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=listClientFiles&orderId=${encodeURIComponent(orderId)}`;
+              const res = await fetch(url);
+              const data = await res.json();
+              if (!data.success) throw new Error('list-failed');
+              const list = data.files || [];
+              zone.innerHTML = list.length
+                ? `📁 ${list.length} fichier${list.length > 1 ? 's' : ''} reçu${list.length > 1 ? 's' : ''} :<ul>${list.map(f => `<li><a href="${escapeHtml(f.url)}" target="_blank" rel="noopener">${escapeHtml(f.name)}</a></li>`).join('')}</ul>`
+                : "Aucun fichier retrouvé sur Drive pour cette commande (normal si le client n'a envoyé qu'un lien, ou si l'upload Drive n'est pas encore configuré côté Apps Script — vérifie alors Discord).";
+            } catch (err) {
+              zone.textContent = "⚠️ Impossible de récupérer les fichiers pour le moment (vérifie que l'action \"listClientFiles\" est bien configurée côté Apps Script) — regarde sur Discord en attendant.";
             }
           });
         });
@@ -20468,8 +20603,10 @@ Date limite :</pre>
               <button type="button" class="admin-rename-btn" data-order-id="${orderId}" title="Modifier l'identifiant de cette commande">✏️</button>
               ${createdDate ? `<span class="admin-order-date">📅 ${createdDate}</span>` : ''}
               <button type="button" class="admin-pin-btn${isPinned(r[0]) ? ' is-pinned' : ''}" data-order-id="${orderId}" title="${isPinned(r[0]) ? 'Désépingler cette commande' : 'Épingler cette commande tout en haut de la liste, quel que soit le tri'}">📌</button>
-              <button type="button" class="admin-hide-btn" data-order-id="${orderId}" title="Supprimer définitivement cette commande (ligne effacée du Sheet, irréversible)">🗑️</button>
+              <button type="button" class="admin-files-btn" data-order-id="${orderId}" title="Voir les fichiers envoyés par ce client (sauvegardés sur Google Drive en plus de Discord)">📁 Fichiers</button>
+              <button type="button" class="admin-hide-btn" data-order-id="${orderId}" title="Marquer cette commande comme supprimée (visible côté client avec invitation à te contacter en DM ; la ligne reste dans le Sheet)">🗑️</button>
             </div>
+            <div class="admin-files-result" id="adminFiles-${orderId}" style="display:none;"></div>
             ${badgesHtml ? `<div class="admin-order-badges">${badgesHtml}</div>` : ''}
             ${customTagsHtml(r[0])}
             <div class="admin-order-row admin-order-actions">
@@ -22073,7 +22210,13 @@ Date limite :</pre>
     (function initWeekStripLink() {
       const link = document.getElementById('reservationWeekStripLink');
       const details = document.getElementById('disponibilites');
-      if (link && details) link.addEventListener('click', () => { details.open = true; });
+      if (!details) return;
+      const toggleCal = (e) => { e.preventDefault(); details.open = !details.open; if (details.open) details.scrollIntoView({ behavior: 'smooth', block: 'center' }); };
+      if (link) link.addEventListener('click', toggleCal);
+      const heroLink = document.querySelector('.hero-availability-strip-link');
+      if (heroLink) heroLink.addEventListener('click', toggleCal);
+      const closeBtn = document.getElementById('availabilityCloseBtn');
+      if (closeBtn) closeBtn.addEventListener('click', () => { details.open = false; });
     })();
 
     // --- 🆕 Badge de statut fidélité (#loyaltyStatusCard, section #fidelite) : compte les commandes
@@ -22178,68 +22321,7 @@ Date limite :</pre>
       input.addEventListener('keydown', (e) => { if (e.key === 'Enter') { e.preventDefault(); lookup(); } });
     })();
 
-    // --- Export .ics des jours complets affichés dans le calendrier ci-dessus : un événement
-    // "journée entière" par jour marqué occupé, sur le mois en cours. Génère le fichier entièrement
-    // côté client (aucune requête serveur) via un Blob, standard iCalendar (RFC 5545) lisible par
-    // Google Calendar, Apple Calendar et Outlook. Pas de flux resynchronisable automatiquement —
-    // juste un instantané au moment du clic, ce qui reste largement suffisant pour un visiteur qui
-    // veut éviter de proposer une date déjà chargée sans avoir à revenir sur le site à chaque fois.
     function pad2(n) { return String(n).padStart(2, '0'); }
-    function exportAvailabilityIcs() {
-      const busyDays = getBusyDaysThisMonth();
-      const now = new Date();
-      const year = now.getFullYear();
-      const month = now.getMonth(); // 0-indexé
-      const monthLabel = now.toLocaleDateString('fr-FR', { month: 'long', year: 'numeric' });
-
-      if (!busyDays.length) {
-        alert(`Aucun jour marqué complet sur ${monthLabel} pour le moment — rien à exporter.`);
-        return;
-      }
-
-      const dtstamp = `${year}${pad2(month + 1)}${pad2(now.getDate())}T${pad2(now.getHours())}${pad2(now.getMinutes())}${pad2(now.getSeconds())}Z`;
-      const events = busyDays.map(day => {
-        const dateStr = `${year}${pad2(month + 1)}${pad2(day)}`;
-        const nextDate = new Date(year, month, day + 1);
-        const dateEndStr = `${nextDate.getFullYear()}${pad2(nextDate.getMonth() + 1)}${pad2(nextDate.getDate())}`;
-        return [
-          'BEGIN:VEVENT',
-          `UID:michyy-dispo-${dateStr}@michyy-portfolio.pages.dev`,
-          `DTSTAMP:${dtstamp}`,
-          `DTSTART;VALUE=DATE:${dateStr}`,
-          `DTEND;VALUE=DATE:${dateEndStr}`,
-          'SUMMARY:🔴 Michyy — planning complet',
-          'DESCRIPTION:Jour déjà chargé au moment de l\'export — vérifie la disponibilité à jour sur le site avant de proposer cette date.',
-          'TRANSP:TRANSPARENT',
-          'END:VEVENT'
-        ].join('\r\n');
-      });
-
-      const icsContent = [
-        'BEGIN:VCALENDAR',
-        'VERSION:2.0',
-        'PRODID:-//Michyy//Disponibilites//FR',
-        'CALSCALE:GREGORIAN',
-        ...events,
-        'END:VCALENDAR'
-      ].join('\r\n');
-
-      const blob = new Blob([icsContent], { type: 'text/calendar;charset=utf-8' });
-      const url = URL.createObjectURL(blob);
-      const link = document.createElement('a');
-      link.href = url;
-      link.download = `michyy-disponibilites-${year}-${pad2(month + 1)}.ics`;
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-      URL.revokeObjectURL(url);
-      trackToolUsage('availability-ics-export');
-    }
-    const exportAvailabilityIcsBtn = document.getElementById('exportAvailabilityIcsBtn');
-    if (exportAvailabilityIcsBtn) {
-      exportAvailabilityIcsBtn.addEventListener('click', exportAvailabilityIcs);
-    }
-
     // Alerte "créneau libéré" par email retirée (redondante avec le calendrier de disponibilité
     // ci-dessus, qui remplit déjà ce besoin) — un seul mécanisme, plus simple à maintenir.
 
@@ -22427,6 +22509,62 @@ Date limite :</pre>
     //
     // Tant que ces deux actions n'existent pas côté script, l'inscription/connexion par email répond
     // une erreur claire côté site (rien n'est cassé), et Google/Discord répondent de même.
+
+    // 🆕 Fichiers clients sur Google Drive (en plus de Discord, jamais à la place) : voir
+    // uploadFilesToDrive() plus bas dans ce fichier (appelée à l'envoi de commande et à l'envoi de
+    // rushs tardifs) et le bouton "📁 Fichiers" du panneau admin. Deux choses à ajouter côté Apps
+    // Script :
+    //
+    // 1) Une action "uploadClientFile", à ajouter à la fonction doPost(e) de ton script — SI ton
+    //    script n'a pas encore de doPost du tout, ajoute cette fonction telle quelle (à côté de ton
+    //    doGet existant, pas à la place) :
+    //
+    //   function doPost(e) {
+    //     var body = JSON.parse(e.postData.contents);
+    //     if (body.secret !== SECRET) { // 🔧 remplace SECRET par le nom de ta variable de secret existante
+    //       return ContentService.createTextOutput(JSON.stringify({ success: false, error: 'unauthorized' })).setMimeType(ContentService.MimeType.JSON);
+    //     }
+    //     if (body.action === 'uploadClientFile') {
+    //       var rootName = 'Commandes clients (site)';
+    //       var rootIter = DriveApp.getFoldersByName(rootName);
+    //       var root = rootIter.hasNext() ? rootIter.next() : DriveApp.createFolder(rootName);
+    //       var orderIter = root.getFoldersByName(body.orderId);
+    //       var orderFolder = orderIter.hasNext() ? orderIter.next() : root.createFolder(body.orderId);
+    //       var bytes = Utilities.base64Decode(body.dataBase64);
+    //       var blob = Utilities.newBlob(bytes, body.mimeType || 'application/octet-stream', body.filename || 'fichier');
+    //       var file = orderFolder.createFile(blob);
+    //       return ContentService.createTextOutput(JSON.stringify({ success: true, url: file.getUrl() })).setMimeType(ContentService.MimeType.JSON);
+    //     }
+    //     return ContentService.createTextOutput(JSON.stringify({ success: false, error: 'unknown-action' })).setMimeType(ContentService.MimeType.JSON);
+    //   }
+    //
+    //   Si tu as DÉJÀ un doPost(e) dans ton script, colle seulement le bloc "if (body.action ===
+    //   'uploadClientFile') { ... }" ci-dessus À L'INTÉRIEUR de ta fonction existante, avant son
+    //   dernier "return" par défaut.
+    //
+    // 2) Une action "listClientFiles", à ajouter dans ton doGet(e) existant, à côté de tes autres
+    //    "if (action === ...)" :
+    //
+    //   if (action === 'listClientFiles') {
+    //     var rootIter2 = DriveApp.getFoldersByName('Commandes clients (site)');
+    //     if (!rootIter2.hasNext()) return jsonOut({ success: true, files: [] }); // 🔧 remplace jsonOut par ta fonction de sortie JSON habituelle si le nom diffère
+    //     var orderIter2 = rootIter2.next().getFoldersByName(e.parameter.orderId);
+    //     if (!orderIter2.hasNext()) return jsonOut({ success: true, files: [] });
+    //     var filesIter = orderIter2.next().getFiles();
+    //     var out = [];
+    //     while (filesIter.hasNext()) {
+    //       var f = filesIter.next();
+    //       out.push({ name: f.getName(), url: f.getUrl() });
+    //     }
+    //     return jsonOut({ success: true, files: out });
+    //   }
+    //
+    // Résultat : chaque commande a son propre dossier dans "Commandes clients (site)" sur ton Drive
+    // Google — visible dans l'explorateur de fichiers Windows/Mac si "Google Drive pour ordinateur"
+    // est installé et synchronisé sur ce compte. Les fichiers restent AUSSI envoyés sur Discord comme
+    // avant : les deux copies coexistent, tu choisis laquelle tu utilises au cas par cas. Tant que ces
+    // deux actions ne sont pas collées, l'upload Drive échoue silencieusement (Discord reste la copie
+    // fiable) et le bouton "📁 Fichiers" affiche un message clair plutôt qu'une erreur brute.
 
 
     // (puce « vidéos montées ce mois-ci » retirée de la carte de statut — voir #statusCard)
@@ -24488,14 +24626,16 @@ Date limite :</pre>
       const list = document.getElementById('orderFileList');
       const msgEl = document.getElementById('orderFileMsg');
       const countEl = document.getElementById('orderExtraFileCount');
-      if (list) list.innerHTML = orderFiles.map((f, i) => `<li><span class="n">📎 ${escapeHtml(f.name)}</span><span>${formatFileSize(f.size)} <button type="button" class="file-drop-remove" data-file-remove="${i}" aria-label="Retirer ${escapeHtml(f.name)}">✕</button></span></li>`).join('');
+      if (list) list.innerHTML = orderFiles.map((f, i) => `<li><span class="n">📎 ${escapeHtml(f.name)}${f.attachFor ? ' <em>(' + escapeHtml(f.attachFor) + ')</em>' : ''}</span><span>${formatFileSize(f.size)} <button type="button" class="file-drop-remove" data-file-remove="${i}" aria-label="Retirer ${escapeHtml(f.name)}">✕</button></span></li>`).join('');
       if (msgEl) msgEl.textContent = msg || '';
       if (countEl) countEl.textContent = orderFiles.length ? `${orderFiles.length} fichier${orderFiles.length > 1 ? 's' : ''} · ${formatFileSize(orderFiles.reduce((t, f) => t + f.size, 0))}` : '';
       const link = reserveForm.elements['driveLink'];
-      if (link) link.required = orderFiles.length === 0; // fichiers joints = le lien n'est plus obligatoire
+      if (link) link.required = orderFiles.length === 0 && !rushsLater(); // fichiers joints = le lien n'est plus obligatoire
+      const exEl = reserveForm.elements['exemple'];
+      if (exEl) exEl.required = !orderFiles.some(f => f.attachFor === 'Exemple');
       if (typeof updateFormProgress === 'function') updateFormProgress();
     }
-    function addOrderFiles(fileList) {
+    function addOrderFiles(fileList, tag) {
       let msg = '';
       Array.from(fileList).forEach(f => {
         const total = orderFiles.reduce((t, x) => t + x.size, 0);
@@ -24503,11 +24643,56 @@ Date limite :</pre>
         else if (orderFiles.some(x => x.name === f.name && x.size === f.size)) return;
         else if (orderFiles.length >= ORDER_FILES_MAX) msg = `${ORDER_FILES_MAX} fichiers maximum.`;
         else if (total + f.size > ORDER_FILES_MAX_BYTES) msg = `Trop lourd : ${formatFileSize(ORDER_FILES_MAX_BYTES)} au total. Pour les gros fichiers, utilise le lien SwissTransfer.`;
-        else orderFiles.push(f);
+        else { f.attachFor = tag || ''; orderFiles.push(f); }
       });
       renderOrderFiles(msg);
     }
     function clearOrderFiles() { orderFiles.length = 0; renderOrderFiles(); }
+
+    // --- 🆕 Sauvegarde des fichiers clients sur Google Drive (EN PLUS de l'envoi Discord existant,
+    // jamais à la place) : permet de les retrouver depuis l'explorateur de fichiers Windows/Mac si
+    // "Google Drive pour ordinateur" est installé, sans dépendre de Discord pour les récupérer.
+    // Passe par une requête POST vers ton Apps Script (action=uploadClientFile) — voir le bloc
+    // d'instructions "🆕 Fichiers clients sur Google Drive" plus haut dans ce fichier pour le code à
+    // coller côté Apps Script (rien à faire ici si tu n'as pas encore collé ce code : l'upload échoue
+    // juste silencieusement, Discord reste la copie fiable dans tous les cas).
+    //
+    // Content-Type: text/plain (et pas application/json) volontairement : les Web Apps Apps Script ne
+    // répondent pas aux requêtes OPTIONS de préflight CORS, donc un vrai Content-Type JSON ferait
+    // échouer la requête avant même qu'elle parte. text/plain reste une requête "simple" (pas de
+    // préflight) — l'Apps Script lit quand même le contenu comme du JSON côté serveur (voir
+    // e.postData.contents dans les instructions).
+    function fileToBase64(file) {
+      return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = () => resolve(String(reader.result).split(',')[1] || '');
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+      });
+    }
+    async function uploadFilesToDrive(orderId, files) {
+      if (!files || !files.length) return;
+      if (APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT')) return; // pas configuré, on ne tente même pas
+      for (const file of files) {
+        try {
+          const dataBase64 = await fileToBase64(file);
+          await fetch(APPS_SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify({
+              secret: APPS_SCRIPT_SECRET,
+              action: 'uploadClientFile',
+              orderId,
+              filename: file.name,
+              mimeType: file.type || 'application/octet-stream',
+              dataBase64
+            })
+          });
+        } catch (err) {
+          // Best-effort : un échec Drive ne bloque jamais l'envoi Discord, qui reste la copie fiable.
+        }
+      }
+    }
     (function initOrderFileDrop() {
       const input = document.getElementById('orderFileInput');
       const drop = document.getElementById('orderFileDrop');
@@ -24525,19 +24710,115 @@ Date limite :</pre>
         if (b) { orderFiles.splice(Number(b.dataset.fileRemove), 1); renderOrderFiles(); }
       });
     })();
+    (function initInlineAttach() {
+      const input = document.getElementById('attachInlineInput');
+      if (!input) return;
+      let tag = '';
+      document.addEventListener('click', (e) => {
+        const b = e.target.closest ? e.target.closest('[data-attach-for]') : null;
+        if (!b) return;
+        tag = b.dataset.attachFor; input.click();
+      });
+      input.addEventListener('change', () => { addOrderFiles(input.files, tag); input.value = ''; });
+    })();
+    // --- ⏳ Rushs pas encore prêts : le lien devient facultatif, à envoyer sous 7 jours (sinon la commande
+    // est supprimée automatiquement par l'Apps Script, voir supprimerCommandesSansRushs). ---
+    function rushsLater() { const s = reserveForm.elements['rushsDisponibles']; return !!s && s.value.indexOf('Prêts') !== 0; }
+    function isRushsPending(data) { return String(data.get('rushsDisponibles') || '').indexOf('Prêts') !== 0 && !String(data.get('driveLink') || '').trim(); }
+    function rushsDeadlineFr() { return new Date(Date.now() + 7 * 864e5).toLocaleDateString('fr-FR'); }
+    (function initRushsAndOthers() {
+      const sel = reserveForm.elements['rushsDisponibles'];
+      const note = document.getElementById('rushsLaterNote');
+      function applyRushsMode() {
+        const later = rushsLater();
+        const cols = document.querySelector('.files-cols');
+        if (cols) cols.style.display = later ? 'none' : '';
+        if (note) {
+          note.style.display = later ? 'block' : 'none';
+          note.innerHTML = `⏳ Pas besoin de lien maintenant : tu peux <strong>envoyer tes rushs après la commande</strong> (dans le suivi de commande) <strong>sous 7 jours</strong>. Passé ce délai sans rushs, la commande est supprimée automatiquement.`;
+        }
+        const link = reserveForm.elements['driveLink'];
+        if (link) link.required = !later && orderFiles.length === 0;
+        try { updateFormProgress(); } catch (e) { /* pas encore initialisé */ }
+      }
+      if (sel) { sel.addEventListener('change', applyRushsMode); setTimeout(applyRushsMode, 0); }
+      [['dureeVideo', 'Autre'], ['langueVideo', 'Autre langue']].forEach(([name, val]) => {
+        const s = reserveForm.elements[name], o = reserveForm.elements[name + 'Autre'];
+        if (!s || !o) return;
+        const f = () => { o.style.display = s.value === val ? 'block' : 'none'; if (s.value !== val) o.value = ''; };
+        s.addEventListener('change', f); f();
+      });
+    })();
+    // --- 📁 Envoi des rushs APRÈS la commande (bloc #lateRushsBox, dans le suivi) : lien et/ou fichiers,
+    // envoyés sur le même Discord + action Apps Script "rushsReceived" qui retire l'échéance de suppression. ---
+    (function initLateRushs() {
+      const box = document.getElementById('lateRushsBox');
+      if (!box) return;
+      const idIn = document.getElementById('lateRushsOrderId'), linkIn = document.getElementById('lateRushsLink');
+      const list = document.getElementById('lateRushsFileList'), st = document.getElementById('lateRushsStatus');
+      const fileIn = document.getElementById('lateRushsFileInput'), sendBtn = document.getElementById('lateRushsSendBtn');
+      const files = [];
+      const say = (m, ok) => { st.textContent = m; st.style.color = ok ? '#8be28b' : '#e28b8b'; };
+      const draw = () => { list.innerHTML = files.map((f, i) => `<li><span class="n">📎 ${escapeHtml(f.name)}</span><span>${formatFileSize(f.size)} <button type="button" class="file-drop-remove" data-late-rm="${i}" aria-label="Retirer">✕</button></span></li>`).join(''); };
+      setTimeout(() => { try { idIn.value = localStorage.getItem(LAST_ORDER_ID_KEY) || ''; } catch (e) { /* ignore */ } }, 0);
+      document.getElementById('lateRushsAddBtn').addEventListener('click', () => fileIn.click());
+      fileIn.addEventListener('change', () => {
+        Array.from(fileIn.files).forEach(f => {
+          const total = files.reduce((s, x) => s + x.size, 0);
+          if (ORDER_FILES_BLOCKED.test(f.name)) say(`« ${f.name} » : type de fichier refusé.`, false);
+          else if (files.length >= ORDER_FILES_MAX || total + f.size > ORDER_FILES_MAX_BYTES) say(`Trop lourd (${formatFileSize(ORDER_FILES_MAX_BYTES)} max au total) : utilise plutôt un lien SwissTransfer.`, false);
+          else files.push(f);
+        });
+        fileIn.value = ''; draw();
+      });
+      list.addEventListener('click', (e) => { const b = e.target.closest('[data-late-rm]'); if (b) { files.splice(Number(b.dataset.lateRm), 1); draw(); } });
+      document.addEventListener('click', (e) => {
+        const a = e.target.closest ? e.target.closest('[data-open-late-rushs]') : null;
+        if (!a) return;
+        e.preventDefault(); box.open = true;
+        if (window.__lastOrderId) idIn.value = window.__lastOrderId;
+        box.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      });
+      sendBtn.addEventListener('click', async () => {
+        const id = (idIn.value || '').trim().toUpperCase(), link = (linkIn.value || '').trim();
+        if (!/^CMD-[A-Z0-9]{6}$/.test(id)) return say('Numéro de commande invalide (ex : CMD-AB12CD).', false);
+        if (!link && !files.length) return say('Ajoute un lien ou au moins un fichier.', false);
+        sendBtn.disabled = true; say('Envoi en cours...', true); st.style.color = '#888';
+        const payload = { content: '@everyone', embeds: [{ title: `📁 Rushs reçus après commande — ${id}`, color: 5763719, fields: [
+          { name: 'N° de suivi', value: id }, { name: 'Lien', value: link || '—' },
+          { name: 'Fichiers', value: files.length ? files.map(f => `• ${f.name} (${formatFileSize(f.size)})`).join('\n').slice(0, 1000) : '—' }] }] };
+        try {
+          let opts = { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) };
+          if (files.length) { const m = new FormData(); m.append('payload_json', JSON.stringify(payload)); files.forEach((f, n) => m.append(`files[${n}]`, f, f.name)); opts = { method: 'POST', body: m }; }
+          const res = await fetch(WEBHOOK_URL, opts);
+          if (!res.ok) throw new Error('send-failed');
+          if (!APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT')) fetch(`${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=rushsReceived&orderId=${encodeURIComponent(id)}&link=${encodeURIComponent(link || (files.length ? 'fichiers envoyés sur Discord' : ''))}`).catch(() => {});
+          if (files.length) uploadFilesToDrive(id, files.slice()); // best-effort, en plus de Discord
+          files.length = 0; draw(); linkIn.value = '';
+          say('✅ Rushs envoyés ! La commande ne sera pas supprimée.', true);
+        } catch (err) { say("⚠️ L'envoi a échoué — réessaie ou écris-moi sur X / Discord.", false); }
+        sendBtn.disabled = false;
+      });
+    })();
     // Réponses aux questions ajoutées (profil, plateforme, format d'image, durée, langue, public, éléments, ajouts).
     function orderExtraAnswers(data) {
       return [['🙋', 'Profil', 'profilClient'], ['📱', 'Plateforme', 'plateformeVideo'], ['🖼️', 'Format d\'image', 'formatImage'], ['⏳', 'Durée visée', 'dureeVideo'],
         ['🌍', 'Langue', 'langueVideo'], ['👥', 'Public visé', 'publicCible'], ['🏷️', 'À faire apparaître', 'elementsMarque'], ['✍️', 'Ajouts du client', 'ajoutsClient']]
-        .map(([icon, label, key]) => ({ icon, label, value: String(data.get(key) || '').trim() })).filter(x => x.value);
+        .map(([icon, label, key]) => {
+          let v = String(data.get(key) || '').trim();
+          const other = (k) => String(data.get(k) || '').trim() || 'non précisé';
+          if (key === 'dureeVideo' && v === 'Autre') v = 'Autre : ' + other('dureeVideoAutre');
+          if (key === 'langueVideo' && v === 'Autre langue') v = 'Autre langue : ' + other('langueVideoAutre');
+          return { icon, label, value: v };
+        }).filter(x => x.value);
     }
 
     const requiredFieldsForProgress = [
       () => reserveForm.elements['nom'].value.trim() !== '',
       () => reserveForm.elements['contact'].value.trim() !== '',
-      () => reserveForm.elements['driveLink'].value.trim() !== '' || orderFiles.length > 0,
+      () => reserveForm.elements['driveLink'].value.trim() !== '' || orderFiles.length > 0 || rushsLater(),
       () => reserveForm.elements['description'].value.trim() !== '',
-      () => reserveForm.elements['exemple'].value.trim() !== '',
+      () => reserveForm.elements['exemple'].value.trim() !== '' || orderFiles.some(f => f.attachFor === 'Exemple'),
       () => document.getElementById('acceptCgvCheck').checked
     ];
     function updateFormProgress() {
@@ -25428,9 +25709,11 @@ Date limite :</pre>
               </label>
               <label>Lien des rushs pour cette vidéo <span class="optional-tag">(obligatoire, laisse vide uniquement si RIGOUREUSEMENT le même lien que la vidéo 1)</span>
                 <input type="text" class="video-extra-link" placeholder="ex : https://swisstransfer.com/d/... (vidéo ${i})" value="${escapeHtml(prev.link)}" />
+                <button type="button" class="attach-inline-btn" data-attach-for="Vidéo ${i} — rushs">📎 Joindre un fichier</button>
               </label>
               <label>Exemple de ce que tu veux pour cette vidéo <span class="optional-tag">(obligatoire, propre à cette vidéo)</span>
                 <textarea class="video-extra-exemple" rows="2" placeholder="Style, référence ou lien propre à cette vidéo">${escapeHtml(prev.exemple)}</textarea>
+                <button type="button" class="attach-inline-btn" data-attach-for="Vidéo ${i} — exemple">📎 Joindre un fichier</button>
               </label>
             </div>
           </details>`;
@@ -26140,6 +26423,84 @@ Date limite :</pre>
       if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
 
+    // --- 🔄 Abonnement : parcours dédié (fenêtre #subModalOverlay), sans passer par le formulaire de
+    // commande. Même webhook Discord que la liste d'attente, avec un titre distinct. ---
+    (function initSubscriptionFlow() {
+      const overlay = document.getElementById('subModalOverlay');
+      const form = document.getElementById('subForm');
+      if (!overlay || !form) return;
+      const statusEl = document.getElementById('subStatus');
+      const btn = document.getElementById('subSubmitBtn');
+      const done = document.getElementById('subDone');
+      const PLANS = { '4': '4 vidéos — 145€/mois', '8': '8 vidéos — 280€/mois' };
+      let plan = '8';
+      function setPlan(p) {
+        plan = p === '4' ? '4' : '8';
+        overlay.querySelectorAll('[data-sub-plan]').forEach(b => { const on = b.dataset.subPlan === plan; b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', on); });
+      }
+      function open(p) {
+        setPlan(p);
+        form.style.display = 'block'; done.style.display = 'none'; statusEl.textContent = '';
+        try { const s = JSON.parse(localStorage.getItem('michyy_session') || 'null'); if (s && s.name && !form.nom.value) form.nom.value = s.name; } catch (e) { /* ignore */ }
+        overlay.classList.add('is-open');
+      }
+      const close = () => overlay.classList.remove('is-open');
+      document.querySelectorAll('[data-open-subscription]').forEach(a => a.addEventListener('click', (e) => { e.preventDefault(); open(a.dataset.openSubscription); }));
+      overlay.querySelectorAll('[data-sub-plan]').forEach(b => b.addEventListener('click', () => setPlan(b.dataset.subPlan)));
+      document.getElementById('subModalCloseBtn').addEventListener('click', close);
+      overlay.addEventListener('click', (e) => { if (e.target === overlay) close(); });
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        if (isLikelySpam(form)) return;
+        const d = new FormData(form);
+        const payload = { content: '@everyone', embeds: [{
+          title: "🔄 Nouvelle demande d'ABONNEMENT", color: 15773216,
+          description: 'Pas une commande à l\'unité : abonnement mensuel à valider.',
+          fields: [
+            { name: 'Formule', value: PLANS[plan] },
+            { name: 'Nom / pseudo', value: d.get('nom') || 'non précisé' },
+            { name: 'Plateforme', value: `${d.get('plateforme')} · ${d.get('chaine')}` },
+            { name: 'Contact', value: `${d.get('reseau')} · ${d.get('contact')}` },
+            { name: 'Rythme', value: d.get('rythme') },
+            { name: 'Début souhaité', value: d.get('debut') },
+            { name: 'Message', value: d.get('message') || '—' }
+          ] }] };
+        btn.disabled = true; statusEl.style.color = '#888'; statusEl.textContent = 'Envoi en cours...';
+        try {
+          if (WEBHOOK_URL.includes('COLLE_TON')) throw new Error('not-configured');
+          const res = await fetch(WEBHOOK_URL, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
+          if (!res.ok) throw new Error('send-failed');
+          form.style.display = 'none'; statusEl.textContent = ''; done.style.display = 'block';
+        } catch (err) {
+          statusEl.style.color = '#ff8a8a';
+          statusEl.textContent = "⚠️ L'envoi a échoué — écris-moi directement sur X ou Discord en attendant.";
+        } finally { btn.disabled = false; }
+      });
+    })();
+
+    // --- 🤝 Parrainage simplifié : le parrain copie SON lien (?parrain=pseudo), le filleul l'ouvre et
+    // PARRAIN10 + le pseudo du parrain sont remplis tout seuls. ---
+    (function initReferralLink() {
+      const inp = document.getElementById('referralPseudoInput');
+      const btn = document.getElementById('referralCopyBtn');
+      const msg = document.getElementById('referralMsg');
+      if (btn && inp && msg) btn.addEventListener('click', async () => {
+        const pseudo = (inp.value || '').trim() || ((reserveForm.elements['nom'] || {}).value || '').trim();
+        if (!pseudo) { msg.textContent = "Indique d'abord ton pseudo."; return; }
+        const url = `${location.origin}${location.pathname}?parrain=${encodeURIComponent(pseudo)}#reservation`;
+        try { await navigator.clipboard.writeText(url); msg.textContent = '✅ Lien copié : envoie-le à ton ami.'; }
+        catch (e) { prompt('Copie ce lien :', url); }
+      });
+      const from = (urlParams.get('parrain') || '').trim().slice(0, 60);
+      if (!from) return;
+      setTimeout(() => {
+        const chip = document.querySelector('[data-use-promo="PARRAIN10"]');
+        if (chip && !chip.classList.contains('is-applied')) chip.click();
+        const pi = document.getElementById('parrainPseudoInput');
+        if (pi) { pi.value = from; pi.dispatchEvent(new Event('input', { bubbles: true })); }
+      }, 150);
+    })();
+
     // --- Tous les liens "Je réserve ce format/pack →" de la section Tarifs (voir data-apply-format
     // dans le HTML) passent par ici plutôt que par un simple ancrage #reservation : le format (et
     // la quantité pour les packs) choisi dans Tarifs est directement repris dans le formulaire. ---
@@ -26559,6 +26920,8 @@ Date limite :</pre>
       function refreshWidget() {
         const session = getSession();
         tocMenu.classList.remove('is-open');
+        const regBtn = document.getElementById('accountRegisterBtn');
+        if (regBtn) regBtn.style.display = (session && session.token) ? 'none' : '';
         if (session && session.token) {
           tocBtn.textContent = `👤 ${session.name || session.email || 'Mon compte'} ▾`;
         } else {
@@ -26586,8 +26949,8 @@ Date limite :</pre>
         }
       }
 
-      function openModal() {
-        setMode('login');
+      function openModal(startMode) {
+        setMode(startMode === 'register' ? 'register' : 'login');
         emailForm.reset();
         overlay.classList.add('is-open');
       }
@@ -26607,6 +26970,8 @@ Date limite :</pre>
         if (!tocMenu.contains(e.target) && e.target !== tocBtn) tocMenu.classList.remove('is-open');
       });
       closeBtn.addEventListener('click', closeModal);
+      const registerBtn = document.getElementById('accountRegisterBtn');
+      if (registerBtn) registerBtn.addEventListener('click', () => openModal('register'));
       overlay.addEventListener('click', (e) => { if (e.target === overlay) closeModal(); });
       document.getElementById('accountSwitchToRegisterLink').addEventListener('click', () => setMode('register'));
       document.getElementById('accountSwitchToLoginLink').addEventListener('click', () => setMode('login'));
@@ -26644,7 +27009,7 @@ Date limite :</pre>
           closeModal();
         } catch (err) {
           statusEl.style.color = '#e28b8b';
-          statusEl.textContent = AUTH_ERROR_MESSAGES[err.message] || AUTH_ERROR_MESSAGES['server-error'];
+          statusEl.textContent = (err instanceof SyntaxError || err instanceof TypeError) ? AUTH_ERROR_MESSAGES['not-configured'] : (AUTH_ERROR_MESSAGES[err.message] || AUTH_ERROR_MESSAGES['server-error']);
         } finally {
           submitBtn.disabled = false;
         }
@@ -26809,6 +27174,7 @@ Date limite :</pre>
       ['complexe', 'Long Complexe / Esport', 'complexe/esport', 'complexe/esport'],
       ['business', 'Business / Sponsorisé', 'business', 'business']
     ];
+    const CUSTOM_PACK_SURCHARGE = 1.10; // 🔧 majoration "pack sur-mesure" vs pack classique
     function computeCustomMixPrice(qtys) {
       const totalQty = CUSTOM_MIX_FORMATS.reduce((sum, [key]) => sum + (qtys[key] || 0), 0);
       let total = CUSTOM_MIX_FORMATS.reduce((sum, [key, priceKey]) => sum + (qtys[key] || 0) * PRICE_FIXED[priceKey], 0);
@@ -26817,6 +27183,10 @@ Date limite :</pre>
       if (bundle) {
         total = total * bundle.rate;
         hints.push(`Pack dégressif (-${Math.round((1 - bundle.rate) * 100)}% dès ${bundle.minQty} vidéos, tous formats confondus)`);
+      }
+      if (totalQty > 0) {
+        total = total * CUSTOM_PACK_SURCHARGE;
+        hints.push('Pack sur-mesure (+10%)');
       }
       if (usageCommercialCheck.checked) {
         total = total * COMMERCIAL_SURCHARGE;
@@ -27138,6 +27508,43 @@ Date limite :</pre>
         </div>`;
     }
 
+    // --- 🆕 Génération CLIENT du lien d'aperçu partagé (?apercu=...) : jusqu'ici seul l'admin
+    // pouvait générer ce lien (shpBuild, panneau admin) et devait le renvoyer au client à la main.
+    // Ici le client construit lui-même le même type de lien depuis SON suivi — même mécanisme
+    // (aucune donnée sensible dedans : ni contact, ni prix, ni lien de livraison), donc rien de
+    // nouveau à protéger côté serveur. Repose sur remoteStatusRows (déjà chargé par
+    // fetchRemoteStatuses ci-dessus) pour retrouver la ligne brute de CETTE commande.
+    function clientBuildSharePreviewUrl(orderId, ttlHours) {
+      const r = remoteStatusRows.find(row => String(row[0] || '').toUpperCase() === orderId.toUpperCase());
+      if (!r) return null;
+      const f = parseNoteQuickFields(r[2] || '');
+      const status = String(r[1] || '');
+      const cat = statusCategory(status);
+      const now = Date.now();
+      const p = { v: 1, id: String(r[0]), n: (f.nom || '').slice(0, 40), t: (f.nomCommande || '').slice(0, 80), s: status.slice(0, 100), g: now, x: now + (ttlHours || 72) * 3600000 };
+      const dlTs = (cat === 'delivered' || cat === 'cancelled') ? null : getEffectiveDeliveryTimestamp(r);
+      if (dlTs) { const d = new Date(dlTs); p.dl = `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`; }
+      const m = String(r[4] || '').trim().slice(0, 300);
+      if (m) p.m = m;
+      const fb = String(r[9] || '').split('\n').filter(l => l.trim()).length;
+      if (fb > 0) p.rc = fb;
+      const bytes = new TextEncoder().encode(JSON.stringify(p));
+      let bin = '';
+      bytes.forEach(b => { bin += String.fromCharCode(b); });
+      const enc = btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
+      return `${window.location.href.split(/[?#]/)[0]}?apercu=${enc}`;
+    }
+    function clientSharePreviewHtml(orderId) {
+      // Rien à afficher si on n'a pas encore la ligne côté Sheet pour cette commande (pas encore
+      // synchronisé, ou commande pas encore reconnue par l'admin) — pas d'erreur visible, juste absent.
+      if (!remoteStatusRows.find(row => String(row[0] || '').toUpperCase() === orderId.toUpperCase())) return '';
+      return `
+        <div class="tracking-share-preview" data-order-id="${escapeHtml(orderId)}">
+          <button type="button" class="tracking-share-preview-btn">🔗 Obtenir un lien à partager (à envoyer à quelqu'un pour lui montrer où ça en est)</button>
+          <p class="tracking-share-preview-note"></p>
+        </div>`;
+    }
+
     function trackingCardHtml(order, opts) {
       opts = opts || {};
       let liveStatus = remoteStatuses[order.id.toUpperCase()] || order.status;
@@ -27152,7 +27559,7 @@ Date limite :</pre>
         liveStatus = '❌ Annulée par toi';
       }
       const isDelivered = liveStatus.includes('Livré');
-      const isCancelled = order.clientCancelled || liveStatus.includes('Annulée') || liveStatus.includes('Expirée');
+      const isCancelled = order.clientCancelled || liveStatus.includes('Annulée') || liveStatus.includes('Expirée') || liveStatus.includes('Supprimée');
       const isConfirmed = !isCancelled && !isStillDefaultStatus && !liveStatus.includes('Envoyée');
       const statusClass = isCancelled ? 'status-cancelled' : (isConfirmed ? 'status-confirmed' : 'status-sent');
       const clientMessage = remoteClientMessages[order.id.toUpperCase()] || '';
@@ -27178,16 +27585,28 @@ Date limite :</pre>
       const revisionCounterHtml = revisionCount > 0
         ? (revisionCount >= REVISIONS_INCLUDED
             ? `<p class="tracking-revision-counter tracking-revision-counter-over">⚠️ Révision ${revisionCount + 1} — au-delà des ${REVISIONS_INCLUDED} incluses, chaque révision supplémentaire (= une nouvelle version envoyée) est facturée <strong>${EXTRA_REVISION_PRICE}€</strong>. Tu es à ${extraCount} révision${extraCount > 1 ? 's' : ''} supplémentaire${extraCount > 1 ? 's' : ''} (soit ${extraCount * EXTRA_REVISION_PRICE}€ au total au-delà du forfait).</p>`
-            : `<p class="tracking-revision-counter">🔁 Révision ${revisionCount} sur ${REVISIONS_INCLUDED} incluses (encore ${revisionsLeft} avant que les révisions supplémentaires soient facturées, ${EXTRA_REVISION_PRICE}€ pièce). Tu peux demander autant de changements que tu veux à chaque révision : regroupe-les dans un seul envoi.</p>`)
+            // 🆕 Alerte AVANT le 3e tour (pas seulement après) : quand il ne reste plus qu'une révision
+            // incluse, le client doit le savoir avant de l'utiliser, pas découvrir le supplément une
+            // fois qu'il l'a déjà déclenché.
+            : (revisionCount === REVISIONS_INCLUDED - 1
+                ? `<p class="tracking-revision-counter tracking-revision-counter-last">⚠️ Il te reste <strong>1 seule révision incluse</strong> (la ${REVISIONS_INCLUDED}e) — regroupe bien tous tes changements dans ce dernier envoi : au-delà, chaque révision supplémentaire sera facturée <strong>${EXTRA_REVISION_PRICE}€</strong>.</p>`
+                : `<p class="tracking-revision-counter">🔁 Révision ${revisionCount} sur ${REVISIONS_INCLUDED} incluses (encore ${revisionsLeft} avant que les révisions supplémentaires soient facturées, ${EXTRA_REVISION_PRICE}€ pièce). Tu peux demander autant de changements que tu veux à chaque révision : regroupe-les dans un seul envoi.</p>`))
         : `<p class="tracking-revision-counter">🔁 ${REVISIONS_INCLUDED} révisions incluses pour cette vidéo : une révision = une nouvelle version que je t'envoie, avec autant de changements demandés que tu veux. Puis +${EXTRA_REVISION_PRICE}€ par révision supplémentaire (à l'unité, pas par lot).</p>`;
       const feedbackSentHtml = rawFeedback
         ? `<details class="tracking-feedback-history"><summary>📜 Tes envois précédents</summary><p>${escapeHtml(rawFeedback).replace(/\n/g, '<br/>')}</p></details>`
         : '';
-      const revisionFormHtml = isInRevision && !opts.hidden ? `
+      // 🆕 Le formulaire de message n'est plus limité aux retouches : le client peut écrire à
+      // Michyy à n'importe quel stade d'une commande active (question, fichier oublié, précision...),
+      // pas seulement une fois arrivé en révision. Même backend (action "clientFeedback", un envoi =
+      // une ligne, jamais écrasée) — seul le libellé et le compteur de révisions changent selon le
+      // stade, pour ne pas parler de "révision" avant que ça en soit vraiment une.
+      const revisionFormHtml = !isCancelled && !opts.hidden ? `
         <div class="tracking-revision-form" data-order-id="${escapeHtml(order.id)}">
-          <p class="tracking-revision-label">🔁 Ta commande est en révision — envoie ici <strong>tous tes changements en un seul message</strong> (autant que tu veux : un envoi = une révision, peu importe le nombre de changements) et/ou un lien (capture, timestamp, exemple...) :</p>
-          ${revisionCounterHtml}
-          <textarea class="tracking-revision-message" rows="3" maxlength="500" placeholder="Décris tous les changements souhaités (autant que tu veux)..."></textarea>
+          <p class="tracking-revision-label">${isInRevision
+            ? '🔁 Ta commande est en révision — envoie ici <strong>tous tes changements en un seul message</strong> (autant que tu veux : un envoi = une révision, peu importe le nombre de changements) et/ou un lien (capture, timestamp, exemple...) :'
+            : '💬 Une question, un fichier à ajouter, une précision ? Écris-moi ici, je reçois ton message directement :'}</p>
+          ${isInRevision ? revisionCounterHtml : ''}
+          <textarea class="tracking-revision-message" rows="3" maxlength="500" placeholder="${isInRevision ? 'Décris tous les changements souhaités (autant que tu veux)...' : 'Ton message...'}"></textarea>
           <input type="text" class="tracking-revision-link" maxlength="300" placeholder="Lien (optionnel) : capture, exemple, timestamp..." />
           <button type="button" class="tracking-revision-send-btn">📤 Envoyer</button>
           <p class="tracking-revision-status"></p>
@@ -27236,6 +27655,7 @@ Date limite :</pre>
                 : `<div class="tracking-locked-delivery">🔒 <strong>Ton fichier est prêt !</strong> Le lien de téléchargement s'affichera ici dès que le solde (50% restant, dû dès ta 1ère retouche) sera réglé et que j'aurai validé la réception du paiement.<br/>
                     <a class="tracking-pay-solde-btn" href="https://www.paypal.com/paypalme/Michyyly" target="_blank" rel="noopener">💳 Régler le solde</a></div>`)
             : ''}
+          ${clientSharePreviewHtml(order.id)}
           ${revisionFormHtml}
           ${!isDelivered && !isCancelled ? emailNotifyHtml(order.id) : ''}
           <button type="button" class="tracking-add-local-btn" data-order-id="${escapeHtml(order.id)}">➕ Ajouter à mon suivi local (pour la retrouver facilement la prochaine fois)</button>
@@ -27257,6 +27677,7 @@ Date limite :</pre>
         Envoyée le ${escapeHtml(order.date)} · Budget indicatif : ${escapeHtml(order.budget || 'non précisé')}
         ${clientMessage ? `<div class="tracking-client-message">💬 <strong>Message de Michyy :</strong> ${escapeHtml(clientMessage)}</div>` : ''}
         ${deliveryLinkHtml}
+        ${clientSharePreviewHtml(order.id)}
         ${revisionFormHtml}
         ${!isDelivered && !isCancelled && !opts.hidden ? emailNotifyHtml(order.id) : ''}
         ${isDelivered && !opts.hidden ? `
@@ -27358,6 +27779,32 @@ Date limite :</pre>
             localStorage.setItem('michyy_orders', JSON.stringify(orders));
           }
           renderOrderHistory();
+        });
+      });
+
+      // --- 🆕 Bouton "Obtenir un lien à partager" (voir clientSharePreviewHtml/clientBuildSharePreviewUrl
+      // plus haut) : génère le même type de lien ?apercu=... que l'admin, mais depuis le suivi du client
+      // lui-même — rien à écrire nulle part, tout est encodé dans l'URL. ---
+      trackingResult.querySelectorAll('.tracking-share-preview-btn').forEach(btn => {
+        btn.addEventListener('click', async () => {
+          const zone = btn.closest('.tracking-share-preview');
+          const orderId = zone ? zone.dataset.orderId : null;
+          const note = zone ? zone.querySelector('.tracking-share-preview-note') : null;
+          if (!orderId) return;
+          const url = clientBuildSharePreviewUrl(orderId, 72);
+          if (!url) {
+            if (note) note.textContent = '⚠️ Impossible pour le moment (statut pas encore synchronisé) — réessaie dans un instant.';
+            return;
+          }
+          const original = btn.textContent;
+          try {
+            await navigator.clipboard.writeText(url);
+            btn.textContent = '✅ Lien copié !';
+          } catch (err) {
+            prompt('Copie ce lien manuellement :', url);
+          }
+          if (note) note.textContent = '📋 Lien copié — valable 3 jours, à envoyer à qui tu veux (aucune info sensible dedans).';
+          setTimeout(() => { btn.textContent = original; }, 2200);
         });
       });
 
@@ -27879,8 +28326,8 @@ Date limite :</pre>
           // le formulaire initial, donc plus d'avertissement "non fournie" permanent et non pertinent
           // pour les 99% de cas où personne n'a encore payé à ce stade.
           ...(preuvePreview ? [{ icon: '💳', label: 'Preuve de paiement', value: preuvePreview }] : []),
-          { icon: '📁', label: 'Lien des rushs', value: data.get('driveLink') || (orderFiles.length ? '📎 voir les fichiers joints' : '⚠️ non fourni'), warn: !data.get('driveLink') && !orderFiles.length },
-          ...(orderFiles.length ? [{ icon: '📎', label: 'Fichiers joints', value: orderFiles.map(f => `${f.name} (${formatFileSize(f.size)})`).join(', ') }] : []),
+          { icon: '📁', label: 'Lien des rushs', value: data.get('driveLink') || (orderFiles.length ? '📎 voir les fichiers joints' : (rushsLater() ? '⏳ à envoyer après la commande (sous 7 jours)' : '⚠️ non fourni')), warn: !data.get('driveLink') && !orderFiles.length && !rushsLater() },
+          ...(orderFiles.length ? [{ icon: '📎', label: 'Fichiers joints', value: orderFiles.map(f => `${f.name}${f.attachFor ? ' [' + f.attachFor + ']' : ''} (${formatFileSize(f.size)})`).join(', ') }] : []),
           { icon: '📝', label: 'Description', value: descriptionPreview || 'non précisé' },
           { icon: '🎨', label: 'Ambiance recherchée', value: ambianceEffective || 'non précisé' },
           { icon: '💬', label: 'Sous-titres', value: data.get('sousTitresSouhaites') || 'non précisé' },
@@ -27966,79 +28413,84 @@ Date limite :</pre>
         }
       }
 
-      const fields = [
-        { name: "Nom / pseudo", value: data.get('nom') || 'non précisé' },
-        { name: "🎬 Nom de la commande", value: data.get('nomCommande') || 'non précisé' },
-        { name: "Type de client", value: data.get('typeClient') || 'non précisé' },
+      // 🆕 Message Discord restructuré en DEUX embeds pour repérer d'un coup d'œil ce que le client
+      // veut, sans le noyer dans 20 champs à plat : le premier embed regroupe uniquement l'essentiel
+      // pour décider/agir (contact, budget, délai, et surtout la Description — la demande du client
+      // en clair) ; le second embed garde tous les détails complémentaires (ambiance, musique,
+      // contraintes...), toujours là mais pas en compétition visuelle avec l'essentiel. Rien n'est
+      // supprimé, juste réorganisé + quelques champs courts passés en "inline" pour tenir sur une
+      // ligne plutôt qu'empiler verticalement.
+      const essentialFields = [
+        { name: "N° de suivi", value: `**${orderId}**`, inline: true },
+        { name: "Nom / pseudo", value: data.get('nom') || 'non précisé', inline: true },
+        { name: "Type de client", value: data.get('typeClient') || 'non précisé', inline: true },
         { name: "Contact", value: `${data.get('reseau')} · ${data.get('contact')}${data.get('reseau') === 'WhatsApp' && data.get('whatsappNumber') ? ' · 📱 ' + data.get('whatsappNumber') : ''}` },
-        { name: "Format souhaité", value: formatBreakdown(data) },
-        { name: "Délai souhaité", value: data.get('delai') || 'non précisé' },
-        { name: "📅 Date de réception voulue", value: data.get('dateLivraisonSouhaitee') ? new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR') : 'non précisée' },
-        { name: "Type de collaboration", value: data.get('collaboration') || 'non précisé' },
-        { name: "Usage commercial / sponsorisé", value: isCommercial ? '✅ Oui' : 'Non' },
-        { name: "Mode urgent", value: isUrgent ? '⚡ Oui' : 'Non' },
-        { name: "Code promo", value: promoAbuseInfo && promoAbuseInfo.abused ? `❌ ${promoCodeRaw} refusé (déjà utilisé, commande ${escapeHtml(promoAbuseInfo.previousOrderId)})` : (appliedPromo ? `🎟️ ${promoCodeRaw} (${appliedPromo.label})` : 'Aucun') },
-        { name: "Budget indicatif", value: data.get('budget') || 'Non précisé' },
-        { name: "Description", value: data.get('description') },
-        { name: "🎨 Ambiance recherchée", value: ambianceEffective || 'non précisé' },
-        { name: "💬 Sous-titres", value: data.get('sousTitresSouhaites') || 'non précisé' },
-        { name: "🎞️ Rushs", value: data.get('rushsDisponibles') || 'non précisé' },
-        { name: "🎯 Objectif de la vidéo", value: objectifEffective || 'non précisé' },
-        { name: "🎵 Musique", value: musiqueEffective || 'non précisé' },
-        { name: "Statut", value: validityStatus }
+        { name: "🎬 Nom de la commande", value: data.get('nomCommande') || 'non précisé' },
+        { name: "Format souhaité", value: formatBreakdown(data), inline: true },
+        { name: "Budget indicatif", value: data.get('budget') || 'Non précisé', inline: true },
+        { name: "Délai souhaité", value: data.get('delai') || 'non précisé', inline: true },
+        { name: "📅 Date de réception voulue", value: data.get('dateLivraisonSouhaitee') ? new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR') : 'non précisée', inline: true },
+        { name: "⚡ Urgent", value: isUrgent ? 'Oui' : 'Non', inline: true },
+        { name: "💼 Commercial", value: isCommercial ? 'Oui' : 'Non', inline: true },
+        // La demande du client en clair — volontairement en tout premier champ non-inline (pleine
+        // largeur) après les infos de contexte courtes ci-dessus, pour sauter aux yeux tout de suite.
+        { name: "💬 CE QUE LE CLIENT VEUT (description)", value: data.get('description') || 'non précisée' },
+        { name: "📁 Lien des rushs", value: data.get('driveLink') || (orderFiles.length ? 'voir les fichiers joints' : (isRushsPending(data) ? '⏳ À envoyer avant le ' + rushsDeadlineFr() + ' (sinon commande supprimée)' : 'non précisé')) },
+        { name: "Statut", value: validityStatus },
+        { name: "Code promo", value: promoAbuseInfo && promoAbuseInfo.abused ? `❌ ${promoCodeRaw} refusé (déjà utilisé, commande ${escapeHtml(promoAbuseInfo.previousOrderId)})` : (appliedPromo ? `🎟️ ${promoCodeRaw} (${appliedPromo.label})` : 'Aucun'), inline: true }
       ];
-      if (data.get('lienChaine')) {
-        fields.push({ name: "🔗 Chaîne / compte", value: data.get('lienChaine') });
-      }
-      if (policeEcriture) {
-        fields.push({ name: "🔤 Police souhaitée (sous-titres)", value: policeEcriture });
-      }
-      if (data.get('contraintes')) {
-        fields.push({ name: "🚫 À éviter / contraintes", value: data.get('contraintes') });
-      }
+      if (orderFiles.length) essentialFields.push({ name: `📎 Fichiers joints (${orderFiles.length})`, value: orderFiles.map(f => `• ${f.name} (${formatFileSize(f.size)})${f.attachFor ? ' — ' + f.attachFor : ''}`).join('\n').slice(0, 1000) });
       if (promoAbuseInfo && promoAbuseInfo.abused) {
-        fields.push({
+        essentialFields.push({
           name: "⚠️ ANTI-ABUS — prix à revérifier",
           value: `Ce contact ou ce nom a déjà utilisé le code ${escapeHtml(promoCodeRaw)} (ou déjà une commande livrée, pour PREMIERE20) — commande ${escapeHtml(promoAbuseInfo.previousOrderId)}. Le code n'a pas été appliqué. Le budget indicatif ci-dessus a été calculé côté client AVANT ce contrôle et inclut peut-être encore la réduction — recalcule le prix toi-même avant de valider.`
         });
       }
-      if (parrainPseudo) {
-        fields.push({ name: "🤝 Parrain à créditer (-10% sur sa prochaine commande)", value: parrainPseudo });
-      }
       if (data.get('format') === 'Prix libre') {
-        fields.push({
+        essentialFields.push({
           name: "💸 PRIX LIBRE — commande à valider",
           value: `Le client propose ${data.get('prixPropose') || '?'}€. Vérifie toi-même s'il est éligible à une réduction (parrainage / -20% 1ère commande) avant de valider, et n'hésite pas à annuler la commande (avec raison notée) si le prix ne te convient pas.`
         });
       }
-      if (preuvePaiement) {
-        fields.push({ name: "Preuve de paiement", value: preuvePaiement });
-      }
-      if (exempleValue) {
-        fields.push({ name: "Exemples / références", value: exempleValue });
-      }
-      if (perVideoText) {
-        fields.push({ name: "🎬 Détail par vidéo (2 et +)", value: perVideoText });
-      }
-      fields.push({ name: "📁 Lien des rushs", value: data.get('driveLink') || (orderFiles.length ? 'voir les fichiers joints' : 'non précisé') });
+
+      const detailFields = [
+        { name: "Type de collaboration", value: data.get('collaboration') || 'non précisé', inline: true },
+        { name: "🎞️ Rushs", value: data.get('rushsDisponibles') || 'non précisé', inline: true },
+        { name: "🎨 Ambiance recherchée", value: ambianceEffective || 'non précisé', inline: true },
+        { name: "💬 Sous-titres", value: data.get('sousTitresSouhaites') || 'non précisé', inline: true },
+        { name: "🎯 Objectif de la vidéo", value: objectifEffective || 'non précisé', inline: true },
+        { name: "🎵 Musique", value: musiqueEffective || 'non précisé', inline: true }
+      ];
+      if (data.get('lienChaine')) detailFields.push({ name: "🔗 Chaîne / compte", value: data.get('lienChaine') });
+      if (policeEcriture) detailFields.push({ name: "🔤 Police souhaitée (sous-titres)", value: policeEcriture });
+      if (data.get('contraintes')) detailFields.push({ name: "🚫 À éviter / contraintes", value: data.get('contraintes') });
+      if (parrainPseudo) detailFields.push({ name: "🤝 Parrain à créditer (-10% sur sa prochaine commande)", value: parrainPseudo });
+      if (preuvePaiement) detailFields.push({ name: "Preuve de paiement", value: preuvePaiement });
+      if (exempleValue) detailFields.push({ name: "Exemples / références", value: exempleValue });
+      if (perVideoText) detailFields.push({ name: "🎬 Détail par vidéo (2 et +)", value: perVideoText });
       const extraAnswers = orderExtraAnswers(data);
-      if (extraAnswers.length) fields.push({ name: "🔎 Précisions du client", value: extraAnswers.map(x => `${x.icon} **${x.label}** : ${x.value}`).join('\n').slice(0, 1000) });
-      if (orderFiles.length) fields.push({ name: `📎 Fichiers joints (${orderFiles.length})`, value: orderFiles.map(f => `• ${f.name} (${formatFileSize(f.size)})`).join('\n').slice(0, 1000) });
-      fields.push({ name: "🎞️ Autorisation portfolio", value: data.get('portfolioConsent') ? '✅ Oui, extrait utilisable' : '❌ Non / pas de réponse' });
+      if (extraAnswers.length) detailFields.push({ name: "🔎 Précisions du client", value: extraAnswers.map(x => `${x.icon} **${x.label}** : ${x.value}`).join('\n').slice(0, 1000) });
+      detailFields.push({ name: "🎞️ Autorisation portfolio", value: data.get('portfolioConsent') ? '✅ Oui, extrait utilisable' : '❌ Non / pas de réponse', inline: true });
       const bonusList = data.getAll('bonus');
       if (bonusList.length) {
-        fields.push({ name: "✨ Bonus", value: `${bonusList.join(', ')} (+${bonusTotalFromValues(bonusList)}€ inclus dans le budget indicatif)` });
+        detailFields.push({ name: "✨ Bonus", value: `${bonusList.join(', ')} (+${bonusTotalFromValues(bonusList)}€ inclus dans le budget indicatif)` });
       }
-      fields.push({ name: "N° de suivi", value: orderId });
 
       const payload = {
         content: "@everyone",
-        embeds: [{
-          title: "📥 Nouvelle demande de montage",
-          description: "🔧 Pour gérer cette commande : modifie manuellement le statut en réagissant à ce message ou en y répondant (ex: ✅ validée, 🕐 en attente, ❌ refusée). Le site ne lit pas automatiquement Discord, c'est un rappel visuel pour toi.\n⏰ Acompte à recevoir sous 24h, sinon la commande est considérée comme annulée.",
-          color: 16729344,
-          fields
-        }]
+        embeds: [
+          {
+            title: `📥 Nouvelle demande — ${orderId}`,
+            description: "🔧 Pour gérer cette commande : modifie manuellement le statut en réagissant à ce message ou en y répondant (ex: ✅ validée, 🕐 en attente, ❌ refusée). Le site ne lit pas automatiquement Discord, c'est un rappel visuel pour toi.\n⏰ Acompte à recevoir sous 24h, sinon la commande est considérée comme annulée.",
+            color: 16729344,
+            fields: essentialFields
+          },
+          {
+            title: "🔎 Détails complémentaires",
+            color: 5793266,
+            fields: detailFields
+          }
+        ]
       };
 
       reserveStatus.style.color = '#888';
@@ -28057,6 +28509,8 @@ Date limite :</pre>
         }
         const res = await fetch(WEBHOOK_URL, sendOptions);
         if (!res.ok) throw new Error('send-failed');
+        const rushsPending = isRushsPending(data) && !orderFiles.length;
+        if (orderFiles.length) uploadFilesToDrive(orderId, orderFiles.slice()); // best-effort, ne bloque pas la suite
         clearOrderFiles();
 
         saveOrder({
@@ -28088,7 +28542,7 @@ Date limite :</pre>
         syncOrderToAdminSheet(
           orderId,
           '🟠 Envoyée, en attente de réponse',
-          `${data.get('nom') || 'non précisé'} (${data.get('typeClient') || 'Particulier'}) · 🎬 ${data.get('nomCommande') || 'non précisé'} · 🎥 ${formatBreakdown(data)} · 💶 ${data.get('budget') || 'non précisé'}${isUrgent ? ' · ⚡ Urgent' : ''}${data.get('dateLivraisonSouhaitee') ? ' · 📅 Voulu le ' + new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR') : ''}${appliedPromo ? ` · 🎟️ Code ${promoCodeRaw}` : ''}${promoAbuseInfo && promoAbuseInfo.abused ? ` · ⚠️ ${promoCodeRaw} refusé (déjà utilisé, cmd ${promoAbuseInfo.previousOrderId}) — vérifie le prix` : ''}${parrainPseudo ? ` · 🤝 Parrain : ${parrainPseudo}` : ''}${data.get('driveLink') ? ` · 📁 ${data.get('driveLink')}` : ''}${orderFiles.length ? ` · 📎 ${orderFiles.length} fichier(s) joint(s) sur Discord` : ''}${orderExtraAnswers(data).map(x => ` · ${x.icon} ${x.label} : ${x.value.replace(/\n/g, ' ').replace(/·/g, '-').slice(0, 200)}`).join('')}${perVideoText ? ` · 🎬 Détail par vidéo : ${perVideoText.replace(/\n/g, ' | ')}` : ''} · 🎨 ${ambianceEffective || 'non précisé'} · 💬 Sous-titres : ${data.get('sousTitresSouhaites') || 'non précisé'} · 🎞️ Rushs : ${data.get('rushsDisponibles') || 'non précisé'}${data.get('objectifVideo') ? ` · 🎯 Objectif : ${objectifEffective}` : ''}${data.get('musique') ? ` · 🎵 Musique : ${musiqueEffective}` : ''}${policeEcriture ? ` · 🔤 Police : ${policeEcriture}` : ''}${data.get('lienChaine') ? ` · 🔗 Chaîne : ${data.get('lienChaine')}` : ''}${data.get('contraintes') ? ` · 🚫 À éviter : ${data.get('contraintes')}` : ''} · via formulaire complet`,
+          `${data.get('nom') || 'non précisé'} (${data.get('typeClient') || 'Particulier'}) · 🎬 ${data.get('nomCommande') || 'non précisé'} · 🎥 ${formatBreakdown(data)} · 💶 ${data.get('budget') || 'non précisé'}${isUrgent ? ' · ⚡ Urgent' : ''}${data.get('dateLivraisonSouhaitee') ? ' · 📅 Voulu le ' + new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR') : ''}${appliedPromo ? ` · 🎟️ Code ${promoCodeRaw}` : ''}${promoAbuseInfo && promoAbuseInfo.abused ? ` · ⚠️ ${promoCodeRaw} refusé (déjà utilisé, cmd ${promoAbuseInfo.previousOrderId}) — vérifie le prix` : ''}${parrainPseudo ? ` · 🤝 Parrain : ${parrainPseudo}` : ''}${data.get('driveLink') ? ` · 📁 ${data.get('driveLink')}` : ''}${rushsPending ? ` · ⏳ Rushs avant le ${rushsDeadlineFr()}` : ''}${orderFiles.length ? ` · 📎 ${orderFiles.length} fichier(s) joint(s) sur Discord` : ''}${orderExtraAnswers(data).map(x => ` · ${x.icon} ${x.label} : ${x.value.replace(/\n/g, ' ').replace(/·/g, '-').slice(0, 200)}`).join('')}${perVideoText ? ` · 🎬 Détail par vidéo : ${perVideoText.replace(/\n/g, ' | ')}` : ''} · 🎨 ${ambianceEffective || 'non précisé'} · 💬 Sous-titres : ${data.get('sousTitresSouhaites') || 'non précisé'} · 🎞️ Rushs : ${data.get('rushsDisponibles') || 'non précisé'}${data.get('objectifVideo') ? ` · 🎯 Objectif : ${objectifEffective}` : ''}${data.get('musique') ? ` · 🎵 Musique : ${musiqueEffective}` : ''}${policeEcriture ? ` · 🔤 Police : ${policeEcriture}` : ''}${data.get('lienChaine') ? ` · 🔗 Chaîne : ${data.get('lienChaine')}` : ''}${data.get('contraintes') ? ` · 🚫 À éviter : ${data.get('contraintes')}` : ''} · via formulaire complet`,
           `${data.get('reseau') || 'non précisé'} · ${data.get('contact') || 'non précisé'}${data.get('reseau') === 'WhatsApp' && data.get('whatsappNumber') ? ' · 📱 ' + data.get('whatsappNumber') : ''}`
         );
 
@@ -28115,6 +28569,7 @@ Date limite :</pre>
           Budget indicatif : ${escapeHtml(data.get('budget') || 'non précisé')}
         `;
         document.getElementById('confirmationNext').textContent = `📩 Je te recontacte sous 24h sur ${data.get('reseau')}.`;
+        if (rushsPending) document.getElementById('confirmationNext').insertAdjacentHTML('beforeend', `<br/>⏳ <strong>Envoie tes rushs avant le ${rushsDeadlineFr()}</strong> (7 jours), sinon la commande est supprimée automatiquement. <a href="#lateRushsBox" class="inline-link" data-open-late-rushs>Envoyer mes rushs →</a>`);
 
         // Capturés ici, avant le reserveForm.reset() plus bas : priceEstimateValue et depositAmount
         // reflètent sinon les valeurs par défaut du formulaire vidé, pas celles de la commande
@@ -28876,10 +29331,18 @@ Date limite :</pre>
     <div class="admin-tab-row">
       <button type="button" class="admin-tab-btn active" data-admin-tab="commandes">📋 Commandes</button>
       <button type="button" class="admin-tab-btn" data-admin-tab="stats">📊 Stats & outils</button>
-      <button type="button" class="admin-tab-btn" data-admin-tab="sections">🧩 Sections du site</button>
+      <button type="button" class="admin-tab-btn" data-admin-tab="dispo">📅 Disponibilité</button>
     </div>
 
     <div id="adminTabCommandes" class="admin-tab-panel">
+      <!-- 🆕 Rappel de livraison (J-1) déplacé ici depuis Stats & outils : c'est ce qu'il y a de plus
+           urgent à voir en ouvrant l'admin (en retard / à livrer aujourd'hui / demain), donc tout en
+           haut de l'onglet par défaut plutôt qu'enterré dans un onglet secondaire. Toujours alimenté
+           par renderAdminExtras2 (même id="adminDeliveryReminder", seul l'endroit dans la page change). -->
+      <div class="admin-delivery-reminder-banner" id="adminDeliveryReminderBanner">
+        <div class="admin-delivery-reminder-title">📦 Rappel de livraison (J-1)</div>
+        <div id="adminDeliveryReminder"></div>
+      </div>
       <div id="backupReminder" class="peak-banner" style="display:none;">💾 Ça fait plus de 30 jours (ou jamais) que tu n'as pas sauvegardé tes données locales : Stats &amp; outils → Sauvegarde.</div>
       <!-- 🆕 Rappel mensuel "archive à vérifier" : liste ce qui est actuellement dans les archives
            (voir isArchivable) une fois par mois, pour confirmer que rien d'important n'y est tombé
@@ -29027,35 +29490,6 @@ Date limite :</pre>
           </div>
         </details>
 
-        <!-- Historique NPS agrégé : lit l'action "npsLog"/"npsList" de l'Apps Script (voir commentaire
-             détaillé dans initNpsHistory, JS plus bas) — nécessite d'ajouter cette action côté backend,
-             sinon affiche un message clair plutôt qu'une erreur silencieuse ou un faux "0". -->
-        <details class="more-options admin-stats-group" id="adminGroupNps">
-          <summary class="more-options-summary">
-            <span class="more-options-summary-label">📊 Historique NPS</span>
-            <span class="more-options-summary-hint">(moyenne mobile 30 jours, sans éplucher Discord)</span>
-          </summary>
-          <div class="more-options-content">
-            <div id="adminNpsHistory" class="admin-dashboard"></div>
-          </div>
-        </details>
-
-        <details class="more-options admin-stats-group" id="adminGroupWorkload">
-          <summary class="more-options-summary">
-            <span class="more-options-summary-label">⚙️ Charge de travail</span>
-            <span class="more-options-summary-hint">(pondérée par format, pour anticiper une surcharge)</span>
-          </summary>
-          <div class="more-options-content">
-            <p class="admin-timeline-note">
-              Compte les commandes en attente ou en cours, pondérées selon le format (un "Business" ou un
-              "Complexe/Esport" pèse plus lourd qu'un "Court" — voir WORKLOAD_WEIGHTS dans le code pour
-              ajuster les poids à ta réalité). Estimation basée sur le champ format/quantité de la note,
-              pas un calcul exact.
-            </p>
-            <div id="adminWorkloadPanel" class="admin-dashboard"></div>
-          </div>
-        </details>
-
         <details class="more-options admin-stats-group" id="adminGroupStatusPage">
           <summary class="more-options-summary">
             <span class="more-options-summary-label">🔗 Page "Statut du service"</span>
@@ -29073,39 +29507,6 @@ Date limite :</pre>
               <button type="button" id="adminCopyStatusLinkBtn" class="paypal-quick-btn paypal-quick-btn-secondary">📋 Copier le lien</button>
               <a href="/statut.html" target="_blank" rel="noopener" class="paypal-quick-btn paypal-quick-btn-secondary">↗️ Ouvrir la page</a>
             </div>
-          </div>
-        </details>
-
-        <details class="more-options admin-stats-group" id="adminGroupNext7Days">
-          <summary class="more-options-summary">
-            <span class="more-options-summary-label">📅 Prochains 7 jours</span>
-            <span class="more-options-summary-hint">(charge croisée avec les dates de livraison voulues)</span>
-          </summary>
-          <div class="more-options-content">
-            <p class="admin-timeline-note">
-              Croise la charge de travail ci-dessus (⚙️) avec la date de livraison voulue indiquée par
-              chaque client, jour par jour sur la semaine à venir — pour repérer un jour qui déborde
-              AVANT qu'il n'arrive, plutôt que de le découvrir une fois dessus. N'inclut que les
-              commandes encore en attente ou en cours (les livrées/annulées ne comptent pas).
-            </p>
-            <div id="adminNext7DaysPanel" class="admin-dashboard"></div>
-          </div>
-        </details>
-
-        <!-- Vue "semaine prochaine" (jours 7 à 13) : même principe que "Prochains 7 jours"
-             ci-dessus, décalée d'une semaine — voir computeNextWeekWorkload/renderNextWeekPanel dans
-             le JS. Pas de ligne overdue/undated ici (déjà couvertes par la vue au-dessus). -->
-        <details class="more-options admin-stats-group" id="adminGroupNextWeek">
-          <summary class="more-options-summary">
-            <span class="more-options-summary-label">📆 Semaine prochaine (J+7 à J+13)</span>
-            <span class="more-options-summary-hint">(anticiper un pic une semaine à l'avance)</span>
-          </summary>
-          <div class="more-options-content">
-            <p class="admin-timeline-note">
-              Même vue que "Prochains 7 jours" ci-dessus, décalée d'une semaine — pour voir venir un
-              pic de charge avant d'être dedans plutôt qu'une fois la semaine arrivée.
-            </p>
-            <div id="adminNextWeekPanel" class="admin-dashboard"></div>
           </div>
         </details>
 
@@ -29214,57 +29615,6 @@ Date limite :</pre>
         <!-- 🆕 Révisions à facturer (20 € au-delà des 3 incluses) + classement des clients qui consomment
              le plus de tours — voir renderRevisionBillingPanel() dans le JS. Même comptage que le badge
              « 🔁 n/3 révisions » des cartes : une ligne dans le retour client (r[9]) = un tour. -->
-        <details class="more-options admin-stats-group" id="adminGroupRevisionBilling">
-          <summary class="more-options-summary">
-            <span class="more-options-summary-label">🔁 Révisions à facturer &amp; classement clients</span>
-            <span class="more-options-summary-hint">(20 € par tour au-delà des 3 inclus)</span>
-          </summary>
-          <div class="more-options-content">
-            <div id="adminRevisionBillingPanel"></div>
-          </div>
-        </details>
-
-        <!-- 🆕 Relance auto "acompte manquant" : liste les commandes en attente d'acompte depuis
-             3+ jours, avec un bouton de relance pré-rempli (réutilise le modèle "Acompte manquant"
-             déjà présent dans CLIENT_MESSAGE_TEMPLATES). Le vrai "automatique" côté email tourne
-             déjà via sendMorningDigest (Apps Script) — ce panneau est la version visible/actionnable
-             dans l'admin, pas un envoi automatique en plus. -->
-        <details class="more-options admin-stats-group" id="adminGroupDepositReminder">
-          <summary class="more-options-summary">
-            <span class="more-options-summary-label">💳 Acompte manquant depuis 3+ jours</span>
-            <span class="more-options-summary-hint">(relance en 1 clic)</span>
-          </summary>
-          <div class="more-options-content">
-            <p class="admin-timeline-note">
-              Commandes au statut "🟡 En attente de l'acompte" depuis plus de <strong id="adminDepositReminderDaysLabel"></strong> — le résumé du matin (email) te les signale déjà chaque jour si tu l'as configuré ; ce panneau permet en plus de relancer en 1 clic depuis ici.
-            </p>
-            <div id="adminDepositReminderPanel" class="admin-dashboard"></div>
-          </div>
-        </details>
-
-        <!-- 🆕 Filtre "Livrées sans retour client" : différent du groupe "sans retouche" juste
-             au-dessus (qui regarde le statut "Modifications demandées"), celui-ci regarde r[9] (les
-             retours écrits envoyés par le client, "💬 Message pour le client") — objectif : repérer
-             les commandes où le client n'a RIEN dit depuis la livraison (ni retouche, ni avis, ni
-             merci), pour lui redemander un avis avant qu'il oublie. Seuil plus court (14j par défaut,
-             DELIVERED_NO_FEEDBACK_ALERT_DAYS) que le groupe "sans retouche" (30j) car une demande
-             d'avis marche mieux tôt après la livraison. Voir getDeliveredWithoutFeedbackOrders() et
-             renderDeliveredNoFeedbackPanel() dans le JS. -->
-        <details class="more-options admin-stats-group" id="adminGroupDeliveredNoFeedback">
-          <summary class="more-options-summary">
-            <span class="more-options-summary-label">💬 Livrées sans retour client depuis 14+ jours</span>
-            <span class="more-options-summary-hint">(bon moment pour redemander un avis)</span>
-          </summary>
-          <div class="more-options-content">
-            <p class="admin-timeline-note">
-              Commandes au statut "✅ Livré" depuis plus de <strong id="adminDeliveredNoFeedbackDaysLabel"></strong>,
-              sans aucun retour écrit du client depuis (ni retouche, ni message, ni avis). Même limite
-              locale que les autres groupes ci-dessus.
-            </p>
-            <div id="adminDeliveredNoFeedbackPanel" class="admin-dashboard"></div>
-          </div>
-        </details>
-
         <button type="button" id="adminExportCsvBtn" class="admin-btn-primary">⬇️ Exporter en CSV</button>
 
         <!-- Export CSV du ratio révisions/commande par mois : pensé pour repérer une dérive dans
@@ -29364,7 +29714,6 @@ Date limite :</pre>
           <div class="price-log-form"><select id="docTemplate"></select><button type="button" id="docTplSave" class="filter-reset-btn">💾 Modèle</button><select id="docOrder"></select><select id="docType"><option>Devis</option><option>Facture</option></select><input type="text" id="docLabel" placeholder="Prestation" /><input type="number" id="docAmount" placeholder="Montant €" /></div>
           <textarea id="docIssuer" rows="3" style="width:100%;" placeholder="Ton nom / entreprise, SIRET, adresse, mentions légales (ex : TVA non applicable, art. 293 B du CGI — à vérifier selon ton statut)"></textarea>
           <button type="button" id="docBtn" class="admin-btn-primary" style="margin-top:6px;">Générer (imprimer → Enregistrer en PDF)</button></div>
-        <div class="price-log-card"><div class="info-title">📦 Rappel de livraison (J-1)</div><div id="adminDeliveryReminder"></div></div>
         <div class="price-log-card"><div class="info-title">⏱️ Temps passé &amp; taux horaire réel</div>
           <div class="price-log-form"><select id="timeLogOrder"></select><input type="number" id="timeLogHours" min="0" step="0.25" placeholder="Heures passées" /><button type="button" id="timeLogAdd" class="admin-btn-primary">Ajouter</button></div>
           <div id="timeLogList" style="overflow-x:auto;"></div></div>
@@ -29563,6 +29912,61 @@ Date limite :</pre>
         </p>
         <div id="adminClientTiers" class="admin-client-tiers"></div>
         <div id="adminClientsList" class="admin-clients-list"></div>
+
+        <!-- Les 4 blocs suivants vivaient auparavant dans l'onglet "📊 Stats" (16 blocs empilés au
+             même endroit, difficile à parcourir) — déplacés ici parce qu'ils parlent tous du
+             comportement d'UN client (paiement, retouches, retour après livraison), donc plus à leur
+             place à côté de la liste de clients qu'au milieu des indicateurs globaux. Aucun ne dépend
+             de sa position dans le HTML pour fonctionner (chaque script cible son id directement), ce
+             déplacement est donc purement une question de rangement, rien de cassé côté logique. -->
+
+        <details class="more-options admin-stats-group" id="adminGroupNps">
+          <summary class="more-options-summary">
+            <span class="more-options-summary-label">📊 Historique NPS</span>
+            <span class="more-options-summary-hint">(moyenne mobile 30 jours, sans éplucher Discord)</span>
+          </summary>
+          <div class="more-options-content">
+            <div id="adminNpsHistory" class="admin-dashboard"></div>
+          </div>
+        </details>
+
+        <details class="more-options admin-stats-group" id="adminGroupRevisionBilling">
+          <summary class="more-options-summary">
+            <span class="more-options-summary-label">🔁 Révisions à facturer &amp; classement clients</span>
+            <span class="more-options-summary-hint">(20 € par tour au-delà des 3 inclus)</span>
+          </summary>
+          <div class="more-options-content">
+            <div id="adminRevisionBillingPanel"></div>
+          </div>
+        </details>
+
+        <details class="more-options admin-stats-group" id="adminGroupDepositReminder">
+          <summary class="more-options-summary">
+            <span class="more-options-summary-label">💳 Acompte manquant depuis 3+ jours</span>
+            <span class="more-options-summary-hint">(relance en 1 clic)</span>
+          </summary>
+          <div class="more-options-content">
+            <p class="admin-timeline-note">
+              Commandes au statut "🟡 En attente de l'acompte" depuis plus de <strong id="adminDepositReminderDaysLabel"></strong> — le résumé du matin (email) te les signale déjà chaque jour si tu l'as configuré ; ce panneau permet en plus de relancer en 1 clic depuis ici.
+            </p>
+            <div id="adminDepositReminderPanel" class="admin-dashboard"></div>
+          </div>
+        </details>
+
+        <details class="more-options admin-stats-group" id="adminGroupDeliveredNoFeedback">
+          <summary class="more-options-summary">
+            <span class="more-options-summary-label">💬 Livrées sans retour client depuis 14+ jours</span>
+            <span class="more-options-summary-hint">(bon moment pour redemander un avis)</span>
+          </summary>
+          <div class="more-options-content">
+            <p class="admin-timeline-note">
+              Commandes au statut "✅ Livré" depuis plus de <strong id="adminDeliveredNoFeedbackDaysLabel"></strong>,
+              sans aucun retour écrit du client depuis (ni retouche, ni message, ni avis). Même limite
+              locale que les autres groupes ci-dessus.
+            </p>
+            <div id="adminDeliveredNoFeedbackPanel" class="admin-dashboard"></div>
+          </div>
+        </details>
       </div>
 
       <div id="adminSubtabPlanning" class="admin-subtab-panel" style="display: none;">
@@ -29571,6 +29975,55 @@ Date limite :</pre>
           Clique une ligne pour la retrouver dans "Commandes". Les commandes livrées ou annulées n'apparaissent pas ici.
         </p>
         <div id="adminPlanningList" class="admin-planning-list"></div>
+
+        <!-- Les 3 blocs suivants vivaient dans l'onglet "📊 Stats" — déplacés ici parce qu'ils
+             parlent tous de charge de travail à venir, comme la liste juste au-dessus. -->
+
+        <details class="more-options admin-stats-group" id="adminGroupWorkload">
+          <summary class="more-options-summary">
+            <span class="more-options-summary-label">⚙️ Charge de travail</span>
+            <span class="more-options-summary-hint">(pondérée par format, pour anticiper une surcharge)</span>
+          </summary>
+          <div class="more-options-content">
+            <p class="admin-timeline-note">
+              Compte les commandes en attente ou en cours, pondérées selon le format (un "Business" ou un
+              "Complexe/Esport" pèse plus lourd qu'un "Court" — voir WORKLOAD_WEIGHTS dans le code pour
+              ajuster les poids à ta réalité). Estimation basée sur le champ format/quantité de la note,
+              pas un calcul exact.
+            </p>
+            <div id="adminWorkloadPanel" class="admin-dashboard"></div>
+          </div>
+        </details>
+
+        <details class="more-options admin-stats-group" id="adminGroupNext7Days">
+          <summary class="more-options-summary">
+            <span class="more-options-summary-label">📅 Prochains 7 jours</span>
+            <span class="more-options-summary-hint">(charge croisée avec les dates de livraison voulues)</span>
+          </summary>
+          <div class="more-options-content">
+            <p class="admin-timeline-note">
+              Croise la charge de travail ci-dessus (⚙️) avec la date de livraison voulue indiquée par
+              chaque client, jour par jour sur la semaine à venir — pour repérer un jour qui déborde
+              AVANT qu'il n'arrive, plutôt que de le découvrir une fois dessus. N'inclut que les
+              commandes encore en attente ou en cours (les livrées/annulées ne comptent pas).
+            </p>
+            <div id="adminNext7DaysPanel" class="admin-dashboard"></div>
+          </div>
+        </details>
+
+        <details class="more-options admin-stats-group" id="adminGroupNextWeek">
+          <summary class="more-options-summary">
+            <span class="more-options-summary-label">📆 Semaine prochaine (J+7 à J+13)</span>
+            <span class="more-options-summary-hint">(anticiper un pic une semaine à l'avance)</span>
+          </summary>
+          <div class="more-options-content">
+            <p class="admin-timeline-note">
+              Même vue que "Prochains 7 jours" ci-dessus, décalée d'une semaine — pour voir venir un
+              pic de charge avant d'être dedans plutôt qu'une fois la semaine arrivée.
+            </p>
+            <div id="adminNextWeekPanel" class="admin-dashboard"></div>
+          </div>
+        </details>
       </div>
     </div>
 
@@ -29581,6 +30034,15 @@ Date limite :</pre>
          Ne couvre volontairement que les sections non-essentielles au tunnel de réservation
          (tarifs/reservation restent toujours visibles) — masquer celles-là casserait la page pour
          de vrai en aperçu, ce qui n'aiderait personne. -->
+  <div id="adminTabDispo" class="admin-tab-panel" style="display: none;">
+      <h4 class="admin-availability-title">📅 Jours bloqués (vacances, pause…)</h4>
+      <p class="info-text" style="font-size:12px;">Clique un jour pour le bloquer / le débloquer. S'ajoute au calcul automatique des commandes et s'affiche dans le calendrier public, la frise « Dispo 7 j » et le formulaire.</p>
+      <div class="dispo-nav"><button type="button" class="filter-reset-btn" id="adminDispoPrev">◀</button><strong id="adminDispoMonth"></strong><button type="button" class="filter-reset-btn" id="adminDispoNext">▶</button></div>
+      <div class="dispo-grid" id="adminDispoGrid"></div>
+      <div id="adminBlockedDaysList" class="admin-blocked-days-list"></div>
+      <p id="adminBlockedDaysStatus" class="info-text" style="font-size:11.5px;"></p>
+  </div>
+
     <div id="adminTabSections" class="admin-tab-panel" style="display: none;">
       <p class="info-text" style="font-size: 12px;">
         📍 C'est ici que se décide l'ajout ou la suppression d'une section du site. Coche/décoche
@@ -29591,27 +30053,13 @@ Date limite :</pre>
       </p>
       <div class="admin-section-toggle-list" id="adminSectionToggleList"></div>
       <button type="button" id="adminSectionsResetBtn" class="filter-reset-btn">↺ Tout réafficher</button>
-      <div id="adminSectionRequests" class="admin-section-requests"></div>
-      <!-- 🧹 Le widget "Suggestions & ma liste de demandes" (#adminSectionIdeas) a été retiré : les
-           idées cochées ont été traitées (showreel, relance acompte, checklist de livraison,
-           bannière offre limitée, fusion FAQ/CGV, bibliothèque de réponses déjà existante), et les
-           non cochées ont été écartées. Voir la conversation avec Claude pour l'historique complet
-           plutôt que de garder une liste qui n'a plus lieu d'être une fois traitée. -->
+      <!-- 🧹 Les widgets "Suggestions & ma liste de demandes" (#adminSectionIdeas) ET "📝 Ma liste de
+           modifications" (#adminSectionRequests, initSectionRequests) ont tous les deux été retirés :
+           les idées ont fini par être demandées et traitées directement dans la conversation avec
+           Claude (plus rapide qu'un aller-retour cocher/copier/coller), donc plus besoin d'un
+           constructeur de liste dédié ici. Voir l'historique de conversation pour le détail plutôt que
+           de garder un outil qui n'a plus lieu d'être. -->
 
-      <!-- 🆕 Disponibilité : jours bloqués à la main (vacances, pause...), en plus du calcul
-           automatique à partir des commandes. Stocké dans le Sheet (onglet "Disponibilité"), donc
-           visible par tout le monde une fois enregistré — pas juste dans ce navigateur. Voir
-           loadAdminBlockedDays() dans le script pour le code Apps Script à coller si pas déjà fait. -->
-      <div class="admin-availability-tool" id="adminAvailabilityTool">
-        <h4 class="admin-availability-title">📅 Disponibilité — jours bloqués manuellement</h4>
-        <p class="info-text" style="font-size:12px;">S'ajoute au calcul automatique à partir des commandes (jamais un remplacement) et s'affiche partout où la dispo est montrée : calendrier public, frise du hero, ligne au-dessus du formulaire.</p>
-        <div class="admin-availability-row">
-          <input type="date" id="adminBlockedDayInput" class="admin-availability-input">
-          <button type="button" id="adminBlockedDayAddBtn" class="filter-reset-btn">+ Bloquer ce jour</button>
-        </div>
-        <div id="adminBlockedDaysList" class="admin-blocked-days-list"></div>
-        <p id="adminBlockedDaysStatus" class="info-text" style="font-size:11.5px;"></p>
-      </div>
     </div>
   </section>
 
@@ -29639,9 +30087,13 @@ Date limite :</pre>
   <button type="button" id="scrollTopBtn" class="scroll-top-btn" aria-label="Remonter en haut">↑</button>
 
   <!-- Barre de réservation collante mobile : n'apparaît qu'après le hero et disparaît
-       une fois la section réservation déjà visible (voir script). -->
+       une fois la section réservation déjà visible (voir script). 🆕 + prix d'entrée
+       ("à partir de 45€") toujours visible à côté du CTA, pas seulement le bouton. -->
   <div class="mobile-reserve-bar" id="mobileReserveBar">
-    <a href="#reservation" class="mobile-reserve-bar-btn">📩 Réserver mon montage</a>
+    <div class="mobile-reserve-bar-inner">
+      <span class="mobile-reserve-bar-price">À partir de <strong>45€</strong></span>
+      <a href="#reservation" class="mobile-reserve-bar-btn">📩 Réserver mon montage</a>
+    </div>
   </div>
 
   <!-- Signalement de bug : bouton flottant discret (toujours accessible, desktop + mobile) qui ouvre
