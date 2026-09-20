@@ -10371,322 +10371,6 @@
        (Analytics & Logs > Web Analytics > Add a site). Tant que le token n'est pas
        renseigné, ce script ne fait rien d'utile mais ne casse rien. -->
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "COLLE_TON_TOKEN_ANALYTICS"}'></script>
-
-  <style id="admin-readability-overrides">
-    /* =====================================================================================
-       ADMIN — lisibilité, largeur, polices, boutons (ajout : surcharges en fin de <head>)
-       Tout est scopé sur .admin-section / #adminPanel : le site public n'est pas touché.
-       ===================================================================================== */
-
-    /* --- 1) Largeur : le panneau n'est plus bridé à 980/1220px, il s'étend à gauche et à droite
-       (déborde volontairement du padding du body pour ne garder qu'une petite marge). --- */
-    #adminPanel.admin-section {
-      width: calc(100% + 32px);
-      max-width: 1560px;
-      padding: 32px 36px;
-    }
-    @media (max-width: 640px) {
-      #adminPanel.admin-section { width: calc(100% + 16px); padding: 22px 14px; }
-    }
-
-    /* --- 2) Contraste : les gris (texte tertiaire/discret) étaient quasi invisibles sur fond
-       sombre. On les éclaircit (ou on les fonce en thème clair) uniquement dans l'admin. --- */
-    :root:not([data-theme="light"]) .admin-section:not(.admin-light) {
-      --text-secondary: #c9cdd4;
-      --text-tertiary: #b6bbc3;
-      --text-faint: #a6abb4;
-      --border-soft: #3b3f4b;
-    }
-    [data-theme="light"] .admin-section:not(.admin-light) {
-      --text-secondary: #4a463f;
-      --text-tertiary: #55514a;
-      --text-faint: #625e56;
-      --border-soft: #c9c4bb;
-    }
-    /* Thème clair propre à l'admin : palette complète locale, même si le site public est en
-       sombre (sinon --text restait quasi blanc sur fond blanc). */
-    .admin-section.admin-light {
-      --surface: #ffffff;
-      --surface-soft: #f1efec;
-      --border: #e4e1dc;
-      --border-soft: #c9c4bb;
-      --text: #17140f;
-      --text-secondary: #4a463f;
-      --text-tertiary: #55514a;
-      --text-faint: #625e56;
-    }
-    .admin-section {
-      --admin-accent: #5865F2;
-      --admin-accent-soft: rgba(88, 101, 242, 0.20);
-      --admin-accent-strong: rgba(88, 101, 242, 0.34);
-      --admin-accent-border: rgba(127, 139, 250, 0.75);
-    }
-    .admin-section.admin-light {
-      --admin-accent-soft: rgba(88, 101, 242, 0.11);
-      --admin-accent-strong: rgba(88, 101, 242, 0.22);
-      --admin-accent-border: rgba(88, 101, 242, 0.55);
-    }
-
-    /* --- 3) Boutons : .admin-btn-primary n'avait AUCUNE règle CSS (donc gris navigateur par
-       défaut) — c'était le principal bouton « gris » de la barre d'outils. --- */
-    .admin-section .admin-btn-primary {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 6px;
-      font-family: 'Manrope', system-ui, sans-serif;
-      font-weight: 700;
-      font-size: 13px;
-      line-height: 1.2;
-      color: #fff;
-      background: linear-gradient(135deg, #5865F2, #7c3cff);
-      border: 1px solid rgba(255, 255, 255, 0.18);
-      padding: 9px 16px;
-      border-radius: 10px;
-      cursor: pointer;
-      text-decoration: none;
-      box-shadow: 0 6px 16px -6px rgba(88, 101, 242, 0.7);
-      transition: transform 0.12s ease, filter 0.15s ease, box-shadow 0.15s ease;
-    }
-    .admin-section .admin-btn-primary:hover { filter: brightness(1.12); transform: translateY(-1px); }
-    .admin-section .admin-btn-primary:active { transform: scale(0.97); }
-    .admin-section .admin-btn-primary:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
-
-    .admin-section .paypal-quick-btn.paypal-quick-btn-secondary {
-      font-family: 'Manrope', system-ui, sans-serif;
-      font-weight: 700;
-      font-size: 13px;
-      color: var(--text);
-      background: var(--admin-accent-soft);
-      border: 1px solid var(--admin-accent-border);
-      padding: 9px 14px;
-      border-radius: 10px;
-    }
-    .admin-section .paypal-quick-btn.paypal-quick-btn-secondary:hover { background: var(--admin-accent-strong); opacity: 1; }
-
-    .admin-section .filter-reset-btn {
-      font-family: 'Manrope', system-ui, sans-serif;
-      font-weight: 600;
-      font-size: 12px;
-      color: var(--text);
-      background: var(--admin-accent-soft);
-      border: 1px solid var(--admin-accent-border);
-      border-radius: 8px;
-      padding: 6px 12px;
-      margin-left: 0;
-      text-decoration: none;
-      cursor: pointer;
-      transition: background 0.15s ease;
-    }
-    .admin-section .filter-reset-btn:hover { background: var(--admin-accent-strong); color: var(--text); }
-
-    .admin-section .admin-tab-btn {
-      font-family: 'Manrope', system-ui, sans-serif;
-      font-weight: 700;
-      font-size: 14px;
-      color: var(--text);
-      background: var(--admin-accent-soft);
-      border: 1px solid var(--admin-accent-border);
-      padding: 12px 16px;
-    }
-    .admin-section .admin-tab-btn:hover { background: var(--admin-accent-strong); color: var(--text); }
-    .admin-section .admin-tab-btn.active {
-      color: #fff;
-      background: linear-gradient(135deg, #FF4438, #FFB020);
-      border-color: transparent;
-      box-shadow: 0 8px 20px -8px rgba(255, 68, 56, 0.6);
-    }
-
-    .admin-section .admin-subtab-btn {
-      font-family: 'Manrope', system-ui, sans-serif;
-      font-weight: 700;
-      font-size: 13px;
-      color: var(--text);
-      background: var(--admin-accent-soft);
-      border: 1px solid var(--admin-accent-border);
-      padding: 7px 15px;
-    }
-    .admin-section .admin-subtab-btn:hover { background: var(--admin-accent-strong); color: var(--text); }
-    .admin-section .admin-subtab-btn.active { color: #fff; background: #5865F2; border-color: #5865F2; }
-
-    .admin-section .admin-quickreply-copy-btn {
-      font-family: 'Manrope', system-ui, sans-serif;
-      font-size: 13px;
-      color: var(--text);
-      background: var(--admin-accent-soft);
-      border: 1px solid var(--admin-accent-border);
-      border-radius: 8px;
-      padding: 5px 10px;
-      cursor: pointer;
-    }
-    .admin-section .admin-quickreply-copy-btn:hover { background: var(--admin-accent-strong); }
-
-    .admin-section .admin-duplicate-btn,
-    .admin-section .admin-delivery-version-delete-btn {
-      color: var(--text);
-      border: 1px solid var(--admin-accent-border);
-      font-family: 'Manrope', system-ui, sans-serif;
-      font-weight: 600;
-    }
-    .admin-section .admin-duplicate-btn:hover,
-    .admin-section .admin-delivery-version-delete-btn:hover { background: var(--admin-accent-soft); border-color: var(--admin-accent-border); }
-    .admin-section .admin-hidden-toggle { color: var(--text-secondary); font-size: 12px; }
-
-    .admin-section .admin-order-move-up,
-    .admin-section .admin-order-move-down {
-      color: var(--text);
-      border: 1px solid var(--admin-accent-border);
-      font-size: 11px;
-      padding: 3px 7px;
-      opacity: 1;
-    }
-
-    /* Petites icônes-boutons (épingle, renommer, supprimer, éditer stat) : trop pâles (35-45%). */
-    .admin-section .admin-pin-btn,
-    .admin-section .admin-rename-btn,
-    .admin-section .admin-hide-btn,
-    .admin-section .admin-stat-edit-btn { opacity: 0.85; }
-    .admin-section .admin-pin-btn:hover,
-    .admin-section .admin-rename-btn:hover,
-    .admin-section .admin-hide-btn:hover,
-    .admin-section .admin-stat-edit-btn:hover,
-    .admin-section .admin-pin-btn.is-pinned { opacity: 1; }
-
-    .admin-section .admin-toolbar { gap: 10px; }
-    .admin-section .admin-shortcuts-hint { font-size: 11px; color: var(--text-tertiary); }
-    .admin-section .sync-note { font-size: 12px; color: var(--text-secondary); }
-
-    /* --- 4) Polices : menu « ⋯ Plus » (Syne 12px, peu lisible) et listes d'options des select
-       → Manrope, plus grand, plus aéré. --- */
-    .admin-section .admin-toolbar-more-panel {
-      min-width: 310px;
-      padding: 8px;
-      border: 1px solid var(--admin-accent-border);
-      box-shadow: 0 18px 40px rgba(0, 0, 0, 0.5);
-      z-index: 40;
-    }
-    .admin-section .admin-toolbar-more-item {
-      font-family: 'Manrope', system-ui, sans-serif;
-      font-weight: 600;
-      font-size: 14px;
-      letter-spacing: 0.005em;
-      color: var(--text);
-      padding: 11px 12px;
-      border-radius: 8px;
-    }
-    .admin-section .admin-toolbar-more-item:hover { background: var(--admin-accent-soft); }
-    .admin-section .admin-toolbar-more-shortcut {
-      font-family: 'Manrope', system-ui, sans-serif;
-      font-weight: 600;
-      font-size: 11px;
-      color: var(--text-secondary);
-      background: var(--surface-soft);
-      border: 1px solid var(--border-soft);
-      border-radius: 5px;
-      padding: 1px 7px;
-    }
-
-    .admin-section select,
-    .admin-section option,
-    .admin-section optgroup {
-      font-family: 'Manrope', system-ui, -apple-system, 'Segoe UI', sans-serif;
-    }
-    .admin-section select {
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 0.005em;
-      padding: 9px 12px;
-      border: 1px solid var(--admin-accent-border);
-      border-radius: 10px;
-    }
-    .admin-section option {
-      font-size: 14px;
-      font-weight: 500;
-      padding: 8px 10px;
-      background: var(--surface);
-      color: var(--text);
-    }
-    .admin-section option:checked { font-weight: 700; }
-    .admin-section optgroup { font-weight: 700; font-size: 13px; color: var(--text-secondary); }
-
-    .admin-section .more-options-summary-label {
-      font-family: 'Manrope', system-ui, sans-serif;
-      font-weight: 700;
-      font-size: 14px;
-    }
-    .admin-section .more-options-summary-hint { font-size: 12px; color: var(--text-secondary); }
-
-    /* --- 5) Risque d'annulation (badge + carte) --- */
-    .admin-section .admin-order-card.admin-order-card-risk {
-      border-color: #ff6b6b99;
-      box-shadow: inset 4px 0 0 #ff6b6b;
-    }
-    .admin-section .admin-order-badge-risk-high {
-      color: #fff;
-      background: #e5484d;
-      border: 1px solid #ff8a8e;
-    }
-    .admin-section.admin-light .admin-order-badge-risk-high { color: #fff; background: #d33a3f; }
-
-    /* --- 6) Boutons flottants en bas à gauche : plus de superposition. Le bouton bug passe
-       derrière le FAB « Une question ? » (son panneau s'ouvre par-dessus au lieu d'être recouvert
-       par le bouton), disparaît quand ce panneau est ouvert, et remonte au-dessus du bandeau
-       cookies tant qu'il est affiché. --- */
-    .bug-report-fab { z-index: 54; }
-    body:has(.mobile-contact-fab-panel.open) .bug-report-fab { opacity: 0; pointer-events: none; }
-    @media (max-width: 640px) {
-      body:has(#cookieNotice[style*="flex"]) .bug-report-fab { bottom: 215px; }
-    }
-  </style>
-
-  <style id="site-additions">
-    /* --- Mini FAQ « juste avant de cliquer » (haut du formulaire de réservation) --- */
-    .quick-faq-strip {
-      display: flex; flex-direction: column; gap: 6px;
-      background: var(--surface-soft); border: 0.5px solid var(--border-soft);
-      border-left: 3px solid #FFB020; border-radius: 10px;
-      padding: 10px 12px; margin: 0 0 6px;
-      font-family: 'Manrope', sans-serif; font-size: 12.5px; line-height: 1.45; color: var(--text-secondary);
-    }
-    .quick-faq-strip-title { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 12px; color: var(--text); }
-    .quick-faq-strip p { margin: 0; }
-    .quick-faq-strip strong { color: var(--text); }
-    .quick-faq-strip a { color: var(--accent-1); text-decoration: underline; }
-
-    /* --- Barre de crédits d'abonnement (lien client personnalisé ?subUsed=) --- */
-    .sub-credits {
-      margin-top: 10px; padding: 9px 10px; border-radius: 10px; text-align: left;
-      background: var(--surface-soft); border: 0.5px solid var(--border-soft);
-    }
-    .sub-credits-head {
-      display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
-      font-family: 'Manrope', sans-serif; font-size: 11px; color: var(--text-secondary);
-    }
-    .sub-credits-head strong { color: var(--text); font-size: 12px; }
-    .sub-credits-track { height: 8px; border-radius: 999px; background: var(--border-soft); overflow: hidden; margin-top: 6px; }
-    .sub-credits-fill { height: 100%; border-radius: 999px; background: #3ddc84; transition: width 0.6s ease; }
-    .sub-credits.is-low .sub-credits-fill { background: #ffb020; }
-    .sub-credits.is-empty .sub-credits-fill { background: #ff6b6b; }
-    .sub-credits-note { margin: 6px 0 0; font-size: 11px; color: var(--text-secondary); }
-    @media (prefers-reduced-motion: reduce) { .sub-credits-fill { transition: none; } }
-
-    /* --- Admin : client VIP + historique des logos --- */
-    .admin-section .admin-order-badge-vip {
-      color: #3b2a00; background: linear-gradient(135deg, #ffd54f, #ffb020); border: 1px solid #ffe082;
-    }
-    .admin-section .admin-order-card.admin-order-card-vip { border-color: #ffd54fcc; box-shadow: inset 4px 0 0 #ffc107; }
-    .admin-section .admin-order-card.admin-order-card-risk { border-color: #ff6b6b99; box-shadow: inset 4px 0 0 #ff6b6b; }
-    .admin-logo-history { display: flex; flex-direction: column; gap: 6px; margin-top: 8px; }
-    .admin-logo-history-row {
-      display: flex; align-items: center; gap: 10px; padding: 6px 8px; border-radius: 10px;
-      background: var(--surface-soft); border: 0.5px solid var(--border-soft);
-      font-size: 12px; color: var(--text-secondary);
-    }
-    .admin-logo-history-row img { width: 40px; height: 40px; object-fit: contain; border-radius: 6px; background: #fff; flex-shrink: 0; }
-    .admin-logo-history-meta { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .admin-vip-settings { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
-    .admin-vip-settings label { flex: 1; min-width: 180px; }
-  </style>
 </head>
 <body>
   <!-- Icônes partagées (Discord/PayPal) : le base64 était dupliqué 5 fois dans le fichier
@@ -13113,15 +12797,6 @@
 
     <div class="reserve-layout">
     <form id="reserveForm" class="reserve-form">
-      <!-- Mini FAQ « juste avant de cliquer » : 3 lignes (acompte, délai, révisions) pour ceux qui
-           n'ont pas lu la FAQ complète. Les délais sont remplis par syncDelayMentions() depuis
-           DELAY_RANGES (mêmes chiffres que le hero/la FAQ) ; le texte en dur n'est qu'un repli. -->
-      <div class="quick-faq-strip" id="quickFaqStrip">
-        <span class="quick-faq-strip-title">⚡ Juste avant de cliquer</span>
-        <p>💳 <strong>Acompte :</strong> 50% pour bloquer ta place ; le solde n'est dû qu'à ta 1re retouche demandée.</p>
-        <p>⏱️ <strong>Délai :</strong> court <span id="qfDelayCourt">2 jours max</span> · long <span id="qfDelayLong">1 semaine max</span> (<a href="#faq-delais">détails</a>).</p>
-        <p>🔁 <strong>Révisions :</strong> 3 incluses par vidéo, puis +20€ par retouche supplémentaire.</p>
-      </div>
       <div class="hp-field" aria-hidden="true">
         <label>Laisse ce champ vide<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
       </div>
@@ -15625,7 +15300,6 @@
             <div class="admin-stat-group-label">Alertes</div>
             <div class="admin-stat-group-grid">
               ${statCardHtml('alerts-stale', stale, 'En attente +24h ⚠️', { cls: 'admin-stat-urgent' })}
-              ${statCardHtml('alerts-cancel-risk', countCancelRiskOrders(dataRows), 'Risque d\'annulation 🚨', { cls: 'admin-stat-urgent', title: "Commandes actives qui cumulent au moins 2 signaux sur 3 : mode urgent, délai serré (≤ 3 jours entre la création et la date voulue), 1er contact (jamais commandé avant)" })}
               ${statCardHtml('alerts-reminders', countDuePauseReminders(dataRows), 'Rappels dus ⏰', { cls: 'admin-stat-urgent', title: "Rappels posés via 'Dupliquer + rappel' dont la date programmée est passée" })}
             </div>
           </div>
@@ -17030,20 +16704,13 @@
         // clic même si l'admin est en train de modifier ces champs sans avoir encore synchronisé.
         function buildPrefillLink(nom, rawFormat, contact) {
           const formatMatch = /^(.*?)\s*×\s*(\d+)$/.exec(rawFormat || '');
-          // Un abonnement n'a pas de « × n » dans la note (prix mensuel fixe) : on garde le nom tel quel.
-          const formatKey = formatMatch ? formatMatch[1].trim() : (/^Abonnement créateur/.test(rawFormat || '') ? rawFormat.trim() : '');
+          const formatKey = formatMatch ? formatMatch[1].trim() : '';
           const qty = formatMatch ? Math.max(1, parseInt(formatMatch[2], 10) || 1) : null;
           const params = new URLSearchParams();
           if (nom) params.set('prefillNom', nom);
           if (formatKey) params.set('prefillFormat', formatKey);
           if (qty && qty > 1) params.set('prefillQty', String(qty));
           if (contact) params.set('prefillContact', contact);
-          // Abonnement : demande combien de vidéos sont déjà utilisées ce mois pour afficher la barre de
-          // crédits côté client (?subUsed=). Vide/annulé = pas de barre, le lien reste identique à avant.
-          if (formatKey.startsWith('Abonnement créateur')) {
-            const rawUsed = prompt('Vidéos déjà utilisées ce mois sur cet abonnement ? (un nombre ; vide ou Annuler = pas de barre de crédits)', '');
-            if (rawUsed !== null && /^\d+$/.test(rawUsed.trim())) params.set('subUsed', rawUsed.trim());
-          }
           return `${window.location.origin}${window.location.pathname}?${params.toString()}`;
         }
         adminOrdersList.querySelectorAll('.admin-copy-prefill-link-btn').forEach(btn => {
@@ -18059,131 +17726,6 @@
         return null;
       }
 
-
-      // --- Score de risque d'annulation : croise 3 signaux pour repérer, AVANT qu'un souci
-      // n'arrive, les commandes les plus susceptibles de s'annuler / de mal se passer :
-      //   1) mode urgent (⚡ dans la note, posé par le formulaire quand le client coche « urgent »),
-      //   2) délai serré : la date de livraison voulue par le client tombe à CANCEL_RISK_TIGHT_DAYS
-      //      jours ou moins de la création de la commande,
-      //   3) 1er contact : aucune commande antérieure (non annulée, hors test) du même contact
-      //      ou du même nom dans la liste — même logique de correspondance que l'anti-abus des
-      //      codes promo (contact OU nom, pour couvrir un changement de pseudo).
-      // 3/3 = risque élevé (badge rouge + carte marquée + remontée en tête du tri prioritaire),
-      // 2/3 = à surveiller (badge orange), 0-1 signal = rien d'affiché (pas de bruit).
-      // ⚠️ Repère heuristique, pas une probabilité : il dit « regarde celle-ci de près », il ne
-      // prédit rien. Impossible d'identifier le client (ni contact ni nom) → signal « 1er contact »
-      // non posé, plutôt qu'un faux positif.
-      // Commandes livrées/annulées/test : jamais évaluées (plus rien à surveiller).
-      // var (et non const/let) : hissés, donc jamais de zone morte si le dashboard s'affiche avant que ce bloc n'ait été exécuté.
-      var CANCEL_RISK_TIGHT_DAYS = 3;
-      var cancelRiskIndexRows = null, cancelRiskIndexSize = -1, cancelRiskIndex = null;
-      function cancelRiskClientKeys(o) {
-        const keys = [];
-        const contact = String(o[5] || '').trim().toLowerCase();
-        const nom = String(parseNoteQuickFields(o[2] || '').nom || '').trim().toLowerCase();
-        if (contact && contact !== 'non précisé') keys.push('c:' + contact);
-        if (nom && nom !== 'non précisé') keys.push('n:' + nom);
-        return keys;
-      }
-      function getCancelRiskIndex() {
-        // Index (clé client → commandes) reconstruit seulement quand la liste change, pour ne pas
-        // refaire un balayage complet à chaque carte affichée.
-        if (cancelRiskIndex && cancelRiskIndexRows === lastAdminOrders && cancelRiskIndexSize === lastAdminOrders.length) return cancelRiskIndex;
-        const idx = new Map();
-        lastAdminOrders.forEach(o => {
-          const st = String(o[1] || '');
-          if (st.includes('Test (pas') || statusCategory(st) === 'cancelled') return;
-          const ts = o[3] ? new Date(o[3]).getTime() : NaN;
-          cancelRiskClientKeys(o).forEach(k => {
-            if (!idx.has(k)) idx.set(k, []);
-            idx.get(k).push({ id: o[0], ts, amt: parseBudgetAmount(parseNoteQuickFields(o[2] || '')) || 0 });
-          });
-        });
-        cancelRiskIndexRows = lastAdminOrders;
-        cancelRiskIndexSize = lastAdminOrders.length;
-        cancelRiskIndex = idx;
-        return idx;
-      }
-      function isFirstContactOrder(r) {
-        const keys = cancelRiskClientKeys(r);
-        if (!keys.length) return false;
-        const createdTs = r[3] ? new Date(r[3]).getTime() : NaN;
-        const idx = getCancelRiskIndex();
-        const hasEarlier = keys.some(k => (idx.get(k) || []).some(e =>
-          e.id !== r[0] && (isNaN(e.ts) || isNaN(createdTs) || e.ts < createdTs)));
-        return !hasEarlier;
-      }
-      function cancellationRiskInfo(r) {
-        const status = String(r[1] || '');
-        const cat = statusCategory(status);
-        if (cat === 'delivered' || cat === 'cancelled' || status.includes('Test (pas')) return null;
-        const note = r[2] || '';
-        const signals = [];
-        if (note.includes('⚡')) signals.push('mode urgent');
-        const wantedTs = extractDesiredDeliveryTimestamp(note);
-        const createdTs = r[3] ? new Date(r[3]).getTime() : NaN;
-        if (wantedTs && !isNaN(createdTs)) {
-          const createdDay = new Date(createdTs); createdDay.setHours(0, 0, 0, 0);
-          const days = Math.round((wantedTs - createdDay.getTime()) / 86400000);
-          if (days <= CANCEL_RISK_TIGHT_DAYS) signals.push(`délai serré (${Math.max(days, 0)} j)`);
-        }
-        if (isFirstContactOrder(r)) signals.push('1er contact');
-        if (signals.length < 2) return null;
-        return { level: signals.length >= 3 ? 'high' : 'medium', count: signals.length, signals };
-      }
-      function isHighCancelRisk(r) {
-        const info = cancellationRiskInfo(r);
-        return !!info && info.level === 'high';
-      }
-      function cancellationRiskBadge(r) {
-        const info = cancellationRiskInfo(r);
-        if (!info) return null;
-        const detail = escapeHtml(info.signals.join(' + '));
-        return info.level === 'high'
-          ? { key: 'cancel-risk', html: `🚨 Risque d'annulation élevé · 3/3 : ${detail}`, cls: 'admin-order-badge-risk-high' }
-          : { key: 'cancel-risk', html: `⚠️ Risque d'annulation à surveiller · ${info.count}/3 : ${detail}`, cls: 'admin-order-badge-stale' };
-      }
-      function countCancelRiskOrders(rows) {
-        return rows.filter(r => !!cancellationRiskInfo(r)).length;
-      }
-
-      // --- Alerte « client VIP » : un client (même contact OU même nom, comme pour le risque
-      // d'annulation) devient VIP dès qu'il atteint l'un des deux seuils réglables dans Stats &
-      // outils : nombre de commandes (non annulées, hors test) ou montant cumulé (budget noté sur
-      // chaque commande). 0 = critère désactivé. Badge doré + carte marquée + priorité dans le tri
-      // (après « à traiter » et « risque d'annulation élevé »). Les commandes sans budget chiffré
-      // (« Prix libre »...) comptent dans le nombre mais pas dans le montant.
-      var VIP_THRESHOLDS_KEY = 'michyy_vip_thresholds';
-      function getVipThresholds() {
-        const d = { orders: 3, amount: 400 };
-        try {
-          const t = JSON.parse(localStorage.getItem(VIP_THRESHOLDS_KEY) || 'null');
-          if (t && Number.isFinite(t.orders) && Number.isFinite(t.amount)) return { orders: Math.max(0, t.orders), amount: Math.max(0, t.amount) };
-        } catch (e) { /* valeurs par défaut */ }
-        return d;
-      }
-      function clientVipInfo(r) {
-        const status = String(r[1] || '');
-        if (status.includes('Test (pas') || statusCategory(status) === 'cancelled') return null;
-        const keys = cancelRiskClientKeys(r);
-        if (!keys.length) return null;
-        const idx = getCancelRiskIndex();
-        const seen = new Map();
-        keys.forEach(k => (idx.get(k) || []).forEach(e => seen.set(e.id, e)));
-        let total = 0;
-        seen.forEach(e => { total += e.amt; });
-        const count = seen.size;
-        const t = getVipThresholds();
-        const byOrders = t.orders > 0 && count >= t.orders;
-        const byAmount = t.amount > 0 && total >= t.amount;
-        return (byOrders || byAmount) ? { count, total } : null;
-      }
-      function vipBadge(r) {
-        const info = clientVipInfo(r);
-        if (!info) return null;
-        return { key: 'vip', html: `👑 Client VIP · ${info.count} commande${info.count > 1 ? 's' : ''}${info.total > 0 ? ` · ${Math.round(info.total)} € cumulés` : ''}`, cls: 'admin-order-badge-vip' };
-      }
-
       function orderCardHtml(r) {
         const orderId = escapeHtml(r[0]);
         const currentStatus = escapeHtml(r[1] || '');
@@ -18205,8 +17747,6 @@
         const stuckInProgress = isStuckInProgress(r);
         const autoTags = detectAutoTags(r).filter(t => t.key !== 'urgent');
         const attention = attentionBadge(r);
-        const cancelRisk = cancellationRiskBadge(r);
-        const vip = vipBadge(r);
         const missingRushs = missingRushsBadge(r, noteFields);
         const priceIssue = priceMismatchBadge(r, noteFields);
         const promoReuse = promoReuseBadge(r, noteFields, lastAdminOrders);
@@ -18231,8 +17771,6 @@
         } : null;
         const badgeEntries = [
           ...(attention ? [attention] : []),
-          ...(cancelRisk ? [cancelRisk] : []),
-          ...(vip ? [vip] : []),
           ...(revisionBadge ? [revisionBadge] : []),
           ...(pausedTooLong ? [{ key: 'paused-too-long', html: `⏸️ En pause depuis ${daysSincePaused(r)}j, sans réponse`, cls: 'admin-order-badge-stale' }] : []),
           ...(stuckInProgress ? [{ key: 'stuck-in-progress', html: `🐌 Bloquée sur "${escapeHtml(r[1] || '')}" depuis ${daysStuckInProgress(r)}j`, cls: 'admin-order-badge-stale' }] : []),
@@ -18255,7 +17793,7 @@
           return `<span class="admin-order-badge ${b.cls}${isNew ? ' admin-badge-new' : ''}">${b.html}</span>`;
         }).join('');
         return `
-          <div class="admin-order-card${stale ? ' admin-order-card-stale' : ''}${isPinned(r[0]) ? ' admin-order-card-pinned' : ''}${vip ? ' admin-order-card-vip' : ''}${cancelRisk && cancelRisk.cls === 'admin-order-badge-risk-high' ? ' admin-order-card-risk' : ''}">
+          <div class="admin-order-card${stale ? ' admin-order-card-stale' : ''}${isPinned(r[0]) ? ' admin-order-card-pinned' : ''}">
             <div class="admin-order-header">
               ${isManualSortEnabled() ? `<span class="admin-order-move">
                 <button type="button" class="admin-order-move-up" data-order-id="${orderId}" title="Monter cette commande">▲</button>
@@ -18437,8 +17975,9 @@
             // avant, le tri ne regardait que le mot-clé "urgent" alors que le badge regardait aussi
             // le délai dépassé ; les deux utilisent maintenant exactement la même règle.
             active.sort((a, b) => {
-              const rank = o => needsAttention(o) ? 0 : (isHighCancelRisk(o) ? 1 : (clientVipInfo(o) ? 2 : 3));
-              return rank(a) - rank(b);
+              const aAttn = needsAttention(a) ? 0 : 1;
+              const bAttn = needsAttention(b) ? 0 : 1;
+              return aAttn - bAttn;
             });
           }
 
@@ -18475,8 +18014,6 @@
         const currentBadgeKeys = new Set();
         filtered.forEach(r => {
           if (needsAttention(r)) currentBadgeKeys.add(`${r[0]}::attention`);
-          if (cancellationRiskInfo(r)) currentBadgeKeys.add(`${r[0]}::cancel-risk`);
-          if (clientVipInfo(r)) currentBadgeKeys.add(`${r[0]}::vip`);
           detectAutoTags(r).filter(t => t.key !== 'urgent').forEach(t => currentBadgeKeys.add(`${r[0]}::tag:${t.key}`));
         });
         knownAdminBadgeKeys = currentBadgeKeys;
@@ -18821,82 +18358,6 @@
         try { return localStorage.getItem(ADMIN_LOGO_KEY) || ''; } catch (e) { return ''; }
       }
 
-      // --- 🆕 Historique des logos : à chaque changement (événement « change », pas à chaque
-      // frappe) l'ancien logo est archivé (max 20, sans doublon) pour ne jamais le perdre en
-      // changeant d'identité visuelle. Stocké en local (cet appareil), comme le logo lui-même.
-      // ⚠️ Un logo en data URI est lourd : si le stockage local est plein, l'archivage est
-      // simplement ignoré (jamais d'erreur bloquante). Le devis PDF a une mise en page fixe :
-      // seul le logo est versionné ici.
-      const LOGO_HISTORY_KEY = 'michyy_pdf_logo_history';
-      function getLogoHistory() {
-        try { const a = JSON.parse(localStorage.getItem(LOGO_HISTORY_KEY) || '[]'); return Array.isArray(a) ? a : []; } catch (e) { return []; }
-      }
-      function saveLogoHistory(list) {
-        try { localStorage.setItem(LOGO_HISTORY_KEY, JSON.stringify(list.slice(0, 20))); } catch (e) { /* quota plein : on ignore */ }
-      }
-      function archiveLogo(url) {
-        if (!url) return;
-        saveLogoHistory([{ url, retiredAt: Date.now() }, ...getLogoHistory().filter(x => x.url !== url)]);
-      }
-      let committedLogo = adminLogoUrlInput ? adminLogoUrlInput.value.trim() : '';
-      function renderLogoHistory() {
-        const box = document.getElementById('adminLogoHistory');
-        if (!box) return;
-        const list = getLogoHistory();
-        if (!list.length) { box.innerHTML = '<p class="admin-timeline-note">Aucun ancien logo archivé pour l\'instant : quand tu changes de logo, l\'ancien apparaît ici.</p>'; return; }
-        box.innerHTML = '<p class="admin-timeline-note">🗂️ Anciens logos (clique pour en réutiliser un) :</p>' + list.map((x, i) => {
-          const label = x.url.startsWith('data:') ? 'Image intégrée (data URI)' : x.url;
-          return `<div class="admin-logo-history-row">
-            <img src="${escapeHtml(x.url)}" alt="Ancien logo" loading="lazy" />
-            <span class="admin-logo-history-meta" title="${escapeHtml(label)}">${escapeHtml(label)}<br>retiré le ${new Date(x.retiredAt).toLocaleDateString('fr-FR')}</span>
-            <button type="button" class="filter-reset-btn" data-logo-restore="${i}">↩️ Réutiliser</button>
-            <button type="button" class="filter-reset-btn" data-logo-delete="${i}" title="Supprimer de l'historique">✕</button>
-          </div>`;
-        }).join('');
-        box.querySelectorAll('[data-logo-restore]').forEach(b => b.addEventListener('click', () => {
-          const entry = getLogoHistory()[Number(b.dataset.logoRestore)];
-          if (!entry || !adminLogoUrlInput) return;
-          const current = adminLogoUrlInput.value.trim();
-          if (current && current !== entry.url) archiveLogo(current);
-          saveLogoHistory(getLogoHistory().filter(x => x.url !== entry.url));
-          adminLogoUrlInput.value = entry.url;
-          try { localStorage.setItem(ADMIN_LOGO_KEY, entry.url); } catch (e) {}
-          committedLogo = entry.url;
-          if (adminLogoStatus) adminLogoStatus.textContent = '✅ Ancien logo remis en place, utilisé au prochain PDF généré.';
-          renderLogoHistory();
-        }));
-        box.querySelectorAll('[data-logo-delete]').forEach(b => b.addEventListener('click', () => {
-          saveLogoHistory(getLogoHistory().filter((_, i) => i !== Number(b.dataset.logoDelete)));
-          renderLogoHistory();
-        }));
-      }
-      if (adminLogoUrlInput) {
-        adminLogoUrlInput.addEventListener('change', () => {
-          const next = adminLogoUrlInput.value.trim();
-          if (committedLogo && committedLogo !== next) archiveLogo(committedLogo);
-          committedLogo = next;
-          renderLogoHistory();
-        });
-      }
-      renderLogoHistory();
-
-      // --- 🆕 Seuils « client VIP » (voir clientVipInfo) : réglables ici, appliqués tout de suite. ---
-      (function initVipSettings() {
-        const oIn = document.getElementById('adminVipOrdersInput');
-        const aIn = document.getElementById('adminVipAmountInput');
-        if (!oIn || !aIn) return;
-        const t = getVipThresholds();
-        oIn.value = t.orders; aIn.value = t.amount;
-        const save = () => {
-          const orders = Math.max(0, parseInt(oIn.value, 10) || 0);
-          const amount = Math.max(0, parseFloat(aIn.value) || 0);
-          try { localStorage.setItem(VIP_THRESHOLDS_KEY, JSON.stringify({ orders, amount })); } catch (e) {}
-          renderAdminOrdersList(lastAdminOrders);
-        };
-        oIn.addEventListener('change', save);
-        aIn.addEventListener('change', save);
-      })();
-
       // --- 🆕 Export calendrier (.ics) des commandes actives avec une date de livraison connue —
       // même principe que exportAvailabilityIcs côté public (voir plus haut dans le fichier) : un
       // événement "journée entière" par commande, généré côté client, sans flux resynchronisable.
@@ -19068,103 +18529,6 @@
           } finally {
             adminMonthlyReportBtn.disabled = false;
             adminMonthlyReportBtn.textContent = original;
-          }
-        });
-      }
-
-      // --- 🆕 Vue « cette semaine » PDF (lundi → dimanche) : même moteur que le rapport mensuel
-      // ci-dessus (loadJsPdfLib + jsPDF, même logo via getStoredPdfLogo), donc rien de nouveau à
-      // charger. Contenu : chiffres clés, commandes à livrer cette semaine (date effective : celle
-      // que tu as posée à la main, sinon celle voulue par le client), commandes en retard et
-      // commandes à surveiller (risque d'annulation). Les emojis sont retirés du texte : la police
-      // standard du PDF ne sait pas les afficher. ---
-      const adminWeeklyReportBtn = document.getElementById('adminWeeklyReportBtn');
-      const adminWeeklyReportStatus = document.getElementById('adminWeeklyReportStatus');
-      if (adminWeeklyReportBtn) {
-        adminWeeklyReportBtn.addEventListener('click', async () => {
-          if (!lastAdminOrders.length) {
-            if (adminWeeklyReportStatus) adminWeeklyReportStatus.textContent = '⚠️ Aucune commande chargée pour le moment.';
-            return;
-          }
-          const original = adminWeeklyReportBtn.textContent;
-          adminWeeklyReportBtn.disabled = true;
-          adminWeeklyReportBtn.textContent = '⏳ Génération...';
-          try {
-            await loadJsPdfLib();
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            const now = new Date();
-            const weekStart = new Date(now); weekStart.setHours(0, 0, 0, 0);
-            weekStart.setDate(weekStart.getDate() - ((weekStart.getDay() + 6) % 7)); // lundi
-            const weekEnd = new Date(weekStart); weekEnd.setDate(weekEnd.getDate() + 7); // lundi suivant (exclu)
-            const lastDay = new Date(weekEnd.getTime() - 86400000);
-            const inWeek = ts => ts != null && !isNaN(ts) && ts >= weekStart.getTime() && ts < weekEnd.getTime();
-            const dm = d => d.toLocaleDateString('fr-FR', { day: '2-digit', month: '2-digit' });
-            const clean = t => String(t == null ? '' : t).replace(/[^\x20-\x7E\u00A0-\u00FF\u20AC\u2013\u2014\u2019]/g, '').replace(/\s+/g, ' ').trim();
-            const nameOf = r => clean(parseNoteQuickFields(r[2] || '').nom) || 'Client';
-
-            const real = lastAdminOrders.filter(r => !String(r[1] || '').includes('Test (pas'));
-            const active = real.filter(r => { const c = statusCategory(r[1] || ''); return c !== 'cancelled' && c !== 'delivered'; });
-            const created = real.filter(r => inWeek(r[3] ? new Date(r[3]).getTime() : NaN));
-            const toDeliver = active.filter(r => inWeek(getEffectiveDeliveryTimestamp(r)))
-              .sort((a, b) => getEffectiveDeliveryTimestamp(a) - getEffectiveDeliveryTimestamp(b));
-            const late = active.filter(r => orderLateDays(r) > 0).sort((a, b) => orderLateDays(b) - orderLateDays(a));
-            const watch = active.map(r => ({ r, info: cancellationRiskInfo(r) })).filter(x => x.info);
-            const ca = created.reduce((t, r) => t + (parseBudgetAmount(parseNoteQuickFields(r[2] || '')) || 0), 0);
-
-            let y = 20;
-            const logo = getStoredPdfLogo();
-            if (logo) {
-              try { doc.addImage(logo, 'PNG', 14, 10, 24, 24); y = 42; } catch (e) { /* format d'image invalide, on continue sans */ }
-            }
-            const tx = logo ? 44 : 14;
-            doc.setFont('helvetica', 'bold'); doc.setFontSize(18); doc.setTextColor(20);
-            doc.text('Vue de la semaine', tx, y - (logo ? 22 : 6));
-            doc.setFont('helvetica', 'normal'); doc.setFontSize(10); doc.setTextColor(120);
-            doc.text(`Du ${dm(weekStart)} au ${lastDay.toLocaleDateString('fr-FR')} - généré le ${now.toLocaleDateString('fr-FR')}`, tx, y - (logo ? 15 : 0));
-            y += 4;
-
-            const ensure = need => { if (y + need > 282) { doc.addPage(); y = 20; } };
-            doc.setTextColor(20);
-            [
-              ['Nouvelles commandes cette semaine', String(created.length)],
-              ['CA estimé des nouvelles commandes', `${Math.round(ca)} €`],
-              ['À livrer cette semaine', String(toDeliver.length)],
-              ['En retard', String(late.length)],
-              ['À surveiller (risque d\'annulation)', String(watch.length)]
-            ].forEach(([label, value]) => {
-              doc.setFont('helvetica', 'bold'); doc.setFontSize(11); doc.text(`${label} :`, 14, y);
-              doc.setFont('helvetica', 'normal'); doc.text(value, 100, y);
-              y += 8;
-            });
-
-            const section = (title, items, lineOf) => {
-              y += 6; ensure(20);
-              doc.setFont('helvetica', 'bold'); doc.setFontSize(12); doc.setTextColor(20);
-              doc.text(title, 14, y); y += 3;
-              doc.setDrawColor(200); doc.line(14, y, 196, y); y += 6;
-              doc.setFont('helvetica', 'normal'); doc.setFontSize(10);
-              if (!items.length) { doc.setTextColor(140); doc.text('Rien pour cette section.', 14, y); y += 6; return; }
-              doc.setTextColor(20);
-              items.forEach(it => {
-                const lines = doc.splitTextToSize(clean(lineOf(it)), 180);
-                ensure(5 * lines.length + 2);
-                doc.text(lines, 14, y);
-                y += 5 * lines.length + 1;
-              });
-            };
-            section('À livrer cette semaine', toDeliver, r => `${dm(new Date(getEffectiveDeliveryTimestamp(r)))} - #${r[0]} - ${nameOf(r)} - ${clean(r[1])}`);
-            section('En retard', late, r => `${orderLateDays(r)} j - #${r[0]} - ${nameOf(r)} - ${clean(r[1])}`);
-            section('À surveiller (risque d\'annulation)', watch, x => `#${x.r[0]} - ${nameOf(x.r)} - ${x.info.count}/3 : ${x.info.signals.join(' + ')}`);
-
-            const pad = n => String(n).padStart(2, '0');
-            doc.save(`semaine-michyy-${weekStart.getFullYear()}-${pad(weekStart.getMonth() + 1)}-${pad(weekStart.getDate())}.pdf`);
-            if (adminWeeklyReportStatus) adminWeeklyReportStatus.textContent = '✅ Vue de la semaine générée et téléchargée.';
-          } catch (err) {
-            if (adminWeeklyReportStatus) adminWeeklyReportStatus.textContent = '⚠️ Échec de la génération, réessaie.';
-          } finally {
-            adminWeeklyReportBtn.disabled = false;
-            adminWeeklyReportBtn.textContent = original;
           }
         });
       }
@@ -23132,8 +22496,6 @@
       setText('heroDelayLong', `${daysLabel(longMax)} max`);
       setText('faqDelayCourt', `sous ${courtMax} jours maximum`);
       setText('faqDelayLong', `sous ${daysLabel(longMax)} maximum`);
-      setText('qfDelayCourt', `${courtMax} jours max`);
-      setText('qfDelayLong', `${daysLabel(longMax)} max`);
       setText('cgvDelayCourt', `jour même à ${courtMax} jours`);
       setText('cgvDelayLong', `jusqu'à ${daysLabel(longMax)}`);
       setText('b2bDelayCourtRef', `jour même à ${courtMax} jours`);
@@ -23404,35 +22766,6 @@
         reserveForm.elements['contact'].value = prefillContact;
         saveDraft();
       }
-    })();
-
-    // --- Barre de crédits d'un abonnement en cours : visible seulement si le client arrive par un
-    // lien personnalisé qui contient ?prefillFormat=Abonnement créateur…&subUsed=N (lien généré
-    // côté admin, qui demande le nombre de vidéos déjà utilisées). Ajoute une mini barre sur la
-    // carte tarif de la formule concernée. Purement indicatif : le décompte vient du lien, pas
-    // d'un compteur automatique — l'admin met le nombre à jour en régénérant le lien. ---
-    (function initSubscriptionCredits() {
-      const format = urlParams.get('prefillFormat');
-      const usedRaw = urlParams.get('subUsed');
-      if (!format || usedRaw === null || !/^\d+$/.test(usedRaw)) return;
-      const tier = SUBSCRIPTION_TIERS[format];
-      const card = document.getElementById({ 'Abonnement créateur (4 vidéos)': 'formatCardAbonnement4', 'Abonnement créateur': 'formatCardAbonnement' }[format] || '');
-      if (!tier || !card) return;
-      const total = tier.videos;
-      const used = Math.min(parseInt(usedRaw, 10), total);
-      const left = total - used;
-      const pct = Math.round((left / total) * 100);
-      const box = document.createElement('div');
-      box.className = 'sub-credits' + (left === 0 ? ' is-empty' : (pct <= 25 ? ' is-low' : ''));
-      box.setAttribute('role', 'progressbar');
-      box.setAttribute('aria-valuemin', '0');
-      box.setAttribute('aria-valuemax', String(total));
-      box.setAttribute('aria-valuenow', String(left));
-      box.setAttribute('aria-label', `${left} vidéo(s) restante(s) sur ${total} ce mois-ci`);
-      box.innerHTML = `<div class="sub-credits-head"><span>🎟️ Ton abonnement en cours</span><strong>${left} / ${total} vidéo${total > 1 ? 's' : ''} restante${left > 1 ? 's' : ''}</strong></div>
-        <div class="sub-credits-track"><div class="sub-credits-fill" style="width:${pct}%"></div></div>
-        ${left === 0 ? '<p class="sub-credits-note">Crédits épuisés pour ce mois — écris-moi pour en rajouter ou attendre le renouvellement.</p>' : ''}`;
-      card.appendChild(box);
     })();
 
     // --- Budget déjà en tête (#budgetEnTeteInput, tout début du formulaire) : dès qu'un montant
@@ -25982,11 +25315,6 @@
         <button type="button" id="adminMonthlyReportBtn" class="admin-btn-primary" style="margin-top: 8px;">📄 Rapport mensuel (PDF)</button>
         <p class="admin-timeline-note" id="adminMonthlyReportStatus" style="margin-top: 4px;"></p>
 
-        <!-- 🆕 Vue « cette semaine » (lundi → dimanche) en PDF : même moteur jsPDF et même logo que
-             le rapport mensuel, pensée pour être partagée avec quelqu'un d'autre. -->
-        <button type="button" id="adminWeeklyReportBtn" class="admin-btn-primary" style="margin-top: 8px;">🗓️ Vue « cette semaine » (PDF)</button>
-        <p class="admin-timeline-note" id="adminWeeklyReportStatus" style="margin-top: 4px;"></p>
-
         <!-- 🆕 Logo optionnel pour les devis PDF client (#liveRecapPdfBtn) et le rapport mensuel
              ci-dessus — juste une URL d'image ou un data URI base64, stocké en local. Vide = pas de
              logo, comportement inchangé. -->
@@ -25994,20 +25322,6 @@
           <input type="text" id="adminLogoUrlInput" class="admin-search-input" placeholder="https://... ou data:image/png;base64,..." />
         </label>
         <p class="admin-timeline-note" id="adminLogoStatus" style="margin-top: 4px;"></p>
-        <!-- 🆕 Historique des logos : quand tu changes de logo, l'ancien est archivé ici (cet appareil)
-             pour pouvoir le réutiliser en un clic. -->
-        <div class="admin-logo-history" id="adminLogoHistory"></div>
-
-        <!-- 🆕 Seuils « client VIP » : un client (même contact OU même nom) devient VIP dès qu'il
-             atteint l'un des deux seuils. 0 = critère désactivé. -->
-        <div class="admin-vip-settings">
-          <label>👑 VIP : nombre de commandes ≥ <span class="optional-tag">(0 = désactivé)</span>
-            <input type="number" id="adminVipOrdersInput" class="admin-search-input" min="0" step="1" />
-          </label>
-          <label>👑 VIP : montant cumulé ≥ (€) <span class="optional-tag">(0 = désactivé)</span>
-            <input type="number" id="adminVipAmountInput" class="admin-search-input" min="0" step="10" />
-          </label>
-        </div>
 
         <!-- 🆕 Réponses vidéo courtes aux questions fréquentes : associe une URL vidéo (fichier
              .mp4 ou lien YouTube/autre) à une question FAQ existante — stocké en local, affiché
