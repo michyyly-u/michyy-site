@@ -2508,54 +2508,6 @@
       border-color: #7f8bfa66;
       color: #4a4fc4;
     }
-    /* --- Bannière promo temporaire (voir #seasonalPromoBanner, initSeasonalPromoBanner dans le JS)
-         : dégradé plein (pas juste un liseré comme .hero-promo-badge) pour trancher visuellement du
-         badge permanent juste en dessous — l'urgence temporelle doit se voir au premier coup d'œil,
-         pas se fondre avec l'offre "premier montage" qui, elle, ne finit jamais. --- */
-    .seasonal-promo-banner {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      flex-wrap: wrap;
-      gap: 8px;
-      max-width: 720px;
-      margin: 14px auto;
-      padding: 10px 14px;
-      border-radius: 10px;
-      background: linear-gradient(135deg, #FF4438, #FFB020);
-      color: #fff;
-    }
-    .seasonal-promo-text {
-      font-family: 'Syne', sans-serif;
-      font-weight: 800;
-      font-size: 13px;
-    }
-    .seasonal-promo-countdown {
-      font-family: 'Manrope', sans-serif;
-      font-weight: 700;
-      font-size: 12px;
-      background: rgba(0, 0, 0, 0.22);
-      border-radius: 999px;
-      padding: 3px 10px;
-      white-space: nowrap;
-    }
-
-    /* Showreel (#showreelBlock) : plein cadre, coins arrondis cohérents avec le reste du site,
-       ratio 16/9 par défaut pour éviter un saut de mise en page pendant le chargement. */
-    .showreel-block {
-      max-width: 720px;
-      margin: 0 auto 20px;
-      padding: 0 20px;
-    }
-    .showreel-video {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      border-radius: 14px;
-      border: 0.5px solid var(--border-soft);
-      background: #000;
-      display: block;
-    }
-
     .portfolio-card[data-best-match="true"] {
       border: 1px solid #7f8bfa66;
       box-shadow: 0 0 0 1px #7f8bfa22;
@@ -7347,7 +7299,7 @@
     .peak-banner.is-ok { background:#8be28b18; border-color:#8be28b66; color:#3d9a3d; }
     .admin-promo-filter { min-width:170px; }
     .admin-promo-usage { font-size:12px; margin:4px 0 0; opacity:.85; }
-    .price-log-card { border:1px solid var(--border-soft); border-radius:12px; padding:12px; margin-top:12px; }
+    .price-log-card, .section-ideas-card { border:1px solid var(--border-soft); border-radius:12px; padding:12px; margin-top:12px; }
     .price-log-form { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:6px; margin:8px 0; }
     .price-log-row, .idea-row { display:flex; justify-content:space-between; align-items:center; gap:8px; padding:6px 0; border-top:1px solid var(--border-soft); font-size:12px; }
     .idea-row.is-picked { background:#5865F214; border-radius:8px; padding-left:6px; }
@@ -10687,114 +10639,6 @@
     }
   </style>
 
-  <style id="shared-preview-price-journal">
-    /* ==========================================================================
-       Aperçu partagé (?apercu=…) — vue client en lecture seule + bloc admin
-       + journal des prix pratiqués. Réutilise les jetons du site (--bg, --surface, --text…)
-       et la frise .tracking-progress déjà utilisée par le suivi standard.
-       ========================================================================== */
-    .shared-preview-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 10000;
-      overflow-y: auto;
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      padding: 40px 16px;
-      background: var(--bg);
-    }
-    .shared-preview-card {
-      width: 100%;
-      max-width: 520px;
-      background: var(--surface);
-      border: 0.5px solid var(--border-soft);
-      border-radius: 16px;
-      padding: 26px 24px 22px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
-    }
-    .shared-preview-kicker { font-size: 12px; font-weight: 700; color: var(--text-tertiary); margin: 0 0 10px; }
-    .shared-preview-title { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 26px; line-height: 1.15; color: var(--text); margin: 0 0 6px; }
-    .shared-preview-order { font-size: 14px; line-height: 1.5; color: var(--text-secondary); margin: 0 0 16px; }
-    .shared-preview-text { font-size: 14px; line-height: 1.6; color: var(--text-secondary); margin: 8px 0 4px; }
-    .shared-preview-status {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      font-family: 'Syne', sans-serif;
-      font-weight: 700;
-      font-size: 15px;
-      color: var(--text);
-      background: var(--surface-soft);
-      border: 0.5px solid var(--border-soft);
-      border-radius: 12px;
-      padding: 12px 14px;
-      margin-bottom: 16px;
-    }
-    .shared-preview-line { font-size: 14px; color: var(--text-secondary); margin: 14px 0 0; }
-    .shared-preview-line strong { color: var(--text); }
-    .shared-preview-message {
-      margin-top: 16px;
-      padding: 12px 14px;
-      border-left: 3px solid #FFB020;
-      background: var(--surface-soft);
-      border-radius: 0 10px 10px 0;
-    }
-    .shared-preview-message-label { font-size: 11px; font-weight: 700; color: var(--text-tertiary); }
-    .shared-preview-message p { margin: 4px 0 0; font-size: 14px; line-height: 1.55; color: var(--text); }
-    .shared-preview-foot { font-size: 12px; line-height: 1.6; color: var(--text-tertiary); margin: 20px 0 16px; }
-    .shared-preview-close {
-      font-family: 'Manrope', sans-serif;
-      font-weight: 700;
-      font-size: 13px;
-      color: var(--text);
-      background: var(--surface-soft);
-      border: 1px solid var(--border-soft);
-      border-radius: 10px;
-      padding: 9px 16px;
-      cursor: pointer;
-    }
-    .shared-preview-close:hover { border-color: var(--text-faint); }
-
-    /* --- Admin : bloc "lien d'aperçu temporaire" dans le détail d'une carte --- */
-    .admin-share-preview-row { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 4px; }
-    .admin-share-preview-btn {
-      flex: 1 1 auto;
-      padding: 7px 10px;
-      background: #7c3cff22;
-      border: 0.5px solid #9b6bff88;
-      border-radius: 6px;
-      color: #b79bff;
-      font-family: 'Manrope', sans-serif;
-      font-weight: 700;
-      font-size: 12px;
-      cursor: pointer;
-      text-align: center;
-    }
-    .admin-share-preview-btn:hover { background: #7c3cff3d; }
-    .admin-share-preview-open { flex: 0 0 auto; }
-    .admin-share-preview-ttl {
-      flex: 0 0 auto;
-      padding: 6px 8px;
-      font-family: 'Manrope', sans-serif;
-      font-size: 12px;
-      font-weight: 600;
-      border-radius: 6px;
-    }
-    .admin-share-preview-note { font-size: 11px; color: var(--text-tertiary); margin: 0 0 10px; min-height: 0; }
-    .admin-share-preview-note:empty { display: none; }
-    .admin-section.admin-light .admin-share-preview-btn { color: #5a2fd1; }
-
-    /* --- Admin : journal des prix pratiqués --- */
-    .pj-table-wrap { overflow-x: auto; margin-top: 6px; }
-    .pj-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
-    .pj-table th, .pj-table td { text-align: left; padding: 7px 8px; border-bottom: 0.5px solid var(--border-soft); vertical-align: top; }
-    .pj-table th { font-size: 11px; font-weight: 700; color: var(--text-tertiary); }
-    .pj-muted { color: var(--text-tertiary); }
-    .pj-hint { font-size: 11.5px; line-height: 1.5; color: var(--text-tertiary); margin: 6px 0 0; }
-    .pj-list-title { font-size: 12px; font-weight: 700; color: var(--text-secondary); margin: 14px 0 4px; }
-  </style>
-
   <style id="site-additions">
     /* --- Mini FAQ « juste avant de cliquer » (haut du formulaire de réservation) --- */
     .quick-faq-strip {
@@ -10818,8 +10662,7 @@
       display: flex; justify-content: space-between; align-items: baseline; gap: 8px;
       font-family: 'Manrope', sans-serif; font-size: 11px; color: var(--text-secondary);
     }
-    .sub-credits-head { flex-wrap: wrap; }
-    .sub-credits-head strong { color: var(--text); font-size: 12px; white-space: nowrap; }
+    .sub-credits-head strong { color: var(--text); font-size: 12px; }
     .sub-credits-track { height: 8px; border-radius: 999px; background: var(--border-soft); overflow: hidden; margin-top: 6px; }
     .sub-credits-fill { height: 100%; border-radius: 999px; background: #3ddc84; transition: width 0.6s ease; }
     .sub-credits.is-low .sub-credits-fill { background: #ffb020; }
@@ -10843,13 +10686,6 @@
     .admin-logo-history-meta { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .admin-vip-settings { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px; }
     .admin-vip-settings label { flex: 1; min-width: 180px; }
-  </style>
-
-  <style id="admin-extras-2">
-    .pj-spark { display: block; }
-    .pj-low-alert { margin: 0 0 10px; padding: 10px 12px; border-radius: 10px; border: 1px solid #ff6b6b99; background: rgba(255,107,107,0.10); font-size: 13px; color: var(--text); }
-    .pj-low-alert ul { margin: 6px 0 0 18px; padding: 0; }
-    .admin-client-actions { display: flex; justify-content: flex-end; padding: 0 10px 8px; }
   </style>
 </head>
 <body>
@@ -11322,23 +11158,6 @@
     </div>
   </div>
 
-  <!-- 🆕 Showreel : premier contact visuel avant même le portfolio détaillé. Configuré depuis
-       l'admin (Stats & outils → URL du showreel, stockée en local) — tant qu'aucune URL n'est
-       définie, le bloc reste invisible plutôt que d'afficher un placeholder vide ou une fausse
-       vidéo d'exemple. Voir initShowreel() dans le JS. -->
-  <!-- 🆕 Bannière promo temporaire (offre limitée dans le temps) : affichée uniquement s'il existe
-       un code promo actif avec une date d'expiration dans PROMO_CODES (donc jamais pour les codes
-       permanents comme PREMIERE20/PARRAIN10) — voir initSeasonalPromoBanner() dans le JS, appelée
-       après refreshDynamicPromoCodes(). Crée un code promo depuis l'admin (🎟️ Codes promo) avec une
-       date d'expiration pour la faire apparaître. -->
-  <div id="seasonalPromoBanner" class="seasonal-promo-banner" style="display:none;">
-    <span class="seasonal-promo-text" id="seasonalPromoText"></span>
-    <span class="seasonal-promo-countdown" id="seasonalPromoCountdown"></span>
-  </div>
-
-  <div id="showreelBlock" class="showreel-block" style="display:none;">
-    <video id="showreelVideo" class="showreel-video" controls preload="none" playsinline></video>
-  </div>
 
   <div class="full-divider"></div>
 
@@ -11404,7 +11223,7 @@
         <div class="guarantee-card">
           <span class="guarantee-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
           <span class="guarantee-card-title">Délais annoncés tenus</span>
-          <span class="guarantee-card-text">Le délai indiqué au moment du devis est celui qui compte. S'il devait glisser, tu es prévenu avant l'échéance, pas après — jamais un silence qui traîne. Détails dans <a href="#cgv-delais">la clause délais</a>.</span>
+          <span class="guarantee-card-text">Le délai indiqué au moment du devis est celui qui compte. S'il devait glisser, tu es prévenu avant l'échéance, pas après — jamais un silence qui traîne. Détails dans <a href="#faq-delais">la FAQ délais</a>.</span>
         </div>
         <div class="guarantee-card">
           <span class="guarantee-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></span>
@@ -12660,8 +12479,8 @@
     <!-- Note maintenance : cette section ne cite volontairement aucun chiffre de délai en dur
          (étape 3 dit juste "délai annoncé") pour éviter toute divergence avec les délais réels.
          Les chiffres eux-mêmes vivent uniquement dans DELAY_RANGES (JS) et sont propagés vers
-         le hero (#heroDelayCourt/#heroDelayLong), les CGV (#cgvDelayCourt/#cgvDelayLong), la
-         FAQ B2B (#b2bDelayCourtRef/#b2bDelayLongRef) et le résumé du mini-quiz (#qfDelayCourt/#qfDelayLong) —
+         le hero (#heroDelayCourt/#heroDelayLong), la FAQ (#faqDelayCourt/#faqDelayLong), les
+         CGV (#cgvDelayCourt/#cgvDelayLong) et la FAQ B2B (#b2bDelayCourtRef/#b2bDelayLongRef) —
          modifie uniquement DELAY_RANGES pour changer un délai. -->
 
     <div class="howitworks-steps">
@@ -12747,6 +12566,7 @@
         <button type="button" class="filter-btn faq-theme-filter-btn" data-theme-filter="tarifs">💰 Tarifs</button>
         <button type="button" class="filter-btn faq-theme-filter-btn" data-theme-filter="abonnement">🔄 Abonnement</button>
         <button type="button" class="filter-btn faq-theme-filter-btn" data-theme-filter="delais">⏳ Délais</button>
+        <button type="button" class="filter-btn faq-theme-filter-btn" data-theme-filter="revisions">🔁 Révisions</button>
         <button type="button" class="filter-btn faq-theme-filter-btn" data-theme-filter="suivi">📦 Suivi de commande</button>
         <button type="button" class="filter-btn faq-theme-filter-btn" data-theme-filter="technique">🛠️ Technique</button>
         <!-- 🔧 Simplification : "Confiance" (2 questions) et "Après livraison" (3 questions) fusionnés
@@ -12763,8 +12583,8 @@
       <nav class="tab-quick-nav" aria-label="Aller directement à une question">
         <a href="#faq-claims">⚖️ Claims</a>
         <a href="#faq-format">📼 Format livré</a>
-        <a href="#cgv-delais">⏳ Délais de livraison / soir &amp; week-end</a>
-        <a href="#cgv-revisions">🔁 Révisions incluses</a>
+        <a href="#faq-delais">⏳ Délais de livraison / soir &amp; week-end</a>
+        <a href="#faq-revisions">🔁 Révisions incluses</a>
         <a href="#faq-suivi-statut-bloque">📦 Statut bloqué</a>
         <a href="#faq-suivi-retouche-facturee">🔁 Retouche facturée</a>
         <a href="#faq-suivi-hors-ligne">🌙 Envoi hors ligne</a>
@@ -12885,13 +12705,15 @@
       <details class="more-options faq-theme-group" id="faqGroupDelais" data-group-theme="delais">
         <summary class="more-options-summary">
           <span class="more-options-summary-label">⏳ Délais</span>
-          <span class="more-options-summary-hint">(1 questions)</span>
+          <span class="more-options-summary-hint">(2 questions)</span>
         </summary>
         <div class="more-options-content">
-      <!-- 🧹 "Quels sont les délais de livraison exacts..." retirée : fusionnée dans la clause CGV
-           "Délais" (#cgv-delais), qui a repris tout le détail utile (démarrage après acompte+rushs,
-           travail possible le soir/week-end, mode urgent) — les liens qui pointaient ici renvoient
-           maintenant vers #cgv-delais. -->
+      <details class="faq-item" id="faq-delais" data-theme="delais">
+        <summary>Quels sont les délais de livraison exacts, et travailles-tu le soir/week-end ?</summary>
+        <p>Format court (TikTok/Reels) : livré le jour même, <span id="faqDelayCourt">sous 2 jours maximum</span>. Format long (YouTube/Best-of) : <span id="faqDelayLong">sous 1 semaine maximum</span>, variable selon la quantité de vidéos en cours. Ces délais démarrent après réception de l'acompte et de tous les fichiers/rushs nécessaires : un retard de ton côté sur l'envoi des sources décale d'autant la livraison. Besoin de vraiment plus vite ? Un mode urgent existe (+30% sur le tarif), disponible dans le calculateur ci-dessus.</p>
+        <p>Oui, je monte souvent le soir ou le week-end : je ne suis pas limité aux horaires de bureau classiques, ce qui aide notamment pour le mode urgent. Ça ne veut pas dire disponible 24/7 pour autant : les délais annoncés ci-dessus restent la référence, le soir/week-end sert surtout à les tenir ou les accélérer plutôt qu'à en promettre de nouveaux.</p>
+      </details>
+
       <details class="faq-item" id="faq-devis" data-theme="delais">
         <summary>Combien de temps pour recevoir un devis ?</summary>
         <p>Je réponds sous 24h maximum à toute demande, avec un tarif indicatif basé sur le format et la quantité de vidéos.</p>
@@ -12899,10 +12721,19 @@
         </div>
       </details>
 
-      <!-- 🧹 Le groupe "🔁 Révisions" (question unique "Combien de révisions...") a été retiré :
-           fusionné dans la clause CGV "Révisions" (#cgv-revisions), qui a repris tout le détail
-           utile (exemples de ce qui est couvert, cas de la retouche juste après livraison). Les
-           liens qui pointaient vers #faq-revisions renvoient maintenant vers #cgv-revisions. -->
+      <details class="more-options faq-theme-group" id="faqGroupRevisions" data-group-theme="revisions">
+        <summary class="more-options-summary">
+          <span class="more-options-summary-label">🔁 Révisions</span>
+          <span class="more-options-summary-hint">(1 questions)</span>
+        </summary>
+        <div class="more-options-content">
+      <details class="faq-item" id="faq-revisions" data-theme="revisions">
+        <summary>Combien de révisions sont incluses, et jusqu'où ça va ?</summary>
+        <p><strong>3 révisions incluses par vidéo</strong> : ajustements de rythme, de coupe, de sous-titres, d'habillage sonore ou de placement d'éléments. C'est exactement ce qui couvre le cas où le premier jet ne te convainc pas encore — jamais de surprise ni de blocage, l'objectif reste que le résultat te corresponde. Au-delà de la 3e, chaque retouche supplémentaire est facturée <strong>20€</strong>, à l'unité (jamais par lot). Ce qui sort de ce cadre, c'est une refonte complète du montage (changer totalement l'angle ou la structure de la vidéo une fois validée), traitée à part (voir la question sur les révisions hors cadre) plutôt que décomptée dans les 3.</p>
+      </details>
+
+        </div>
+      </details>
 
       <details class="more-options faq-theme-group" id="faqGroupSuivi" data-group-theme="suivi">
         <summary class="more-options-summary">
@@ -12917,7 +12748,7 @@
 
       <details class="faq-item" id="faq-suivi-retouche-facturee" data-theme="suivi">
         <summary>C'est quoi une retouche facturée ?</summary>
-        <p><strong>3 retouches sont incluses</strong> par vidéo, décomptées automatiquement à chaque envoi via le formulaire "Message pour le client" de ton suivi (un envoi = une retouche). Au-delà de la 3e, chaque retouche supplémentaire est facturée <strong>20€</strong> — jamais en surprise : le compteur affiché dans ton suivi ("🔁 Retouche X sur 3 incluses") te montre en temps réel où tu en es, et je ne facture rien sans te le dire clairement avant. Voir aussi la question sur les <a href="#cgv-revisions" class="inline-link">révisions incluses</a> pour le détail de ce qui est couvert.</p>
+        <p><strong>3 retouches sont incluses</strong> par vidéo, décomptées automatiquement à chaque envoi via le formulaire "Message pour le client" de ton suivi (un envoi = une retouche). Au-delà de la 3e, chaque retouche supplémentaire est facturée <strong>20€</strong> — jamais en surprise : le compteur affiché dans ton suivi ("🔁 Retouche X sur 3 incluses") te montre en temps réel où tu en es, et je ne facture rien sans te le dire clairement avant. Voir aussi la question sur les <a href="#faq-revisions" class="inline-link">révisions incluses</a> pour le détail de ce qui est couvert.</p>
       </details>
 
       <details class="faq-item" id="faq-suivi-hors-ligne" data-theme="suivi">
@@ -12976,7 +12807,7 @@
 
       <details class="faq-item" id="faq-retouche-post-livraison" data-theme="confiance">
         <summary>Je peux demander une retouche après avoir reçu ma vidéo finale ?</summary>
-        <p>Oui, une retouche demandée peu après la livraison compte dans les <a href="#cgv-revisions" class="inline-link">3 révisions incluses</a> (ou 20€/retouche au-delà). Seule différence : le solde doit déjà être réglé, puisqu'il est dû dès ta première demande de retouche. Si ça revient à rouvrir le projet en profondeur (nouvel angle, nouvelle structure), ça bascule dans les <a href="#faq-refonte" class="inline-link">révisions hors cadre</a>.</p>
+        <p>Oui, une retouche demandée peu après la livraison compte dans les <a href="#faq-revisions" class="inline-link">3 révisions incluses</a> (ou 20€/retouche au-delà). Seule différence : le solde doit déjà être réglé, puisqu'il est dû dès ta première demande de retouche. Si ça revient à rouvrir le projet en profondeur (nouvel angle, nouvelle structure), ça bascule dans les <a href="#faq-refonte" class="inline-link">révisions hors cadre</a>.</p>
       </details>
 
       <details class="faq-item" id="faq-rushs-perdus" data-theme="confiance">
@@ -13054,8 +12885,8 @@
         <li id="cgv-commercial"><strong>Usage commercial :</strong> à préciser dès la demande, un usage sponsorisé/publicitaire ajoute +15% au tarif de base.</li>
         <li id="cgv-test"><strong>Pas de montage test :</strong> je ne réalise pas de montage d'essai gratuit, même court (30 secondes à 2 minutes), sans exception : mon portfolio est justement là pour juger de mon style sans faire perdre de temps à personne.</li>
         <li id="cgv-acompte"><strong>Acompte :</strong> 50% à régler avant le début du montage, non remboursable une fois le travail commencé. Le solde (50% restant) est dû dès la première demande de retouche, pas à la livraison finale.</li>
-        <li id="cgv-revisions"><strong>Révisions :</strong> 3 révisions incluses par vidéo — ajustements de rythme, de coupe, de sous-titres, d'habillage sonore ou de placement d'éléments (c'est exactement ce qui couvre le cas où le premier jet ne convainc pas encore). Au-delà de la 3e, chaque retouche supplémentaire est facturée 20€ (à l'unité, jamais par lot). Une retouche demandée peu après la livraison compte dans ces 3 révisions au même titre qu'avant (seule différence : le solde doit déjà être réglé, puisqu'il est dû dès la première demande de retouche). Un changement complet de concept après validation (nouvel angle, nouvelle structure) sort de ce cadre et peut être facturé en plus.</li>
-        <li id="cgv-delais"><strong>Délais :</strong> indicatifs (format court : <span id="cgvDelayCourt">jour même à 2 jours</span> ; format long : <span id="cgvDelayLong">jusqu'à 1 semaine</span>, variable selon la charge de travail). Ces délais démarrent après réception de l'acompte et de tous les fichiers/rushs nécessaires : un retard sur l'envoi des sources décale d'autant la livraison. Le montage se fait aussi bien le soir ou le week-end que sur des horaires de bureau classiques, ce qui aide à tenir ou accélérer ces délais — sans pour autant signifier une disponibilité 24/7. Le mode "urgent" (+30%) est prioritaire mais reste soumis à la disponibilité du moment.</li>
+        <li id="cgv-revisions"><strong>Révisions :</strong> 3 révisions incluses par vidéo ; au-delà, chaque retouche supplémentaire est facturée 20€ (à l'unité). Un changement complet de concept après validation peut être facturé en plus.</li>
+        <li id="cgv-delais"><strong>Délais :</strong> indicatifs (format court : <span id="cgvDelayCourt">jour même à 2 jours</span> ; format long : <span id="cgvDelayLong">jusqu'à 1 semaine</span>, variable selon la charge de travail). Le mode "urgent" est prioritaire mais reste soumis à ma disponibilité.</li>
         <li id="cgv-annulation"><strong>Annulation :</strong> possible tant que le montage n'a pas démarré ; l'acompte reste dû si le travail a déjà commencé. <u>Si l'acompte n'est pas réglé dans les 24h suivant la commande, celle-ci est automatiquement annulée.</u></li>
         <li id="cgv-musique"><strong>Musique / droits :</strong> j'utilise des musiques libres de droits ou sous licence. En cas de claim malgré tout, on trouve ensemble une solution (remplacement de piste, contestation...).</li>
         <li id="cgv-fichiers"><strong>Rushs / fichiers sources :</strong> à envoyer via WeTransfer, SwissTransfer ou un Drive partagé, indispensable pour que je puisse démarrer le montage. Les fichiers reçus sont supprimés de mon côté 30 jours après la livraison finale.</li>
@@ -13288,7 +13119,7 @@
       <div class="quick-faq-strip" id="quickFaqStrip">
         <span class="quick-faq-strip-title">⚡ Juste avant de cliquer</span>
         <p>💳 <strong>Acompte :</strong> 50% pour bloquer ta place ; le solde n'est dû qu'à ta 1re retouche demandée.</p>
-        <p>⏱️ <strong>Délai :</strong> court <span id="qfDelayCourt">2 jours max</span> · long <span id="qfDelayLong">1 semaine max</span> (<a href="#cgv-delais">détails</a>).</p>
+        <p>⏱️ <strong>Délai :</strong> court <span id="qfDelayCourt">2 jours max</span> · long <span id="qfDelayLong">1 semaine max</span> (<a href="#faq-delais">détails</a>).</p>
         <p>🔁 <strong>Révisions :</strong> 3 incluses par vidéo, puis +20€ par retouche supplémentaire.</p>
       </div>
       <div class="hp-field" aria-hidden="true">
@@ -14842,20 +14673,6 @@
       });
     })();
 
-    // 🆕 Showreel : lecture de l'URL configurée (public ET admin, même raison que
-    // getFaqVideoMap ci-dessus — définie hors du bloc admin pour rester accessible partout).
-    const SHOWREEL_KEY = 'michyy_showreel_url';
-    (function initShowreel() {
-      const block = document.getElementById('showreelBlock');
-      const video = document.getElementById('showreelVideo');
-      if (!block || !video) return;
-      let url = '';
-      try { url = (localStorage.getItem(SHOWREEL_KEY) || '').trim(); } catch (e) {}
-      if (!url) return; // rien de configuré : le bloc reste caché, pas de placeholder vide
-      video.src = url;
-      block.style.display = 'block';
-    })();
-
     if (isAdminUnlocked) {
       const adminPanel = document.getElementById('adminPanel');
       const adminOrdersList = document.getElementById('adminOrdersList');
@@ -15262,6 +15079,51 @@
         render();
       })();
 
+      // --- Suggestions de sections à ajouter / supprimer + liste de demandes (localStorage) ---
+      (function initSectionIdeas() {
+        const host = document.getElementById('adminSectionIdeas');
+        if (!host) return;
+        const IDEAS = [
+          { t: 'add', id: 'a-avant-apres', label: 'Slider Avant / Après', why: 'Montre la valeur du montage en 2 secondes.' },
+          { t: 'add', id: 'a-places', label: 'Bandeau « X places restantes ce mois »', why: 'Urgence alimentée par ta charge réelle.' },
+          { t: 'add', id: 'a-showreel', label: 'Showreel vidéo en haut de page', why: 'Premier contact visuel avant le portfolio.' },
+          { t: 'add', id: 'a-formulaire-etapes', label: 'Formulaire de réservation en 3 étapes', why: 'Moins intimidant, meilleur taux de complétion.' },
+          { t: 'add', id: 'a-admin-relance-auto', label: 'Admin : relance auto planifiée (rappel J+3 si pas d’acompte)', why: 'Moins de commandes qui s’éteignent.' },
+          { t: 'add', id: 'a-admin-stats-sources', label: 'Admin : sources des commandes (TikTok, Discord, bouche-à-oreille)', why: 'Sait où investir ton énergie.' },
+          { t: 'add', id: 'a-admin-modeles-reponse', label: 'Admin : bibliothèque de réponses classées par situation', why: 'Réponses cohérentes en 1 clic.' },
+          { t: 'add', id: 'a-admin-checklist-livraison', label: 'Admin : checklist de livraison par commande (export, sous-titres, miniature…)', why: 'Zéro oubli avant d’envoyer.' },
+          { t: 'add', id: 'a-site-offre-limitee', label: 'Site : offre limitée dans le temps avec compte à rebours', why: 'Réutilise ton bandeau promo saisonnier.' },
+          { t: 'add', id: 'a-site-avis-google', label: 'Site : bloc « avis vérifiés » avec captures/liens', why: 'Preuve sociale plus crédible.' },
+          { t: 'remove', id: 'r-hero-doublons', label: 'Alléger le hero (garder badge dispo + 2 boutons, retirer le reste)', why: 'Un message principal = plus de clics.' },
+          { t: 'remove', id: 'r-faq-restantes', label: 'Fusionner faq-delais / faq-revisions dans les CGV (liens vers la CGV)', why: 'Toujours des doublons avec les CGV.' },
+          { t: 'remove', id: 'r-outils-peu-utilises', label: 'Retirer les mini-outils peu utilisés (voir stats d’usage des outils)', why: 'trackTool te dit lesquels ne servent à rien.' }
+        ];
+        const KEY = 'michyy_section_wishlist';
+        const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return {}; } };
+        const save = o => { try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (e) {} };
+        function render() {
+          const picked = load();
+          const custom = Object.keys(picked).filter(k => k.startsWith('c:'));
+          host.innerHTML = '<div class="info-title">💡 Suggestions & ma liste de demandes</div>' +
+            IDEAS.concat(custom.map(k => ({ t: picked[k], id: k, label: k.slice(2), why: 'Demande perso' }))).map(i => `
+            <div class="idea-row${picked[i.id] ? ' is-picked' : ''}"><span><span class="idea-tag ${i.t}">${i.t === 'add' ? '➕ Ajouter' : '➖ Supprimer'}</span><strong>${i.label}</strong><br><small>${i.why}</small></span>
+            <button type="button" class="filter-reset-btn" data-idea="${i.id}">${picked[i.id] ? '✓ Dans ma liste' : 'Je veux'}</button></div>`).join('') +
+            `<div class="price-log-form" style="margin-top:10px;"><input type="text" id="ideaCustomText" placeholder="Ta propre idée…" /><select id="ideaCustomType"><option value="add">➕ Ajouter</option><option value="remove">➖ Supprimer</option></select><button type="button" id="ideaCustomBtn" class="filter-reset-btn">Ajouter à ma liste</button></div>
+            <button type="button" id="ideaCopyBtn" class="admin-btn-primary">📋 Copier ma liste (à coller dans le chat)</button> <span class="info-text" id="ideaCopyStatus" style="font-size:12px;"></span>`;
+        }
+        host.addEventListener('click', e => {
+          const p = load(), b = e.target.closest('[data-idea]');
+          if (b) { const id = b.dataset.idea; if (p[id]) delete p[id]; else p[id] = (IDEAS.find(i => i.id === id) || {}).t || 'add'; save(p); render(); return; }
+          if (e.target.id === 'ideaCustomBtn') { const v = document.getElementById('ideaCustomText').value.trim(); if (v) { p['c:' + v] = document.getElementById('ideaCustomType').value; save(p); render(); } return; }
+          if (e.target.id === 'ideaCopyBtn') {
+            const txt = Object.keys(p).map(k => `${p[k] === 'add' ? 'AJOUTER' : 'SUPPRIMER'} : ${k.startsWith('c:') ? k.slice(2) : (IDEAS.find(i => i.id === k) || {}).label}`).join('\n');
+            const st = document.getElementById('ideaCopyStatus');
+            (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => { st.textContent = '✅ Copié'; }, () => { st.textContent = txt || 'Liste vide'; });
+          }
+        });
+        render();
+      })();
+
       // --- Navigation clavier J/K entre les cartes de commande, Entrée pour sauvegarder la carte
       // active (voir le handler keydown plus bas). Index remis à -1 à chaque nouveau rendu de liste. ---
       let activeCardIndex = -1;
@@ -15474,29 +15336,6 @@
         { label: 'Commande expirée', text: 'Faute d\'acompte réglé dans le délai annoncé, ta commande a été automatiquement marquée comme expirée. Si tu veux qu\'on relance, dis-le-moi simplement et je la réactive.' },
         { label: 'Annulation confirmée', text: 'C\'est noté, ta commande est annulée. N\'hésite pas à revenir quand tu veux si le besoin se représente.' },
       ];
-
-      // --- 🆕 Checklist de livraison par commande : coches locales (cet appareil), pas de
-      // synchronisation serveur — purement un pense-bête avant d'envoyer, pas un statut officiel
-      // de la commande. Stockée sous forme { orderId: { export: true, ... } }. ---
-      const DELIVERY_CHECKLIST_ITEMS = [
-        { key: 'export', label: 'Export terminé' },
-        { key: 'soustitres', label: 'Sous-titres ajoutés' },
-        { key: 'miniature', label: 'Miniature créée' },
-        { key: 'envoye', label: 'Fichier envoyé au client' }
-      ];
-      const DELIVERY_CHECKLIST_KEY = 'michyy_delivery_checklist';
-      function getAllDeliveryChecklists() {
-        try { return JSON.parse(localStorage.getItem(DELIVERY_CHECKLIST_KEY) || '{}'); } catch (e) { return {}; }
-      }
-      function getDeliveryChecklist(orderId) {
-        return getAllDeliveryChecklists()[orderId] || {};
-      }
-      function setDeliveryChecklistItem(orderId, key, value) {
-        const all = getAllDeliveryChecklists();
-        if (!all[orderId]) all[orderId] = {};
-        all[orderId][key] = value;
-        try { localStorage.setItem(DELIVERY_CHECKLIST_KEY, JSON.stringify(all)); } catch (e) {}
-      }
 
       // Lien direct vers le Sheet, pour éditer en masse quand une ligne par ligne prend trop de temps
       const adminSheetLink = document.getElementById('adminSheetLink');
@@ -15787,8 +15626,6 @@
             <div class="admin-stat-group-grid">
               ${statCardHtml('alerts-stale', stale, 'En attente +24h ⚠️', { cls: 'admin-stat-urgent' })}
               ${statCardHtml('alerts-cancel-risk', countCancelRiskOrders(dataRows), 'Risque d\'annulation 🚨', { cls: 'admin-stat-urgent', title: "Commandes actives qui cumulent au moins 2 signaux sur 3 : mode urgent, délai serré (≤ 3 jours entre la création et la date voulue), 1er contact (jamais commandé avant)" })}
-              ${statCardHtml('alerts-low-price', extras33Call('lowPriceCount') || 0, 'Prix sous le tarif 💸', { cls: 'admin-stat-urgent', title: "Commandes actives dont le prix accepté est nettement (20 % ou plus) sous le tarif attendu pour leur format" })}
-              ${statCardHtml('alerts-preview-expiry', extras33Call('previewExpiryCount') || 0, 'Liens d\'aperçu qui expirent 🔗', { title: "Commandes en cours dont le lien d'aperçu (créé depuis ce navigateur) expire aujourd'hui ou demain" })}
               ${statCardHtml('alerts-reminders', countDuePauseReminders(dataRows), 'Rappels dus ⏰', { cls: 'admin-stat-urgent', title: "Rappels posés via 'Dupliquer + rappel' dont la date programmée est passée" })}
             </div>
           </div>
@@ -16071,59 +15908,6 @@
           return lastDelivered(a) - lastDelivered(b); // la plus ancienne livraison en premier
         });
       }
-      // 🔧 Seuil (jours depuis la création) au-delà duquel une commande sans acompte apparaît ici.
-      const DEPOSIT_REMINDER_DAYS = 3;
-      function getDepositPendingOrders(dataRows) {
-        const now = Date.now();
-        return dataRows.filter(r => {
-          if (!(r[1] || '').includes("attente de l'acompte")) return false;
-          if (!r[3]) return false;
-          const created = new Date(r[3]).getTime();
-          if (isNaN(created)) return false;
-          return (now - created) / 86400000 >= DEPOSIT_REMINDER_DAYS;
-        }).sort((a, b) => new Date(a[3]) - new Date(b[3]));
-      }
-      function renderDepositReminderPanel(dataRows) {
-        const panel = document.getElementById('adminDepositReminderPanel');
-        if (!panel) return;
-        const label = document.getElementById('adminDepositReminderDaysLabel');
-        if (label) label.textContent = `${DEPOSIT_REMINDER_DAYS} jours`;
-        const orders = getDepositPendingOrders(dataRows);
-        if (orders.length === 0) {
-          panel.innerHTML = `<p class="info-text">Aucune commande en attente d'acompte depuis plus de ${DEPOSIT_REMINDER_DAYS} jours pour l'instant.</p>`;
-          return;
-        }
-        const now = Date.now();
-        const template = CLIENT_MESSAGE_TEMPLATES.find(t => t.label === 'Acompte manquant');
-        panel.innerHTML = orders.map(r => {
-          const orderId = r[0];
-          const noteFields = parseNoteQuickFields(r[2] || '');
-          const clientName = noteFields.nom || 'Client';
-          const days = Math.floor((now - new Date(r[3]).getTime()) / 86400000);
-          return `
-            <div class="admin-stat-card admin-litige-history-card" style="align-items: flex-start; text-align: left;">
-              <span class="admin-stat-label">${escapeHtml(orderId)} — ${escapeHtml(clientName)}</span>
-              <span class="admin-stat-label" style="color: var(--warning, #e0a83c);">💳 En attente depuis ${days} jour${days > 1 ? 's' : ''}</span>
-              <div style="display: flex; gap: 6px; margin-top: 6px;">
-                <button type="button" class="filter-reset-btn admin-deposit-reminder-goto" data-order-id="${escapeHtml(orderId)}">🔗 Voir</button>
-                <button type="button" class="filter-reset-btn admin-deposit-reminder-relance" data-order-id="${escapeHtml(orderId)}" data-contact="${escapeHtml(r[5] || '')}">💬 Relancer</button>
-              </div>
-            </div>`;
-        }).join('');
-        panel.querySelectorAll('.admin-deposit-reminder-goto').forEach(b => {
-          b.addEventListener('click', () => {
-            adminSearchInput.value = b.dataset.orderId;
-            activateAdminTab('commandes');
-            renderAdminOrdersList(lastAdminOrders);
-          });
-        });
-        panel.querySelectorAll('.admin-deposit-reminder-relance').forEach(b => {
-          b.addEventListener('click', () => {
-            openRelancePreview(b.dataset.orderId, template ? template.text : '', !!b.dataset.contact);
-          });
-        });
-      }
-
       function renderDeliveredNoRevisionPanel(dataRows) {
         const panel = document.getElementById('adminDeliveredNoRevisionPanel');
         if (!panel) return;
@@ -16644,45 +16428,6 @@
           : null;
         return { hadLitige, hadRevisionLoop, totalRevisions, avgRevisionDelayDays };
       }
-      // --- 🔁 « Client récurrent » MANUEL : un marqueur que tu poses toi-même, sans rapport avec le
-      // calcul automatique (nombre de commandes, radar de fidélité, badge « À relancer » restent
-      // inchangés). Pour les clients dont tu sais qu'ils reviendront même après une longue pause
-      // (saisonnier, par exemple). Stocké dans ce navigateur (michyy_manual_recurrent, inclus dans la
-      // sauvegarde JSON) avec une note facultative. Même clé de regroupement que l'onglet Clients
-      // (nom, sinon contact). Effet sur les alertes : une commande d'un client marqué n'est plus
-      // signalée « 1er contact » dans le risque d'annulation. ---
-      var MANUAL_RECURRENT_KEY = 'michyy_manual_recurrent';
-      function getManualRecurrentMap() {
-        try { const m = JSON.parse(localStorage.getItem(MANUAL_RECURRENT_KEY) || '{}'); return (m && typeof m === 'object') ? m : {}; } catch (e) { return {}; }
-      }
-      function saveManualRecurrentMap(m) {
-        try { localStorage.setItem(MANUAL_RECURRENT_KEY, JSON.stringify(m)); } catch (e) { /* ignore */ }
-      }
-      function manualRecurrentInfo(r) {
-        const map = getManualRecurrentMap();
-        const name = String(parseNoteQuickFields(r[2] || '').nom || '').trim().toLowerCase();
-        const contact = String(r[5] || '').trim().toLowerCase();
-        return (name && map['nom:' + name]) || (contact && map['contact:' + contact]) || null;
-      }
-      function manualRecurrentBadge(r) {
-        const info = manualRecurrentInfo(r);
-        if (!info) return null;
-        const note = info.note ? ` · ${escapeHtml(info.note)}` : '';
-        return { key: 'manual-recurrent', html: `<span title="Marqué à la main dans l'onglet Clients, indépendant du calcul automatique de fidélité.">🔁 Client récurrent (marqué à la main)${note}</span>`, cls: 'admin-order-badge-tag' };
-      }
-      function toggleManualRecurrent(key, name) {
-        const map = getManualRecurrentMap();
-        if (map[key]) {
-          delete map[key];
-        } else {
-          const note = prompt(`Marquer « ${name} » comme client récurrent ?\nNote facultative (ex : client saisonnier, revient chaque été) :`, '');
-          if (note === null) return;
-          map[key] = { at: Date.now(), note: note.trim().slice(0, 120) };
-        }
-        saveManualRecurrentMap(map);
-        renderClientsList(lastAdminOrders);
-        renderAdminOrdersList(lastAdminOrders);
-      }
       function buildClientGroups(dataRows) {
         const groups = new Map();
         dataRows.forEach(r => {
@@ -16692,7 +16437,7 @@
           const key = rawName ? `nom:${rawName.toLowerCase()}` : (contact ? `contact:${contact.toLowerCase()}` : null);
           if (!key) return; // pas assez d'info pour rattacher cette commande à un client
           if (!groups.has(key)) {
-            groups.set(key, { key, displayName: rawName || contact || 'Client sans nom', orders: [] });
+            groups.set(key, { displayName: rawName || contact || 'Client sans nom', orders: [] });
           }
           groups.get(key).orders.push(r);
         });
@@ -16709,7 +16454,7 @@
           const isDormant = daysSinceLastOrder !== null && daysSinceLastOrder >= DORMANT_CLIENT_DAYS
             && g.orders.every(r => !['pending', 'inProgress'].includes(statusCategory(r[1] || ''))); // pas de commande en attente/en cours actuellement
           const reliability = getClientReliabilityFlags(g.orders);
-          return { ...g, totalSpent, count: g.orders.length, lastOrderAt, daysSinceLastOrder, isDormant, reliability, manualRecurrent: getManualRecurrentMap()[g.key] || null };
+          return { ...g, totalSpent, count: g.orders.length, lastOrderAt, daysSinceLastOrder, isDormant, reliability };
         }).sort((a, b) => (b.isDormant - a.isDormant) || b.count - a.count || b.totalSpent - a.totalSpent);
       }
       function renderClientsList(dataRows) {
@@ -16757,18 +16502,15 @@
             <div class="admin-client-card">
               <button type="button" class="admin-client-card-header" data-client-search="${escapeHtml(g.displayName)}" title="Cliquer pour retrouver ces commandes dans l'onglet Commandes">
                 <span title="${escapeHtml(radarTitle)}">${buildClientRadarSvg(radarScores)}</span>
-                <span class="admin-client-name">${escapeHtml(g.displayName)}${g.manualRecurrent ? ` <span class="admin-order-badge admin-order-badge-tag" title="Marqué à la main, indépendant du calcul automatique de fidélité${g.manualRecurrent.note ? ' : ' + escapeHtml(g.manualRecurrent.note) : ''}">🔁 Récurrent (manuel)</span>` : ''}${g.daysSinceLastOrder !== null ? ` <span class="admin-order-badge admin-order-badge-tag" title="Nombre de jours depuis la dernière commande/demande de ce client (cet appareil) — visible même sous le seuil de ${DORMANT_CLIENT_DAYS}j qui déclenche le badge ⏰ À relancer ci-dessous">📅 dernière commande il y a ${g.daysSinceLastOrder}j</span>` : ''}${g.isDormant ? ` <span class="admin-order-badge admin-order-badge-stale" title="Aucune commande active depuis ${g.daysSinceLastOrder} jours">⏰ À relancer</span>` : ''}${g.reliability.hadLitige ? ` <span class="admin-order-badge admin-order-badge-stale" title="Au moins une commande de ce client est passée par le statut ⚠️ Litige / réclamation (cet appareil)">⚠️ Litige passé</span>` : ''}${g.reliability.hadRevisionLoop ? ` <span class="admin-order-badge admin-order-badge-tag" title="Total de révisions/retouches demandées sur toutes les commandes de ce client (cet appareil) — utile pour repérer un motif récurrent avant d'ajuster la grille tarifaire">🔁 ${g.reliability.totalRevisions} révisions au total</span>` : ''}${g.reliability.avgRevisionDelayDays !== null ? ` <span class="admin-order-badge admin-order-badge-tag" title="Délai moyen entre la livraison et la 1ère demande de retouche qui suit, sur les commandes de ce client où l'historique local le permet (cet appareil) — plus c'est court, plus le client valide vite">⏱️ ${g.reliability.avgRevisionDelayDays.toFixed(1)}j délai retouche</span>` : ''}</span>
+                <span class="admin-client-name">${escapeHtml(g.displayName)}${g.daysSinceLastOrder !== null ? ` <span class="admin-order-badge admin-order-badge-tag" title="Nombre de jours depuis la dernière commande/demande de ce client (cet appareil) — visible même sous le seuil de ${DORMANT_CLIENT_DAYS}j qui déclenche le badge ⏰ À relancer ci-dessous">📅 dernière commande il y a ${g.daysSinceLastOrder}j</span>` : ''}${g.isDormant ? ` <span class="admin-order-badge admin-order-badge-stale" title="Aucune commande active depuis ${g.daysSinceLastOrder} jours">⏰ À relancer</span>` : ''}${g.reliability.hadLitige ? ` <span class="admin-order-badge admin-order-badge-stale" title="Au moins une commande de ce client est passée par le statut ⚠️ Litige / réclamation (cet appareil)">⚠️ Litige passé</span>` : ''}${g.reliability.hadRevisionLoop ? ` <span class="admin-order-badge admin-order-badge-tag" title="Total de révisions/retouches demandées sur toutes les commandes de ce client (cet appareil) — utile pour repérer un motif récurrent avant d'ajuster la grille tarifaire">🔁 ${g.reliability.totalRevisions} révisions au total</span>` : ''}${g.reliability.avgRevisionDelayDays !== null ? ` <span class="admin-order-badge admin-order-badge-tag" title="Délai moyen entre la livraison et la 1ère demande de retouche qui suit, sur les commandes de ce client où l'historique local le permet (cet appareil) — plus c'est court, plus le client valide vite">⏱️ ${g.reliability.avgRevisionDelayDays.toFixed(1)}j délai retouche</span>` : ''}</span>
                 <span class="admin-client-stats">${g.count} commande${g.count > 1 ? 's' : ''} · ~${Math.round(g.totalSpent)}€</span>
               </button>
-              <div class="admin-client-actions"><button type="button" class="filter-reset-btn" data-client-recurrent="${escapeHtml(g.key)}" data-client-name="${escapeHtml(g.displayName)}" title="Indépendant du calcul automatique : utile pour un client saisonnier ou qui revient après une longue pause.">${g.manualRecurrent ? '✖ Retirer « récurrent »' : '🔁 Marquer récurrent'}</button></div>
               <ul class="admin-client-orders">${ordersHtml}</ul>
             </div>`;
         }).join('');
       }
       if (adminClientsList) {
         adminClientsList.addEventListener('click', (e) => {
-          const rec = e.target.closest('[data-client-recurrent]');
-          if (rec) { toggleManualRecurrent(rec.dataset.clientRecurrent, rec.dataset.clientName); return; }
           const btn = e.target.closest('.admin-client-card-header');
           if (!btn) return;
           adminSearchInput.value = btn.dataset.clientSearch;
@@ -16865,381 +16607,6 @@
       // Réutilise isStaleOrder (défini plus bas, mais les déclarations de fonction sont hoistées)
       // pour rester cohérent avec le badge "⏰ À relancer" affiché sur les cartes.
       const adminDailySummary = document.getElementById('adminDailySummary');
-      // =====================================================================================
-      // AJOUTS : (1) lien d'aperçu partagé temporaire  (2) journal auto des prix pratiqués.
-      // Tout est encapsulé dans cette fonction (noms uniques, aucun risque de collision avec le
-      // reste du script) ; `var` volontaire pour que orderCardHtml puisse l'appeler sans risque
-      // de "zone morte" si un rendu avait lieu avant l'initialisation.
-      // Les rendus sont appelés depuis loadAdminOrders dans un try/catch : un bug ici ne peut
-      // jamais faire afficher "Impossible de charger les commandes".
-      // =====================================================================================
-      var michyyExtras33 = (function () {
-        const $ = id => document.getElementById(id);
-        const pad2 = n => String(n).padStart(2, '0');
-        const median = arr => { const a = arr.slice().sort((x, y) => x - y); const m = Math.floor(a.length / 2); return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2; };
-        const euro = n => (Math.round(n * 100) / 100).toLocaleString('fr-FR', { maximumFractionDigits: 2 }) + ' €';
-        const fmtShort = ts => new Date(ts).toLocaleString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
-
-        // ------------------------------------------------------------------------------
-        // 1) 🔗 Aperçu partagé : photo de l'état d'une commande dans un lien temporaire
-        //    (lecture côté client : voir initSharedPreviewView plus bas dans le script).
-        //    Contenu volontairement minimal : PAS de contact, de prix, de note privée ni de
-        //    lien de livraison — uniquement ce que le client voit déjà dans le suivi standard
-        //    (statut, étapes, date prévue, message pour le client, nombre de retouches).
-        // ------------------------------------------------------------------------------
-        const SHP_TTL_KEY = 'michyy_share_ttl_hours';
-        const SHP_LINKS_KEY = 'michyy_share_links';
-        const SHP_TTL_CHOICES = [{ h: 24, label: '24 h' }, { h: 72, label: '3 jours' }, { h: 168, label: '7 jours' }];
-
-        function shpTtl() {
-          try { const v = parseInt(localStorage.getItem(SHP_TTL_KEY), 10); return SHP_TTL_CHOICES.some(c => c.h === v) ? v : 72; } catch (e) { return 72; }
-        }
-        function shpLinks() {
-          try { return JSON.parse(localStorage.getItem(SHP_LINKS_KEY) || '{}') || {}; } catch (e) { return {}; }
-        }
-        function shpRememberLink(id, g, x) {
-          try { const all = shpLinks(); all[id] = { g, x }; localStorage.setItem(SHP_LINKS_KEY, JSON.stringify(all)); } catch (e) { /* ignore */ }
-        }
-        function shpNoteText(id) {
-          const l = shpLinks()[id];
-          if (!l) return '';
-          return Date.now() > l.x
-            ? `Dernier lien créé le ${fmtShort(l.g)} — expiré.`
-            : `Dernier lien créé le ${fmtShort(l.g)} — valable jusqu'au ${fmtShort(l.x)}.`;
-        }
-        // Bloc HTML inséré dans le détail de chaque carte (voir orderCardHtml).
-        function shpRowHtml(rawId, orderId) {
-          const ttl = shpTtl();
-          const opts = SHP_TTL_CHOICES.map(c => `<option value="${c.h}"${c.h === ttl ? ' selected' : ''}>${c.label}</option>`).join('');
-          return `
-                <div class="admin-share-preview-row">
-                  <button type="button" class="admin-share-preview-btn" data-action="copy" data-order-id="${orderId}" title="Crée un lien TEMPORAIRE en lecture seule : une photo de l'état actuel (statut, étapes, date prévue, message pour le client). Ni contact, ni prix, ni lien de livraison. À envoyer à un client qui demande « où j'en suis ».">🔗 Lien d'aperçu temporaire</button>
-                  <button type="button" class="admin-share-preview-btn admin-share-preview-open" data-action="open" data-order-id="${orderId}" title="Ouvre l'aperçu dans un nouvel onglet pour vérifier ce que verra le client">👁️ Voir</button>
-                  <select class="admin-share-preview-ttl" aria-label="Durée de validité du lien" title="Durée de validité du lien">${opts}</select>
-                </div>
-                <p class="admin-share-preview-note" data-order-id="${orderId}">${escapeHtml(shpNoteText(rawId))}</p>`;
-        }
-        function shpBuild(r, liveMessage, ttlHours) {
-          const f = parseNoteQuickFields(r[2] || '');
-          const status = String(r[1] || '');
-          const cat = statusCategory(status);
-          const now = Date.now();
-          const p = { v: 1, id: String(r[0]), n: (f.nom || '').slice(0, 40), t: (f.nomCommande || '').slice(0, 80), s: status.slice(0, 100), g: now, x: now + ttlHours * 3600000 };
-          const dlTs = (cat === 'delivered' || cat === 'cancelled') ? null : getEffectiveDeliveryTimestamp(r);
-          if (dlTs) { const d = new Date(dlTs); p.dl = `${d.getFullYear()}-${pad2(d.getMonth() + 1)}-${pad2(d.getDate())}`; }
-          const m = String(liveMessage || '').trim().slice(0, 300);
-          if (m) p.m = m;
-          const fb = String(r[9] || '').split('\n').filter(l => l.trim()).length;
-          if (fb > 0) p.rc = fb;
-          return p;
-        }
-        function shpUrl(payload) {
-          const bytes = new TextEncoder().encode(JSON.stringify(payload));
-          let bin = '';
-          bytes.forEach(b => { bin += String.fromCharCode(b); });
-          const enc = btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-          return `${window.location.href.split(/[?#]/)[0]}?apercu=${enc}`;
-        }
-
-        // Délégation (un seul écouteur, les cartes sont re-rendues souvent).
-        adminOrdersList.addEventListener('click', async (e) => {
-          const btn = e.target.closest('.admin-share-preview-btn');
-          if (!btn) return;
-          const id = btn.dataset.orderId;
-          const r = lastAdminOrders.find(x => String(x[0]) === String(id));
-          if (!r) return;
-          const row = btn.closest('.admin-share-preview-row');
-          const select = row ? row.querySelector('.admin-share-preview-ttl') : null;
-          const ttl = select ? parseInt(select.value, 10) || shpTtl() : shpTtl();
-          const msgInput = adminOrdersList.querySelector(`.admin-client-message-input[data-order-id="${CSS.escape(String(id))}"]`);
-          const payload = shpBuild(r, msgInput ? msgInput.value : r[4], ttl);
-          const url = shpUrl(payload);
-          shpRememberLink(payload.id, payload.g, payload.x);
-          const note = adminOrdersList.querySelector(`.admin-share-preview-note[data-order-id="${CSS.escape(String(id))}"]`);
-          if (note) note.textContent = shpNoteText(payload.id);
-          if (btn.dataset.action === 'open') { window.open(url, '_blank', 'noopener'); return; }
-          const original = btn.textContent;
-          try {
-            await navigator.clipboard.writeText(url);
-            btn.textContent = '✅ Lien copié !';
-            setTimeout(() => { btn.textContent = original; }, 1800);
-          } catch (err) {
-            prompt('Copie ce lien manuellement :', url);
-          }
-        });
-        adminOrdersList.addEventListener('change', (e) => {
-          const sel = e.target.closest('.admin-share-preview-ttl');
-          if (!sel) return;
-          try { localStorage.setItem(SHP_TTL_KEY, String(parseInt(sel.value, 10) || 72)); } catch (err) { /* ignore */ }
-          adminOrdersList.querySelectorAll('.admin-share-preview-ttl').forEach(s => { s.value = sel.value; });
-        });
-
-        // ------------------------------------------------------------------------------
-        // 2) 🧾 Journal auto des prix pratiqués (hors Prix libre)
-        //    Une ligne par commande, créée automatiquement la première fois qu'on la voit
-        //    "acceptée" (acompte reçu ou plus avancé) : prix total, quantité, format. Le prix est
-        //    GELÉ à ce moment-là (si tu modifies la note plus tard, l'historique ne bouge pas).
-        //    Stocké dans ce navigateur (localStorage, inclus dans la sauvegarde JSON).
-        //    Les commandes déjà acceptées lors de la toute première synchro sont importées d'après
-        //    leur note actuelle (marquées "importé") : on ne peut pas savoir ce qu'elles valaient
-        //    au moment exact de l'acceptation.
-        // ------------------------------------------------------------------------------
-        const PJ_KEY = 'michyy_price_journal';
-        function pjLoad() {
-          try { const v = JSON.parse(localStorage.getItem(PJ_KEY) || '{}'); return (v && typeof v === 'object') ? v : {}; } catch (e) { return {}; }
-        }
-        function pjSave(j) { try { localStorage.setItem(PJ_KEY, JSON.stringify(j)); } catch (e) { /* ignore */ } }
-        function pjKeyOf(formatText) {
-          const t = String(formatText || '');
-          const low = t.toLowerCase();
-          if (!low || /prix libre|abonnement|pack|les deux/.test(low)) return '';
-          const exact = Object.keys(PRICE_FIXED).find(k => t.startsWith(k));
-          if (exact) return exact;
-          if (/complexe|esport/.test(low)) return 'Long Complexe / Esport';
-          if (/business|sponsor/.test(low)) return 'Business / Sponsorisé';
-          if (/long|youtube|best/.test(low)) return 'Long (YouTube / Best-of)';
-          if (/court|tiktok|reels|short/.test(low)) return 'Court (TikTok / Reels)';
-          return '';
-        }
-        function pjQty(formatText) { const m = /×\s*(\d+)\s*$/.exec(String(formatText || '')); return m ? Math.max(1, parseInt(m[1], 10)) : 1; }
-        // "Accepté" = l'acompte est reçu ou la commande est plus avancée (ni "Envoyée", ni "en attente de l'acompte").
-        function pjIsAccepted(status) {
-          const s = String(status || '');
-          if (!s || s.includes('Test') || s.includes('Envoyée') || /attente de l.acompte/i.test(s)) return false;
-          return statusCategory(s) !== 'cancelled';
-        }
-        function pjSync(rows) {
-          const j = pjLoad();
-          const initial = Object.keys(j).length === 0;
-          let changed = false;
-          rows.forEach(r => {
-            const id = String(r[0] || '');
-            if (!id) return;
-            const status = r[1] || '';
-            const f = parseNoteQuickFields(r[2] || '');
-            if (/prix libre/i.test(f.format || '')) return; // hors Prix libre (voir son propre suivi)
-            const cancelled = statusCategory(status) === 'cancelled';
-            const existing = j[id];
-            if (existing) {
-              if (!!existing.x !== cancelled) { existing.x = cancelled ? 1 : 0; changed = true; }
-              return;
-            }
-            if (!pjIsAccepted(status)) return;
-            const total = parseBudgetAmount(f);
-            if (!total) return;
-            j[id] = {
-              d: r[3] || '', t: total, q: pjQty(f.format), k: pjKeyOf(f.format), f: (f.format || '').slice(0, 80),
-              n: (f.nom || '').slice(0, 40), u: /urgent/i.test(r[2] || '') ? 1 : 0, p: f.promoCode ? 1 : 0,
-              at: Date.now(), b: initial ? 1 : 0, x: 0
-            };
-            changed = true;
-          });
-          if (changed) pjSave(j);
-          return j;
-        }
-        function pjEntries(j) {
-          return Object.entries(j).map(([id, e]) => Object.assign({ id, ts: new Date(e.d).getTime() || e.at }, e));
-        }
-        // 📈 Mini-graphique du prix pratiqué : médiane du prix unitaire par mois sur les 12 derniers
-        // mois (mêmes valeurs que la colonne « Prix pratiqué »). Tirets = tarif affiché ; point rouge =
-        // mois nettement sous ce tarif (même seuil que le repère ⚠️ du tableau, 8 %).
-        function pjSparkline(months, list, nowM) {
-          const start = nowM - 11;
-          const pts = months.filter(x => x.m >= start && x.m <= nowM);
-          if (!pts.length) return '<span class="pj-muted">—</span>';
-          const W = 110, H = 30, PAD = 4;
-          const vals = pts.map(x => x.med).concat([list]);
-          let lo = Math.min(...vals), hi = Math.max(...vals);
-          if (hi - lo < 1) { hi += 1; lo -= 1; }
-          const X = m => PAD + ((m - start) / 11) * (W - 2 * PAD);
-          const Y = v => H - PAD - ((v - lo) / (hi - lo)) * (H - 2 * PAD);
-          const lbl = m => new Date(Math.floor(m / 12), m % 12, 1).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
-          const ly = Y(list).toFixed(1);
-          const listLine = `<line x1="${PAD}" y1="${ly}" x2="${W - PAD}" y2="${ly}" stroke="currentColor" stroke-opacity="0.45" stroke-width="1" stroke-dasharray="3 3"><title>Tarif affiché : ${euro(list)}</title></line>`;
-          const line = pts.length > 1 ? `<polyline points="${pts.map(x => `${X(x.m).toFixed(1)},${Y(x.med).toFixed(1)}`).join(' ')}" fill="none" stroke="#7f8bfa" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>` : '';
-          const dots = pts.map((x, i) => `<circle cx="${X(x.m).toFixed(1)}" cy="${Y(x.med).toFixed(1)}" r="${i === pts.length - 1 ? 3.2 : 2}" fill="${x.med < list * 0.92 ? '#ff6b6b' : '#7f8bfa'}"><title>${lbl(x.m)} : ${euro(x.med)}</title></circle>`).join('');
-          return `<svg class="pj-spark" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="Prix pratiqué par mois sur les 12 derniers mois">${listLine}${line}${dots}</svg>`;
-        }
-        function pjRender(j) {
-          const summary = $('pjSummary'), listEl = $('pjList'), exportBtn = $('pjExportBtn');
-          if (!summary || !listEl) return;
-          const entries = pjEntries(j).sort((a, b) => b.ts - a.ts);
-          if (exportBtn) exportBtn.disabled = entries.length === 0;
-          if (!entries.length) {
-            summary.innerHTML = '';
-            listEl.innerHTML = '<p class="admin-timeline-note">Aucun prix enregistré pour l\'instant : le journal se remplit tout seul dès qu\'une commande (hors Prix libre) passe à « Acompte reçu » ou plus.</p>';
-            return;
-          }
-          const live = entries.filter(e => !e.x);
-          const now = Date.now(), D = 86400000;
-          const bundleMin = (typeof BUNDLE_DISCOUNTS !== 'undefined' && BUNDLE_DISCOUNTS.length) ? Math.min(...BUNDLE_DISCOUNTS.map(b => b.minQty)) : Infinity;
-          const monthIdx = ts => { const d = new Date(ts); return d.getFullYear() * 12 + d.getMonth(); };
-          const monthLabel = m => new Date(Math.floor(m / 12), m % 12, 1).toLocaleDateString('fr-FR', { month: 'short', year: 'numeric' });
-          const nowM = monthIdx(now);
-          const rowsHtml = Object.keys(PRICE_FIXED).filter(k => k !== 'Les deux').map(k => {
-            const all = live.filter(e => e.k === k);
-            // "Comparables" : ni urgent (+30%), ni code promo, ni pack dégressif — sinon le prix
-            // unitaire ne reflète pas le tarif fixe. Médiane par mois : un éventuel supplément
-            // commercial (+15%, non tracé dans la note) sur une commande isolée ne fausse pas le prix du mois.
-            const comp = all.filter(e => !e.p && !e.u && e.q > 0 && e.q < bundleMin);
-            const byMonth = {};
-            comp.forEach(e => { (byMonth[monthIdx(e.ts)] = byMonth[monthIdx(e.ts)] || []).push(e.t / e.q); });
-            const months = Object.keys(byMonth).map(Number).sort((a, b) => a - b).map(m => ({ m, med: median(byMonth[m]) }));
-            const n90 = all.filter(e => e.ts >= now - 90 * D).length;
-            const nPrev = all.filter(e => e.ts < now - 90 * D && e.ts >= now - 180 * D).length;
-            const list = PRICE_FIXED[k];
-            const label = k.split(' (')[0];
-            if (!months.length) {
-              return `<tr><td>${escapeHtml(label)}</td><td>${euro(list)}</td><td colspan="5" class="pj-muted">${all.length ? 'Que des commandes avec remise/urgence : pas comparable' : 'Aucune commande enregistrée'}</td></tr>`;
-            }
-            const cur = months[months.length - 1].med;
-            let sinceM = months[0].m;
-            for (let i = months.length - 1; i >= 0; i--) {
-              if (Math.abs(months[i].med - cur) / cur > 0.05) { sinceM = months[i + 1] ? months[i + 1].m : months[i].m; break; }
-            }
-            const stable = nowM - sinceM;
-            const growth = nPrev > 0 ? (n90 / nPrev - 1) : null;
-            let flag = '✅ RAS';
-            if (cur < list * 0.92) flag = `⚠️ Prix pratiqués (${euro(cur)}) sous ton tarif affiché`;
-            else if (stable >= 12) flag = `⚠️ Prix inchangé depuis ${stable} mois : à réévaluer`;
-            else if (stable >= 6 && n90 >= 3 && growth !== null && growth >= 0.25) flag = `📈 Demande en hausse (+${Math.round(growth * 100)} %) avec un prix stable : marge pour augmenter ?`;
-            const demand = `${n90} <span class="pj-muted">(avant : ${nPrev})</span>`;
-            return `<tr><td>${escapeHtml(label)}</td><td>${euro(list)}</td><td>${euro(cur)}</td><td>${stable > 0 ? `depuis ${escapeHtml(monthLabel(sinceM))}` : 'ce mois-ci'}</td><td>${demand}</td><td>${pjSparkline(months, list, nowM)}</td><td>${flag}</td></tr>`;
-          }).join('');
-          const lowEntries = Object.entries(lowMap);
-          const lowHtml = lowEntries.length ? `<div class="pj-low-alert"><strong>⚠️ ${lowEntries.length} prix accepté${lowEntries.length > 1 ? 's' : ''} nettement sous le tarif</strong><ul>${lowEntries.map(([id, x]) => `<li><strong>${escapeHtml(id)}</strong> · ${escapeHtml(x.n || 'client')} · ${escapeHtml(x.f || '')} : accepté à ${euro(x.paid)} pour ${euro(x.expected)} attendus (−${x.pct} %)</li>`).join('')}</ul></div>` : '';
-          summary.innerHTML = `
-            ${lowHtml}
-            <div class="pj-table-wrap"><table class="pj-table">
-              <thead><tr><th>Format</th><th>Tarif affiché</th><th>Prix pratiqué</th><th>Stable</th><th>Cmd 90 j</th><th>Par mois</th><th>Repère</th></tr></thead>
-              <tbody>${rowsHtml}</tbody>
-            </table></div>
-            <p class="pj-hint">Prix pratiqué = médiane du prix unitaire du mois, hors urgence, code promo et pack dégressif. Courbe « Par mois » : 12 derniers mois, tirets = tarif affiché, point rouge = mois nettement sous ce tarif. Repères indicatifs, à croiser avec ton ressenti (temps passé, coûts).</p>`;
-          const shown = entries.slice(0, 12);
-          const importedCount = entries.filter(e => e.b).length;
-          listEl.innerHTML = `
-            <div class="pj-list-title">Derniers prix enregistrés (${entries.length} au total)</div>
-            ${shown.map(e => {
-              const flags = [e.u ? '⚡ urgent' : '', e.p ? '🎟️ code promo' : '', e.b ? 'importé' : '', e.x ? 'annulée' : ''].filter(Boolean).join(' · ');
-              const unit = e.q > 1 ? ` (${euro(e.t / e.q)}/vidéo)` : '';
-              return `<div class="price-log-row"><span${e.x ? ' style="text-decoration: line-through; opacity: 0.6;"' : ''}><strong>${escapeHtml(e.id)}</strong> · ${escapeHtml(new Date(e.ts).toLocaleDateString('fr-FR'))} · ${escapeHtml(e.n || 'client')} · ${escapeHtml(e.f || 'format ?')} : <strong>${euro(e.t)}</strong>${unit}${flags ? ` <span class="pj-muted">— ${escapeHtml(flags)}</span>` : ''}</span></div>`;
-            }).join('')}
-            ${importedCount ? `<p class="pj-hint">« importé » = déjà acceptée lors de la 1re synchro : prix relevé dans la note actuelle.</p>` : ''}`;
-        }
-        function pjExportCsv() {
-          const entries = pjEntries(pjLoad()).sort((a, b) => a.ts - b.ts);
-          const esc = v => `"${String(v == null ? '' : v).replace(/"/g, '""')}"`;
-          const lines = ['date;commande;client;format;quantite;total_eur;prix_unitaire_eur;urgent;code_promo;annulee;origine'];
-          entries.forEach(e => {
-            lines.push([
-              esc(new Date(e.ts).toISOString().slice(0, 10)), esc(e.id), esc(e.n), esc(e.f), e.q, String(e.t).replace('.', ','),
-              e.q > 0 ? (Math.round(e.t / e.q * 100) / 100).toString().replace('.', ',') : '', e.u ? 'oui' : 'non', e.p ? 'oui' : 'non', e.x ? 'oui' : 'non', e.b ? 'importé' : 'auto'
-            ].join(';'));
-          });
-          const blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
-          const link = document.createElement('a');
-          link.href = URL.createObjectURL(blob);
-          link.download = `prix-pratiques-michyy-${new Date().toISOString().slice(0, 10)}.csv`;
-          link.click();
-        }
-        (function bindPjExport() {
-          const btn = $('pjExportBtn');
-          if (btn) btn.addEventListener('click', pjExportCsv);
-        })();
-
-        // ------------------------------------------------------------------------------
-        // 3) 💸 Alerte « prix accepté nettement sous le tarif » + 🔗 rappel « lien d'aperçu expire
-        //    demain ». Recalculés à chaque chargement des commandes (prepare), lus ensuite par les
-        //    badges des cartes et les compteurs du tableau de bord.
-        //    - Prix bas : prix GELÉ au moment de l'acceptation (journal ci-dessus) comparé au prix
-        //      attendu pour CE format (computeExpectedPrice : quantité, pack dégressif, urgence,
-        //      supplément commercial et code promo déjà pris en compte, donc une remise légitime ne
-        //      déclenche rien). Seuil : LOW_PRICE_GAP. Commandes actives seulement (une commande
-        //      livrée n'est plus corrigeable). Formats non reconnus / Prix libre / abonnement : ignorés.
-        //    - Lien d'aperçu : basé sur les liens créés depuis CE navigateur (michyy_share_links).
-        //      Rappel si le lien d'une commande en cours expire aujourd'hui ou demain ; notification
-        //      navigateur au plus 1 fois par jour et par commande si tu as activé les notifications.
-        // ------------------------------------------------------------------------------
-        const LOW_PRICE_GAP = 0.20;
-        let lowMap = {};
-        let previewSoon = {};
-        function dayKey(ts) { const d = new Date(ts); return d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate(); }
-        function shpExpiryState(r, links) {
-          const status = String(r[1] || '');
-          const cat = statusCategory(status);
-          if (cat === 'delivered' || cat === 'cancelled' || status.includes('Test')) return null;
-          const l = links[String(r[0])];
-          if (!l || !l.x) return null;
-          const now = Date.now();
-          if (l.x <= now) return null;
-          const hhmm = new Date(l.x).toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
-          const kx = dayKey(l.x);
-          if (kx === dayKey(now)) return { label: `expire aujourd'hui à ${hhmm}` };
-          if (kx === dayKey(now + 86400000)) return { label: `expire demain à ${hhmm}` };
-          return null;
-        }
-        function prepare(rows) {
-          const real = rows.filter(r => !String(r[1] || '').includes('Test (pas'));
-          const j = pjSync(real);
-          lowMap = {};
-          previewSoon = {};
-          const links = shpLinks();
-          real.forEach(r => {
-            const id = String(r[0] || '');
-            const e = j[id];
-            const cat = statusCategory(r[1] || '');
-            if (e && !e.x && cat !== 'delivered' && cat !== 'cancelled') {
-              const expected = computeExpectedPrice(parseNoteQuickFields(r[2] || ''), r);
-              if (expected && e.t < expected * (1 - LOW_PRICE_GAP)) {
-                lowMap[id] = { paid: e.t, expected, pct: Math.round((1 - e.t / expected) * 100), n: e.n, f: e.f };
-              }
-            }
-            const st = shpExpiryState(r, links);
-            if (st) previewSoon[id] = st;
-          });
-          try {
-            const ids = Object.keys(previewSoon);
-            if (ids.length && window.Notification && Notification.permission === 'granted') {
-              const KEY = 'michyy_shp_notified';
-              const done = JSON.parse(localStorage.getItem(KEY) || '{}') || {};
-              const today = new Date().toISOString().slice(0, 10);
-              const fresh = ids.filter(id => done[id] !== today);
-              if (fresh.length) {
-                new Notification('🔗 Lien d\'aperçu bientôt expiré', { body: fresh.slice(0, 3).map(id => `#${id} : ${previewSoon[id].label}`).join('\n') });
-                fresh.forEach(id => { done[id] = today; });
-                localStorage.setItem(KEY, JSON.stringify(done));
-              }
-            }
-          } catch (e) { /* notifications indisponibles : le badge suffit */ }
-        }
-
-        return {
-          shpRowHtml,
-          prepare,
-          lowPriceCount() { return Object.keys(lowMap).length; },
-          previewExpiryCount() { return Object.keys(previewSoon).length; },
-          lowPriceBadge(r) {
-            const x = lowMap[String(r[0])];
-            if (!x) return null;
-            return { key: 'low-price', html: `<span title="Prix gelé à l'acceptation, comparé au tarif de ce format (quantité, urgence, promo déjà pris en compte).">💸 Accepté à ${euro(x.paid)} : ${x.pct} % sous le tarif (${euro(x.expected)})</span>`, cls: 'admin-order-badge-warning' };
-          },
-          previewExpiryBadge(r) {
-            const x = previewSoon[String(r[0])];
-            if (!x) return null;
-            return { key: 'preview-expiry', html: `<span title="Clique « Copier le lien d'aperçu » dans le détail de la carte pour en créer un nouveau.">🔗 Lien d'aperçu : ${x.label}</span>`, cls: 'admin-order-badge-stale' };
-          },
-          pjSyncAndRender(rows) {
-            const real = rows.filter(r => !String(r[1] || '').includes('Test (pas'));
-            pjRender(pjSync(real));
-          }
-        };
-      })();
-
-      // Appel sans risque vers le module ci-dessus (var hissée : peut être indéfinie avant son exécution).
-      function extras33Call(fn, arg) {
-        try { return (typeof michyyExtras33 !== 'undefined' && michyyExtras33 && michyyExtras33[fn]) ? michyyExtras33[fn](arg) : null; } catch (e) { return null; }
-      }
-
       function renderDailySummary(dataRows) {
         if (!adminDailySummary) return;
         const now = Date.now();
@@ -17557,15 +16924,6 @@
             input.value = btn.dataset.template || '';
             saveMsgDraft(orderId, input.value);
             input.focus();
-          });
-        });
-
-        // Checklist de livraison : sauvegarde locale à chaque coche/décoche, pas de bouton
-        // "Enregistrer" séparé — cohérent avec le reste de la carte (note, message) qui se
-        // sauvegarde aussi au fil de la saisie.
-        adminOrdersList.querySelectorAll('.admin-delivery-checklist-item').forEach(cb => {
-          cb.addEventListener('change', () => {
-            setDeliveryChecklistItem(cb.dataset.orderId, cb.dataset.item, cb.checked);
           });
         });
 
@@ -18747,7 +18105,6 @@
         return idx;
       }
       function isFirstContactOrder(r) {
-        if (manualRecurrentInfo(r)) return false; // client marqué récurrent à la main : par définition pas un 1er contact
         const keys = cancelRiskClientKeys(r);
         if (!keys.length) return false;
         const createdTs = r[3] ? new Date(r[3]).getTime() : NaN;
@@ -18850,9 +18207,6 @@
         const attention = attentionBadge(r);
         const cancelRisk = cancellationRiskBadge(r);
         const vip = vipBadge(r);
-        const lowPrice = extras33Call('lowPriceBadge', r);
-        const previewExpiry = extras33Call('previewExpiryBadge', r);
-        const manualRecurrent = manualRecurrentBadge(r);
         const missingRushs = missingRushsBadge(r, noteFields);
         const priceIssue = priceMismatchBadge(r, noteFields);
         const promoReuse = promoReuseBadge(r, noteFields, lastAdminOrders);
@@ -18879,9 +18233,6 @@
           ...(attention ? [attention] : []),
           ...(cancelRisk ? [cancelRisk] : []),
           ...(vip ? [vip] : []),
-          ...(lowPrice ? [lowPrice] : []),
-          ...(previewExpiry ? [previewExpiry] : []),
-          ...(manualRecurrent ? [manualRecurrent] : []),
           ...(revisionBadge ? [revisionBadge] : []),
           ...(pausedTooLong ? [{ key: 'paused-too-long', html: `⏸️ En pause depuis ${daysSincePaused(r)}j, sans réponse`, cls: 'admin-order-badge-stale' }] : []),
           ...(stuckInProgress ? [{ key: 'stuck-in-progress', html: `🐌 Bloquée sur "${escapeHtml(r[1] || '')}" depuis ${daysStuckInProgress(r)}j`, cls: 'admin-order-badge-stale' }] : []),
@@ -18943,11 +18294,6 @@
               <summary class="admin-card-details-summary">Détails${contact ? ` · 📇 ${contact}` : ''}</summary>
               <div class="admin-card-details-content">
                 ${contact ? `<button type="button" class="admin-copy-tracking-link-btn" data-order-id="${orderId}" title="Copie un lien direct vers le suivi de cette commande, à envoyer par mail/DM au client">🔗 Copier le lien de suivi</button>` : ''}
-                ${(michyyExtras33 && michyyExtras33.shpRowHtml(r[0], orderId)) || ''}
-                <div class="admin-delivery-checklist" data-order-id="${orderId}">
-                  <span class="admin-order-note-label">✅ Checklist de livraison</span>
-                  ${DELIVERY_CHECKLIST_ITEMS.map(item => `<label class="checkbox-label"><input type="checkbox" class="admin-delivery-checklist-item" data-order-id="${orderId}" data-item="${item.key}" ${getDeliveryChecklist(orderId)[item.key] ? 'checked' : ''} />${item.label}</label>`).join('')}
-                </div>
                 ${(noteFields.nom || noteFields.format) ? `
                 <div class="admin-prefill-link-row">
                   <button type="button" class="admin-copy-prefill-link-btn" data-order-id="${orderId}" data-prefill-nom="${escapeHtml(noteFields.nom)}" data-prefill-format="${escapeHtml(noteFields.format)}" data-prefill-contact="${escapeHtml(contact)}" title="Copie un lien qui pré-remplit le formulaire de réservation avec le nom, le format et le contact de cette commande — pratique en DM à un client qui recommande souvent la même chose">🔗👤 Copier le lien client</button>
@@ -19187,7 +18533,6 @@
           knownOrderIds = currentIds;
 
           lastAdminOrders = dataRows;
-          extras33Call('prepare', dataRows); // alertes prix bas + liens d'aperçu : avant le dashboard qui les compte
           renderDashboard(dataRows);
           renderDelayDriftAlert(dataRows);
           renderLitigeHistoryPanel(dataRows);
@@ -19195,7 +18540,6 @@
           renderNoResponseRemindersPanel(dataRows);
           renderStuckOrdersPanel(dataRows);
           renderDeliveredNoRevisionPanel(dataRows);
-          renderDepositReminderPanel(dataRows);
           renderDeliveredNoFeedbackPanel(dataRows);
           renderTodayRemindersPanel(dataRows);
           renderWorkloadPanel(dataRows);
@@ -19208,7 +18552,6 @@
           renderAdminExtras4(realRows);
           renderAdminExtras5(realRows);
           renderDailySummary(dataRows);
-          try { michyyExtras33.pjSyncAndRender(dataRows); } catch (err) { console.error('Journal des prix :', err); }
           renderAdminOrdersList(dataRows);
           renderClientsList(dataRows);
           renderAdminPlanning(dataRows);
@@ -19425,11 +18768,11 @@
           const valid = g.orders.filter(r => statusCategory(r[1] || '') !== 'cancelled');
           const dates = valid.map(r => r[3] ? new Date(r[3]).getTime() : 0).filter(t => t > 0);
           const fmt = t => t ? new Date(t).toISOString().slice(0, 10) : '';
-          return { manual: g.manualRecurrent, name: g.displayName, n: valid.length, total: g.totalSpent, first: dates.length ? Math.min(...dates) : 0, last: g.lastOrderAt || 0, days: g.daysSinceLastOrder, fmt };
+          return { name: g.displayName, n: valid.length, total: g.totalSpent, first: dates.length ? Math.min(...dates) : 0, last: g.lastOrderAt || 0, days: g.daysSinceLastOrder, fmt };
         }).sort((a, b) => b.total - a.total || b.n - a.n);
         const esc = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
-        const lines = ['client;nb_commandes;total_depense_eur;panier_moyen_eur;premiere_commande;derniere_commande;jours_depuis_derniere;client_recurrent;recurrent_manuel;note_recurrent'];
-        clients.forEach(c => lines.push([esc(c.name), c.n, c.total.toFixed(2), (c.n ? c.total / c.n : 0).toFixed(2), c.fmt(c.first), c.fmt(c.last), c.days ?? '', c.n >= 2 ? 'oui' : 'non', c.manual ? 'oui' : 'non', esc(c.manual ? (c.manual.note || '') : '')].join(';')));
+        const lines = ['client;nb_commandes;total_depense_eur;panier_moyen_eur;premiere_commande;derniere_commande;jours_depuis_derniere;client_recurrent'];
+        clients.forEach(c => lines.push([esc(c.name), c.n, c.total.toFixed(2), (c.n ? c.total / c.n : 0).toFixed(2), c.fmt(c.first), c.fmt(c.last), c.days ?? '', c.n >= 2 ? 'oui' : 'non'].join(';')));
         const blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
@@ -19472,18 +18815,6 @@
         adminLogoUrlInput.addEventListener('input', () => {
           try { localStorage.setItem(ADMIN_LOGO_KEY, adminLogoUrlInput.value.trim()); } catch (e) {}
           if (adminLogoStatus) adminLogoStatus.textContent = adminLogoUrlInput.value.trim() ? '✅ Logo enregistré, utilisé au prochain PDF généré.' : '';
-        });
-      }
-
-      // --- 🆕 Showreel en haut de page : même principe, stocké en local, lu par initShowreel
-      // (défini plus haut, hors bloc admin, pour être visible par tous les visiteurs). ---
-      const adminShowreelUrlInput = document.getElementById('adminShowreelUrlInput');
-      const adminShowreelStatus = document.getElementById('adminShowreelStatus');
-      if (adminShowreelUrlInput) {
-        try { adminShowreelUrlInput.value = localStorage.getItem(SHOWREEL_KEY) || ''; } catch (e) {}
-        adminShowreelUrlInput.addEventListener('input', () => {
-          try { localStorage.setItem(SHOWREEL_KEY, adminShowreelUrlInput.value.trim()); } catch (e) {}
-          if (adminShowreelStatus) adminShowreelStatus.textContent = adminShowreelUrlInput.value.trim() ? '✅ Enregistré — recharge la page pour le voir apparaître en haut.' : '';
         });
       }
       function getStoredPdfLogo() {
@@ -23487,52 +22818,11 @@
       'PARRAIN10': { rate: 0.90, label: 'Code PARRAIN10 (-10%, parrainage)' }
     };
 
-    // --- 🆕 Bannière promo temporaire (voir #seasonalPromoBanner dans le HTML) : cherche, parmi
-    // PROMO_CODES, le code temporaire (avec expiration future) qui expire le plus tôt, et l'annonce
-    // publiquement avec un compte à rebours. Se ré-exécute à chaque refreshDynamicPromoCodes() (donc
-    // se cache toute seule si le code vient d'expirer, sans qu'il faille recharger la page à la main).
-    let seasonalPromoInterval = null;
-    function initSeasonalPromoBanner() {
-      const banner = document.getElementById('seasonalPromoBanner');
-      const textEl = document.getElementById('seasonalPromoText');
-      const countdownEl = document.getElementById('seasonalPromoCountdown');
-      if (!banner || !textEl || !countdownEl) return;
-
-      const now = Date.now();
-      let soonest = null;
-      Object.keys(PROMO_CODES).forEach(code => {
-        const promo = PROMO_CODES[code];
-        if (!promo.expiration) return;
-        const expiresAt = new Date(promo.expiration).getTime();
-        if (isNaN(expiresAt) || expiresAt <= now) return;
-        if (!soonest || expiresAt < soonest.expiresAt) {
-          soonest = { code, expiresAt, rate: promo.rate };
-        }
-      });
-
-      if (seasonalPromoInterval) { clearInterval(seasonalPromoInterval); seasonalPromoInterval = null; }
-
-      if (!soonest) { banner.style.display = 'none'; return; }
-
-      const reductionPct = Math.round((1 - soonest.rate) * 100);
-      textEl.textContent = `🔥 -${reductionPct}% avec le code ${soonest.code}`;
-
-      function renderCountdown() {
-        const remaining = soonest.expiresAt - Date.now();
-        if (remaining <= 0) { initSeasonalPromoBanner(); return; } // recalcule (code peut-être expiré)
-        const days = Math.floor(remaining / 86400000);
-        const hours = Math.floor((remaining % 86400000) / 3600000);
-        const minutes = Math.floor((remaining % 3600000) / 60000);
-        countdownEl.textContent = days > 0
-          ? `⏳ Plus que ${days}j ${hours}h`
-          : hours > 0
-            ? `⏳ Plus que ${hours}h ${minutes}min`
-            : `⏳ Plus que ${minutes}min`;
-      }
-      renderCountdown();
-      seasonalPromoInterval = setInterval(renderCountdown, 60000);
-      banner.style.display = 'flex';
-    }
+    // --- Note : la bannière promo saisonnière temporaire (#seasonalPromoBanner) a été retirée du
+    // site (le badge permanent "-20% 1ère commande" suffisait) — la logique JS associée
+    // (initSeasonalPromoBanner, son cache d'affichage seasonalPromoCache) a été retirée avec elle
+    // pour ne pas garder de code mort. PROMO_CODES et refreshDynamicPromoCodes ci-dessous
+    // continuent de fonctionner normalement pour le champ code promo du formulaire.
 
     // --- Codes promo créés depuis l'admin (voir onglet "🛠️ Outils" > "🎟️ Codes promo") : chargés
     // depuis le Sheet au démarrage de la page et fusionnés dans PROMO_CODES ci-dessus (mêmes règles
@@ -23556,7 +22846,6 @@
             expiration: c.expiration || null
           };
         });
-        initSeasonalPromoBanner();
         // Si le champ code promo est déjà rempli (ou un brouillon en cours), on réévalue avec les
         // codes fraîchement chargés — sinon un code créé récemment semblerait "inconnu" tant que la
         // page n'est pas rechargée.
@@ -23565,7 +22854,6 @@
         }
       } catch (err) { /* pas grave, on garde les codes fixes ci-dessus */ }
     }
-    initSeasonalPromoBanner();
     refreshDynamicPromoCodes();
     const promoCodeInput = document.getElementById('promoCodeInput');
     const promoCodeStatus = document.getElementById('promoCodeStatus');
@@ -23842,6 +23130,8 @@
       const setText = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
       setText('heroDelayCourt', `${courtMax} jours max`);
       setText('heroDelayLong', `${daysLabel(longMax)} max`);
+      setText('faqDelayCourt', `sous ${courtMax} jours maximum`);
+      setText('faqDelayLong', `sous ${daysLabel(longMax)} maximum`);
       setText('qfDelayCourt', `${courtMax} jours max`);
       setText('qfDelayLong', `${daysLabel(longMax)} max`);
       setText('cgvDelayCourt', `jour même à ${courtMax} jours`);
@@ -24092,11 +23382,7 @@
     // applyFormatToForm/goToReservationWithFormat ci-dessus, comme les liens "Je réserve ce format".
     // Ne scrolle/ne touche à rien si aucun des deux paramètres n'est présent, pour ne jamais
     // perturber un visiteur normal arrivé sans ces paramètres dans l'URL.
-    // 🔧 Exécuté APRÈS le reste du script (setTimeout 0) : updatePriceEstimate() lit des const (depositAmount,
-    // depositPaypalBtn…) déclarées plus bas ; l'appeler ici, immédiatement, levait « Cannot access
-    // 'depositAmount' before initialization » et interrompait tout le script pour quiconque arrivait par un
-    // lien personnalisé (?prefillFormat=…). Corrigé : le préremplissage ne casse plus la page.
-    setTimeout(function applyPrefillFromUrl() {
+    (function applyPrefillFromUrl() {
       const prefillNom = urlParams.get('prefillNom');
       const prefillFormat = urlParams.get('prefillFormat');
       const prefillQty = urlParams.get('prefillQty');
@@ -24118,7 +23404,7 @@
         reserveForm.elements['contact'].value = prefillContact;
         saveDraft();
       }
-    }, 0);
+    })();
 
     // --- Barre de crédits d'un abonnement en cours : visible seulement si le client arrive par un
     // lien personnalisé qui contient ?prefillFormat=Abonnement créateur…&subUsed=N (lien généré
@@ -25235,79 +24521,6 @@
 
     fetchRemoteStatuses().then(renderOrderHistory);
     renderOrderHistory();
-
-    // --- 🔗 Aperçu partagé (?apercu=...) : lien TEMPORAIRE et en LECTURE SEULE vers l'état d'une
-    // commande, à envoyer à un client qui demande « où j'en suis » sans passer par le suivi public
-    // standard (?commande=ID : historique local, formulaire de retouches, statuts en direct...).
-    // Fonctionnement : l'admin génère le lien depuis la carte de la commande (voir shpBuild plus
-    // haut, côté admin). Le lien CONTIENT lui-même une « photo » de l'état (statut, étapes, date
-    // prévue, message pour le client) encodée en base64 — aucun appel serveur, aucun accès au Sheet.
-    // ⚠️ Deux limites honnêtes :
-    //   1) c'est une photo : elle ne se met pas à jour (pour un état frais, génère un nouveau lien) ;
-    //   2) l'expiration est vérifiée par la page, pas par un serveur : elle empêche l'usage normal
-    //      d'un vieux lien, mais quelqu'un qui bricole l'URL pourrait la prolonger. Le lien ne
-    //      contient de toute façon rien de sensible : ni contact, ni prix, ni lien de livraison. ---
-    (function initSharedPreviewView() {
-      let raw = '';
-      try { raw = new URLSearchParams(window.location.search).get('apercu') || ''; } catch (e) { return; }
-      if (!raw) return;
-
-      let data = null;
-      try {
-        const bin = atob(raw.replace(/-/g, '+').replace(/_/g, '/'));
-        data = JSON.parse(new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0))));
-      } catch (e) { data = null; }
-
-      const valid = !!data && data.v === 1 && /^CMD-[A-Z0-9]{3,}$/i.test(String(data.id || ''))
-        && Number.isFinite(data.x) && Number.isFinite(data.g);
-      const fmt = ts => new Date(ts).toLocaleString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long', hour: '2-digit', minute: '2-digit' });
-      const clip = (v, n) => escapeHtml(String(v == null ? '' : v).slice(0, n));
-
-      let inner;
-      if (!valid) {
-        inner = `
-          <p class="shared-preview-kicker">🔒 Aperçu partagé</p>
-          <h1 id="sharedPreviewTitle" class="shared-preview-title">Lien invalide ou incomplet</h1>
-          <p class="shared-preview-text">Ce lien semble avoir été coupé en route (ça arrive avec certaines messageries). Demande-moi de t'en renvoyer un.</p>`;
-      } else if (Date.now() > data.x) {
-        inner = `
-          <p class="shared-preview-kicker">🔒 Aperçu partagé</p>
-          <h1 id="sharedPreviewTitle" class="shared-preview-title">⏳ Ce lien a expiré</h1>
-          <p class="shared-preview-text">Il était valable jusqu'au ${escapeHtml(fmt(data.x))}. Demande-moi un nouveau lien pour voir où en est ta commande <strong>${clip(data.id, 20)}</strong>.</p>`;
-      } else {
-        const status = String(data.s || '');
-        const dl = /^\d{4}-\d{2}-\d{2}$/.test(String(data.dl || ''))
-          ? new Date(data.dl + 'T00:00:00').toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' })
-          : '';
-        const rc = Number.isFinite(data.rc) ? Math.max(0, Math.floor(data.rc)) : 0;
-        inner = `
-          <p class="shared-preview-kicker">🔒 Aperçu partagé · lecture seule</p>
-          <h1 id="sharedPreviewTitle" class="shared-preview-title">Salut${data.n ? ' ' + clip(data.n, 40) : ''} 👋</h1>
-          <p class="shared-preview-order">Voici où en est ta commande <strong>${clip(data.id, 20)}</strong>${data.t ? ` — « ${clip(data.t, 80)} »` : ''}</p>
-          <div class="shared-preview-status">${statusIconHtml(status, 20)}<span>${clip(stripStatusEmoji(status), 100)}</span></div>
-          ${progressTimelineHtml(status)}
-          ${dl ? `<p class="shared-preview-line">📅 Livraison prévue : <strong>${escapeHtml(dl)}</strong></p>` : ''}
-          ${data.m ? `<div class="shared-preview-message"><span class="shared-preview-message-label">💬 Message de Michyy</span><p>${clip(data.m, 300)}</p></div>` : ''}
-          ${rc > 0 ? `<p class="shared-preview-line">🔁 ${rc} retouche${rc > 1 ? 's' : ''} demandée${rc > 1 ? 's' : ''} sur 3 incluses</p>` : ''}
-          <p class="shared-preview-foot">📸 État constaté le ${escapeHtml(fmt(data.g))}. Ce lien est une photo à cet instant : il ne se met pas à jour. Valable jusqu'au ${escapeHtml(fmt(data.x))}. Il montre seulement l'avancement (pas de lien de téléchargement).</p>`;
-      }
-
-      const overlay = document.createElement('div');
-      overlay.id = 'sharedPreviewOverlay';
-      overlay.className = 'shared-preview-overlay';
-      overlay.setAttribute('role', 'dialog');
-      overlay.setAttribute('aria-modal', 'true');
-      overlay.setAttribute('aria-labelledby', 'sharedPreviewTitle');
-      overlay.innerHTML = `<div class="shared-preview-card">${inner}<button type="button" class="shared-preview-close">Voir le site</button></div>`;
-      document.body.appendChild(overlay);
-      document.body.style.overflow = 'hidden';
-      document.title = 'Aperçu de ta commande';
-      overlay.querySelector('.shared-preview-close').addEventListener('click', () => {
-        overlay.remove();
-        document.body.style.overflow = '';
-        try { history.replaceState(null, '', window.location.pathname); } catch (e) { /* ignore */ }
-      });
-    })();
 
     // --- Lien direct de suivi (?commande=CMD-XXXXX) : permet d'envoyer un lien "voir ma commande"
     // par mail/DM, qui ouvre directement le suivi sur cette commande précise. Fonctionne même si la
@@ -26722,24 +25935,6 @@
           </div>
         </details>
 
-        <!-- 🆕 Relance auto "acompte manquant" : liste les commandes en attente d'acompte depuis
-             3+ jours, avec un bouton de relance pré-rempli (réutilise le modèle "Acompte manquant"
-             déjà présent dans CLIENT_MESSAGE_TEMPLATES). Le vrai "automatique" côté email tourne
-             déjà via sendMorningDigest (Apps Script) — ce panneau est la version visible/actionnable
-             dans l'admin, pas un envoi automatique en plus. -->
-        <details class="more-options admin-stats-group" id="adminGroupDepositReminder">
-          <summary class="more-options-summary">
-            <span class="more-options-summary-label">💳 Acompte manquant depuis 3+ jours</span>
-            <span class="more-options-summary-hint">(relance en 1 clic)</span>
-          </summary>
-          <div class="more-options-content">
-            <p class="admin-timeline-note">
-              Commandes au statut "🟡 En attente de l'acompte" depuis plus de <strong id="adminDepositReminderDaysLabel"></strong> — le résumé du matin (email) te les signale déjà chaque jour si tu l'as configuré ; ce panneau permet en plus de relancer en 1 clic depuis ici.
-            </p>
-            <div id="adminDepositReminderPanel" class="admin-dashboard"></div>
-          </div>
-        </details>
-
         <!-- 🆕 Filtre "Livrées sans retour client" : différent du groupe "sans retouche" juste
              au-dessus (qui regarde le statut "Modifications demandées"), celui-ci regarde r[9] (les
              retours écrits envoyés par le client, "💬 Message pour le client") — objectif : repérer
@@ -26802,12 +25997,6 @@
         <!-- 🆕 Historique des logos : quand tu changes de logo, l'ancien est archivé ici (cet appareil)
              pour pouvoir le réutiliser en un clic. -->
         <div class="admin-logo-history" id="adminLogoHistory"></div>
-
-        <!-- 🆕 Showreel en haut de page (#showreelBlock) — vide = bloc invisible côté public. -->
-        <label style="display:block;margin-top:10px;">URL du showreel (haut de page) <span class="optional-tag">(optionnel — .mp4 hébergé quelque part)</span>
-          <input type="text" id="adminShowreelUrlInput" class="admin-search-input" placeholder="https://... (fichier .mp4)" />
-        </label>
-        <p class="admin-timeline-note" id="adminShowreelStatus" style="margin-top: 4px;"></p>
 
         <!-- 🆕 Seuils « client VIP » : un client (même contact OU même nom) devient VIP dès qu'il
              atteint l'un des deux seuils. 0 = critère désactivé. -->
@@ -26893,17 +26082,6 @@
             <button type="button" id="priceLogAdd" class="admin-btn-primary">Ajouter</button>
           </div>
           <div id="priceLogList"></div>
-        </div>
-
-        <!-- Journal AUTOMATIQUE des prix pratiqués (hors Prix libre) : une ligne par commande, créée
-             quand elle passe à "Acompte reçu" ou plus (prix gelé à ce moment-là), pour repérer si
-             les tarifs fixes sont devenus trop bas avec le temps (voir michyyExtras33 dans le JS). -->
-        <div class="price-log-card" id="pjCard">
-          <div class="info-title">🧾 Prix pratiqués (journal auto)</div>
-          <p class="admin-timeline-note">Rien à saisir : chaque prix final accepté (hors Prix libre) est noté tout seul, pour voir si tes tarifs fixes sont restés trop longtemps au même niveau.</p>
-          <div id="pjSummary"></div>
-          <div id="pjList"></div>
-          <button type="button" id="pjExportBtn" class="admin-btn-primary" style="margin-top: 8px;">⬇️ Exporter le journal (CSV)</button>
         </div>
 
         <!-- Export CSV du délai moyen de livraison par mois : même principe que l'export ratio
@@ -27058,11 +26236,7 @@
       </p>
       <div class="admin-section-toggle-list" id="adminSectionToggleList"></div>
       <button type="button" id="adminSectionsResetBtn" class="filter-reset-btn">↺ Tout réafficher</button>
-      <!-- 🧹 Le widget "Suggestions & ma liste de demandes" (#adminSectionIdeas) a été retiré : les
-           idées cochées ont été traitées (showreel, relance acompte, checklist de livraison,
-           bannière offre limitée, fusion FAQ/CGV, bibliothèque de réponses déjà existante), et les
-           non cochées ont été écartées. Voir la conversation avec Claude pour l'historique complet
-           plutôt que de garder une liste qui n'a plus lieu d'être une fois traitée. -->
+      <div class="section-ideas-card" id="adminSectionIdeas"></div>
     </div>
   </section>
 
