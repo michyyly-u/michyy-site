@@ -2508,6 +2508,54 @@
       border-color: #7f8bfa66;
       color: #4a4fc4;
     }
+    /* --- Bannière promo temporaire (voir #seasonalPromoBanner, initSeasonalPromoBanner dans le JS)
+         : dégradé plein (pas juste un liseré comme .hero-promo-badge) pour trancher visuellement du
+         badge permanent juste en dessous — l'urgence temporelle doit se voir au premier coup d'œil,
+         pas se fondre avec l'offre "premier montage" qui, elle, ne finit jamais. --- */
+    .seasonal-promo-banner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      max-width: 720px;
+      margin: 14px auto;
+      padding: 10px 14px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #FF4438, #FFB020);
+      color: #fff;
+    }
+    .seasonal-promo-text {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 13px;
+    }
+    .seasonal-promo-countdown {
+      font-family: 'Manrope', sans-serif;
+      font-weight: 700;
+      font-size: 12px;
+      background: rgba(0, 0, 0, 0.22);
+      border-radius: 999px;
+      padding: 3px 10px;
+      white-space: nowrap;
+    }
+
+    /* Showreel (#showreelBlock) : plein cadre, coins arrondis cohérents avec le reste du site,
+       ratio 16/9 par défaut pour éviter un saut de mise en page pendant le chargement. */
+    .showreel-block {
+      max-width: 720px;
+      margin: 0 auto 20px;
+      padding: 0 20px;
+    }
+    .showreel-video {
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      border-radius: 14px;
+      border: 0.5px solid var(--border-soft);
+      background: #000;
+      display: block;
+    }
+
     .portfolio-card[data-best-match="true"] {
       border: 1px solid #7f8bfa66;
       box-shadow: 0 0 0 1px #7f8bfa22;
@@ -7299,7 +7347,7 @@
     .peak-banner.is-ok { background:#8be28b18; border-color:#8be28b66; color:#3d9a3d; }
     .admin-promo-filter { min-width:170px; }
     .admin-promo-usage { font-size:12px; margin:4px 0 0; opacity:.85; }
-    .price-log-card, .section-ideas-card { border:1px solid var(--border-soft); border-radius:12px; padding:12px; margin-top:12px; }
+    .price-log-card { border:1px solid var(--border-soft); border-radius:12px; padding:12px; margin-top:12px; }
     .price-log-form { display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:6px; margin:8px 0; }
     .price-log-row, .idea-row { display:flex; justify-content:space-between; align-items:center; gap:8px; padding:6px 0; border-top:1px solid var(--border-soft); font-size:12px; }
     .idea-row.is-picked { background:#5865F214; border-radius:8px; padding-left:6px; }
@@ -11158,6 +11206,23 @@
     </div>
   </div>
 
+  <!-- 🆕 Showreel : premier contact visuel avant même le portfolio détaillé. Configuré depuis
+       l'admin (Stats & outils → URL du showreel, stockée en local) — tant qu'aucune URL n'est
+       définie, le bloc reste invisible plutôt que d'afficher un placeholder vide ou une fausse
+       vidéo d'exemple. Voir initShowreel() dans le JS. -->
+  <!-- 🆕 Bannière promo temporaire (offre limitée dans le temps) : affichée uniquement s'il existe
+       un code promo actif avec une date d'expiration dans PROMO_CODES (donc jamais pour les codes
+       permanents comme PREMIERE20/PARRAIN10) — voir initSeasonalPromoBanner() dans le JS, appelée
+       après refreshDynamicPromoCodes(). Crée un code promo depuis l'admin (🎟️ Codes promo) avec une
+       date d'expiration pour la faire apparaître. -->
+  <div id="seasonalPromoBanner" class="seasonal-promo-banner" style="display:none;">
+    <span class="seasonal-promo-text" id="seasonalPromoText"></span>
+    <span class="seasonal-promo-countdown" id="seasonalPromoCountdown"></span>
+  </div>
+
+  <div id="showreelBlock" class="showreel-block" style="display:none;">
+    <video id="showreelVideo" class="showreel-video" controls preload="none" playsinline></video>
+  </div>
 
   <div class="full-divider"></div>
 
@@ -11223,7 +11288,7 @@
         <div class="guarantee-card">
           <span class="guarantee-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg></span>
           <span class="guarantee-card-title">Délais annoncés tenus</span>
-          <span class="guarantee-card-text">Le délai indiqué au moment du devis est celui qui compte. S'il devait glisser, tu es prévenu avant l'échéance, pas après — jamais un silence qui traîne. Détails dans <a href="#faq-delais">la FAQ délais</a>.</span>
+          <span class="guarantee-card-text">Le délai indiqué au moment du devis est celui qui compte. S'il devait glisser, tu es prévenu avant l'échéance, pas après — jamais un silence qui traîne. Détails dans <a href="#cgv-delais">la clause délais</a>.</span>
         </div>
         <div class="guarantee-card">
           <span class="guarantee-card-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V7a4 4 0 018 0v4"/></svg></span>
@@ -12479,8 +12544,8 @@
     <!-- Note maintenance : cette section ne cite volontairement aucun chiffre de délai en dur
          (étape 3 dit juste "délai annoncé") pour éviter toute divergence avec les délais réels.
          Les chiffres eux-mêmes vivent uniquement dans DELAY_RANGES (JS) et sont propagés vers
-         le hero (#heroDelayCourt/#heroDelayLong), la FAQ (#faqDelayCourt/#faqDelayLong), les
-         CGV (#cgvDelayCourt/#cgvDelayLong) et la FAQ B2B (#b2bDelayCourtRef/#b2bDelayLongRef) —
+         le hero (#heroDelayCourt/#heroDelayLong), les CGV (#cgvDelayCourt/#cgvDelayLong), la
+         FAQ B2B (#b2bDelayCourtRef/#b2bDelayLongRef) et le résumé du mini-quiz (#qfDelayCourt/#qfDelayLong) —
          modifie uniquement DELAY_RANGES pour changer un délai. -->
 
     <div class="howitworks-steps">
@@ -12566,7 +12631,6 @@
         <button type="button" class="filter-btn faq-theme-filter-btn" data-theme-filter="tarifs">💰 Tarifs</button>
         <button type="button" class="filter-btn faq-theme-filter-btn" data-theme-filter="abonnement">🔄 Abonnement</button>
         <button type="button" class="filter-btn faq-theme-filter-btn" data-theme-filter="delais">⏳ Délais</button>
-        <button type="button" class="filter-btn faq-theme-filter-btn" data-theme-filter="revisions">🔁 Révisions</button>
         <button type="button" class="filter-btn faq-theme-filter-btn" data-theme-filter="suivi">📦 Suivi de commande</button>
         <button type="button" class="filter-btn faq-theme-filter-btn" data-theme-filter="technique">🛠️ Technique</button>
         <!-- 🔧 Simplification : "Confiance" (2 questions) et "Après livraison" (3 questions) fusionnés
@@ -12583,8 +12647,8 @@
       <nav class="tab-quick-nav" aria-label="Aller directement à une question">
         <a href="#faq-claims">⚖️ Claims</a>
         <a href="#faq-format">📼 Format livré</a>
-        <a href="#faq-delais">⏳ Délais de livraison / soir &amp; week-end</a>
-        <a href="#faq-revisions">🔁 Révisions incluses</a>
+        <a href="#cgv-delais">⏳ Délais de livraison / soir &amp; week-end</a>
+        <a href="#cgv-revisions">🔁 Révisions incluses</a>
         <a href="#faq-suivi-statut-bloque">📦 Statut bloqué</a>
         <a href="#faq-suivi-retouche-facturee">🔁 Retouche facturée</a>
         <a href="#faq-suivi-hors-ligne">🌙 Envoi hors ligne</a>
@@ -12705,15 +12769,13 @@
       <details class="more-options faq-theme-group" id="faqGroupDelais" data-group-theme="delais">
         <summary class="more-options-summary">
           <span class="more-options-summary-label">⏳ Délais</span>
-          <span class="more-options-summary-hint">(2 questions)</span>
+          <span class="more-options-summary-hint">(1 questions)</span>
         </summary>
         <div class="more-options-content">
-      <details class="faq-item" id="faq-delais" data-theme="delais">
-        <summary>Quels sont les délais de livraison exacts, et travailles-tu le soir/week-end ?</summary>
-        <p>Format court (TikTok/Reels) : livré le jour même, <span id="faqDelayCourt">sous 2 jours maximum</span>. Format long (YouTube/Best-of) : <span id="faqDelayLong">sous 1 semaine maximum</span>, variable selon la quantité de vidéos en cours. Ces délais démarrent après réception de l'acompte et de tous les fichiers/rushs nécessaires : un retard de ton côté sur l'envoi des sources décale d'autant la livraison. Besoin de vraiment plus vite ? Un mode urgent existe (+30% sur le tarif), disponible dans le calculateur ci-dessus.</p>
-        <p>Oui, je monte souvent le soir ou le week-end : je ne suis pas limité aux horaires de bureau classiques, ce qui aide notamment pour le mode urgent. Ça ne veut pas dire disponible 24/7 pour autant : les délais annoncés ci-dessus restent la référence, le soir/week-end sert surtout à les tenir ou les accélérer plutôt qu'à en promettre de nouveaux.</p>
-      </details>
-
+      <!-- 🧹 "Quels sont les délais de livraison exacts..." retirée : fusionnée dans la clause CGV
+           "Délais" (#cgv-delais), qui a repris tout le détail utile (démarrage après acompte+rushs,
+           travail possible le soir/week-end, mode urgent) — les liens qui pointaient ici renvoient
+           maintenant vers #cgv-delais. -->
       <details class="faq-item" id="faq-devis" data-theme="delais">
         <summary>Combien de temps pour recevoir un devis ?</summary>
         <p>Je réponds sous 24h maximum à toute demande, avec un tarif indicatif basé sur le format et la quantité de vidéos.</p>
@@ -12721,19 +12783,10 @@
         </div>
       </details>
 
-      <details class="more-options faq-theme-group" id="faqGroupRevisions" data-group-theme="revisions">
-        <summary class="more-options-summary">
-          <span class="more-options-summary-label">🔁 Révisions</span>
-          <span class="more-options-summary-hint">(1 questions)</span>
-        </summary>
-        <div class="more-options-content">
-      <details class="faq-item" id="faq-revisions" data-theme="revisions">
-        <summary>Combien de révisions sont incluses, et jusqu'où ça va ?</summary>
-        <p><strong>3 révisions incluses par vidéo</strong> : ajustements de rythme, de coupe, de sous-titres, d'habillage sonore ou de placement d'éléments. C'est exactement ce qui couvre le cas où le premier jet ne te convainc pas encore — jamais de surprise ni de blocage, l'objectif reste que le résultat te corresponde. Au-delà de la 3e, chaque retouche supplémentaire est facturée <strong>20€</strong>, à l'unité (jamais par lot). Ce qui sort de ce cadre, c'est une refonte complète du montage (changer totalement l'angle ou la structure de la vidéo une fois validée), traitée à part (voir la question sur les révisions hors cadre) plutôt que décomptée dans les 3.</p>
-      </details>
-
-        </div>
-      </details>
+      <!-- 🧹 Le groupe "🔁 Révisions" (question unique "Combien de révisions...") a été retiré :
+           fusionné dans la clause CGV "Révisions" (#cgv-revisions), qui a repris tout le détail
+           utile (exemples de ce qui est couvert, cas de la retouche juste après livraison). Les
+           liens qui pointaient vers #faq-revisions renvoient maintenant vers #cgv-revisions. -->
 
       <details class="more-options faq-theme-group" id="faqGroupSuivi" data-group-theme="suivi">
         <summary class="more-options-summary">
@@ -12748,7 +12801,7 @@
 
       <details class="faq-item" id="faq-suivi-retouche-facturee" data-theme="suivi">
         <summary>C'est quoi une retouche facturée ?</summary>
-        <p><strong>3 retouches sont incluses</strong> par vidéo, décomptées automatiquement à chaque envoi via le formulaire "Message pour le client" de ton suivi (un envoi = une retouche). Au-delà de la 3e, chaque retouche supplémentaire est facturée <strong>20€</strong> — jamais en surprise : le compteur affiché dans ton suivi ("🔁 Retouche X sur 3 incluses") te montre en temps réel où tu en es, et je ne facture rien sans te le dire clairement avant. Voir aussi la question sur les <a href="#faq-revisions" class="inline-link">révisions incluses</a> pour le détail de ce qui est couvert.</p>
+        <p><strong>3 retouches sont incluses</strong> par vidéo, décomptées automatiquement à chaque envoi via le formulaire "Message pour le client" de ton suivi (un envoi = une retouche). Au-delà de la 3e, chaque retouche supplémentaire est facturée <strong>20€</strong> — jamais en surprise : le compteur affiché dans ton suivi ("🔁 Retouche X sur 3 incluses") te montre en temps réel où tu en es, et je ne facture rien sans te le dire clairement avant. Voir aussi la question sur les <a href="#cgv-revisions" class="inline-link">révisions incluses</a> pour le détail de ce qui est couvert.</p>
       </details>
 
       <details class="faq-item" id="faq-suivi-hors-ligne" data-theme="suivi">
@@ -12807,7 +12860,7 @@
 
       <details class="faq-item" id="faq-retouche-post-livraison" data-theme="confiance">
         <summary>Je peux demander une retouche après avoir reçu ma vidéo finale ?</summary>
-        <p>Oui, une retouche demandée peu après la livraison compte dans les <a href="#faq-revisions" class="inline-link">3 révisions incluses</a> (ou 20€/retouche au-delà). Seule différence : le solde doit déjà être réglé, puisqu'il est dû dès ta première demande de retouche. Si ça revient à rouvrir le projet en profondeur (nouvel angle, nouvelle structure), ça bascule dans les <a href="#faq-refonte" class="inline-link">révisions hors cadre</a>.</p>
+        <p>Oui, une retouche demandée peu après la livraison compte dans les <a href="#cgv-revisions" class="inline-link">3 révisions incluses</a> (ou 20€/retouche au-delà). Seule différence : le solde doit déjà être réglé, puisqu'il est dû dès ta première demande de retouche. Si ça revient à rouvrir le projet en profondeur (nouvel angle, nouvelle structure), ça bascule dans les <a href="#faq-refonte" class="inline-link">révisions hors cadre</a>.</p>
       </details>
 
       <details class="faq-item" id="faq-rushs-perdus" data-theme="confiance">
@@ -12885,8 +12938,8 @@
         <li id="cgv-commercial"><strong>Usage commercial :</strong> à préciser dès la demande, un usage sponsorisé/publicitaire ajoute +15% au tarif de base.</li>
         <li id="cgv-test"><strong>Pas de montage test :</strong> je ne réalise pas de montage d'essai gratuit, même court (30 secondes à 2 minutes), sans exception : mon portfolio est justement là pour juger de mon style sans faire perdre de temps à personne.</li>
         <li id="cgv-acompte"><strong>Acompte :</strong> 50% à régler avant le début du montage, non remboursable une fois le travail commencé. Le solde (50% restant) est dû dès la première demande de retouche, pas à la livraison finale.</li>
-        <li id="cgv-revisions"><strong>Révisions :</strong> 3 révisions incluses par vidéo ; au-delà, chaque retouche supplémentaire est facturée 20€ (à l'unité). Un changement complet de concept après validation peut être facturé en plus.</li>
-        <li id="cgv-delais"><strong>Délais :</strong> indicatifs (format court : <span id="cgvDelayCourt">jour même à 2 jours</span> ; format long : <span id="cgvDelayLong">jusqu'à 1 semaine</span>, variable selon la charge de travail). Le mode "urgent" est prioritaire mais reste soumis à ma disponibilité.</li>
+        <li id="cgv-revisions"><strong>Révisions :</strong> 3 révisions incluses par vidéo — ajustements de rythme, de coupe, de sous-titres, d'habillage sonore ou de placement d'éléments (c'est exactement ce qui couvre le cas où le premier jet ne convainc pas encore). Au-delà de la 3e, chaque retouche supplémentaire est facturée 20€ (à l'unité, jamais par lot). Une retouche demandée peu après la livraison compte dans ces 3 révisions au même titre qu'avant (seule différence : le solde doit déjà être réglé, puisqu'il est dû dès la première demande de retouche). Un changement complet de concept après validation (nouvel angle, nouvelle structure) sort de ce cadre et peut être facturé en plus.</li>
+        <li id="cgv-delais"><strong>Délais :</strong> indicatifs (format court : <span id="cgvDelayCourt">jour même à 2 jours</span> ; format long : <span id="cgvDelayLong">jusqu'à 1 semaine</span>, variable selon la charge de travail). Ces délais démarrent après réception de l'acompte et de tous les fichiers/rushs nécessaires : un retard sur l'envoi des sources décale d'autant la livraison. Le montage se fait aussi bien le soir ou le week-end que sur des horaires de bureau classiques, ce qui aide à tenir ou accélérer ces délais — sans pour autant signifier une disponibilité 24/7. Le mode "urgent" (+30%) est prioritaire mais reste soumis à la disponibilité du moment.</li>
         <li id="cgv-annulation"><strong>Annulation :</strong> possible tant que le montage n'a pas démarré ; l'acompte reste dû si le travail a déjà commencé. <u>Si l'acompte n'est pas réglé dans les 24h suivant la commande, celle-ci est automatiquement annulée.</u></li>
         <li id="cgv-musique"><strong>Musique / droits :</strong> j'utilise des musiques libres de droits ou sous licence. En cas de claim malgré tout, on trouve ensemble une solution (remplacement de piste, contestation...).</li>
         <li id="cgv-fichiers"><strong>Rushs / fichiers sources :</strong> à envoyer via WeTransfer, SwissTransfer ou un Drive partagé, indispensable pour que je puisse démarrer le montage. Les fichiers reçus sont supprimés de mon côté 30 jours après la livraison finale.</li>
@@ -13119,7 +13172,7 @@
       <div class="quick-faq-strip" id="quickFaqStrip">
         <span class="quick-faq-strip-title">⚡ Juste avant de cliquer</span>
         <p>💳 <strong>Acompte :</strong> 50% pour bloquer ta place ; le solde n'est dû qu'à ta 1re retouche demandée.</p>
-        <p>⏱️ <strong>Délai :</strong> court <span id="qfDelayCourt">2 jours max</span> · long <span id="qfDelayLong">1 semaine max</span> (<a href="#faq-delais">détails</a>).</p>
+        <p>⏱️ <strong>Délai :</strong> court <span id="qfDelayCourt">2 jours max</span> · long <span id="qfDelayLong">1 semaine max</span> (<a href="#cgv-delais">détails</a>).</p>
         <p>🔁 <strong>Révisions :</strong> 3 incluses par vidéo, puis +20€ par retouche supplémentaire.</p>
       </div>
       <div class="hp-field" aria-hidden="true">
@@ -14673,6 +14726,20 @@
       });
     })();
 
+    // 🆕 Showreel : lecture de l'URL configurée (public ET admin, même raison que
+    // getFaqVideoMap ci-dessus — définie hors du bloc admin pour rester accessible partout).
+    const SHOWREEL_KEY = 'michyy_showreel_url';
+    (function initShowreel() {
+      const block = document.getElementById('showreelBlock');
+      const video = document.getElementById('showreelVideo');
+      if (!block || !video) return;
+      let url = '';
+      try { url = (localStorage.getItem(SHOWREEL_KEY) || '').trim(); } catch (e) {}
+      if (!url) return; // rien de configuré : le bloc reste caché, pas de placeholder vide
+      video.src = url;
+      block.style.display = 'block';
+    })();
+
     if (isAdminUnlocked) {
       const adminPanel = document.getElementById('adminPanel');
       const adminOrdersList = document.getElementById('adminOrdersList');
@@ -15079,51 +15146,6 @@
         render();
       })();
 
-      // --- Suggestions de sections à ajouter / supprimer + liste de demandes (localStorage) ---
-      (function initSectionIdeas() {
-        const host = document.getElementById('adminSectionIdeas');
-        if (!host) return;
-        const IDEAS = [
-          { t: 'add', id: 'a-avant-apres', label: 'Slider Avant / Après', why: 'Montre la valeur du montage en 2 secondes.' },
-          { t: 'add', id: 'a-places', label: 'Bandeau « X places restantes ce mois »', why: 'Urgence alimentée par ta charge réelle.' },
-          { t: 'add', id: 'a-showreel', label: 'Showreel vidéo en haut de page', why: 'Premier contact visuel avant le portfolio.' },
-          { t: 'add', id: 'a-formulaire-etapes', label: 'Formulaire de réservation en 3 étapes', why: 'Moins intimidant, meilleur taux de complétion.' },
-          { t: 'add', id: 'a-admin-relance-auto', label: 'Admin : relance auto planifiée (rappel J+3 si pas d’acompte)', why: 'Moins de commandes qui s’éteignent.' },
-          { t: 'add', id: 'a-admin-stats-sources', label: 'Admin : sources des commandes (TikTok, Discord, bouche-à-oreille)', why: 'Sait où investir ton énergie.' },
-          { t: 'add', id: 'a-admin-modeles-reponse', label: 'Admin : bibliothèque de réponses classées par situation', why: 'Réponses cohérentes en 1 clic.' },
-          { t: 'add', id: 'a-admin-checklist-livraison', label: 'Admin : checklist de livraison par commande (export, sous-titres, miniature…)', why: 'Zéro oubli avant d’envoyer.' },
-          { t: 'add', id: 'a-site-offre-limitee', label: 'Site : offre limitée dans le temps avec compte à rebours', why: 'Réutilise ton bandeau promo saisonnier.' },
-          { t: 'add', id: 'a-site-avis-google', label: 'Site : bloc « avis vérifiés » avec captures/liens', why: 'Preuve sociale plus crédible.' },
-          { t: 'remove', id: 'r-hero-doublons', label: 'Alléger le hero (garder badge dispo + 2 boutons, retirer le reste)', why: 'Un message principal = plus de clics.' },
-          { t: 'remove', id: 'r-faq-restantes', label: 'Fusionner faq-delais / faq-revisions dans les CGV (liens vers la CGV)', why: 'Toujours des doublons avec les CGV.' },
-          { t: 'remove', id: 'r-outils-peu-utilises', label: 'Retirer les mini-outils peu utilisés (voir stats d’usage des outils)', why: 'trackTool te dit lesquels ne servent à rien.' }
-        ];
-        const KEY = 'michyy_section_wishlist';
-        const load = () => { try { return JSON.parse(localStorage.getItem(KEY) || '{}'); } catch (e) { return {}; } };
-        const save = o => { try { localStorage.setItem(KEY, JSON.stringify(o)); } catch (e) {} };
-        function render() {
-          const picked = load();
-          const custom = Object.keys(picked).filter(k => k.startsWith('c:'));
-          host.innerHTML = '<div class="info-title">💡 Suggestions & ma liste de demandes</div>' +
-            IDEAS.concat(custom.map(k => ({ t: picked[k], id: k, label: k.slice(2), why: 'Demande perso' }))).map(i => `
-            <div class="idea-row${picked[i.id] ? ' is-picked' : ''}"><span><span class="idea-tag ${i.t}">${i.t === 'add' ? '➕ Ajouter' : '➖ Supprimer'}</span><strong>${i.label}</strong><br><small>${i.why}</small></span>
-            <button type="button" class="filter-reset-btn" data-idea="${i.id}">${picked[i.id] ? '✓ Dans ma liste' : 'Je veux'}</button></div>`).join('') +
-            `<div class="price-log-form" style="margin-top:10px;"><input type="text" id="ideaCustomText" placeholder="Ta propre idée…" /><select id="ideaCustomType"><option value="add">➕ Ajouter</option><option value="remove">➖ Supprimer</option></select><button type="button" id="ideaCustomBtn" class="filter-reset-btn">Ajouter à ma liste</button></div>
-            <button type="button" id="ideaCopyBtn" class="admin-btn-primary">📋 Copier ma liste (à coller dans le chat)</button> <span class="info-text" id="ideaCopyStatus" style="font-size:12px;"></span>`;
-        }
-        host.addEventListener('click', e => {
-          const p = load(), b = e.target.closest('[data-idea]');
-          if (b) { const id = b.dataset.idea; if (p[id]) delete p[id]; else p[id] = (IDEAS.find(i => i.id === id) || {}).t || 'add'; save(p); render(); return; }
-          if (e.target.id === 'ideaCustomBtn') { const v = document.getElementById('ideaCustomText').value.trim(); if (v) { p['c:' + v] = document.getElementById('ideaCustomType').value; save(p); render(); } return; }
-          if (e.target.id === 'ideaCopyBtn') {
-            const txt = Object.keys(p).map(k => `${p[k] === 'add' ? 'AJOUTER' : 'SUPPRIMER'} : ${k.startsWith('c:') ? k.slice(2) : (IDEAS.find(i => i.id === k) || {}).label}`).join('\n');
-            const st = document.getElementById('ideaCopyStatus');
-            (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => { st.textContent = '✅ Copié'; }, () => { st.textContent = txt || 'Liste vide'; });
-          }
-        });
-        render();
-      })();
-
       // --- Navigation clavier J/K entre les cartes de commande, Entrée pour sauvegarder la carte
       // active (voir le handler keydown plus bas). Index remis à -1 à chaque nouveau rendu de liste. ---
       let activeCardIndex = -1;
@@ -15336,6 +15358,29 @@
         { label: 'Commande expirée', text: 'Faute d\'acompte réglé dans le délai annoncé, ta commande a été automatiquement marquée comme expirée. Si tu veux qu\'on relance, dis-le-moi simplement et je la réactive.' },
         { label: 'Annulation confirmée', text: 'C\'est noté, ta commande est annulée. N\'hésite pas à revenir quand tu veux si le besoin se représente.' },
       ];
+
+      // --- 🆕 Checklist de livraison par commande : coches locales (cet appareil), pas de
+      // synchronisation serveur — purement un pense-bête avant d'envoyer, pas un statut officiel
+      // de la commande. Stockée sous forme { orderId: { export: true, ... } }. ---
+      const DELIVERY_CHECKLIST_ITEMS = [
+        { key: 'export', label: 'Export terminé' },
+        { key: 'soustitres', label: 'Sous-titres ajoutés' },
+        { key: 'miniature', label: 'Miniature créée' },
+        { key: 'envoye', label: 'Fichier envoyé au client' }
+      ];
+      const DELIVERY_CHECKLIST_KEY = 'michyy_delivery_checklist';
+      function getAllDeliveryChecklists() {
+        try { return JSON.parse(localStorage.getItem(DELIVERY_CHECKLIST_KEY) || '{}'); } catch (e) { return {}; }
+      }
+      function getDeliveryChecklist(orderId) {
+        return getAllDeliveryChecklists()[orderId] || {};
+      }
+      function setDeliveryChecklistItem(orderId, key, value) {
+        const all = getAllDeliveryChecklists();
+        if (!all[orderId]) all[orderId] = {};
+        all[orderId][key] = value;
+        try { localStorage.setItem(DELIVERY_CHECKLIST_KEY, JSON.stringify(all)); } catch (e) {}
+      }
 
       // Lien direct vers le Sheet, pour éditer en masse quand une ligne par ligne prend trop de temps
       const adminSheetLink = document.getElementById('adminSheetLink');
@@ -15908,6 +15953,59 @@
           return lastDelivered(a) - lastDelivered(b); // la plus ancienne livraison en premier
         });
       }
+      // 🔧 Seuil (jours depuis la création) au-delà duquel une commande sans acompte apparaît ici.
+      const DEPOSIT_REMINDER_DAYS = 3;
+      function getDepositPendingOrders(dataRows) {
+        const now = Date.now();
+        return dataRows.filter(r => {
+          if (!(r[1] || '').includes("attente de l'acompte")) return false;
+          if (!r[3]) return false;
+          const created = new Date(r[3]).getTime();
+          if (isNaN(created)) return false;
+          return (now - created) / 86400000 >= DEPOSIT_REMINDER_DAYS;
+        }).sort((a, b) => new Date(a[3]) - new Date(b[3]));
+      }
+      function renderDepositReminderPanel(dataRows) {
+        const panel = document.getElementById('adminDepositReminderPanel');
+        if (!panel) return;
+        const label = document.getElementById('adminDepositReminderDaysLabel');
+        if (label) label.textContent = `${DEPOSIT_REMINDER_DAYS} jours`;
+        const orders = getDepositPendingOrders(dataRows);
+        if (orders.length === 0) {
+          panel.innerHTML = `<p class="info-text">Aucune commande en attente d'acompte depuis plus de ${DEPOSIT_REMINDER_DAYS} jours pour l'instant.</p>`;
+          return;
+        }
+        const now = Date.now();
+        const template = CLIENT_MESSAGE_TEMPLATES.find(t => t.label === 'Acompte manquant');
+        panel.innerHTML = orders.map(r => {
+          const orderId = r[0];
+          const noteFields = parseNoteQuickFields(r[2] || '');
+          const clientName = noteFields.nom || 'Client';
+          const days = Math.floor((now - new Date(r[3]).getTime()) / 86400000);
+          return `
+            <div class="admin-stat-card admin-litige-history-card" style="align-items: flex-start; text-align: left;">
+              <span class="admin-stat-label">${escapeHtml(orderId)} — ${escapeHtml(clientName)}</span>
+              <span class="admin-stat-label" style="color: var(--warning, #e0a83c);">💳 En attente depuis ${days} jour${days > 1 ? 's' : ''}</span>
+              <div style="display: flex; gap: 6px; margin-top: 6px;">
+                <button type="button" class="filter-reset-btn admin-deposit-reminder-goto" data-order-id="${escapeHtml(orderId)}">🔗 Voir</button>
+                <button type="button" class="filter-reset-btn admin-deposit-reminder-relance" data-order-id="${escapeHtml(orderId)}" data-contact="${escapeHtml(r[5] || '')}">💬 Relancer</button>
+              </div>
+            </div>`;
+        }).join('');
+        panel.querySelectorAll('.admin-deposit-reminder-goto').forEach(b => {
+          b.addEventListener('click', () => {
+            adminSearchInput.value = b.dataset.orderId;
+            activateAdminTab('commandes');
+            renderAdminOrdersList(lastAdminOrders);
+          });
+        });
+        panel.querySelectorAll('.admin-deposit-reminder-relance').forEach(b => {
+          b.addEventListener('click', () => {
+            openRelancePreview(b.dataset.orderId, template ? template.text : '', !!b.dataset.contact);
+          });
+        });
+      }
+
       function renderDeliveredNoRevisionPanel(dataRows) {
         const panel = document.getElementById('adminDeliveredNoRevisionPanel');
         if (!panel) return;
@@ -16924,6 +17022,15 @@
             input.value = btn.dataset.template || '';
             saveMsgDraft(orderId, input.value);
             input.focus();
+          });
+        });
+
+        // Checklist de livraison : sauvegarde locale à chaque coche/décoche, pas de bouton
+        // "Enregistrer" séparé — cohérent avec le reste de la carte (note, message) qui se
+        // sauvegarde aussi au fil de la saisie.
+        adminOrdersList.querySelectorAll('.admin-delivery-checklist-item').forEach(cb => {
+          cb.addEventListener('change', () => {
+            setDeliveryChecklistItem(cb.dataset.orderId, cb.dataset.item, cb.checked);
           });
         });
 
@@ -18294,6 +18401,10 @@
               <summary class="admin-card-details-summary">Détails${contact ? ` · 📇 ${contact}` : ''}</summary>
               <div class="admin-card-details-content">
                 ${contact ? `<button type="button" class="admin-copy-tracking-link-btn" data-order-id="${orderId}" title="Copie un lien direct vers le suivi de cette commande, à envoyer par mail/DM au client">🔗 Copier le lien de suivi</button>` : ''}
+                <div class="admin-delivery-checklist" data-order-id="${orderId}">
+                  <span class="admin-order-note-label">✅ Checklist de livraison</span>
+                  ${DELIVERY_CHECKLIST_ITEMS.map(item => `<label class="checkbox-label"><input type="checkbox" class="admin-delivery-checklist-item" data-order-id="${orderId}" data-item="${item.key}" ${getDeliveryChecklist(orderId)[item.key] ? 'checked' : ''} />${item.label}</label>`).join('')}
+                </div>
                 ${(noteFields.nom || noteFields.format) ? `
                 <div class="admin-prefill-link-row">
                   <button type="button" class="admin-copy-prefill-link-btn" data-order-id="${orderId}" data-prefill-nom="${escapeHtml(noteFields.nom)}" data-prefill-format="${escapeHtml(noteFields.format)}" data-prefill-contact="${escapeHtml(contact)}" title="Copie un lien qui pré-remplit le formulaire de réservation avec le nom, le format et le contact de cette commande — pratique en DM à un client qui recommande souvent la même chose">🔗👤 Copier le lien client</button>
@@ -18540,6 +18651,7 @@
           renderNoResponseRemindersPanel(dataRows);
           renderStuckOrdersPanel(dataRows);
           renderDeliveredNoRevisionPanel(dataRows);
+          renderDepositReminderPanel(dataRows);
           renderDeliveredNoFeedbackPanel(dataRows);
           renderTodayRemindersPanel(dataRows);
           renderWorkloadPanel(dataRows);
@@ -18815,6 +18927,18 @@
         adminLogoUrlInput.addEventListener('input', () => {
           try { localStorage.setItem(ADMIN_LOGO_KEY, adminLogoUrlInput.value.trim()); } catch (e) {}
           if (adminLogoStatus) adminLogoStatus.textContent = adminLogoUrlInput.value.trim() ? '✅ Logo enregistré, utilisé au prochain PDF généré.' : '';
+        });
+      }
+
+      // --- 🆕 Showreel en haut de page : même principe, stocké en local, lu par initShowreel
+      // (défini plus haut, hors bloc admin, pour être visible par tous les visiteurs). ---
+      const adminShowreelUrlInput = document.getElementById('adminShowreelUrlInput');
+      const adminShowreelStatus = document.getElementById('adminShowreelStatus');
+      if (adminShowreelUrlInput) {
+        try { adminShowreelUrlInput.value = localStorage.getItem(SHOWREEL_KEY) || ''; } catch (e) {}
+        adminShowreelUrlInput.addEventListener('input', () => {
+          try { localStorage.setItem(SHOWREEL_KEY, adminShowreelUrlInput.value.trim()); } catch (e) {}
+          if (adminShowreelStatus) adminShowreelStatus.textContent = adminShowreelUrlInput.value.trim() ? '✅ Enregistré — recharge la page pour le voir apparaître en haut.' : '';
         });
       }
       function getStoredPdfLogo() {
@@ -22818,11 +22942,52 @@
       'PARRAIN10': { rate: 0.90, label: 'Code PARRAIN10 (-10%, parrainage)' }
     };
 
-    // --- Note : la bannière promo saisonnière temporaire (#seasonalPromoBanner) a été retirée du
-    // site (le badge permanent "-20% 1ère commande" suffisait) — la logique JS associée
-    // (initSeasonalPromoBanner, son cache d'affichage seasonalPromoCache) a été retirée avec elle
-    // pour ne pas garder de code mort. PROMO_CODES et refreshDynamicPromoCodes ci-dessous
-    // continuent de fonctionner normalement pour le champ code promo du formulaire.
+    // --- 🆕 Bannière promo temporaire (voir #seasonalPromoBanner dans le HTML) : cherche, parmi
+    // PROMO_CODES, le code temporaire (avec expiration future) qui expire le plus tôt, et l'annonce
+    // publiquement avec un compte à rebours. Se ré-exécute à chaque refreshDynamicPromoCodes() (donc
+    // se cache toute seule si le code vient d'expirer, sans qu'il faille recharger la page à la main).
+    let seasonalPromoInterval = null;
+    function initSeasonalPromoBanner() {
+      const banner = document.getElementById('seasonalPromoBanner');
+      const textEl = document.getElementById('seasonalPromoText');
+      const countdownEl = document.getElementById('seasonalPromoCountdown');
+      if (!banner || !textEl || !countdownEl) return;
+
+      const now = Date.now();
+      let soonest = null;
+      Object.keys(PROMO_CODES).forEach(code => {
+        const promo = PROMO_CODES[code];
+        if (!promo.expiration) return;
+        const expiresAt = new Date(promo.expiration).getTime();
+        if (isNaN(expiresAt) || expiresAt <= now) return;
+        if (!soonest || expiresAt < soonest.expiresAt) {
+          soonest = { code, expiresAt, rate: promo.rate };
+        }
+      });
+
+      if (seasonalPromoInterval) { clearInterval(seasonalPromoInterval); seasonalPromoInterval = null; }
+
+      if (!soonest) { banner.style.display = 'none'; return; }
+
+      const reductionPct = Math.round((1 - soonest.rate) * 100);
+      textEl.textContent = `🔥 -${reductionPct}% avec le code ${soonest.code}`;
+
+      function renderCountdown() {
+        const remaining = soonest.expiresAt - Date.now();
+        if (remaining <= 0) { initSeasonalPromoBanner(); return; } // recalcule (code peut-être expiré)
+        const days = Math.floor(remaining / 86400000);
+        const hours = Math.floor((remaining % 86400000) / 3600000);
+        const minutes = Math.floor((remaining % 3600000) / 60000);
+        countdownEl.textContent = days > 0
+          ? `⏳ Plus que ${days}j ${hours}h`
+          : hours > 0
+            ? `⏳ Plus que ${hours}h ${minutes}min`
+            : `⏳ Plus que ${minutes}min`;
+      }
+      renderCountdown();
+      seasonalPromoInterval = setInterval(renderCountdown, 60000);
+      banner.style.display = 'flex';
+    }
 
     // --- Codes promo créés depuis l'admin (voir onglet "🛠️ Outils" > "🎟️ Codes promo") : chargés
     // depuis le Sheet au démarrage de la page et fusionnés dans PROMO_CODES ci-dessus (mêmes règles
@@ -22846,6 +23011,7 @@
             expiration: c.expiration || null
           };
         });
+        initSeasonalPromoBanner();
         // Si le champ code promo est déjà rempli (ou un brouillon en cours), on réévalue avec les
         // codes fraîchement chargés — sinon un code créé récemment semblerait "inconnu" tant que la
         // page n'est pas rechargée.
@@ -22854,6 +23020,7 @@
         }
       } catch (err) { /* pas grave, on garde les codes fixes ci-dessus */ }
     }
+    initSeasonalPromoBanner();
     refreshDynamicPromoCodes();
     const promoCodeInput = document.getElementById('promoCodeInput');
     const promoCodeStatus = document.getElementById('promoCodeStatus');
@@ -23130,8 +23297,6 @@
       const setText = (id, value) => { const el = document.getElementById(id); if (el) el.textContent = value; };
       setText('heroDelayCourt', `${courtMax} jours max`);
       setText('heroDelayLong', `${daysLabel(longMax)} max`);
-      setText('faqDelayCourt', `sous ${courtMax} jours maximum`);
-      setText('faqDelayLong', `sous ${daysLabel(longMax)} maximum`);
       setText('qfDelayCourt', `${courtMax} jours max`);
       setText('qfDelayLong', `${daysLabel(longMax)} max`);
       setText('cgvDelayCourt', `jour même à ${courtMax} jours`);
@@ -25935,6 +26100,24 @@
           </div>
         </details>
 
+        <!-- 🆕 Relance auto "acompte manquant" : liste les commandes en attente d'acompte depuis
+             3+ jours, avec un bouton de relance pré-rempli (réutilise le modèle "Acompte manquant"
+             déjà présent dans CLIENT_MESSAGE_TEMPLATES). Le vrai "automatique" côté email tourne
+             déjà via sendMorningDigest (Apps Script) — ce panneau est la version visible/actionnable
+             dans l'admin, pas un envoi automatique en plus. -->
+        <details class="more-options admin-stats-group" id="adminGroupDepositReminder">
+          <summary class="more-options-summary">
+            <span class="more-options-summary-label">💳 Acompte manquant depuis 3+ jours</span>
+            <span class="more-options-summary-hint">(relance en 1 clic)</span>
+          </summary>
+          <div class="more-options-content">
+            <p class="admin-timeline-note">
+              Commandes au statut "🟡 En attente de l'acompte" depuis plus de <strong id="adminDepositReminderDaysLabel"></strong> — le résumé du matin (email) te les signale déjà chaque jour si tu l'as configuré ; ce panneau permet en plus de relancer en 1 clic depuis ici.
+            </p>
+            <div id="adminDepositReminderPanel" class="admin-dashboard"></div>
+          </div>
+        </details>
+
         <!-- 🆕 Filtre "Livrées sans retour client" : différent du groupe "sans retouche" juste
              au-dessus (qui regarde le statut "Modifications demandées"), celui-ci regarde r[9] (les
              retours écrits envoyés par le client, "💬 Message pour le client") — objectif : repérer
@@ -25997,6 +26180,12 @@
         <!-- 🆕 Historique des logos : quand tu changes de logo, l'ancien est archivé ici (cet appareil)
              pour pouvoir le réutiliser en un clic. -->
         <div class="admin-logo-history" id="adminLogoHistory"></div>
+
+        <!-- 🆕 Showreel en haut de page (#showreelBlock) — vide = bloc invisible côté public. -->
+        <label style="display:block;margin-top:10px;">URL du showreel (haut de page) <span class="optional-tag">(optionnel — .mp4 hébergé quelque part)</span>
+          <input type="text" id="adminShowreelUrlInput" class="admin-search-input" placeholder="https://... (fichier .mp4)" />
+        </label>
+        <p class="admin-timeline-note" id="adminShowreelStatus" style="margin-top: 4px;"></p>
 
         <!-- 🆕 Seuils « client VIP » : un client (même contact OU même nom) devient VIP dès qu'il
              atteint l'un des deux seuils. 0 = critère désactivé. -->
@@ -26236,7 +26425,11 @@
       </p>
       <div class="admin-section-toggle-list" id="adminSectionToggleList"></div>
       <button type="button" id="adminSectionsResetBtn" class="filter-reset-btn">↺ Tout réafficher</button>
-      <div class="section-ideas-card" id="adminSectionIdeas"></div>
+      <!-- 🧹 Le widget "Suggestions & ma liste de demandes" (#adminSectionIdeas) a été retiré : les
+           idées cochées ont été traitées (showreel, relance acompte, checklist de livraison,
+           bannière offre limitée, fusion FAQ/CGV, bibliothèque de réponses déjà existante), et les
+           non cochées ont été écartées. Voir la conversation avec Claude pour l'historique complet
+           plutôt que de garder une liste qui n'a plus lieu d'être une fois traitée. -->
     </div>
   </section>
 
