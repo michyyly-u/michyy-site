@@ -11264,6 +11264,156 @@
     .sub-modal-card .hp-field { position: absolute; left: -9999px; }
     .sub-note { font-size: 11.5px; color: var(--text-tertiary); margin: 8px 0 0; }
     .other-precision { margin-top: 6px; }
+    /* ================= Refonte v3 : formulaire de commande, récapitulatif, menu admin ================= */
+    #reserveForm .form-section-label { display: flex; align-items: center; gap: 10px; margin: 28px 0 12px; font: 800 12px 'Manrope', sans-serif; letter-spacing: .09em; text-transform: uppercase; color: var(--accent-2); }
+    #reserveForm .form-section-label::after { content: ''; flex: 1; height: 1px; background: linear-gradient(90deg, var(--border-soft), transparent); }
+    #reserveForm input:not([type=checkbox]):not([type=radio]):not([type=file]):not([type=range]), #reserveForm select, #reserveForm textarea { background: var(--surface); border: 1px solid var(--border-soft); border-radius: 12px; padding: 12px 14px; transition: border-color .15s, box-shadow .15s; }
+    #reserveForm input:focus, #reserveForm select:focus, #reserveForm textarea:focus { outline: none; border-color: var(--accent-2); box-shadow: 0 0 0 3px rgba(255,176,32,.16); }
+    #reserveForm .mini-calc-format { border-radius: 14px; border: 1px solid var(--border-soft); background: var(--surface); transition: transform .12s, border-color .15s, background .15s; }
+    #reserveForm .mini-calc-format:hover { transform: translateY(-1px); border-color: var(--text-faint); }
+    #reserveForm .mini-calc-format[aria-pressed="true"] { border-color: var(--accent-2); background: rgba(255,176,32,.1); }
+    #reserveForm .file-drop, #reserveForm .drive-box { border-radius: 14px; }
+    /* ✨ Bonus & acompte */
+    #bonusOptions { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 10px; }
+    #bonusOptions .checkbox-label { margin: 0; padding: 13px 14px; border: 1px solid var(--border-soft); border-radius: 14px; background: var(--surface); cursor: pointer; transition: border-color .15s, background .15s, transform .12s; }
+    #bonusOptions .checkbox-label:hover { transform: translateY(-1px); }
+    #bonusOptions .checkbox-label:has(input:checked) { border-color: var(--accent-2); background: rgba(255,176,32,.1); }
+    #bonusOptions .optional-tag { display: inline-block; margin-left: 4px; padding: 1px 8px; border-radius: 999px; background: rgba(255,176,32,.16); color: var(--accent-2); font-weight: 800; }
+    .deposit-payment-row { padding: 14px; border: 1px solid var(--border-soft); border-radius: 14px; background: var(--surface); }
+    #bonusTotalHint { margin-top: 8px; font-weight: 700; }
+    /* 📋 Récapitulatif */
+    .recap-box { border-radius: 18px; padding: 18px; background: linear-gradient(160deg, var(--surface-soft), var(--surface)); border: 1px solid var(--border-soft); }
+    .recap-title { font: 800 17px 'Syne', 'Manrope', sans-serif; margin-bottom: 12px; }
+    .recap-price-strip { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; }
+    .recap-price-strip > div { flex: 1; min-width: 130px; padding: 12px 14px; border-radius: 14px; background: rgba(255,176,32,.1); border: 1px solid rgba(255,176,32,.35); }
+    .recap-price-strip small { display: block; font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--text-secondary); }
+    .recap-price-strip strong { font-size: 22px; color: var(--accent-2); }
+    .recap-group { margin-bottom: 12px; }
+    .recap-group-title { font: 800 11px 'Manrope', sans-serif; letter-spacing: .09em; text-transform: uppercase; color: var(--text-secondary); margin: 0 0 6px; }
+    .recap-group .recap-card-row { padding: 8px 0; border-bottom: 1px solid var(--border-soft); }
+    .recap-group .recap-card-row:last-child { border-bottom: 0; }
+    .recap-edit-btn { margin-top: 6px; background: none; border: 1px solid var(--border-soft); color: var(--text); border-radius: 999px; padding: 8px 16px; font: 700 13px 'Manrope', sans-serif; cursor: pointer; }
+    /* ================= Menu admin ================= */
+    #adminPanel .admin-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 10px; background: var(--surface); border: 1px solid var(--border-soft); border-radius: 16px; margin-bottom: 14px; }
+    #adminPanel .admin-tab-row { display: flex; gap: 4px; padding: 4px; background: var(--surface-soft); border: 1px solid var(--border-soft); border-radius: 16px; margin-bottom: 16px; }
+    #adminPanel .admin-tab-btn { border: 0; background: transparent; border-radius: 12px; padding: 11px 12px; }
+    #adminPanel .admin-tab-btn.active { background: var(--accent-1); color: #fff; box-shadow: 0 4px 14px var(--accent-glow); }
+    #adminPanel .admin-order-card { padding: 14px 16px; border: 1px solid var(--border-soft); border-radius: 16px; background: var(--surface); margin-bottom: 12px; transition: border-color .15s, box-shadow .15s; }
+    #adminPanel .admin-order-card:hover { border-color: var(--text-faint); box-shadow: 0 6px 22px rgba(0,0,0,.18); }
+    #adminPanel .price-log-card, #adminPanel details { border: 1px solid var(--border-soft); border-radius: 14px; background: var(--surface); }
+    #adminPanel details > summary { cursor: pointer; padding: 11px 14px; font-weight: 800; }
+    #adminPanel .admin-order-card details { border-radius: 12px; }
+    /* 🎯 Mode focus */
+    #adminFocusPanel { display: none; }
+    #adminPanel.admin-focus-on #adminFocusPanel { display: block; }
+    #adminPanel.admin-focus-on .admin-tab-row, #adminPanel.admin-focus-on .admin-tab-panel, #adminPanel.admin-focus-on > .info-text, #adminPanel.admin-focus-on > .info-header { display: none !important; }
+    #adminFocusBtn.is-on { background: var(--accent-1); color: #fff; border-color: var(--accent-1); }
+    .focus-head { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-bottom: 12px; }
+    .focus-title { font: 800 20px 'Syne', 'Manrope', sans-serif; text-transform: capitalize; }
+    .focus-sec { margin-bottom: 14px; border: 1px solid var(--border-soft); border-left: 4px solid var(--text-faint); border-radius: 14px; background: var(--surface); padding: 12px 14px; }
+    .focus-sec.tone-red { border-left-color: var(--accent-1); } .focus-sec.tone-amber { border-left-color: var(--accent-2); } .focus-sec.tone-green { border-left-color: var(--success); }
+    .focus-sec h4 { margin: 0 0 8px; font-size: 14px; }
+    .focus-item { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; width: 100%; text-align: left; padding: 9px 10px; margin-bottom: 6px; border: 1px solid var(--border-soft); border-radius: 10px; background: var(--surface-soft); color: var(--text); cursor: pointer; font: 13px 'Manrope', sans-serif; }
+    .focus-item span, .focus-item em { color: var(--text-secondary); font-size: 12px; font-style: normal; }
+    .focus-empty { padding: 26px; text-align: center; border: 1px dashed var(--border-soft); border-radius: 16px; color: var(--text-secondary); }
+    /* 🏷️ Mes clients (classification) */
+    #adminClientTiers { border: 1px solid var(--border-soft); border-radius: 18px; background: var(--surface); padding: 16px; margin: 14px 0; }
+    .ct-title { font: 800 18px 'Syne', 'Manrope', sans-serif; }
+    .ct-sub { margin: 4px 0 14px; font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; }
+    .ct-tiers { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 8px; margin-bottom: 12px; }
+    .ct-tier { display: flex; flex-direction: column; gap: 2px; align-items: flex-start; padding: 12px; border-radius: 14px; border: 1px solid var(--border-soft); background: var(--surface-soft); color: var(--text); cursor: pointer; font: 13px 'Manrope', sans-serif; text-align: left; }
+    .ct-tier strong { font-size: 24px; line-height: 1.1; }
+    .ct-tier-rule { font-size: 11px; color: var(--text-secondary); }
+    .ct-tier.is-on { border-color: var(--accent-2); background: rgba(255,176,32,.1); }
+    .ct-filters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+    .ct-chip, .ct-tag, .ct-tag-add { padding: 5px 11px; border-radius: 999px; border: 1px solid var(--border-soft); background: var(--surface-soft); color: var(--text); font: 700 12px 'Manrope', sans-serif; cursor: pointer; }
+    .ct-chip.is-on, .ct-tag.is-on { border-color: var(--accent-2); background: rgba(255,176,32,.14); }
+    .ct-tag-add { border-style: dashed; color: var(--text-secondary); }
+    .ct-row { padding: 10px 0; border-top: 1px solid var(--border-soft); }
+    .ct-row-main { display: flex; flex-direction: column; align-items: flex-start; gap: 2px; width: 100%; background: none; border: 0; padding: 0; color: var(--text); cursor: pointer; text-align: left; font-family: 'Manrope', sans-serif; }
+    .ct-name { font-weight: 800; font-size: 14px; } .ct-meta, .ct-muted { font-size: 12px; color: var(--text-secondary); }
+    .ct-flags, .ct-presets { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 7px; }
+    .ct-presets { padding: 8px; border-radius: 12px; background: var(--surface-soft); }
+    .ct-flag { padding: 3px 9px; border-radius: 999px; font-size: 11.5px; font-weight: 700; background: var(--surface-soft); border: 1px solid var(--border-soft); }
+    .ct-flag-warn { border-color: var(--accent-1); color: #ff9d96; }
+    .ct-settings { margin-top: 12px; }
+    .ct-set-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 6px 14px 10px; font-size: 12.5px; }
+    .ct-set-row input[type=number] { width: 58px; } .ct-set-row input[type=text] { width: 150px; }
+    .ct-x { background: none; border: 0; color: inherit; cursor: pointer; }
+    /* Options de la commande + tags prédéfinis */
+    .admin-tag-presets { display: flex; flex-wrap: wrap; gap: 6px; margin: 6px 0; }
+    .ord-opts { margin: 8px 0; }
+    .ord-opts-badges span { margin-left: 6px; padding: 2px 8px; border-radius: 999px; background: rgba(255,176,32,.16); font-size: 11px; }
+    .ord-opts-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; padding: 4px 14px 14px; }
+    .ord-opts-grid label { display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 700; color: var(--text-secondary); }
+    .ord-opts-grid .ord-opts-check { flex-direction: row; align-items: center; gap: 8px; }
+    /* Prospection, minuteur, revenus par format, avant/après, exemples de briefs */
+    .pros-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 8px; margin-bottom: 14px; }
+    .pros-stat { padding: 10px 12px; border-radius: 12px; background: var(--surface); border: 1px solid var(--border-soft); }
+    .pros-stat small { display: block; font-size: 11px; color: var(--text-secondary); text-transform: uppercase; letter-spacing: .05em; } .pros-stat strong { font-size: 20px; }
+    .pros-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 8px; padding: 12px; border: 1px solid var(--border-soft); border-radius: 14px; background: var(--surface); margin-bottom: 12px; }
+    .pros-form input, .pros-form select, .pros-item select, .pros-item input { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--border-soft); background: var(--bg); color: var(--text); font: 13px 'Manrope', sans-serif; }
+    .pros-form label { display: flex; flex-direction: column; gap: 3px; font-size: 11.5px; font-weight: 700; color: var(--text-secondary); }
+    .pros-item { padding: 10px 12px; margin-bottom: 8px; border: 1px solid var(--border-soft); border-radius: 12px; background: var(--surface); }
+    .pros-item.is-due { border-color: var(--accent-1); }
+    .pros-item-head, .pros-item-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+    .pros-item-head .ct-x { margin-left: auto; } .pros-item-row { margin-top: 8px; }
+    .pros-tpl { padding: 10px 14px; border-bottom: 1px solid var(--border-soft); } .pros-tpl p { margin: 4px 0 8px; font-size: 12.5px; color: var(--text-secondary); line-height: 1.5; }
+    .admin-template-group { margin-top: 6px; } .admin-template-group > summary { font-size: 12px; padding: 7px 12px; }
+    .ord-timer { grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center; gap: 8px; padding: 8px 10px; border-radius: 12px; background: var(--surface-soft); }
+    .ord-timer strong { font: 800 18px 'Manrope', monospace; letter-spacing: .04em; }
+    #adminTimerBadge { padding: 6px 12px; border-radius: 999px; background: var(--accent-1); color: #fff; font: 800 12px 'Manrope', sans-serif; }
+    .fmt-row { display: grid; grid-template-columns: minmax(90px, 1.1fr) 2fr auto; gap: 4px 10px; align-items: center; margin-bottom: 10px; }
+    .fmt-label { font-weight: 800; font-size: 13px; } .fmt-bar { height: 10px; border-radius: 999px; background: var(--surface-soft); overflow: hidden; } .fmt-bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--accent-2), var(--accent-1)); border-radius: 999px; }
+    .fmt-row small { grid-column: 1 / -1; color: var(--text-secondary); font-size: 11.5px; }
+    .ba-grid, .brief-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 14px; }
+    .ba-card, .brief-card { padding: 14px; border: 1px solid var(--border-soft); border-radius: 16px; background: var(--surface); }
+    .ba-title { font-weight: 800; margin-bottom: 8px; } .ba-note { display: inline-block; margin-left: 6px; padding: 2px 9px; border-radius: 999px; background: rgba(255,176,32,.16); color: var(--accent-2); font-size: 11.5px; }
+    .ba-tabs { display: flex; gap: 4px; padding: 3px; border-radius: 12px; background: var(--surface-soft); margin-bottom: 10px; }
+    .ba-tab { flex: 1; padding: 8px; border: 0; border-radius: 9px; background: transparent; color: var(--text-secondary); font: 700 12.5px 'Manrope', sans-serif; cursor: pointer; } .ba-tab.is-on { background: var(--accent-1); color: #fff; }
+    .ba-media { aspect-ratio: 16 / 9; border-radius: 12px; overflow: hidden; background: #000; display: flex; align-items: center; justify-content: center; } .ba-media iframe, .ba-media video { width: 100%; height: 100%; border: 0; }
+    .brief-card-head { display: flex; align-items: center; gap: 8px; font-size: 15px; margin-bottom: 8px; } .brief-card-head span { font-size: 22px; }
+    .brief-chips { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 8px; } .brief-chips span { padding: 2px 9px; border-radius: 999px; background: var(--surface-soft); border: 1px solid var(--border-soft); font-size: 11px; color: var(--text-secondary); }
+    .brief-card blockquote { margin: 0 0 10px; padding: 8px 12px; border-left: 3px solid var(--accent-2); font-size: 12.5px; line-height: 1.55; color: var(--text-secondary); }
+    .abo-hero { margin: 22px 0; padding: 20px; border-radius: 20px; border: 1px solid rgba(255,176,32,.4); background: linear-gradient(160deg, rgba(255,176,32,.10), var(--surface)); }
+    .abo-hero-badge { display: inline-block; padding: 3px 12px; border-radius: 999px; background: rgba(255,176,32,.18); color: var(--accent-2); font: 800 11.5px 'Manrope', sans-serif; }
+    .abo-hero-title { margin: 8px 0 4px; font: 800 22px 'Syne', 'Manrope', sans-serif; } .abo-hero-text { margin: 0 0 14px; color: var(--text-secondary); font-size: 13.5px; line-height: 1.55; }
+    .abo-hero-plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 12px; margin-bottom: 16px; }
+    .abo-plan { position: relative; display: flex; flex-direction: column; gap: 4px; padding: 16px; border-radius: 16px; background: var(--surface); border: 1px solid var(--border-soft); }
+    .abo-plan.is-best { border-color: var(--accent-2); box-shadow: 0 6px 24px rgba(255,176,32,.14); } .abo-plan em { font-style: normal; font-size: 11px; font-weight: 800; color: var(--accent-2); }
+    .abo-plan strong { font-size: 15px; } .abo-plan-price { font: 800 26px 'Syne', 'Manrope', sans-serif; } .abo-plan-price small { font-size: 13px; font-weight: 600; color: var(--text-secondary); } .abo-plan > small { color: var(--text-secondary); margin-bottom: 8px; }
+    .abo-hero-perks { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 10px; }
+    .abo-hero-perks > div { padding: 12px; border-radius: 14px; background: var(--surface-soft); border: 1px solid var(--border-soft); } .abo-hero-perks span { font-size: 20px; } .abo-hero-perks strong { display: block; margin: 4px 0 2px; font-size: 13.5px; } .abo-hero-perks p { margin: 0; font-size: 12px; line-height: 1.5; color: var(--text-secondary); }
+    [data-admin-hidden] { display: none !important; }
+    .admin-section-toggle-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; margin-bottom: 6px; border: 1px solid var(--border-soft); border-radius: 12px; background: var(--surface); cursor: pointer; }
+    .admin-section-toggle-item.is-hidden { opacity: .55; }
+    .admin-section-hint { display: block; margin-top: 2px; font-size: 11.5px; color: var(--text-secondary); font-weight: 500; }
+    .admin-section-new { padding: 1px 8px; border-radius: 999px; background: rgba(255,176,32,.2); color: var(--accent-2); font-size: 10.5px; font-style: normal; font-weight: 800; margin-left: 4px; }
+    .stars { --pct: calc(var(--rating, 5) / 5 * 100%); display: inline-block; letter-spacing: 2px; font-size: 16px; line-height: 1; background: linear-gradient(90deg, #FFB020 var(--pct), rgba(255,255,255,.22) var(--pct)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; color: transparent; }
+    [data-theme="light"] .stars { background: linear-gradient(90deg, #E8960C var(--pct), rgba(0,0,0,.18) var(--pct)); -webkit-background-clip: text; background-clip: text; }
+    .stars-lg { font-size: 24px; } .testimonial-stars { display: block; margin-bottom: 6px; }
+    .testimonial-average { align-items: center; gap: 10px; }
+    .recap-oneline { margin: 0 0 12px; padding: 10px 12px; border-radius: 12px; background: var(--surface-soft); border: 1px dashed var(--border-soft); font-size: 13px; line-height: 1.5; }
+    .portfolio-card.is-revealed .portfolio-thumb-overlay { opacity: 1; transform: translateY(0); }
+    .portfolio-card.is-revealed .portfolio-thumb { box-shadow: inset 0 0 0 999px rgba(0,0,0,.32); }
+    .portfolio-card.is-revealed { border-color: var(--accent-2); }
+    .portfolio-touch-hint { margin: 0 0 10px; font-size: 12px; color: var(--text-secondary); text-align: center; }
+    .waitlist-top-banner { position: sticky; top: 0; z-index: 90; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 12px; padding: 10px 44px 10px 14px; background: linear-gradient(90deg, #FF4438, #FFB020); color: #1a1208; font: 700 13.5px 'Manrope', sans-serif; box-shadow: 0 4px 18px rgba(0,0,0,.3); }
+    .waitlist-top-banner strong { font-weight: 800; } .waitlist-top-text { font-weight: 600; }
+    .waitlist-top-dot { width: 10px; height: 10px; border-radius: 50%; background: #1a1208; animation: waitlist-top-pulse 1.4s ease-in-out infinite; }
+    @keyframes waitlist-top-pulse { 0%, 100% { transform: scale(1); opacity: 1; } 50% { transform: scale(1.7); opacity: .35; } }
+    .waitlist-top-cta { padding: 6px 14px; border-radius: 999px; background: #1a1208; color: #fff; text-decoration: none; font-weight: 800; }
+    .waitlist-top-close { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: 0; color: inherit; font-size: 16px; cursor: pointer; }
+    @media (prefers-reduced-motion: reduce) { .waitlist-top-dot { animation: none; } }
+    .brief-use-btn { width: 100%; padding: 10px; border-radius: 12px; border: 1px solid var(--accent-2); background: rgba(255,176,32,.1); color: var(--text); font: 800 13px 'Manrope', sans-serif; cursor: pointer; }
+    .ord-remind-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 8px 0; padding: 8px 10px; border-radius: 12px; background: var(--surface-soft); }
+    .ord-remind-row label { display: flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; color: var(--text-secondary); }
+    .ord-remind-row input { padding: 6px 9px; border-radius: 9px; border: 1px solid var(--border-soft); background: var(--bg); color: var(--text); font: 12.5px 'Manrope', sans-serif; }
+    .ord-remind-row input[type=text] { flex: 1; min-width: 160px; }
+    #adminSilentBtn.is-on { background: var(--accent-1); color: #fff; border-color: var(--accent-1); }
+    .admin-quickreply-sub { margin-bottom: 10px; } .admin-quickreply-sub > summary { padding: 9px 12px; }
+    .admin-qr-name { display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 700; color: var(--text-secondary); margin: 6px 0 10px; } .admin-qr-name input { padding: 8px 10px; border-radius: 10px; border: 1px solid var(--border-soft); background: var(--bg); color: var(--text); font: 13px 'Manrope', sans-serif; }
+
     .late-rushs-box label { display: block; margin-bottom: 8px; }
     .attach-inline-btn { display: inline-block; margin-top: 6px; background: none; border: 1px dashed var(--border); border-radius: 999px; color: var(--text-secondary); font: 700 11.5px 'Manrope', sans-serif; padding: 5px 12px; cursor: pointer; }
     .attach-inline-btn:hover { border-color: var(--text-faint); color: var(--text); }
@@ -11955,7 +12105,10 @@
     <span class="social-follow-title">📍 Où me trouver</span>
     <span class="social-follow-subtitle">Pas encore prêt à commander ? Reste dans le coin pour voir les prochains montages passer.</span>
     <div class="find-me-grid">
-      <a class="find-me-card find-me-card-primary" href="https://discord.com/users/jlmichyy" target="_blank" rel="noopener">
+      <!-- ✅ Lien direct restauré : ID numérique Discord réel fourni (495853844723662850), donc
+           https://discord.com/users/495853844723662850 fonctionne vraiment — plus besoin du
+           contournement copier-coller utilisé tant que seul le pseudo "jlmichyy" était connu. -->
+      <a class="find-me-card find-me-card-primary" href="https://discord.com/users/495853844723662850" target="_blank" rel="noopener">
         <span class="find-me-icon">
           <img data-shared-icon="discord" src="" alt="Discord" style="width:100%;height:100%;object-fit:cover;border-radius:9px;" />
         </span>
@@ -12057,43 +12210,6 @@
     </div>
   </section>
 
-<!-- 🆕 Cas d'usage par profil : aide chaque visiteur à se reconnaître plus vite, plutôt que de
-     deviner si l'offre lui correspond. Réutilise .guarantees-grid/.guarantee-card (même grammaire
-     visuelle que Garanties/Sécurité/Fidélité/Support), border-left en var(--accent-3) comme les
-     autres blocs "contenu additionnel" (revision-rounds, brief-tpl...). -->
-<section id="cas-usage" class="full-section reveal">
-    <div class="info-header">
-      <div class="section-divider">
-        <div class="section-divider-line"></div>
-        <span class="section-divider-text">Pour qui</span>
-        <div class="section-divider-line"></div>
-      </div>
-      <div class="info-title">Cas d'usage par profil</div>
-    </div>
-    <div class="guarantees-grid cas-usage-grid">
-      <div class="guarantee-card">
-        <span class="guarantee-card-icon" aria-hidden="true">🎮</span>
-        <span class="guarantee-card-title">Streamers & créateurs</span>
-        <span class="guarantee-card-text">Highlights de stream, clips YouTube/TikTok réguliers, rythme qui garde l'attention jusqu'au bout. Le format "Abonnement créateur" est pensé pour ce rythme de publication.</span>
-      </div>
-      <div class="guarantee-card">
-        <span class="guarantee-card-icon" aria-hidden="true">🏆</span>
-        <span class="guarantee-card-title">Équipes & joueurs esport</span>
-        <span class="guarantee-card-text">Montages de matchs, récaps de tournoi, contenu pour sponsors — habillage propre et lisible même pour un public qui ne connaît pas encore le jeu.</span>
-      </div>
-      <div class="guarantee-card">
-        <span class="guarantee-card-icon" aria-hidden="true">🎓</span>
-        <span class="guarantee-card-title">Coachs & formateurs</span>
-        <span class="guarantee-card-text">Extraits de coaching, contenu pédagogique découpé en formats courts, sous-titres soignés pour un visionnage sans le son.</span>
-      </div>
-      <div class="guarantee-card">
-        <span class="guarantee-card-icon" aria-hidden="true">🛍️</span>
-        <span class="guarantee-card-title">E-commerce & marques</span>
-        <span class="guarantee-card-text">Vidéos produit, publicités courtes, contenu pour les réseaux de la marque — format et durée adaptés à la plateforme visée dès le brief.</span>
-      </div>
-    </div>
-  </section>
-
 <section id="garanties" class="full-section guarantees-page-section reveal">
     <div class="info-header">
       <div class="section-divider">
@@ -12122,7 +12238,12 @@
         <div class="guarantee-card">
           <span class="guarantee-card-icon" aria-hidden="true">🔒</span>
           <span class="guarantee-card-title">Rushs confidentiels</span>
-          <span class="guarantee-card-text">Tes fichiers sources sont supprimés de mon côté à J+30 après la livraison finale. Détails dans les <a href="#confidentialite">mentions légales</a>.</span>
+          <span class="guarantee-card-text">Tes fichiers sources sont supprimés de mon côté à J+30 après la livraison finale, ne sont jamais partagés à un tiers ni montrés à un autre client sans ton accord écrit, et un accord de confidentialité peut être signé sur demande (précise-le dans le brief). Détails dans les <a href="#confidentialite">mentions légales</a>.</span>
+        </div>
+        <div class="guarantee-card">
+          <span class="guarantee-card-icon" aria-hidden="true">🔁</span>
+          <span class="guarantee-card-title">Support après livraison</span>
+          <span class="guarantee-card-text">Une version pour une autre plateforme, un petit ajustement plus tard ? Possible, à tarif réduit, sans remontage complet. Détails dans la <a href="#faq-apres-livraison">FAQ</a>.</span>
         </div>
       </div>
       <!-- 🆕 Les 3 blocs ci-dessous (révisions / brief type / exemple de livraison) sont regroupés dans
@@ -12171,43 +12292,33 @@ Date limite :</pre>
       <p class="info-text" style="text-align:center;margin-top:14px;">Le détail complet (clause par clause) reste dans les <a href="#cgv-remuneration" class="inline-link">CGV</a>, pour qui veut tout lire.</p>
   </section>
 
-<!-- 🆕 Sécurité & confidentialité des rushs : développe la carte "Rushs confidentiels" de Garanties
-     en section à part entière. Réutilise volontairement les mêmes classes que Garanties
-     (.info-header/.guarantees-grid/.guarantee-card) plutôt que d'en recréer — même grammaire visuelle,
-     zéro nouvelle couleur (border-left reste var(--success), comme Garanties). -->
-<section id="securite" class="full-section reveal">
+<!-- 🎞️ Avant / Après : rendu masqué tant que BEFORE_AFTER_ITEMS (dans le script) est vide. -->
+<section id="avant-apres" class="full-section reveal" style="display:none">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
-        <span class="section-divider-text">Sécurité</span>
+        <span class="section-divider-text">Avant / Après</span>
         <div class="section-divider-line"></div>
       </div>
-      <div class="info-title">Sécurité & confidentialité des rushs</div>
+      <div class="info-title">Des rushs bruts au montage final</div>
     </div>
-    <div class="guarantees-grid">
-      <div class="guarantee-card">
-        <span class="guarantee-card-icon" aria-hidden="true">🗑️</span>
-        <span class="guarantee-card-title">Suppression à J+30</span>
-        <span class="guarantee-card-text">Tous les rushs sources sont supprimés de mon poste de travail et des sauvegardes 30 jours après la livraison finale. Aucun archivage indéfini "au cas où".</span>
+    <p class="info-text">Compare ce que tu m'envoies et ce que tu récupères : bascule entre « Avant » et « Après » sur chaque exemple.</p>
+    <div class="ba-grid" id="beforeAfterGrid"></div>
+</section>
+
+<!-- ✍️ Exemples de briefs : aide à formuler sa demande, un clic remplit le formulaire. -->
+<section id="exemples-briefs" class="full-section reveal">
+    <div class="info-header">
+      <div class="section-divider">
+        <div class="section-divider-line"></div>
+        <span class="section-divider-text">Besoin d'inspiration ?</span>
+        <div class="section-divider-line"></div>
       </div>
-      <div class="guarantee-card">
-        <span class="guarantee-card-icon" aria-hidden="true">💾</span>
-        <span class="guarantee-card-title">Sauvegardes maîtrisées</span>
-        <span class="guarantee-card-text">Le temps du montage, tes fichiers restent en local + une copie de secours, jamais laissés sur un service cloud grand public non maîtrisé.</span>
-      </div>
-      <div class="guarantee-card">
-        <span class="guarantee-card-icon" aria-hidden="true">🚫</span>
-        <span class="guarantee-card-title">Aucun partage à des tiers</span>
-        <span class="guarantee-card-text">Tes fichiers ne sont ni revendus, ni réutilisés, ni montrés à un autre client sans ton accord écrit — même à titre d'exemple ou de portfolio.</span>
-      </div>
-      <div class="guarantee-card">
-        <span class="guarantee-card-icon" aria-hidden="true">🔒</span>
-        <span class="guarantee-card-title">Confidentialité renforcée sur demande</span>
-        <span class="guarantee-card-text">Pour un projet sensible (avant-première, marque pas encore annoncée…), un accord de confidentialité peut être signé avant l'envoi des rushs. Il suffit de le demander dans le brief.</span>
-      </div>
+      <div class="info-title">Exemples de briefs</div>
     </div>
-    <p class="info-text" style="text-align:center;margin-top:14px;">Détails complets dans les <a href="#confidentialite" class="inline-link">mentions légales</a>.</p>
-  </section>
+    <p class="info-text">Pas facile de décrire ce que tu veux ? Pars d'un exemple proche de ton projet : un clic le copie dans le formulaire de commande, tu n'as plus qu'à l'adapter.</p>
+    <div class="brief-grid" id="briefExamples"></div>
+</section>
 
 <section id="portfolio" class="full-section portfolio-section reveal">
     <div class="info-header">
@@ -12556,7 +12667,7 @@ Date limite :</pre>
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
-        <span class="section-divider-text">Mini étude de cas</span>
+        <span class="section-divider-text">Étude de cas</span>
         <div class="section-divider-line"></div>
       </div>
       <div class="info-title">D'un rush brut à une vidéo qui performe</div>
@@ -12592,115 +12703,124 @@ Date limite :</pre>
 
     <div id="resultats">
 
-    <div class="section-divider" style="margin: 32px 0 14px;">
-      <div class="section-divider-line"></div>
-      <span class="section-divider-text">Résultats obtenus</span>
-      <div class="section-divider-line"></div>
-    </div>
-    <p class="info-text">
-      Un bon montage se voit, mais il se mesure aussi : quelques exemples d'impact concret sur des vidéos livrées récemment.
-    </p>
-
     <!-- Statistique réelle (pas un exemple illustratif comme les 3 cartes juste en dessous) : calculée
-         par l'Apps Script à partir des vraies livraisons passées (date "voulue" indiquée par le client
-         à la commande vs date effective de passage au statut "✅ Livré" dans l'historique) — jamais une
-         estimation. Volontairement dans un encart à part (même style que #publicNpsBadge) pour ne pas
-         se mélanger visuellement avec les cartes d'exemples ci-dessous. -->
-    <div class="public-nps-badge" id="publicDelayComplianceBadge" style="display: none;"></div>
+             par l'Apps Script à partir des vraies livraisons passées (date "voulue" indiquée par le client
+             à la commande vs date effective de passage au statut "✅ Livré" dans l'historique) — jamais une
+             estimation. Volontairement dans un encart à part (même style que #publicNpsBadge) pour ne pas
+             se mélanger visuellement avec les cartes d'exemples ci-dessous. -->
+        <div class="public-nps-badge" id="publicDelayComplianceBadge" style="display: none;"></div>
 
-    <div class="results-grid">
-      <div class="result-card">
-        <span class="result-card-stat">+140%</span>
-        <span class="result-card-label">de vues moyennes</span>
-        <p class="result-card-text">Sur une série de shorts gaming remontés avec un rythme de coupe plus serré et une accroche plus forte dans les 3 premières secondes.</p>
-        <span class="result-card-context">Créateur gaming, format court</span>
-      </div>
-      <div class="result-card">
-        <span class="result-card-stat">+2 400</span>
-        <span class="result-card-label">abonnés en 1 mois</span>
-        <p class="result-card-text">Après le passage à une identité visuelle et un habillage sonore cohérents sur l'ensemble des vidéos publiées.</p>
-        <span class="result-card-context">Chaîne YouTube best-of, format long</span>
-      </div>
-      <div class="result-card">
-        <span class="result-card-stat">x3</span>
-        <span class="result-card-label">taux de complétion</span>
-        <p class="result-card-text">Sur du contenu sponsorisé, en resserrant la structure pour garder l'audience jusqu'au message de marque plutôt que de la perdre en cours de route.</p>
-        <span class="result-card-context">Marque, format business/sponsorisé</span>
-      </div>
-    </div>
+    <!-- 🚧 Chiffres et cartes « avant/après » 100 % d'exemple retirés de la page (ils affichaient de fausses preuves
+         + une note interne visible des visiteurs). Le code est conservé dans ce <template>, non rendu : pour les
+         réactiver, remplace les valeurs par TES vrais résultats (avec l'accord du client) puis sors le contenu
+         du <template>. -->
+    <template id="resultatsExemples">
+    <div class="section-divider" style="margin: 32px 0 14px;">
+          <div class="section-divider-line"></div>
+          <span class="section-divider-text">Résultats obtenus</span>
+          <div class="section-divider-line"></div>
+        </div>
+        <p class="info-text">
+          Un bon montage se voit, mais il se mesure aussi : quelques exemples d'impact concret sur des vidéos livrées récemment.
+        </p>
+    
+        
+    
+        <div class="results-grid">
+          <div class="result-card">
+            <span class="result-card-stat">+140%</span>
+            <span class="result-card-label">de vues moyennes</span>
+            <p class="result-card-text">Sur une série de shorts gaming remontés avec un rythme de coupe plus serré et une accroche plus forte dans les 3 premières secondes.</p>
+            <span class="result-card-context">Créateur gaming, format court</span>
+          </div>
+          <div class="result-card">
+            <span class="result-card-stat">+2 400</span>
+            <span class="result-card-label">abonnés en 1 mois</span>
+            <p class="result-card-text">Après le passage à une identité visuelle et un habillage sonore cohérents sur l'ensemble des vidéos publiées.</p>
+            <span class="result-card-context">Chaîne YouTube best-of, format long</span>
+          </div>
+          <div class="result-card">
+            <span class="result-card-stat">x3</span>
+            <span class="result-card-label">taux de complétion</span>
+            <p class="result-card-text">Sur du contenu sponsorisé, en resserrant la structure pour garder l'audience jusqu'au message de marque plutôt que de la perdre en cours de route.</p>
+            <span class="result-card-context">Marque, format business/sponsorisé</span>
+          </div>
+        </div>
+    
+        <div class="case-study-card">
+          <div class="case-study-header">
+            <span class="case-study-tag">🎬 Étude de cas</span>
+            <span class="case-study-context">Créateur gaming, format court · TikTok</span>
+          </div>
+          <div class="case-study-compare">
+            <div class="case-study-before">
+              <span class="case-study-compare-label">Avant — les rushs</span>
+              <p class="case-study-compare-text">~25 minutes de gameplay brut, sans découpe ni contexte : plus de la moitié du temps est occupée par des chargements et des temps morts entre deux actions, et les 3 premières secondes tombent sur un écran de chargement.</p>
+            </div>
+            <div class="case-study-arrow" aria-hidden="true">→</div>
+            <div class="case-study-after">
+              <span class="case-study-compare-label">Après — le montage livré</span>
+              <p class="case-study-compare-text">Format court de 28 secondes recentré sur la meilleure séquence, qui s'ouvre directement sur l'action la plus forte plutôt que sur le début chronologique, avec un rythme de coupe resserré et des sous-titres animés pour tenir l'attention jusqu'à la fin.</p>
+            </div>
+          </div>
+          <div class="case-study-strategy">
+            <span class="case-study-strategy-label">🎯 Stratégie de montage</span>
+            <p class="case-study-strategy-text">Repérage des 2-3 pics d'action dans les rushs, structure "meilleur moment en premier" plutôt qu'un suivi chronologique, et suppression systématique de tout silence de plus d'une seconde pour garder un rythme constant du début à la fin.</p>
+          </div>
+        </div>
+    
+        <!-- 🆕 2e et 3e exemples avant/après, chacun sur un style différent du 1er (gaming/court ci-dessus)
+             pour couvrir les mêmes 3 contextes que les .result-card au-dessus — même disclaimer
+             "100% d'exemple" juste en dessous, qui s'applique aux 3 cartes de ce bloc. -->
+        <div class="case-study-card">
+          <div class="case-study-header">
+            <span class="case-study-tag">🎬 Étude de cas</span>
+            <span class="case-study-context">Chaîne YouTube best-of, format long</span>
+          </div>
+          <div class="case-study-compare">
+            <div class="case-study-before">
+              <span class="case-study-compare-label">Avant — les rushs</span>
+              <p class="case-study-compare-text">Plusieurs sessions filmées sur des semaines différentes, sans fil conducteur commun, avec des passages redondants et une qualité d'image inégale entre les prises.</p>
+            </div>
+            <div class="case-study-arrow" aria-hidden="true">→</div>
+            <div class="case-study-after">
+              <span class="case-study-compare-label">Après — le montage livré</span>
+              <p class="case-study-compare-text">Format long de 9 minutes structuré autour d'un fil narratif unique, étalonnage harmonisé entre toutes les prises, et habillage sonore/visuel cohérent posé sur l'ensemble de la vidéo pour donner une identité reconnaissable.</p>
+            </div>
+          </div>
+          <div class="case-study-strategy">
+            <span class="case-study-strategy-label">🎯 Stratégie de montage</span>
+            <p class="case-study-strategy-text">Tri des rushs par thème plutôt que par ordre de tournage, choix d'un fil narratif unique pour relier les passages entre eux, et une grille d'étalonnage commune appliquée à toutes les séquences avant le montage final.</p>
+          </div>
+        </div>
+    
+        <div class="case-study-card">
+          <div class="case-study-header">
+            <span class="case-study-tag">🎬 Étude de cas</span>
+            <span class="case-study-context">Marque, format business/sponsorisé</span>
+          </div>
+          <div class="case-study-compare">
+            <div class="case-study-before">
+              <span class="case-study-compare-label">Avant — les rushs</span>
+              <p class="case-study-compare-text">Un brief produit dense avec beaucoup d'informations à faire passer, et des rushs qui perdaient l'audience avant d'arriver au message clé de la marque.</p>
+            </div>
+            <div class="case-study-arrow" aria-hidden="true">→</div>
+            <div class="case-study-after">
+              <span class="case-study-compare-label">Après — le montage livré</span>
+              <p class="case-study-compare-text">Structure resserrée qui place le message de marque plus tôt dans la vidéo, avec des rappels visuels discrets (logo, accroche) répétés jusqu'à la fin pour maximiser le taux de complétion.</p>
+            </div>
+          </div>
+          <div class="case-study-strategy">
+            <span class="case-study-strategy-label">🎯 Stratégie de montage</span>
+            <p class="case-study-strategy-text">Message de marque déplacé plus tôt dans la structure, rappels visuels espacés régulièrement plutôt que concentrés en fin de vidéo, et coupe franche dès qu'un passage n'apporte plus d'information nouvelle.</p>
+          </div>
+        </div>
+    
+        <div class="not-a-fit-box">
+          <p class="guarantee-card-text">🔧 <strong>Chiffres et étude de cas 100% d'exemple</strong> — à remplacer par tes vrais résultats dès que tu en as, avec l'accord du client pour les partager. Ne jamais laisser des chiffres inventés en ligne : une fausse preuve sociale fait plus de mal qu'aucune section.</p>
+        </div>
+    </template>
 
-    <div class="case-study-card">
-      <div class="case-study-header">
-        <span class="case-study-tag">🎬 Étude de cas</span>
-        <span class="case-study-context">Créateur gaming, format court · TikTok</span>
-      </div>
-      <div class="case-study-compare">
-        <div class="case-study-before">
-          <span class="case-study-compare-label">Avant — les rushs</span>
-          <p class="case-study-compare-text">~25 minutes de gameplay brut, sans découpe ni contexte : plus de la moitié du temps est occupée par des chargements et des temps morts entre deux actions, et les 3 premières secondes tombent sur un écran de chargement.</p>
-        </div>
-        <div class="case-study-arrow" aria-hidden="true">→</div>
-        <div class="case-study-after">
-          <span class="case-study-compare-label">Après — le montage livré</span>
-          <p class="case-study-compare-text">Format court de 28 secondes recentré sur la meilleure séquence, qui s'ouvre directement sur l'action la plus forte plutôt que sur le début chronologique, avec un rythme de coupe resserré et des sous-titres animés pour tenir l'attention jusqu'à la fin.</p>
-        </div>
-      </div>
-      <div class="case-study-strategy">
-        <span class="case-study-strategy-label">🎯 Stratégie de montage</span>
-        <p class="case-study-strategy-text">Repérage des 2-3 pics d'action dans les rushs, structure "meilleur moment en premier" plutôt qu'un suivi chronologique, et suppression systématique de tout silence de plus d'une seconde pour garder un rythme constant du début à la fin.</p>
-      </div>
-    </div>
-
-    <!-- 🆕 2e et 3e exemples avant/après, chacun sur un style différent du 1er (gaming/court ci-dessus)
-         pour couvrir les mêmes 3 contextes que les .result-card au-dessus — même disclaimer
-         "100% d'exemple" juste en dessous, qui s'applique aux 3 cartes de ce bloc. -->
-    <div class="case-study-card">
-      <div class="case-study-header">
-        <span class="case-study-tag">🎬 Étude de cas</span>
-        <span class="case-study-context">Chaîne YouTube best-of, format long</span>
-      </div>
-      <div class="case-study-compare">
-        <div class="case-study-before">
-          <span class="case-study-compare-label">Avant — les rushs</span>
-          <p class="case-study-compare-text">Plusieurs sessions filmées sur des semaines différentes, sans fil conducteur commun, avec des passages redondants et une qualité d'image inégale entre les prises.</p>
-        </div>
-        <div class="case-study-arrow" aria-hidden="true">→</div>
-        <div class="case-study-after">
-          <span class="case-study-compare-label">Après — le montage livré</span>
-          <p class="case-study-compare-text">Format long de 9 minutes structuré autour d'un fil narratif unique, étalonnage harmonisé entre toutes les prises, et habillage sonore/visuel cohérent posé sur l'ensemble de la vidéo pour donner une identité reconnaissable.</p>
-        </div>
-      </div>
-      <div class="case-study-strategy">
-        <span class="case-study-strategy-label">🎯 Stratégie de montage</span>
-        <p class="case-study-strategy-text">Tri des rushs par thème plutôt que par ordre de tournage, choix d'un fil narratif unique pour relier les passages entre eux, et une grille d'étalonnage commune appliquée à toutes les séquences avant le montage final.</p>
-      </div>
-    </div>
-
-    <div class="case-study-card">
-      <div class="case-study-header">
-        <span class="case-study-tag">🎬 Étude de cas</span>
-        <span class="case-study-context">Marque, format business/sponsorisé</span>
-      </div>
-      <div class="case-study-compare">
-        <div class="case-study-before">
-          <span class="case-study-compare-label">Avant — les rushs</span>
-          <p class="case-study-compare-text">Un brief produit dense avec beaucoup d'informations à faire passer, et des rushs qui perdaient l'audience avant d'arriver au message clé de la marque.</p>
-        </div>
-        <div class="case-study-arrow" aria-hidden="true">→</div>
-        <div class="case-study-after">
-          <span class="case-study-compare-label">Après — le montage livré</span>
-          <p class="case-study-compare-text">Structure resserrée qui place le message de marque plus tôt dans la vidéo, avec des rappels visuels discrets (logo, accroche) répétés jusqu'à la fin pour maximiser le taux de complétion.</p>
-        </div>
-      </div>
-      <div class="case-study-strategy">
-        <span class="case-study-strategy-label">🎯 Stratégie de montage</span>
-        <p class="case-study-strategy-text">Message de marque déplacé plus tôt dans la structure, rappels visuels espacés régulièrement plutôt que concentrés en fin de vidéo, et coupe franche dès qu'un passage n'apporte plus d'information nouvelle.</p>
-      </div>
-    </div>
-
-    <div class="not-a-fit-box">
-      <p class="guarantee-card-text">🔧 <strong>Chiffres et étude de cas 100% d'exemple</strong> — à remplacer par tes vrais résultats dès que tu en as, avec l'accord du client pour les partager. Ne jamais laisser des chiffres inventés en ligne : une fausse preuve sociale fait plus de mal qu'aucune section.</p>
-    </div>
   
     </div>
 
@@ -12912,11 +13032,11 @@ Date limite :</pre>
       </div>
       <div class="info-title info-title-hero">Monteur vidéo</div>
     </div>
-    <p class="info-text">
+    <p class="info-text" id="cas-usage">
       Je réalise des montages pour formats courts (TikTok, Reels) et formats longs
       (YouTube, best-of, hors gaming). Que ce soit du contenu gaming, esport ou best-of,
       j'adapte le rythme, les transitions et le style à ton univers et à ta plateforme.
-      Chaque projet est traité avec la même attention, du premier montage jusqu'à la version finale livrée.
+      Chaque projet est traité avec la même attention, du premier montage jusqu'à la version finale livrée. Streamers et créateurs, équipes esport, coachs et formateurs, e-commerce et marques : le style s'adapte à ton univers.
     </p>
 
     <div class="prestations-tabs" role="tablist">
@@ -13096,6 +13216,33 @@ Date limite :</pre>
            ci-dessous (abonnementCompareRow, abonnement4CompareRow) sont historiques — ce sont eux que
            ciblent les liens "📊 Comparer les formules" des cartes tarif plus haut, désormais posés sur
            ces cartes plutôt que sur des lignes de tableau. -->
+      <!-- 🔄 Bloc dédié « Abonnement créateur » : avantages + 2 formules, boutons → fenêtre d'abonnement (#subModalOverlay). -->
+      <div class="abo-hero" id="aboHero">
+        <div class="abo-hero-head">
+          <span class="abo-hero-badge">🔄 Pour les créateurs réguliers</span>
+          <h3 class="abo-hero-title">Abonnement créateur</h3>
+          <p class="abo-hero-text">Un tarif fixe chaque mois, un monteur qui connaît ton style, et tes vidéos qui passent avant les commandes à l'unité.</p>
+        </div>
+        <div class="abo-hero-plans">
+          <div class="abo-plan">
+            <strong>4 vidéos</strong><span class="abo-plan-price">145€ <small>/ mois</small></span><small>≈ 36€ la vidéo courte</small>
+            <button type="button" class="packs-highlight-cta" data-open-subscription="4">Je m'abonne →</button>
+          </div>
+          <div class="abo-plan is-best">
+            <em>⭐ Le plus choisi</em><strong>8 vidéos</strong><span class="abo-plan-price">280€ <small>/ mois</small></span><small>≈ 35€ la vidéo · -22 % vs à l'unité</small>
+            <button type="button" class="packs-highlight-cta" data-open-subscription="8">Je m'abonne →</button>
+          </div>
+        </div>
+        <div class="abo-hero-perks">
+          <div><span>⚡</span><strong>Priorité dans le planning</strong><p>Tes vidéos sont traitées avant les commandes à l'unité.</p></div>
+          <div><span>💳</span><strong>Un paiement par mois</strong><p>Plus d'acompte à chaque vidéo : tu es facturé une fois par mois.</p></div>
+          <div><span>⏱️</span><strong>Délais prioritaires</strong><p>Un rythme régulier, calé sur ton calendrier de publication.</p></div>
+          <div><span>🎯</span><strong>Un style cohérent</strong><p>Le même monteur d'une vidéo à l'autre : tes contenus se ressemblent.</p></div>
+          <div><span>🔁</span><strong>Souple</strong><p>Sans engagement de durée (préavis 30 jours), changement de formule ou pause possibles.</p></div>
+          <div><span>🎁</span><strong>-20 % au démarrage</strong><p>Le code PREMIERE20 s'applique aussi à ta première commande d'abonnement.</p></div>
+        </div>
+      </div>
+
       <div class="tarifs-group-label"><svg class="icon-svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7.5l9-4 9 4-9 4-9-4z"/><path d="M3 7.5v9l9 4 9-4v-9"/><path d="M12 11.5v9"/></svg>Packs &amp; abonnement — le meilleur plan si tu publies régulièrement</div>
       <div class="format-grid packs-highlight-grid">
         <div class="format-card format-card-highlight">
@@ -13648,38 +13795,6 @@ Date limite :</pre>
     <p class="info-text" style="text-align:center;margin-top:10px;">Basé sur le contact/nom donné à chaque commande, pas sur un compte avec mot de passe — voir <a href="#confidentialite" class="inline-link">confidentialité</a>. Si tu changes régulièrement de pseudo, dis-le-moi pour que je les relie côté admin.</p>
   </section>
 
-<!-- 🆕 Support après livraison : ce qui se passe une fois la vidéo livrée, distinct des 3 révisions
-     incluses (Garanties). Réutilise encore .guarantees-grid/.guarantee-card, accent en var(--accent-3)
-     via .support-grid (même token que les blocs "Comment comptent les révisions" / "Brief type"). -->
-<section id="support-livraison" class="full-section reveal">
-    <div class="info-header">
-      <div class="section-divider">
-        <div class="section-divider-line"></div>
-        <span class="section-divider-text">Après livraison</span>
-        <div class="section-divider-line"></div>
-      </div>
-      <div class="info-title">Support après livraison</div>
-    </div>
-    <div class="guarantees-grid support-grid">
-      <div class="guarantee-card">
-        <span class="guarantee-card-icon" aria-hidden="true">🔁</span>
-        <span class="guarantee-card-title">Adaptation pour une autre plateforme</span>
-        <span class="guarantee-card-text">Tu as reçu un montage 16:9 pour YouTube et tu veux finalement une version 9:16 pour TikTok ? Reformatage possible après coup, à tarif réduit — pas un remontage complet.</span>
-      </div>
-      <div class="guarantee-card">
-        <span class="guarantee-card-icon" aria-hidden="true">✏️</span>
-        <span class="guarantee-card-title">Petit ajustement ponctuel</span>
-        <span class="guarantee-card-text">Une coquille dans un sous-titre, un logo à mettre à jour ? Un ajustement isolé reste possible en dehors des 3 révisions incluses, facturé au cas par cas selon l'ampleur.</span>
-      </div>
-      <div class="guarantee-card">
-        <span class="guarantee-card-icon" aria-hidden="true">♻️</span>
-        <span class="guarantee-card-title">Relancer une vidéo plus tard</span>
-        <span class="guarantee-card-text">Tu veux republier une ancienne vidéo avec un nouvel intro/outro dans quelques mois ? Les fichiers projet (hors rushs, supprimés à J+30) peuvent être conservés sur demande pour faciliter une reprise.</span>
-      </div>
-    </div>
-    <p class="info-text" style="text-align:center;margin-top:14px;">Différent des 3 révisions incluses (juste après la livraison) : ça, c'est pour plus tard.</p>
-  </section>
-
 <section id="faq" class="full-section faq-conditions-section reveal">
     <div class="info-header">
       <div class="section-divider">
@@ -13942,6 +14057,11 @@ Date limite :</pre>
       <details class="faq-item" id="faq-rushs-perdus" data-theme="confiance">
         <summary>Que deviennent mes rushs après la livraison ? Je peux les récupérer plus tard ?</summary>
         <p>Tes fichiers sources sont conservés le temps du montage puis <strong>supprimés de mon côté 30 jours après la livraison finale</strong> — le temps de couvrir d'éventuelles retouches, sans les garder indéfiniment. Si tu penses avoir besoin d'y revenir plus tard (nouveau montage à partir des mêmes rushs, par exemple), le plus simple est de garder ta propre copie de ton côté avant l'expiration de ce délai.</p>
+      </details>
+
+      <details class="faq-item" id="faq-apres-livraison" data-theme="suivi">
+        <summary>Que peut-on faire après la livraison (autre plateforme, petit ajustement, relancer une vidéo) ?</summary>
+        <p>Trois cas, tous différents des 3 révisions incluses (juste après la livraison) : <strong>adaptation pour une autre plateforme</strong> (un montage 16:9 YouTube reformaté en 9:16 pour TikTok, à tarif réduit, sans remontage complet) ; <strong>petit ajustement ponctuel</strong> (une coquille dans un sous-titre, un logo à mettre à jour), possible en dehors des 3 révisions et facturé au cas par cas selon l'ampleur ; <strong>relancer une vidéo plus tard</strong> (nouvel intro/outro, republication) : les fichiers projet (hors rushs, supprimés à J+30) peuvent être conservés sur demande.</p>
       </details>
         </div>
       </details>
@@ -14542,7 +14662,7 @@ Date limite :</pre>
              indiquer le pseudo de la personne qui le recommande. -->
         <div class="conditional-field-inner">
           <label id="parrainPseudoLabel">Pseudo de la personne qui te recommande <span class="optional-tag">(pour qu'elle soit créditée)</span>
-            <input type="text" name="parrainPseudo" id="parrainPseudoInput" placeholder="Son pseudo utilisé sur sa commande" autocomplete="off" />
+            <input type="text" name="parrainPseudo" id="parrainPseudoInput" maxlength="60" placeholder="Son pseudo utilisé sur sa commande" autocomplete="off" />
           </label>
         </div>
       </div>
@@ -14559,7 +14679,7 @@ Date limite :</pre>
       </label>
 
       <label>Décris ton projet
-        <textarea name="description" rows="3" required placeholder="Type de contenu, style souhaité, sous-titres ou non, tout ce qui peut m'aider à comprendre ton besoin..."></textarea>
+        <textarea name="description" rows="3" maxlength="1000" required placeholder="Type de contenu, style souhaité, sous-titres ou non, tout ce qui peut m'aider à comprendre ton besoin..."></textarea>
       </label>
 
       <div class="order-more-questions" id="orderMoreQuestions">
@@ -14619,7 +14739,7 @@ Date limite :</pre>
       <div class="conditional-field" id="policeEcritureField">
         <div class="conditional-field-inner">
           <label>Police d'écriture pour les sous-titres <span class="optional-tag">(optionnel : au choix le nom, un screen, ou le fichier de la police)</span>
-            <input type="text" name="policeEcriture" placeholder="Nom de la police, ex : Montserrat (ou laisse vide si tu joins un screen / le fichier)" />
+            <input type="text" name="policeEcriture" maxlength="100" placeholder="Nom de la police, ex : Montserrat (ou laisse vide si tu joins un screen / le fichier)" />
           </label>
           <button type="button" class="attach-inline-btn" data-attach-for="Police (sous-titres)">📎 Joindre un screen ou le fichier de la police (.ttf, .otf, image…)</button>
         </div>
@@ -14660,7 +14780,7 @@ Date limite :</pre>
       </div>
 
       <label class="form-advanced">Exemple de ce que tu veux <span class="optional-tag">(obligatoire, lien ou simple description)</span>
-        <textarea name="exemple" rows="2" required placeholder="Colle un lien (TikTok, YouTube...) OU décris simplement le style que tu veux, les deux marchent"></textarea>
+        <textarea name="exemple" rows="2" maxlength="900" required placeholder="Colle un lien (TikTok, YouTube...) OU décris simplement le style que tu veux, les deux marchent"></textarea>
         <button type="button" class="attach-inline-btn" data-attach-for="Exemple">📎 Joindre un fichier</button>
       </label>
       <p class="note-aside form-advanced">🎬 Tu peux aussi piocher un style directement dans <a href="#portfolio" class="inline-link">mon portfolio ci-dessus</a> et me dire quelle vidéo te plaît.</p>
@@ -14720,7 +14840,7 @@ Date limite :</pre>
 
           <label>Lien de tes rushs <span class="optional-tag">(SwissTransfer recommandé, ou WeTransfer/Drive — ou joins des fichiers juste en dessous)</span>
             <button type="button" class="info-tip-btn" aria-label="Plus d'informations sur l'envoi des rushs" data-tip="SwissTransfer est gratuit, ne demande aucun compte et supporte jusqu'à 50 Go, parfait pour des rushs vidéo. C'est pour ça que je le recommande en premier, mais WeTransfer ou un dossier Drive partagé fonctionnent aussi très bien.">?</button>
-            <input type="text" name="driveLink" required placeholder="ex : https://swisstransfer.com/d/..." />
+            <input type="text" name="driveLink" maxlength="300" required placeholder="ex : https://swisstransfer.com/d/..." />
             <button type="button" class="attach-inline-btn" data-attach-for="Rushs">📎 Joindre un fichier</button>
           </label>
 
@@ -15235,6 +15355,154 @@ Date limite :</pre>
     // Écran de verrouillage : affiché dès que isAdminView est vrai mais que le code n'a pas encore
     // été saisi sur cet appareil. Un simple rechargement de page après validation suffit à faire
     // repasser par le bloc "if (isAdminUnlocked)" plus bas avec le panneau complet cette fois.
+    // --- Helpers partagés (admin ET site public : VIP lookup, anti-abus promo, lien d'aperçu client).
+    // Ils étaient déclarés dans le bloc "if (isAdminUnlocked)" donc invisibles pour les visiteurs. ---
+    function localIsoDate(d) { return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`; }
+    function extractDesiredDeliveryTimestamp(note) {
+        const match = /Voulu le (\d{2})\/(\d{2})\/(\d{4})/.exec(note || '');
+        if (!match) return null;
+        const d = new Date(`${match[3]}-${match[2]}-${match[1]}T00:00:00`);
+        return isNaN(d.getTime()) ? null : d.getTime();
+      }
+    function getEffectiveDeliveryTimestamp(r) {
+        const override = (r[8] || '').trim();
+        if (override) {
+          const d = new Date(override + 'T00:00:00');
+          if (!isNaN(d.getTime())) return d.getTime();
+        }
+        return extractDesiredDeliveryTimestamp(r[2]);
+      }
+    function parseNoteQuickFields(note) {
+        const text = note || '';
+        const nameMatch = /^([^(·]+?)\s*\(([^)]*)\)/.exec(text);
+        const commandeMatch = /🎬\s*([^·]+?)\s*(?:·|$)/.exec(text);
+        const formatMatch = /🎥\s*([^·]+?)\s*(?:·|$)/.exec(text);
+        const budgetMatch = /💶\s*([^·]+?)\s*(?:·|$)/.exec(text);
+        const dateMatch = /📅\s*Voulu le (\d{2})\/(\d{2})\/(\d{4})/.exec(text);
+        const promoMatch = /🎟️\s*Code\s*([^·(]+?)\s*(?:\(|·|$)/.exec(text);
+        const lienMatch = /📁\s*([^·]+?)\s*(?:·|$)/.exec(text);
+        const difficulteMatch = /🌡️\s*Difficulté\s*:\s*(Facile|Normal|Difficile)/.exec(text);
+        return {
+          nom: nameMatch ? nameMatch[1].trim() : '',
+          typeClient: nameMatch ? nameMatch[2].trim() : 'Particulier',
+          nomCommande: commandeMatch ? commandeMatch[1].trim() : '',
+          format: formatMatch ? formatMatch[1].trim() : '',
+          budget: budgetMatch ? budgetMatch[1].trim() : '',
+          dateVoulue: dateMatch ? `${dateMatch[3]}-${dateMatch[2]}-${dateMatch[1]}` : '',
+          promoCode: promoMatch ? promoMatch[1].trim() : '',
+          lien: lienMatch ? lienMatch[1].trim() : '',
+          difficulte: difficulteMatch ? difficulteMatch[1].trim() : ''
+        };
+      }
+    function statusCategory(status) {
+        if (status.includes('Livré')) return 'delivered';
+        if (status.includes('Annulée') || status.includes('Expirée') || status.includes('Supprimée')) return 'cancelled';
+        if (status.includes('attente') || status === '') return 'pending';
+        return 'inProgress';
+      }
+
+    // --- localStorage indisponible (Safari privé, quota plein) : on ne casse plus l'envoi d'une commande. ---
+    try {
+      const _origSetItem = Storage.prototype.setItem;
+      Storage.prototype.setItem = function (k, v) { try { return _origSetItem.call(this, k, v); } catch (e) { console.warn('localStorage indisponible :', e); } };
+    } catch (e) { /* ignore */ }
+    // Partage natif (menu iOS/Android) quand le navigateur le propose, sinon copie dans le presse-papier.
+    async function shareOrCopyLink(url, info) {
+      if (navigator.share) {
+        try { await navigator.share({ title: info.title, text: info.text, url }); return 'shared'; }
+        catch (err) { if (err && err.name === 'AbortError') return 'cancelled'; }
+      }
+      try { await navigator.clipboard.writeText(url); return 'copied'; }
+      catch (err) { prompt('Copie ce lien manuellement :', url); return 'manual'; }
+    }
+    function readOrders() { try { const o = readOrders(); return o && typeof o === 'object' ? o : {}; } catch (e) { return {}; } }
+
+    // --- Discord refuse un champ > 1024 car., un embed > 6000 car. au total, > 25 champs (erreur 400 =
+    // commande perdue). On rogne proprement tout message envoyé à /api/notify-discord. ---
+    function discordClamp(p) {
+      const cut = (s, n) => { s = String(s == null ? '' : s); return s.length > n ? s.slice(0, n - 1) + '…' : s; };
+      if (!p || typeof p !== 'object') return p;
+      if (p.content) p.content = cut(p.content, 2000);
+      if (Array.isArray(p.embeds)) {
+        p.embeds.forEach(e => {
+          if (e.title) e.title = cut(e.title, 256);
+          if (e.description) e.description = cut(e.description, 4096);
+          if (e.footer && e.footer.text) e.footer.text = cut(e.footer.text, 2048);
+          if (Array.isArray(e.fields)) {
+            e.fields = e.fields.slice(0, 25);
+            e.fields.forEach(f => { f.name = cut(f.name || '—', 256); f.value = cut(f.value === '' || f.value == null ? '—' : f.value, 1024); });
+          }
+        });
+        const size = e => (e.title || '').length + (e.description || '').length + ((e.footer && e.footer.text) || '').length + (e.fields || []).reduce((s, f) => s + f.name.length + f.value.length, 0);
+        let total = p.embeds.reduce((s, e) => s + size(e), 0);
+        while (total > 5800) {
+          let big = null;
+          p.embeds.forEach(e => (e.fields || []).forEach(f => { if (!big || f.value.length > big.value.length) big = f; }));
+          if (!big || big.value.length <= 60) break;
+          const nl = Math.max(60, Math.floor(big.value.length * 0.6));
+          total -= big.value.length - nl; big.value = cut(big.value, nl);
+        }
+      }
+      return p;
+    }
+    (function patchDiscordFetch() {
+      const origFetch = window.fetch.bind(window);
+      window.fetch = function (url, opts) {
+        try {
+          if (opts && opts.body && /\/api\/notify-discord/.test(String(url))) {
+            if (typeof opts.body === 'string') opts = Object.assign({}, opts, { body: JSON.stringify(discordClamp(JSON.parse(opts.body))) });
+            else if (typeof FormData !== 'undefined' && opts.body instanceof FormData && opts.body.has('payload_json')) opts.body.set('payload_json', JSON.stringify(discordClamp(JSON.parse(opts.body.get('payload_json')))));
+          }
+        } catch (e) { /* on envoie tel quel */ }
+        return origFetch(url, opts);
+      };
+      document.querySelectorAll('#reserveForm input[type="text"]:not([maxlength])').forEach(i => { i.maxLength = 200; });
+      document.querySelectorAll('#reserveForm textarea:not([maxlength])').forEach(i => { i.maxLength = 1000; });
+    })();
+
+
+    // --- 🧩 Sections masquables : registre partagé (admin ET visiteurs). L'admin choisit quelles sections restent visibles ;
+    // la liste des sections masquées est enregistrée (Sheet via Apps Script + cache local) et appliquée à tous au chargement. ---
+    const TOGGLEABLE_SECTIONS = [
+      { id: 'apropos', label: 'À propos', selector: '#apropos' },
+      { id: 'status-card', label: 'Carte de statut du haut de page (le bloc vert)', selector: '#statusCard' },
+      { id: 'hero-proof', label: 'Bandeau de preuves du hero', selector: '.hero-proof-strip' },
+      { id: 'garanties', label: 'Garanties', selector: '#garanties' },
+      { id: 'revisions-rule', label: 'Règle des 3 révisions', selector: '#comment-comptent-revisions' },
+      { id: 'brief-type', label: 'Brief type à copier', selector: '#brief-type' },
+      { id: 'exemple-livraison', label: 'Exemple de livraison', selector: '#exemple-livraison' },
+      { id: 'portfolio', label: 'Portfolio', selector: '.portfolio-section' },
+      { id: 'etude-de-cas', label: 'Étude de cas (KCorp)', selector: '#etude-de-cas' },
+      { id: 'avis', label: 'Avis clients', selector: '.testimonials-section' },
+      { id: 'prestations', label: 'Prestations & tarifs', selector: '#prestations' },
+      { id: 'abonnements', label: 'Abonnements (tableau comparatif)', selector: '#abonnementCompareRow' },
+      { id: 'process', label: 'Process (Comment ça marche)', selector: '#process' },
+      { id: 'faq', label: 'FAQ & conditions', selector: '#faq' },
+      { id: 'quick-faq', label: 'Mini-FAQ « avant de cliquer »', selector: '.quick-faq-strip' },
+      { id: 'reserve-trust', label: 'Bandeau de confiance du formulaire', selector: '.reserve-trust-strip' },
+      { id: 'calendrier', label: 'Calendrier de disponibilités', selector: '#disponibilites' },
+      { id: 'format-quiz', label: 'Quiz « Toujours indécis ? »', selector: '#formatQuiz' },
+      { id: 'budget-estimator', label: 'Estimateur de budget mensuel', selector: '#budgetEstimator' },
+      { id: 'promo-hub', label: 'Bandeau des codes promo', selector: '#promoHub' },
+      { id: 'abo-hero', label: 'Bloc « Abonnement créateur »', selector: '#aboHero', isNew: true },
+      { id: 'exemples-briefs', label: 'Exemples de briefs', selector: '#exemples-briefs', isNew: true },
+      { id: 'avant-apres', label: 'Avant / Après (rushs → montage)', selector: '#avant-apres', isNew: true },
+    ];
+    const HIDDEN_SECTIONS_KEY = 'michyy_hidden_sections';
+    function getHiddenSections() { try { const v = JSON.parse(localStorage.getItem(HIDDEN_SECTIONS_KEY) || '[]'); return Array.isArray(v) ? v : []; } catch (e) { return []; } }
+    function applyHiddenSections(ids) {
+      TOGGLEABLE_SECTIONS.forEach(s => document.querySelectorAll(s.selector).forEach(el => { if (ids.includes(s.id)) el.setAttribute('data-admin-hidden', '1'); else el.removeAttribute('data-admin-hidden'); }));
+    }
+    applyHiddenSections(getHiddenSections());
+    setTimeout(() => {
+      if (typeof APPS_SCRIPT_URL === 'undefined' || !APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT')) return;
+      fetch(`${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=getHiddenSections`).then(r => r.json()).then(d => {
+        if (!d || !d.success || !Array.isArray(d.ids)) return;
+        try { localStorage.setItem(HIDDEN_SECTIONS_KEY, JSON.stringify(d.ids)); } catch (e) { /* ignore */ }
+        applyHiddenSections(d.ids);
+      }).catch(() => { /* action pas encore ajoutée côté Apps Script : on garde le cache local */ });
+    }, 0);
+
     if (isAdminView && !isAdminUnlocked) {
       const adminPanel = document.getElementById('adminPanel');
       adminPanel.style.display = 'block';
@@ -15944,6 +16212,7 @@ Date limite :</pre>
       const adminTabPanels = {
         commandes: document.getElementById('adminTabCommandes'),
         stats: document.getElementById('adminTabStats'),
+        prospection: document.getElementById('adminTabProspection'),
         dispo: document.getElementById('adminTabDispo'),
         sections: document.getElementById('adminTabSections')
       };
@@ -15996,61 +16265,56 @@ Date limite :</pre>
       // ".objections-section" avec la section checklist.
       // 🔧 Ordre de la liste aligné sur l'ordre réel des sections dans la page (mis à jour après la
       // réorganisation du site) pour que l'admin s'y retrouve facilement lors de l'aperçu.
-      const TOGGLEABLE_SECTIONS = [
-        { id: 'apropos', label: 'À propos', selector: '#apropos' },
-        { id: 'cas-usage', label: 'Cas d\'usage par profil', selector: '#cas-usage' },
-        { id: 'status-card', label: 'Carte de statut du haut de page (le bloc vert)', selector: '#statusCard' },
-        { id: 'hero-proof', label: 'Bandeau de preuves du hero', selector: '.hero-proof-strip' },
-        { id: 'garanties', label: 'Garanties', selector: '#garanties' },
-        { id: 'revisions-rule', label: 'Règle des 3 révisions', selector: '#comment-comptent-revisions' },
-        { id: 'brief-type', label: 'Brief type à copier', selector: '#brief-type' },
-        { id: 'exemple-livraison', label: 'Exemple de livraison', selector: '#exemple-livraison' },
-        { id: 'portfolio', label: 'Portfolio', selector: '.portfolio-section' },
-        { id: 'etude-de-cas', label: 'Étude de cas (+ résultats obtenus)', selector: '#etude-de-cas' },
-        { id: 'avis', label: 'Avis clients', selector: '.testimonials-section' },
-        { id: 'prestations', label: 'Prestations & tarifs', selector: '#prestations' },
-        { id: 'abonnements', label: 'Abonnements (tableau comparatif)', selector: '#abonnementCompareRow' },
-        { id: 'process', label: 'Process (Comment ça marche)', selector: '#process' },
-        { id: 'faq', label: 'FAQ & conditions', selector: '#faq' },
-        { id: 'quick-faq', label: 'Mini-FAQ « avant de cliquer »', selector: '.quick-faq-strip' },
-        { id: 'reserve-trust', label: 'Bandeau de confiance du formulaire', selector: '.reserve-trust-strip' },
-        { id: 'calendrier', label: 'Calendrier de disponibilités', selector: '#disponibilites' },
-      ];
+
       // 💡 Suggestions de retrait (à valider par toi : rien n'est supprimé automatiquement).
       const REMOVE_HINTS = {
         'status-card': 'la dispo est déjà dans la ligne du formulaire et le calendrier',
         'quick-faq': 'redondant avec la FAQ complète plus bas',
         'reserve-trust': 'répète les garanties déjà vues plus haut',
-        'etude-de-cas': 'à retirer tant que tu n\'as pas 2-3 cas chiffrés solides',
+        'etude-de-cas': 'ne garde que l\'étude réelle (KCorp) : les chiffres d\'exemple sont masqués dans #resultatsExemples',
         'abonnements': 'à retirer si tu ne vends pas d\'abonnement en ce moment',
         'hero-proof': 'peut faire doublon avec le portfolio juste en dessous'
       };
       (function initAdminSectionToggles() {
         const list = document.getElementById('adminSectionToggleList');
         const resetBtn = document.getElementById('adminSectionsResetBtn');
+        const status = document.getElementById('adminSectionsStatus');
         if (!list) return;
-        const checkboxes = [];
-        TOGGLEABLE_SECTIONS.forEach(({ id, label, selector }) => {
-          const target = document.querySelector(selector);
-          if (!target) return;
-          const item = document.createElement('label');
-          item.className = 'admin-section-toggle-item';
-          item.innerHTML = `<input type="checkbox" checked data-section-id="${id}"><span>${label}</span>`;
-          const checkbox = item.querySelector('input');
-          checkbox.addEventListener('change', () => {
-            target.style.display = checkbox.checked ? '' : 'none';
-            item.classList.toggle('is-hidden', !checkbox.checked);
-          });
-          checkboxes.push(checkbox);
-          list.appendChild(item);
-        });
-        if (resetBtn) {
-          resetBtn.addEventListener('click', () => {
-            checkboxes.forEach(cb => {
-              if (!cb.checked) { cb.checked = true; cb.dispatchEvent(new Event('change')); }
+        const configured = () => APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT');
+        const call = (action, extra) => fetch(`${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=${action}${extra || ''}&_ts=${Date.now()}`)
+          .then(r => r.json()).then(d => { if (!d || !d.success) throw new Error('bad-response'); return d; });
+        let hidden = getHiddenSections();
+        function save() {
+          try { localStorage.setItem(HIDDEN_SECTIONS_KEY, JSON.stringify(hidden)); } catch (e) { /* ignore */ }
+          applyHiddenSections(hidden);
+          if (!status) return;
+          if (!configured()) { status.textContent = '⚠️ Masqué seulement sur cet appareil : Apps Script non configuré.'; return; }
+          status.textContent = 'Enregistrement…';
+          call('setHiddenSections', '&ids=' + encodeURIComponent(hidden.join(',')))
+            .then(() => { status.textContent = '✅ Enregistré : ce choix s\'applique à tous les visiteurs.'; })
+            .catch(() => { status.textContent = '⚠️ Masqué seulement sur cet appareil : ajoute les actions get/setHiddenSections dans ton Apps Script (fichier apps-script-complet.gs).'; });
+        }
+        function draw() {
+          list.innerHTML = '';
+          TOGGLEABLE_SECTIONS.forEach(({ id, label, selector, isNew }) => {
+            if (!document.querySelector(selector)) return;
+            const item = document.createElement('label');
+            item.className = 'admin-section-toggle-item' + (hidden.includes(id) ? ' is-hidden' : '');
+            const hint = REMOVE_HINTS[id];
+            item.innerHTML = `<input type="checkbox" ${hidden.includes(id) ? '' : 'checked'} data-section-id="${id}"><span>${escapeHtml(label)}${isNew ? ' <em class="admin-section-new">nouveau</em>' : ''}${hint ? `<small class="admin-section-hint">💡 ${escapeHtml(hint)}</small>` : ''}</span>`;
+            item.querySelector('input').addEventListener('change', (e) => {
+              hidden = e.target.checked ? hidden.filter(x => x !== id) : hidden.concat(id);
+              item.classList.toggle('is-hidden', !e.target.checked);
+              save();
             });
+            list.appendChild(item);
           });
         }
+        if (resetBtn) resetBtn.addEventListener('click', () => { hidden = []; draw(); save(); });
+        setTimeout(() => {
+          draw();
+          if (configured()) call('getHiddenSections').then(d => { if (Array.isArray(d.ids)) { hidden = d.ids; try { localStorage.setItem(HIDDEN_SECTIONS_KEY, JSON.stringify(hidden)); } catch (e) { /* ignore */ } applyHiddenSections(hidden); draw(); } }).catch(() => {});
+        }, 0);
       })();
 
       // --- 📅 Disponibilité (onglet dédié) : on clique un jour du calendrier pour le bloquer/débloquer.
@@ -16128,11 +16392,104 @@ Date limite :</pre>
         setTimeout(load, 0); // après la fin du script : ADMIN_BLOCKED_DAYS_THIS_MONTH est déclaré plus bas
       })();
 
+      // --- 🤐 Filtre « Commandes sans réponse client depuis N jours » : dernière entrée datée de la colonne J
+      // (retours client, format "[JJ/MM HH:mm] …"), sinon date de création. Commandes actives uniquement. ---
+      window.__silentOn = false;
+      function lastClientActivityTs(r) {
+        let last = 0;
+        const now = Date.now();
+        String(r[9] || '').split('\n').forEach(line => {
+          const m = /^\[(\d{2})\/(\d{2}) (\d{2}):(\d{2})\]/.exec(line.trim());
+          if (!m) return;
+          const d = new Date(new Date().getFullYear(), +m[2] - 1, +m[1], +m[3], +m[4]);
+          if (d.getTime() > now + 864e5) d.setFullYear(d.getFullYear() - 1); // pas d'année dans le journal : on suppose la plus récente possible
+          if (d.getTime() > last) last = d.getTime();
+        });
+        if (!last) { const c = r[3] ? new Date(r[3]).getTime() : 0; last = isNaN(c) ? 0 : c; }
+        return last;
+      }
+      function isSilentOrder(r, nDays) {
+        const c = statusCategory(r[1] || '');
+        if (c === 'cancelled' || c === 'delivered' || String(r[1] || '').includes('Test (pas')) return false;
+        const last = lastClientActivityTs(r);
+        return last > 0 && Date.now() - last > nDays * 864e5;
+      }
+      function silentDays() { const el = document.getElementById('adminSilentDays'); return Math.max(1, parseInt(el && el.value, 10) || 3); }
+      (function initSilentFilter() {
+        const btn = document.getElementById('adminSilentBtn'), inp = document.getElementById('adminSilentDays');
+        if (!btn || !inp) return;
+        btn.addEventListener('click', () => { window.__silentOn = !window.__silentOn; renderAdminOrdersList(lastAdminOrders); });
+        inp.addEventListener('change', () => renderAdminOrdersList(lastAdminOrders));
+      })();
+
+      // --- ⏰ Rappel personnalisé (date + heure) sur chaque carte : notification navigateur à l'heure choisie
+      // si les notifications sont autorisées (sinon on retente à chaque contrôle, et le mode focus l'affiche le jour J). ---
+      (function initReminderScheduler() {
+        function check() {
+          const all = getAllOrderOpts(), now = Date.now();
+          Object.entries(all).forEach(([id, o]) => {
+            if (!o.remindAt || o.remindFired) return;
+            const at = new Date(o.remindAt).getTime();
+            if (isNaN(at) || at > now) return;
+            if (!(window.Notification && Notification.permission === 'granted')) return;
+            try { new Notification('⏰ Rappel · commande ' + id, { body: o.remindNote || 'Rappel programmé', tag: 'remind-' + id }); setOrderOpt(id, 'remindFired', true); } catch (e) { /* ignore */ }
+          });
+        }
+        setTimeout(check, 3000);
+        setInterval(check, 30000);
+        document.addEventListener('change', (e) => {
+          if (e.target && e.target.dataset && e.target.dataset.opt === 'remindAt' && e.target.value && window.Notification && Notification.permission === 'default') {
+            try { Notification.requestPermission(); } catch (err) { /* ignore */ }
+          }
+        });
+      })();
+
+      // --- 💬 Modèles de réponse rapide (onglet Outils) : sous-groupe « 📣 Prospection » avec prénom intégré. ---
+      function fillFirstName(text, name) { return String(text).replace(/ ?\{prénom\}/g, name ? ' ' + name.trim() : ''); }
+      setTimeout(function initQuickReplyProspection() { // différé : PROSPECTION_TEMPLATES est déclaré plus bas dans ce bloc
+        const box = document.getElementById('adminQuickReplyProspection');
+        if (!box) return;
+        const tpls = PROSPECTION_TEMPLATES.filter(t => t.tab);
+        box.innerHTML = `<label class="admin-qr-name">Prénom du contact <input type="text" id="adminQrName" maxlength="40" placeholder="ex : Léo (remplace {prénom})"></label>`
+          + tpls.map((t, i) => `<div class="admin-quickreply-item"><div class="admin-quickreply-item-header"><span class="admin-quickreply-item-title">${escapeHtml(t.label)}</span><button type="button" class="admin-quickreply-copy-btn" data-qr-pros="${i}" title="Copier ce message">📋</button></div><p class="admin-quickreply-item-text" data-qr-text="${i}"></p></div>`).join('');
+        const nameEl = document.getElementById('adminQrName');
+        const refresh = () => box.querySelectorAll('[data-qr-text]').forEach(p => { p.textContent = fillFirstName(tpls[p.dataset.qrText].text, nameEl.value); });
+        nameEl.addEventListener('input', refresh); refresh();
+        box.addEventListener('click', (e) => {
+          const b = e.target.closest ? e.target.closest('[data-qr-pros]') : null;
+          if (!b) return;
+          const txt = fillFirstName(tpls[b.dataset.qrPros].text, nameEl.value);
+          (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => { b.textContent = '✅'; setTimeout(() => { b.textContent = '📋'; }, 1500); }).catch(() => { prompt('Copie ce message :', txt); });
+        });
+      }, 0);
+
+      // --- 🎞️ Revenus par format (onglet Stats) : d'après les budgets des notes, commandes non annulées. ---
+      function renderRevenueByFormat(live) {
+        const box = document.getElementById('adminFmtRevenue'), per = document.getElementById('adminFmtPeriod');
+        if (!box) return;
+        if (per && !per.dataset.bound) { per.dataset.bound = '1'; per.addEventListener('change', () => renderAdminExtras3(lastAdminOrders)); }
+        const months = per ? parseInt(per.value, 10) || 0 : 0, since = months ? Date.now() - months * 30.5 * 864e5 : 0;
+        const agg = new Map();
+        live.forEach(r => {
+          const d = r[3] ? new Date(r[3]).getTime() : 0;
+          if (since && (!d || d < since)) return;
+          const f = parseNoteQuickFields(r[2] || ''), raw = String(f.format || '');
+          const label = raw.replace(/[\u{1F300}-\u{1FAFF}\u2600-\u27BF]|\uFE0F/gu, '').replace(/×\s*\d+/g, '').replace(/\(.*?\)/g, '').replace(/\s+/g, ' ').trim() || 'Non précisé';
+          const q = parseInt((/×\s*(\d+)/.exec(raw) || [])[1], 10) || 1;
+          const a = agg.get(label) || { total: 0, orders: 0, videos: 0 };
+          a.total += parseBudgetAmount(f) || 0; a.orders += 1; a.videos += q; agg.set(label, a);
+        });
+        const rows = [...agg.entries()].sort((x, y) => y[1].total - x[1].total), grand = rows.reduce((s, [, a]) => s + a.total, 0), max = Math.max(1, ...rows.map(([, a]) => a.total));
+        box.innerHTML = rows.length ? rows.map(([l, a]) => `<div class="fmt-row"><span class="fmt-label">${escapeHtml(l)}</span><div class="fmt-bar"><i style="width:${Math.round(a.total / max * 100)}%"></i></div><strong>${Math.round(a.total).toLocaleString('fr-FR')} €</strong><small>${grand ? Math.round(a.total / grand * 100) : 0} % · ${a.orders} cmd · ${a.videos} vidéo${a.videos > 1 ? 's' : ''} · ${a.videos ? Math.round(a.total / a.videos) : 0} €/vidéo</small></div>`).join('') : '<p class="ct-muted">Pas encore de données sur cette période.</p>';
+      }
+
       function renderAdminExtras3(dataRows) {
+        if (window.__renderFocus) { try { window.__renderFocus(dataRows); } catch (e) { console.warn('focus', e); } }
         const $ = id => document.getElementById(id);
         const amount = r => parseBudgetAmount(parseNoteQuickFields(r[2] || '')) || 0;
         const money = n => Math.round(n).toLocaleString('fr-FR') + ' €';
         const live = dataRows.filter(r => statusCategory(r[1] || '') !== 'cancelled');
+        try { renderRevenueByFormat(live); } catch (e) { console.warn('revenus par format', e); }
         if ($('adminCa12')) {
           const now = new Date(), months = [];
           for (let i = 11; i >= 0; i--) { const d = new Date(now.getFullYear(), now.getMonth() - i, 1); months.push({ k: d.getFullYear() * 12 + d.getMonth(), l: d.toLocaleDateString('fr-FR', { month: 'short' }), v: 0 }); }
@@ -16141,11 +16498,11 @@ Date limite :</pre>
           $('adminCa12').innerHTML = months.map(m => `<div class="ca-bar" title="${m.l} : ${money(m.v)}"><span>${m.v ? Math.round(m.v) : ''}</span><i style="height:${Math.round(m.v / max * 90)}%"></i><span>${m.l}</span></div>`).join('');
         }
         const dOrd = $('docOrder');
-        if (dOrd && document.activeElement !== dOrd) dOrd.innerHTML = live.map(r => `<option value="${r[0]}">${r[0]}</option>`).join('');
+        if (dOrd && document.activeElement !== dOrd) dOrd.innerHTML = live.map(r => `<option value="${escapeHtml(r[0])}">${escapeHtml(r[0])}</option>`).join('');
         const K = $('adminKanban');
         if (K && K.style.display !== 'none') {
           const cols = [['pending', '⏳ En attente'], ['inProgress', '🎬 En cours'], ['delivered', '✅ Livré'], ['cancelled', '🚫 Annulé']];
-          K.innerHTML = '<div class="kanban-board">' + cols.map(([c, t]) => { const rs = dataRows.filter(r => statusCategory(r[1] || '') === c); return `<div class="kanban-col" data-kcat="${c}"><h4>${t} (${rs.length})</h4>${rs.slice(0, 30).map(r => { const f = parseNoteQuickFields(r[2] || ''); return `<div class="kanban-card" draggable="true" data-kid="${r[0]}"><strong>${f.nom || r[5] || r[0]}</strong><br>${f.nomCommande || r[1] || ''} · ${money(amount(r))}</div>`; }).join('')}</div>`; }).join('') + '</div>';
+          K.innerHTML = '<div class="kanban-board">' + cols.map(([c, t]) => { const rs = dataRows.filter(r => statusCategory(r[1] || '') === c); return `<div class="kanban-col" data-kcat="${c}"><h4>${t} (${rs.length})</h4>${rs.slice(0, 30).map(r => { const f = parseNoteQuickFields(r[2] || ''); return `<div class="kanban-card" draggable="true" data-kid="${escapeHtml(r[0])}"><strong>${escapeHtml(f.nom || r[5] || r[0])}</strong><br>${escapeHtml(f.nomCommande || r[1] || '')} · ${money(amount(r))}</div>`; }).join('')}</div>`; }).join('') + '</div>';
         }
         // Notification navigateur pour les nouvelles commandes (ids jamais vus sur cet appareil)
         try {
@@ -16206,7 +16563,7 @@ Date limite :</pre>
         let last = 0; try { last = +localStorage.getItem('michyy_last_backup') || 0; } catch (e) {}
         if ($('backupReminder')) $('backupReminder').style.display = (!last || (Date.now() - last) / 864e5 >= 30) ? '' : 'none';
         const sat = $('satOrder');
-        if (sat && document.activeElement !== sat) sat.innerHTML = rows.filter(r => statusCategory(r[1] || '') === 'delivered').map(r => `<option value="${r[0]}">${r[0]}</option>`).join('');
+        if (sat && document.activeElement !== sat) sat.innerHTML = rows.filter(r => statusCategory(r[1] || '') === 'delivered').map(r => `<option value="${escapeHtml(r[0])}">${escapeHtml(r[0])}</option>`).join('');
         if ($('satList')) {
           let d = {}; try { d = JSON.parse(localStorage.getItem('michyy_satisfaction') || '{}'); } catch (e) {}
           const ids = Object.keys(d), avg = ids.length ? ids.reduce((t, k) => t + d[k].score, 0) / ids.length : 0;
@@ -16220,11 +16577,11 @@ Date limite :</pre>
         const amount = r => parseBudgetAmount(parseNoteQuickFields(r[2] || '')) || 0;
         const real = () => lastAdminOrders.filter(r => !String(r[1] || '').includes('Test (pas'));
         if ($('accountingCsvBtn')) $('accountingCsvBtn').addEventListener('click', () => {
-          const rows = real().filter(r => statusCategory(r[1] || '') === 'delivered').map(r => { const f = parseNoteQuickFields(r[2] || ''); const d = /^\d{4}-\d{2}-\d{2}/.test(r[8] || '') ? r[8].slice(0, 10) : (r[3] ? new Date(r[3]).toISOString().slice(0, 10) : ''); return { d, r, f, a: amount(r) }; }).sort((x, y) => x.d.localeCompare(y.d));
+          const rows = real().filter(r => statusCategory(r[1] || '') === 'delivered').map(r => { const f = parseNoteQuickFields(r[2] || ''); const d = /^\d{4}-\d{2}-\d{2}/.test(r[8] || '') ? r[8].slice(0, 10) : (r[3] ? localIsoDate(new Date(r[3])) : ''); return { d, r, f, a: amount(r) }; }).sort((x, y) => x.d.localeCompare(y.d));
           const lines = ['mois;date;commande;client;prestation;montant_eur;solde_recu'], tot = {};
           rows.forEach(x => { const m = x.d.slice(0, 7); tot[m] = (tot[m] || 0) + x.a; lines.push([m, x.d, esc(x.r[0]), esc(x.f.nom || x.r[5]), esc([x.f.nomCommande, x.f.format].filter(Boolean).join(' — ')), x.a.toFixed(2), (x.r[7] || '').trim().toLowerCase() === 'oui' ? 'oui' : 'non'].join(';')); });
           Object.keys(tot).sort().forEach(m => lines.push([m, '', '', '', 'TOTAL DU MOIS', tot[m].toFixed(2), ''].join(';')));
-          dl(`livre-recettes-michyy-${new Date().toISOString().slice(0, 10)}.csv`, '\ufeff' + lines.join('\n'), 'text/csv;charset=utf-8;');
+          dl(`livre-recettes-michyy-${localIsoDate(new Date())}.csv`, '\ufeff' + lines.join('\n'), 'text/csv;charset=utf-8;');
         });
         if ($('weeklyReportBtn')) $('weeklyReportBtn').addEventListener('click', () => {
           const rows = real(), wk = Date.now() - 7 * 864e5, live = rows.filter(r => statusCategory(r[1] || '') !== 'cancelled');
@@ -16302,7 +16659,7 @@ Date limite :</pre>
         const sel = $('clientCardSel');
         if (sel && document.activeElement !== sel) {
           const cur = sel.value, groups = buildClientGroups(dataRows); window.__clients = groups;
-          sel.innerHTML = '<option value="">Choisir un client…</option>' + groups.map((g, i) => `<option value="${i}">${g.displayName} (${g.count})</option>`).join('');
+          sel.innerHTML = '<option value="">Choisir un client…</option>' + groups.map((g, i) => `<option value="${i}">${escapeHtml(g.displayName)} (${g.count})</option>`).join('');
           sel.value = cur && groups[cur] ? cur : ''; renderClientCard();
         }
       }
@@ -16379,7 +16736,7 @@ Date limite :</pre>
         $('backupExportBtn').addEventListener('click', () => {
           const data = {}; for (let i = 0; i < localStorage.length; i++) { const k = localStorage.key(i); if (!SKIP.test(k)) data[k] = localStorage.getItem(k); }
           const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' }));
-          a.download = `sauvegarde-michyy-${new Date().toISOString().slice(0, 10)}.json`; a.click();
+          a.download = `sauvegarde-michyy-${localIsoDate(new Date())}.json`; a.click();
           $('backupStatus').textContent = `✅ ${Object.keys(data).length} entrée(s) exportée(s).`; try { localStorage.setItem('michyy_last_backup', String(Date.now())); } catch (x) {} if ($('backupReminder')) $('backupReminder').style.display = 'none';
         });
         $('backupImportBtn').addEventListener('click', () => $('backupImportFile').click());
@@ -16415,7 +16772,7 @@ Date limite :</pre>
         $('priceLogAdd').addEventListener('click', () => {
           const oldP = parseFloat($('priceLogOld').value), newP = parseFloat($('priceLogNew').value);
           if (isNaN(oldP) || isNaN(newP)) return;
-          const a = load(); a.unshift({ date: new Date().toISOString().slice(0, 10), format: fmtSel.value, oldP, newP, why: $('priceLogWhy').value.trim() });
+          const a = load(); a.unshift({ date: localIsoDate(new Date()), format: fmtSel.value, oldP, newP, why: $('priceLogWhy').value.trim() });
           save(a); $('priceLogNew').value = ''; $('priceLogWhy').value = ''; render();
         });
         $('priceLogList').addEventListener('click', e => {
@@ -16638,6 +16995,24 @@ Date limite :</pre>
         { label: 'Annulation confirmée', text: 'C\'est noté, ta commande est annulée. N\'hésite pas à revenir quand tu veux si le besoin se représente.' },
       ];
 
+      // 📣 Modèles de prospection. card:true → accordéon "Prospection & fidélisation" sous le message client de
+      // chaque commande ; tab:true → onglet Prospection (démarchage de nouveaux clients, à copier).
+      const PROSPECTION_TEMPLATES = [
+        { label: 'Proposer un abonnement', card: true, text: 'Vu que tu publies régulièrement, je peux te proposer un abonnement créateur : un nombre de vidéos fixe par mois à tarif réduit, sans engagement de durée (préavis 30 jours). Ça t\'intéresse que je te détaille ça ?' },
+        { label: 'Demander un avis', card: true, text: 'Si tu es content du montage, un petit avis (même très court) m\'aiderait énormément — merci d\'avance 🙏' },
+        { label: 'Parrainage', card: true, text: 'Tu connais quelqu\'un qui cherche un monteur ? Avec ton lien de parrainage, vous avez tous les deux -10% (code PARRAIN10).' },
+        { label: 'Relance client dormant', card: true, text: 'Ça fait un moment ! Tu as de nouveaux contenus à faire monter ? Je suis dispo cette semaine si tu veux relancer un projet.' },
+        { label: 'Remise de fidélité', card: true, text: 'Pour ta prochaine commande je te fais une petite remise de fidélité — dis-moi simplement ce que tu prépares.' },
+        { label: '⭐ Message principal — créateur', tab: true, text: "Salut {prénom} ! J'ai vu ton contenu et j'aime vraiment ton style. Je suis monteur vidéo indépendant (shorts TikTok/Reels, YouTube, gaming/esport) et je peux prendre ton montage en charge pour que tu gagnes du temps : à partir de 45 € la vidéo, 3 révisions incluses, livraison rapide. Mon portfolio : https://michyy-portfolio.pages.dev/ — et pour une 1re commande, le code PREMIERE20 te fait -20 %. Ça te tente d'essayer sur une vidéo ?" },
+        { label: '⚡ Version courte — Discord / forums', tab: true, text: "Salut {prénom} ! Monteur vidéo (shorts, YouTube, gaming) dispo cette semaine : dès 45 €/vidéo, 3 révisions incluses, -20 % sur la 1re commande (code PREMIERE20). Portfolio : https://michyy-portfolio.pages.dev/ — intéressé ?" },
+        { label: '▶️ Version YouTube long format', tab: true, text: "Salut {prénom} ! J'ai regardé ta chaîne : ton contenu a du fond, et sur du long format le montage (rythme, coupe des temps morts, chapitrage, sous-titres, habillage) fait toute la différence sur la rétention. Je monte des vidéos YouTube à 125 € (jusqu'à 200 € pour du multi-caméras / montage complexe), 3 révisions incluses. Je peux te proposer un premier montage avec -20 % (code PREMIERE20). Portfolio : https://michyy-portfolio.pages.dev/ — je te détaille comment ça se passe ?" },
+        { label: '🏢 Version B2B — marques', tab: true, text: "Bonjour {prénom}, je suis monteur vidéo indépendant et j'accompagne des marques et des créateurs sur leurs contenus courts (Reels, TikTok, Shorts) et vidéos de présentation. Format Business / Sponsorisé à 300 € la vidéo : cahier des charges et charte graphique respectés, sous-titres, 3 révisions incluses, devis et facture fournis. Souhaitez-vous que je vous envoie un exemple adapté à votre activité ? Portfolio : https://michyy-portfolio.pages.dev/ — et si vous publiez régulièrement, un abonnement mensuel est possible." },
+        { label: '🔁 Relance — pas de réponse (J+3)', tab: true, text: "Salut {prénom}, je me permets de relancer mon message au cas où il serait passé sous le radar. Si le montage n'est pas un sujet en ce moment, aucun souci — dis-le-moi simplement !" },
+        { label: '🔁 Dernière relance (J+7)', tab: true, text: "Dernier petit message de ma part : mon offre -20 % sur la 1re commande (PREMIERE20) reste valable cette semaine si jamais ça t'intéresse. Sinon je ne t'embête plus, et bonne continuation pour tes vidéos {prénom} !" },
+        { label: 'Après réponse positive → devis', tab: true, text: "Super {prénom} ! Pour te faire un devis précis j'ai besoin de : le format (court ou long), le nombre de vidéos, la durée des rushs, et la date à laquelle tu les voudrais. Le formulaire de commande te guide en 2 minutes, et je te réponds sous 24 h." },
+        { label: 'Remerciement après refus', tab: true, text: "Merci {prénom} d'avoir pris le temps de me répondre ! Si un jour tu as besoin d'un coup de main sur tes montages, tu sais où me trouver 🙂" }
+      ];
+
       // --- 🆕 Checklist de livraison par commande : coches locales (cet appareil), pas de
       // synchronisation serveur — purement un pense-bête avant d'envoyer, pas un statut officiel
       // de la commande. Stockée sous forme { orderId: { export: true, ... } }. ---
@@ -16714,25 +17089,13 @@ Date limite :</pre>
       //     propre colonne dans le Sheet : elle est déjà embarquée dans la note (colonne C) sous la
       //     forme "📅 Voulu le JJ/MM/AAAA" (voir syncOrderToAdminSheet au moment de la réservation).
       //     On l'extrait donc par une petite regex plutôt que de demander une modif d'Apps Script. ---
-      function extractDesiredDeliveryTimestamp(note) {
-        const match = /Voulu le (\d{2})\/(\d{2})\/(\d{4})/.exec(note || '');
-        if (!match) return null;
-        const d = new Date(`${match[3]}-${match[2]}-${match[1]}T00:00:00`);
-        return isNaN(d.getTime()) ? null : d.getTime();
-      }
+      
       // --- Date "redéfinie par toi" (colonne I, format AAAA-MM-JJ posé par un <input type="date">) :
       //     quand tu décales une commande à la main dans le planning (indépendamment de ce que le
       //     client avait demandé au départ), cette date prend le dessus sur celle du formulaire pour
       //     le filtre ci-dessous et pour l'export CSV. Si tu ne l'as jamais touchée, on retombe sur
       //     la date souhaitée par le client (ou rien si le client n'en avait pas indiqué). ---
-      function getEffectiveDeliveryTimestamp(r) {
-        const override = (r[8] || '').trim();
-        if (override) {
-          const d = new Date(override + 'T00:00:00');
-          if (!isNaN(d.getTime())) return d.getTime();
-        }
-        return extractDesiredDeliveryTimestamp(r[2]);
-      }
+      
 
       // --- Champs rapides pour éditer la note privée sans devoir tout retaper. La note est un
       //     seul texte généré au départ (nom, format, budget, date... concaténés avec " · "), donc
@@ -16741,28 +17104,7 @@ Date limite :</pre>
       //     "🔄 Mettre à jour la note" les réinjecte SEULEMENT à leur emplacement dans le texte
       //     existant, sans toucher au reste (description, format, etc. restent intacts). La note
       //     reste éditable librement en dessous pour tout le reste. ---
-      function parseNoteQuickFields(note) {
-        const text = note || '';
-        const nameMatch = /^([^(·]+?)\s*\(([^)]*)\)/.exec(text);
-        const commandeMatch = /🎬\s*([^·]+?)\s*(?:·|$)/.exec(text);
-        const formatMatch = /🎥\s*([^·]+?)\s*(?:·|$)/.exec(text);
-        const budgetMatch = /💶\s*([^·]+?)\s*(?:·|$)/.exec(text);
-        const dateMatch = /📅\s*Voulu le (\d{2})\/(\d{2})\/(\d{4})/.exec(text);
-        const promoMatch = /🎟️\s*Code\s*([^·(]+?)\s*(?:\(|·|$)/.exec(text);
-        const lienMatch = /📁\s*([^·]+?)\s*(?:·|$)/.exec(text);
-        const difficulteMatch = /🌡️\s*Difficulté\s*:\s*(Facile|Normal|Difficile)/.exec(text);
-        return {
-          nom: nameMatch ? nameMatch[1].trim() : '',
-          typeClient: nameMatch ? nameMatch[2].trim() : 'Particulier',
-          nomCommande: commandeMatch ? commandeMatch[1].trim() : '',
-          format: formatMatch ? formatMatch[1].trim() : '',
-          budget: budgetMatch ? budgetMatch[1].trim() : '',
-          dateVoulue: dateMatch ? `${dateMatch[3]}-${dateMatch[2]}-${dateMatch[1]}` : '',
-          promoCode: promoMatch ? promoMatch[1].trim() : '',
-          lien: lienMatch ? lienMatch[1].trim() : '',
-          difficulte: difficulteMatch ? difficulteMatch[1].trim() : ''
-        };
-      }
+      
       function rebuildNoteFromQuickFields(note, fields) {
         let text = note || '';
         if (/^([^(·]+?)\s*\(([^)]*)\)/.test(text)) {
@@ -16841,12 +17183,7 @@ Date limite :</pre>
       });
 
       // Regroupement des statuts en 3 grandes catégories pour le tableau de bord
-      function statusCategory(status) {
-        if (status.includes('Livré')) return 'delivered';
-        if (status.includes('Annulée') || status.includes('Expirée') || status.includes('Supprimée')) return 'cancelled';
-        if (status.includes('attente') || status === '') return 'pending';
-        return 'inProgress';
-      }
+      
 
       // --- Compteur "codes promo utilisés ce mois" : scanne la note de commande, où le code
       // appliqué est ajouté automatiquement à l'envoi du formulaire (ex : "🎟️ Code PREMIERE20"),
@@ -17769,13 +18106,13 @@ Date limite :</pre>
           const unpaid = dataRows.filter(r => statusCategory(r[1] || '') === 'delivered' && (r[7] || '').trim().toLowerCase() !== 'oui').slice(0, 8);
           window.__relD = dormant; window.__relU = unpaid;
           const li = (a, b) => `<div class="price-log-row"><span>${a}</span><span>${b}</span></div>`;
-          $('adminFollowUps').innerHTML = '<strong style="font-size:12px;">💤 Clients dormants</strong>' + (dormant.length ? dormant.map((g, i) => li(g.displayName, `${g.daysSinceLastOrder} j <button type="button" class="filter-reset-btn" data-rel="d:${i}">✉️ Relancer</button>`)).join('') : '<p class="info-text" style="font-size:12px;">Aucun 🎉</p>') +
-            '<strong style="font-size:12px;display:block;margin-top:8px;">💸 Livrées, solde non reçu</strong>' + (unpaid.length ? unpaid.map((r, i) => li(r[0], `${money(amount(r))} <button type="button" class="filter-reset-btn" data-rel="u:${i}">✉️ Relancer</button>`)).join('') : '<p class="info-text" style="font-size:12px;">Aucun 🎉</p>');
+          $('adminFollowUps').innerHTML = '<strong style="font-size:12px;">💤 Clients dormants</strong>' + (dormant.length ? dormant.map((g, i) => li(escapeHtml(g.displayName), `${g.daysSinceLastOrder} j <button type="button" class="filter-reset-btn" data-rel="d:${i}">✉️ Relancer</button>`)).join('') : '<p class="info-text" style="font-size:12px;">Aucun 🎉</p>') +
+            '<strong style="font-size:12px;display:block;margin-top:8px;">💸 Livrées, solde non reçu</strong>' + (unpaid.length ? unpaid.map((r, i) => li(escapeHtml(r[0]), `${money(amount(r))} <button type="button" class="filter-reset-btn" data-rel="u:${i}">✉️ Relancer</button>`)).join('') : '<p class="info-text" style="font-size:12px;">Aucun 🎉</p>');
         }
         if ($('adminPromoDash')) {
           const by = new Map();
           live.forEach(r => { const c = (parseNoteQuickFields(r[2] || '').promoCode || '').trim().toUpperCase(); if (!c) return; const o = by.get(c) || { n: 0, ca: 0, off: 0 }; const a = amount(r); const rate = (PROMO_CODES[c] || {}).rate; o.n++; o.ca += a; if (rate && rate < 1) o.off += a / rate * (1 - rate); by.set(c, o); });
-          $('adminPromoDash').innerHTML = by.size ? '<table class="admin-mini-table"><tr><th>Code</th><th>Cmd</th><th>CA généré</th><th>Remise donnée (est.)</th></tr>' + Array.from(by.entries()).sort((a, b) => b[1].ca - a[1].ca).map(([c, o]) => `<tr><td>${c}</td><td>${o.n}</td><td>${money(o.ca)}</td><td>${money(o.off)}</td></tr>`).join('') + '</table>' : '<p class="info-text" style="font-size:12px;">Aucune commande avec code promo.</p>';
+          $('adminPromoDash').innerHTML = by.size ? '<table class="admin-mini-table"><tr><th>Code</th><th>Cmd</th><th>CA généré</th><th>Remise donnée (est.)</th></tr>' + Array.from(by.entries()).sort((a, b) => b[1].ca - a[1].ca).map(([c, o]) => `<tr><td>${escapeHtml(c)}</td><td>${o.n}</td><td>${money(o.ca)}</td><td>${money(o.off)}</td></tr>`).join('') + '</table>' : '<p class="info-text" style="font-size:12px;">Aucune commande avec code promo.</p>';
         }
       }
       // 🔧 Taux horaire cible : en dessous, la ligne est marquée ⚠️ dans le suivi du temps passé.
@@ -18042,7 +18379,7 @@ Date limite :</pre>
         const model = CLIENT_TIER_MODELS[prefs.model] ? prefs.model : 'A';
         const def = CLIENT_TIER_MODELS[model];
         const rounds = r => r[9] ? String(r[9]).split('\n').filter(l => l.trim()).length : 0;
-        const day = new Date().toISOString().slice(0, 10);
+        const day = localIsoDate(new Date());
         if (kind === 'orders') {
           const owner = new Map(); groups.forEach(g => g.orders.forEach(r => owner.set(r[0], g)));
           const out = [['Commande', 'Statut', 'Client', 'Profil retenu', 'Source du profil', 'Palier (' + def.name + ')', 'Nom de la commande', 'Format', 'Budget', 'Tours de révision', 'Tours hors forfait', 'À facturer (€)', 'Note complète']];
@@ -18066,68 +18403,94 @@ Date limite :</pre>
         const box = document.getElementById('adminClientTiers');
         if (box) box.addEventListener('click', e => { const b = e.target.closest ? e.target.closest('[data-tier-export]') : null; if (b) exportClientTiers(b.dataset.tierExport); });
       })();
+      // --- 🏷️ Mes clients : classement AUTOMATIQUE par nombre de commandes (seuils réglables) + tags prédéfinis
+      // à cocher sur chaque client (stockés dans ce navigateur). Remplace l'ancien comparateur de 3 modèles. ---
+      const TAG_PRESETS_KEY = 'michyy_tag_presets', CLIENT_TAGS_KEY = 'michyy_client_tags';
+      const TAG_PRESET_DEFAULTS = ['⭐ Coup de cœur', '💸 Bon payeur', '🐌 Répond lentement', '🎁 Geste commercial fait', '🔁 Veut un abonnement', '📵 Discord uniquement', '🚫 Ne plus prendre'];
+      function getTagPresets() {
+        try { const v = JSON.parse(localStorage.getItem(TAG_PRESETS_KEY) || 'null'); if (Array.isArray(v)) return v.filter(x => typeof x === 'string' && x.trim()).slice(0, 30); } catch (e) { /* défauts */ }
+        return TAG_PRESET_DEFAULTS.slice();
+      }
+      function setTagPresets(a) { try { localStorage.setItem(TAG_PRESETS_KEY, JSON.stringify(a)); } catch (e) { /* ignore */ } }
+      function getClientTagMap() { try { const v = JSON.parse(localStorage.getItem(CLIENT_TAGS_KEY) || '{}'); return v && typeof v === 'object' ? v : {}; } catch (e) { return {}; } }
+      function toggleClientTag(key, tag) {
+        const m = getClientTagMap(), a = m[key] || [], i = a.indexOf(tag);
+        if (i >= 0) a.splice(i, 1); else a.push(tag);
+        if (a.length) m[key] = a; else delete m[key];
+        try { localStorage.setItem(CLIENT_TAGS_KEY, JSON.stringify(m)); } catch (e) { /* ignore */ }
+      }
+      const ctState = { tier: null, filter: 'all', tagOpen: null };
       function renderClientTiers(dataRows) {
         const box = document.getElementById('adminClientTiers');
         if (!box) return;
         lastTierRows = dataRows;
         const groups = buildClientGroups(dataRows.filter(r => !String(r[1] || '').includes('Test (pas')));
         if (!groups.length) { box.innerHTML = ''; return; }
-        const prefs = loadClientTierPrefs();
-        const model = CLIENT_TIER_MODELS[prefs.model] ? prefs.model : 'A';
-        const def = CLIENT_TIER_MODELS[model];
-        const buckets = def.tiers.map(() => []);
-        groups.forEach(g => buckets[clientTierOf(model, g, prefs)].push(g));
+        const prefs = loadClientTierPrefs(), a = prefs.a, esc = escapeHtml;
+        const rng = (lo, hi) => lo >= hi ? `${lo} commande${lo > 1 ? 's' : ''}` : `${lo} à ${hi} commandes`;
+        const TIERS = [
+          { i: 0, name: '🆕 Nouveau', rule: rng(1, a.habitue - 1) },
+          { i: 1, name: '🥈 Habitué', rule: rng(a.habitue, a.fidele - 1) },
+          { i: 2, name: '🥇 Fidèle', rule: rng(a.fidele, a.vip - 1) },
+          { i: 3, name: '👑 VIP', rule: `${a.vip} commandes et +` }
+        ];
+        const buckets = [[], [], [], []];
+        groups.forEach(g => buckets[clientTierOf('A', g, prefs)].push(g));
         buckets.forEach(b => b.sort((x, y) => y.totalSpent - x.totalSpent || y.count - x.count));
+        if (ctState.tier === null || !buckets[ctState.tier]) { const f = [3, 2, 1, 0].find(i => buckets[i].length); ctState.tier = f === undefined ? 0 : f; }
+        const tagMap = getClientTagMap(), presets = getTagPresets();
+        const isWatch = g => g.reliability && (g.reliability.hadLitige || g.reliability.hadRevisionLoop);
+        const usedTags = presets.filter(p => groups.some(g => (tagMap[g.key] || []).includes(p)));
+        const filters = [['all', 'Par niveau'], ['watch', '⚠️ À surveiller'], ['dormant', '💤 À réveiller']].concat(usedTags.map(p => ['tag:' + p, p]));
+        const passes = g => (ctState.filter === 'watch' && isWatch(g)) || (ctState.filter === 'dormant' && g.isDormant) || (ctState.filter.startsWith('tag:') && (tagMap[g.key] || []).includes(ctState.filter.slice(4)));
+        const list = ctState.filter === 'all' ? buckets[ctState.tier] : groups.filter(passes);
         const eur = n => Math.round(n).toLocaleString('fr-FR') + ' €';
-        const flagsOf = g => [
-          profileTagOf(g),
-          (g.reliability && (g.reliability.hadLitige || g.reliability.hadRevisionLoop)) ? '⚠️ à surveiller' : '',
-          g.isDormant ? '💤 à réveiller' : '',
-          g.manualRecurrent ? '🌊 récurrent' : ''
-        ].filter(Boolean).join(' · ');
-        const thresholdInputs = model === 'A'
-          ? `<label>Habitué dès <input type="number" min="2" max="50" data-tier-a="habitue" value="${prefs.a.habitue}"> cmd</label><label>Fidèle dès <input type="number" min="2" max="50" data-tier-a="fidele" value="${prefs.a.fidele}"> cmd</label><label>VIP dès <input type="number" min="2" max="99" data-tier-a="vip" value="${prefs.a.vip}"> cmd</label>`
-          : model === 'B'
-            ? `<label>Argent dès <input type="number" min="1" step="10" data-tier-b="argent" value="${prefs.b.argent}"> €</label><label>Or dès <input type="number" min="1" step="10" data-tier-b="or" value="${prefs.b.or}"> €</label><label>VIP dès <input type="number" min="1" step="10" data-tier-b="vip" value="${prefs.b.vip}"> €</label>`
-            : '<span class="tiers-muted">Le modèle C réutilise tes seuils VIP existants (Stats → Réglages).</span>';
-        const order = model === 'C' ? buckets.map((b, i) => i) : buckets.map((b, i) => buckets.length - 1 - i);
+        const row = g => {
+          const tags = tagMap[g.key] || [], open = ctState.tagOpen === g.key;
+          return `<div class="ct-row">
+            <button type="button" class="ct-row-main" data-client="${esc(g.displayName)}" title="Voir ses commandes"><span class="ct-name">${esc(g.displayName)}</span><span class="ct-meta">${g.count} commande${g.count > 1 ? 's' : ''} · ${eur(g.totalSpent)}${g.daysSinceLastOrder !== null ? ` · dernière il y a ${g.daysSinceLastOrder} j` : ''}</span></button>
+            <div class="ct-flags">${isWatch(g) ? '<span class="ct-flag ct-flag-warn">⚠️ à surveiller</span>' : ''}${g.isDormant ? '<span class="ct-flag">💤 à réveiller</span>' : ''}${g.manualRecurrent ? '<span class="ct-flag">🌊 récurrent</span>' : ''}${tags.map(t => `<button type="button" class="ct-tag is-on" data-ct-tag="${esc(t)}" data-ct-key="${esc(g.key)}" title="Retirer ce tag">${esc(t)} ✕</button>`).join('')}<button type="button" class="ct-tag-add" data-ct-addtag="${esc(g.key)}">🏷️ ${open ? 'Fermer' : 'Ajouter un tag'}</button></div>
+            ${open ? `<div class="ct-presets">${presets.map(p => `<button type="button" class="ct-tag${tags.includes(p) ? ' is-on' : ''}" data-ct-tag="${esc(p)}" data-ct-key="${esc(g.key)}">${esc(p)}</button>`).join('') || '<span class="ct-muted">Aucun tag prédéfini : ajoutes-en dans les réglages plus bas.</span>'}</div>` : ''}
+          </div>`;
+        };
         box.innerHTML = `
-          <div class="tiers-head">🏷️ Classification des clients <span class="tiers-muted">— compare 3 modèles sur tes vraies données</span></div>
-          <div class="tiers-profiles"><span class="tiers-muted">Profil retenu (choisi par le client, sinon déduit de ses commandes) :</span> ${CLIENT_PROFILES.map(l => `<span class="tiers-count">${l} <strong>${groups.filter(g => finalProfileOf(g).label === l).length}</strong></span>`).join('')}<button type="button" class="filter-reset-btn" data-tier-export="clients">⬇️ Clients (CSV)</button><button type="button" class="filter-reset-btn" data-tier-export="orders">⬇️ Commandes (CSV)</button></div>
-          <div class="tiers-tabs" role="tablist">${Object.keys(CLIENT_TIER_MODELS).map(k => `<button type="button" role="tab" aria-selected="${k === model}" class="tiers-tab${k === model ? ' is-on' : ''}" data-tier-model="${k}">${escapeHtml(CLIENT_TIER_MODELS[k].name)}</button>`).join('')}</div>
-          <p class="tiers-why">${escapeHtml(def.why)}</p>
-          <div class="tiers-thresholds">${thresholdInputs}</div>
-          <div class="tiers-counts">${order.map(i => `<span class="tiers-count">${def.tiers[i]} <strong>${buckets[i].length}</strong></span>`).join('')}</div>
-          ${order.filter(i => buckets[i].length).map(i => `
-            <details class="tiers-group"${model !== 'C' && i === 3 ? ' open' : ''}>
-              <summary>${def.tiers[i]} — ${buckets[i].length} client${buckets[i].length > 1 ? 's' : ''}</summary>
-              ${buckets[i].map(g => `<button type="button" class="tiers-row" data-client="${escapeHtml(g.displayName)}"><span class="tiers-row-name">${escapeHtml(g.displayName)}</span><span class="tiers-row-meta">${g.orders.filter(r => statusCategory(r[1] || '') !== 'cancelled').length} cmd · ${eur(g.totalSpent)}${g.daysSinceLastOrder !== null ? ` · dernière il y a ${g.daysSinceLastOrder} j` : ''}${flagsOf(g) ? ` · ${flagsOf(g)}` : ''}</span></button>`).join('')}
-            </details>`).join('')}
-          <p class="tiers-reco"><strong>Ma piste :</strong> le modèle A pour le palier (le plus lisible pour le client, aligné sur la fidélité publique) + les drapeaux ⚠️ 💤 🌊 sur chaque ligne, plutôt qu'un badge de plus.</p>
-          <div class="tiers-foot"><button type="button" class="filter-reset-btn" data-tier-choose="${model}">${prefs.chosen === model ? '⭐ Modèle retenu' : '⭐ Retenir ce modèle'}</button><span class="tiers-muted">${prefs.chosen ? `Retenu : ${escapeHtml(CLIENT_TIER_MODELS[prefs.chosen].name)}. ` : ''}Dis-moi ton choix : je le branche sur les badges et le programme fidélité.</span></div>`;
+          <div class="ct-title">🏷️ Mes clients</div>
+          <p class="ct-sub">Chaque client est classé automatiquement selon son nombre de commandes. Clique un niveau pour voir ses clients, puis ajoute des tags (⭐ coup de cœur, 🚫 ne plus prendre…) pour te souvenir de chacun.</p>
+          <div class="ct-tiers">${TIERS.map(T => `<button type="button" class="ct-tier${ctState.filter === 'all' && ctState.tier === T.i ? ' is-on' : ''}" data-ct-tier="${T.i}"><span>${T.name}</span><strong>${buckets[T.i].length}</strong><span class="ct-tier-rule">${T.rule}</span></button>`).join('')}</div>
+          <div class="ct-filters">${filters.map(([k, l]) => `<button type="button" class="ct-chip${ctState.filter === k ? ' is-on' : ''}" data-ct-filter="${esc(k)}">${esc(l)}</button>`).join('')}</div>
+          <div class="ct-list">${list.length ? list.map(row).join('') : '<p class="ct-muted">Aucun client ici pour l\'instant.</p>'}</div>
+          <details class="ct-settings"><summary>⚙️ Réglages, tags prédéfinis et export</summary>
+            <div class="ct-set-row"><strong>Niveaux :</strong><label>Habitué dès <input type="number" min="2" max="50" data-tier-a="habitue" value="${a.habitue}"> commandes</label><label>Fidèle dès <input type="number" min="2" max="50" data-tier-a="fidele" value="${a.fidele}"></label><label>VIP dès <input type="number" min="2" max="50" data-tier-a="vip" value="${a.vip}"></label></div>
+            <div class="ct-set-row"><strong>Mes tags :</strong>${presets.map(p => `<span class="ct-tag is-on">${esc(p)} <button type="button" class="ct-x" data-ct-preset-del="${esc(p)}" aria-label="Supprimer ce tag">✕</button></span>`).join('')}<input type="text" id="ctPresetInput" maxlength="30" placeholder="Nouveau tag…"><button type="button" class="filter-reset-btn" data-ct-preset-add>+ Ajouter</button></div>
+            <div class="ct-set-row"><button type="button" class="filter-reset-btn" data-tier-export="clients">⬇️ Exporter les clients (CSV)</button><button type="button" class="filter-reset-btn" data-tier-export="orders">⬇️ Exporter les commandes (CSV)</button></div>
+          </details>`;
       }
       (function initClientTiersEvents() {
         const box = document.getElementById('adminClientTiers');
         if (!box) return;
+        const redraw = () => renderClientTiers(lastAdminOrders);
         box.addEventListener('click', (e) => {
-          const tab = e.target.closest('[data-tier-model]');
-          const choose = e.target.closest('[data-tier-choose]');
-          const row = e.target.closest('.tiers-row');
-          if (tab) { const p = loadClientTierPrefs(); p.model = tab.dataset.tierModel; saveClientTierPrefs(p); renderClientTiers(lastAdminOrders); return; }
-          if (choose) { const p = loadClientTierPrefs(); p.chosen = choose.dataset.tierChoose; saveClientTierPrefs(p); renderClientTiers(lastAdminOrders); return; }
-          if (row) { adminSearchInput.value = row.dataset.client; activateAdminTab('commandes'); renderAdminOrdersList(lastAdminOrders); }
+          const $t = s => e.target.closest ? e.target.closest(s) : null;
+          let el;
+          if ((el = $t('[data-ct-tier]'))) { ctState.tier = parseInt(el.dataset.ctTier, 10); ctState.filter = 'all'; return redraw(); }
+          if ((el = $t('[data-ct-filter]'))) { ctState.filter = el.dataset.ctFilter; return redraw(); }
+          if ((el = $t('[data-ct-tag]'))) { toggleClientTag(el.dataset.ctKey, el.dataset.ctTag); return redraw(); }
+          if ((el = $t('[data-ct-addtag]'))) { ctState.tagOpen = ctState.tagOpen === el.dataset.ctAddtag ? null : el.dataset.ctAddtag; return redraw(); }
+          if ((el = $t('[data-ct-preset-del]'))) { setTagPresets(getTagPresets().filter(p => p !== el.dataset.ctPresetDel)); return redraw(); }
+          if ($t('[data-ct-preset-add]')) {
+            const inp = document.getElementById('ctPresetInput'), v = (inp.value || '').trim();
+            if (v && !getTagPresets().includes(v)) setTagPresets(getTagPresets().concat(v));
+            return redraw();
+          }
+          if ((el = $t('.ct-row-main'))) { adminSearchInput.value = el.dataset.client; activateAdminTab('commandes'); renderAdminOrdersList(lastAdminOrders); }
         });
         box.addEventListener('change', (e) => {
-          const a = e.target.dataset.tierA, b = e.target.dataset.tierB;
-          if (!a && !b) return;
+          const k = e.target.dataset ? e.target.dataset.tierA : null;
+          if (!k) return;
           const p = loadClientTierPrefs();
-          const v = Math.max(1, parseInt(e.target.value, 10) || 1);
-          if (a) p.a[a] = v; else p.b[b] = v;
-          // seuils toujours croissants (habitué ≤ fidèle ≤ VIP, argent ≤ or ≤ VIP)
-          if (a) { p.a.fidele = Math.max(p.a.fidele, p.a.habitue); p.a.vip = Math.max(p.a.vip, p.a.fidele); }
-          else { p.b.or = Math.max(p.b.or, p.b.argent); p.b.vip = Math.max(p.b.vip, p.b.or); }
-          saveClientTierPrefs(p);
-          renderClientTiers(lastAdminOrders);
+          p.a[k] = Math.max(1, parseInt(e.target.value, 10) || 1);
+          p.a.fidele = Math.max(p.a.fidele, p.a.habitue); p.a.vip = Math.max(p.a.vip, p.a.fidele);
+          saveClientTierPrefs(p); redraw();
         });
       })();
 
@@ -18379,13 +18742,10 @@ Date limite :</pre>
           if (note) note.textContent = shpNoteText(payload.id);
           if (btn.dataset.action === 'open') { window.open(url, '_blank', 'noopener'); return; }
           const original = btn.textContent;
-          try {
-            await navigator.clipboard.writeText(url);
-            btn.textContent = '✅ Lien copié !';
-            setTimeout(() => { btn.textContent = original; }, 1800);
-          } catch (err) {
-            prompt('Copie ce lien manuellement :', url);
-          }
+          const res = await shareOrCopyLink(url, { title: 'Aperçu de ta commande', text: 'Voici où en est ta commande de montage vidéo 🎬' });
+          if (res === 'cancelled') return;
+          btn.textContent = res === 'shared' ? '✅ Partagé !' : '✅ Lien copié !';
+          setTimeout(() => { btn.textContent = original; }, 1800);
         });
         adminOrdersList.addEventListener('change', (e) => {
           const sel = e.target.closest('.admin-share-preview-ttl');
@@ -18552,14 +18912,14 @@ Date limite :</pre>
           const lines = ['date;commande;client;format;quantite;total_eur;prix_unitaire_eur;urgent;code_promo;annulee;origine'];
           entries.forEach(e => {
             lines.push([
-              esc(new Date(e.ts).toISOString().slice(0, 10)), esc(e.id), esc(e.n), esc(e.f), e.q, String(e.t).replace('.', ','),
+              esc(localIsoDate(new Date(e.ts))), esc(e.id), esc(e.n), esc(e.f), e.q, String(e.t).replace('.', ','),
               e.q > 0 ? (Math.round(e.t / e.q * 100) / 100).toString().replace('.', ',') : '', e.u ? 'oui' : 'non', e.p ? 'oui' : 'non', e.x ? 'oui' : 'non', e.b ? 'importé' : 'auto'
             ].join(';'));
           });
           const blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
           const link = document.createElement('a');
           link.href = URL.createObjectURL(blob);
-          link.download = `prix-pratiques-michyy-${new Date().toISOString().slice(0, 10)}.csv`;
+          link.download = `prix-pratiques-michyy-${localIsoDate(new Date())}.csv`;
           link.click();
         }
         (function bindPjExport() {
@@ -18684,7 +19044,7 @@ Date limite :</pre>
             const blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = `codes-promo-inutilises-${new Date().toISOString().slice(0, 10)}.csv`;
+            a.download = `codes-promo-inutilises-${localIsoDate(new Date())}.csv`;
             a.click();
           });
         })();
@@ -18744,7 +19104,7 @@ Date limite :</pre>
             if (ids.length && window.Notification && Notification.permission === 'granted') {
               const KEY = 'michyy_shp_notified';
               const done = JSON.parse(localStorage.getItem(KEY) || '{}') || {};
-              const today = new Date().toISOString().slice(0, 10);
+              const today = localIsoDate(new Date());
               const fresh = ids.filter(id => done[id] !== today);
               if (fresh.length) {
                 new Notification('🔗 Lien d\'aperçu bientôt expiré', { body: fresh.slice(0, 3).map(id => `#${id} : ${previewSoon[id].label}`).join('\n') });
@@ -18910,7 +19270,7 @@ Date limite :</pre>
         adminBulkDeleteBtn.textContent = '⏳ Marquage...';
         let failed = 0;
         const deletedStatus = '🗑️ Supprimée par Michyy';
-        const deletedMessage = "Cette commande a été supprimée. Contacte-moi en DM sur Discord pour plus d'infos : https://discord.com/users/jlmichyy";
+        const deletedMessage = "Cette commande a été supprimée. Contacte-moi en DM sur Discord pour plus d'infos : https://discord.com/users/495853844723662850";
         for (const orderId of ids) {
           const row = lastAdminOrders.find(r => r[0] === orderId) || [];
           try {
@@ -19407,7 +19767,7 @@ Date limite :</pre>
             const row = lastAdminOrders.find(r => r[0] === orderId) || [];
             try {
               const deletedStatus = '🗑️ Supprimée par Michyy';
-              const deletedMessage = "Cette commande a été supprimée. Contacte-moi en DM sur Discord pour plus d'infos : https://discord.com/users/jlmichyy";
+              const deletedMessage = "Cette commande a été supprimée. Contacte-moi en DM sur Discord pour plus d'infos : https://discord.com/users/495853844723662850";
               const url = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=update&orderId=${encodeURIComponent(orderId)}&status=${encodeURIComponent(deletedStatus)}&note=${encodeURIComponent(row[2] || '')}&clientMessage=${encodeURIComponent(deletedMessage)}&deliveryLink=${encodeURIComponent(row[6] || '')}&soldeRecu=${encodeURIComponent(row[7] || '')}&dateLivraisonAdmin=${encodeURIComponent(row[8] || '')}`;
               const res = await fetch(url);
               const data = await res.json();
@@ -19488,7 +19848,7 @@ Date limite :</pre>
             const urlInput = adminOrdersList.querySelector(`.admin-delivery-version-url-input[data-order-id="${orderId}"]`);
             const url = urlInput ? urlInput.value.trim() : '';
             if (!url) {
-              urlInput.focus();
+              if (urlInput) urlInput.focus();
               return;
             }
             const label = labelInput ? labelInput.value.trim() : '';
@@ -20053,9 +20413,12 @@ Date limite :</pre>
       // cours de montage" — le scénario type qui passe à la trappe si on ne regarde que le
       // "pending" initial, comme le faisait isStaleOrder). ---
       const PAUSE_ALERT_DAYS = 3;
+      // Sans 2e argument : statut ACTUEL de la commande (comparaison exacte). Avec : dernier passage par un statut contenant ce texte.
       function statusSinceTimestamp(r, statusFilter) {
         const orderId = r[0];
-        const history = getStatusHistory(orderId).filter(h => (h.status || '').includes(statusFilter));
+        const exact = statusFilter === undefined;
+        const wanted = exact ? (r[1] || '') : statusFilter;
+        const history = getStatusHistory(orderId).filter(h => exact ? h.status === wanted : (h.status || '').includes(wanted));
         if (history.length > 0) return history[history.length - 1].at;
         if (r[3]) {
           const createdAt = new Date(r[3]).getTime();
@@ -20105,17 +20468,6 @@ Date limite :</pre>
       // séparément ci-dessus) et "🟠 Envoyée" (déjà couvert par getNoResponseOrders) pour ne jamais
       // compter un même retard deux fois dans la vue consolidée plus bas.
       const STUCK_STATUS_ALERT_DAYS = 5; // 🔧 seuil en jours avant qu'un statut soit jugé "bloqué"
-      function statusSinceTimestamp(r) {
-        const orderId = r[0];
-        const status = r[1] || '';
-        const history = getStatusHistory(orderId).filter(h => h.status === status);
-        if (history.length > 0) return history[history.length - 1].at;
-        if (r[3]) {
-          const createdAt = new Date(r[3]).getTime();
-          if (!isNaN(createdAt)) return createdAt;
-        }
-        return null;
-      }
       function isStuckTooLong(r) {
         const status = r[1] || '';
         if (!status || status.includes('En pause') || status === '🟠 Envoyée, en attente de réponse') return false;
@@ -20307,7 +20659,7 @@ Date limite :</pre>
       function removeCustomTag(orderId, tag) {
         setCustomTags(orderId, getCustomTags(orderId).filter(t => t !== tag));
       }
-      function customTagsHtml(orderId) {
+      function customTagsHtmlBase(orderId) {
         const tags = getCustomTags(orderId);
         const chips = tags.map(t => `<span class="admin-custom-tag-chip">🏷️ ${escapeHtml(t)}<button type="button" class="admin-custom-tag-remove" data-order-id="${orderId}" data-tag="${escapeHtml(t)}" title="Retirer ce tag">✕</button></span>`).join('');
         // Sélecteur rapide de "statuts secondaires" : permet d'ajouter en tag n'importe quel statut
@@ -20326,6 +20678,204 @@ Date limite :</pre>
           Array.from(allTags).sort((a, b) => a.localeCompare(b, 'fr')).map(t => `<option value="${escapeHtml(t)}">🏷️ ${escapeHtml(t)}</option>`).join('');
         if (allTags.has(current)) adminTagFilter.value = current;
       }
+
+      // --- 🏷️ Tags prédéfinis sur chaque commande + ⚙️ Options de la commande (priorité, rappel, temps prévu,
+      // geste commercial, ne pas relancer). Stockés dans ce navigateur, lus par le mode focus. ---
+      const ORDER_OPTS_KEY = 'michyy_admin_order_opts';
+      function getAllOrderOpts() { try { const v = JSON.parse(localStorage.getItem(ORDER_OPTS_KEY) || '{}'); return v && typeof v === 'object' ? v : {}; } catch (e) { return {}; } }
+      function getOrderOpts(id) { return getAllOrderOpts()[id] || {}; }
+      function setOrderOpt(id, k, v) {
+        const all = getAllOrderOpts(), o = all[id] || {};
+        if (v === '' || v === false || v == null) delete o[k]; else o[k] = v;
+        if (Object.keys(o).length) all[id] = o; else delete all[id];
+        try { localStorage.setItem(ORDER_OPTS_KEY, JSON.stringify(all)); } catch (e) { /* ignore */ }
+      }
+      function orderOptionsHtml(orderId) {
+        const o = getOrderOpts(orderId), id = escapeHtml(orderId), sel = (v, cur) => v === cur ? ' selected' : '';
+        const badges = [o.prio === 'haute' ? '🔥 prioritaire' : '', o.prio === 'basse' ? '🐢 basse priorité' : '', o.remindAt ? '⏰ ' + new Date(o.remindAt).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }) : (o.remind ? '⏰ rappel ' + new Date(o.remind + 'T00:00:00').toLocaleDateString('fr-FR') : ''), o.gesture ? '🎁 ' + o.gesture : '', o.hours ? '⏱️ ' + o.hours + ' h' : '', o.noRelance ? '🔕 ne pas relancer' : ''].filter(Boolean);
+        return `<div class="ord-remind-row"><label>⏰ Me rappeler le <input type="datetime-local" data-opt="remindAt" data-order-id="${id}" value="${escapeHtml(o.remindAt || (o.remind ? o.remind + 'T09:00' : ''))}"></label><input type="text" data-opt="remindNote" data-order-id="${id}" maxlength="80" placeholder="note du rappel (ex : relancer pour l'acompte)" value="${escapeHtml(o.remindNote || '')}"></div>
+        <details class="ord-opts"><summary>⚙️ Options de la commande${badges.length ? ` <span class="ord-opts-badges">${badges.map(b => `<span>${escapeHtml(b)}</span>`).join('')}</span>` : ''}</summary>
+          <div class="ord-opts-grid">
+            <label>🔥 Priorité<select data-opt="prio" data-order-id="${id}"><option value="">Normale</option><option value="haute"${sel('haute', o.prio)}>Haute</option><option value="basse"${sel('basse', o.prio)}>Basse</option></select></label>
+            <label>⏱️ Temps prévu (heures)<input type="number" min="0" step="0.5" data-opt="hours" data-order-id="${id}" value="${escapeHtml(o.hours || '')}"></label>
+            <label>🎁 Geste commercial<select data-opt="gesture" data-order-id="${id}"><option value="">Aucun</option>${['Retouche offerte', 'Miniature offerte', '−5 %', '−10 %', 'Livraison prioritaire offerte'].map(g => `<option${sel(g, o.gesture)}>${g}</option>`).join('')}</select></label>
+            <label class="ord-opts-check"><input type="checkbox" data-opt="noRelance" data-order-id="${id}"${o.noRelance ? ' checked' : ''}> 🔕 Ne pas relancer ce client</label>
+            <div class="ord-timer" data-order-id="${id}"><span>⏱️ Minuteur de montage</span><strong data-timer-display>00:00:00</strong><button type="button" class="ct-tag" data-timer-toggle>▶ Démarrer</button><button type="button" class="ct-tag" data-timer-save>💾 Ajouter au temps passé</button></div>
+          </div></details>`;
+      }
+      function customTagsHtml(orderId) {
+        const tags = getCustomTags(orderId), id = escapeHtml(orderId);
+        const presets = getTagPresets().filter(p => !tags.includes(p)).slice(0, 10);
+        return customTagsHtmlBase(orderId)
+          + (presets.length ? `<div class="admin-tag-presets">${presets.map(p => `<button type="button" class="ct-tag" data-tag-preset="${escapeHtml(p)}" data-order-id="${id}">+ ${escapeHtml(p)}</button>`).join('')}</div>` : '')
+          + orderOptionsHtml(orderId);
+      }
+      (function initOrderExtrasEvents() {
+        const list = document.getElementById('adminOrdersList');
+        if (!list) return;
+        list.addEventListener('click', (e) => {
+          const b = e.target.closest ? e.target.closest('[data-tag-preset]') : null;
+          if (!b) return;
+          addCustomTag(b.dataset.orderId, b.dataset.tagPreset);
+          renderAdminOrdersList(lastAdminOrders);
+        });
+        list.addEventListener('change', (e) => {
+          const t = e.target;
+          if (!t.dataset || !t.dataset.opt) return;
+          if (t.dataset.opt === 'remindAt') { setOrderOpt(t.dataset.orderId, 'remind', t.value ? t.value.slice(0, 10) : ''); setOrderOpt(t.dataset.orderId, 'remindFired', ''); }
+          setOrderOpt(t.dataset.orderId, t.dataset.opt, t.type === 'checkbox' ? t.checked : t.value);
+        });
+      })();
+
+      // --- 📣 Onglet Prospection : journal de démarchage (cet appareil) + modèles de messages à copier. ---
+      (function initProspection() {
+        const $ = id => document.getElementById(id);
+        if (!$('prosList')) return;
+        const KEY = 'michyy_prospection', esc = escapeHtml;
+        const STATUS = [['sent', '📤 Contacté'], ['replied', '💬 A répondu'], ['quote', '📞 RDV / devis'], ['client', '✅ Devenu client'], ['refused', '❌ Refus'], ['silent', '💤 Sans réponse']];
+        const ACTIVE = ['sent', 'replied', 'quote'];
+        let filter = 'all';
+        const load = () => { try { const v = JSON.parse(localStorage.getItem(KEY) || '[]'); return Array.isArray(v) ? v : []; } catch (e) { return []; } };
+        const save = a => { try { localStorage.setItem(KEY, JSON.stringify(a)); } catch (e) { /* ignore */ } };
+        const today = () => localIsoDate(new Date());
+        const addDays = (iso, n) => { const d = new Date(iso + 'T00:00:00'); d.setDate(d.getDate() + n); return localIsoDate(d); };
+        const due = e => ACTIVE.includes(e.status) && e.follow && e.follow <= today();
+        window.__prospectionDue = () => load().filter(due).map(e => ({ name: e.name, status: (STATUS.find(s => s[0] === e.status) || ['', ''])[1], follow: e.follow }));
+        $('prosStatus').innerHTML = STATUS.map(([k, l]) => `<option value="${k}">${l}</option>`).join('');
+        $('prosDate').value = today();
+        $('prosTemplates').innerHTML = PROSPECTION_TEMPLATES.filter(t => t.tab).map((t, i) => `<div class="pros-tpl"><strong>${esc(t.label)}</strong><p>${esc(fillFirstName(t.text, ($('prosTplName') || {}).value || ''))}</p><button type="button" class="ct-tag" data-pros-copy="${i}">📋 Copier</button></div>`).join('');
+        function render() {
+          const all = load(), n = all.length;
+          const answered = all.filter(e => ['replied', 'quote', 'client', 'refused'].includes(e.status)).length, won = all.filter(e => e.status === 'client').length;
+          $('prosStats').innerHTML = [['Contacts', n], ['Réponses', n ? Math.round(answered / n * 100) + ' %' : '—'], ['RDV / devis', all.filter(e => e.status === 'quote').length], ['Clients gagnés', won], ['Relances à faire', all.filter(due).length]].map(([l, v]) => `<div class="pros-stat"><small>${l}</small><strong>${v}</strong></div>`).join('');
+          const chips = [['all', 'Tous'], ['due', '🔔 À relancer']].concat(STATUS);
+          $('prosFilters').innerHTML = chips.map(([k, l]) => `<button type="button" class="ct-chip${filter === k ? ' is-on' : ''}" data-pros-filter="${k}">${l}</button>`).join('');
+          const list = all.filter(e => filter === 'all' || (filter === 'due' ? due(e) : e.status === filter)).sort((a, b) => (due(b) - due(a)) || String(b.date).localeCompare(String(a.date)));
+          $('prosList').innerHTML = list.length ? list.map(e => `<div class="pros-item${due(e) ? ' is-due' : ''}">
+              <div class="pros-item-head"><strong>${/^https?:\/\//i.test(e.link || '') ? `<a href="${esc(e.link)}" target="_blank" rel="noopener">${esc(e.name)}</a>` : esc(e.name)}</strong><span class="ct-muted">${esc(e.platform)} · contacté le ${new Date(e.date + 'T00:00:00').toLocaleDateString('fr-FR')}</span>${due(e) ? '<span class="ct-flag ct-flag-warn">🔔 relance à faire</span>' : ''}<button type="button" class="ct-x" data-pros-del="${esc(e.id)}" aria-label="Supprimer">✕</button></div>
+              <div class="pros-item-row"><select data-pros-status="${esc(e.id)}">${STATUS.map(([k, l]) => `<option value="${k}"${k === e.status ? ' selected' : ''}>${l}</option>`).join('')}</select><label>Relancer le <input type="date" data-pros-follow="${esc(e.id)}" value="${esc(e.follow || '')}"></label></div>
+              ${e.note ? `<p class="ct-muted">📝 ${esc(e.note)}</p>` : ''}</div>`).join('') : '<p class="ct-muted">Rien ici pour l\'instant.</p>';
+        }
+        $('prosAdd').addEventListener('click', () => {
+          const name = $('prosName').value.trim();
+          if (!name) { $('prosName').focus(); return; }
+          const date = $('prosDate').value || today(), status = $('prosStatus').value;
+          const all = load();
+          all.push({ id: 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 5), name: name.slice(0, 80), platform: $('prosPlatform').value, link: $('prosLink').value.trim().slice(0, 300), status, date, follow: $('prosFollow').value || (ACTIVE.includes(status) ? addDays(date, 3) : ''), note: $('prosNote').value.trim().slice(0, 300) });
+          save(all); ['prosName', 'prosLink', 'prosNote', 'prosFollow'].forEach(i => { $(i).value = ''; }); render();
+        });
+        $('adminTabProspection').addEventListener('click', (e) => {
+          const t = e.target.closest ? e.target.closest.bind(e.target) : null; if (!t) return;
+          let el;
+          if ((el = t('[data-pros-filter]'))) { filter = el.dataset.prosFilter; render(); }
+          else if ((el = t('[data-pros-del]'))) { if (confirm('Supprimer ce contact du journal ?')) { save(load().filter(x => x.id !== el.dataset.prosDel)); render(); } }
+          else if ((el = t('[data-pros-copy]'))) {
+            const txt = fillFirstName(PROSPECTION_TEMPLATES.filter(x => x.tab)[parseInt(el.dataset.prosCopy, 10)].text, ($('prosTplName') || {}).value || '');
+            (navigator.clipboard ? navigator.clipboard.writeText(txt) : Promise.reject()).then(() => { el.textContent = '✅ Copié'; }).catch(() => { prompt('Copie ce message :', txt); });
+          } else if (t('#prosExport')) {
+            const rows = [['Nom', 'Plateforme', 'Lien', 'Statut', 'Contacté le', 'Relance', 'Note']].concat(load().map(e => [e.name, e.platform, e.link, (STATUS.find(s => s[0] === e.status) || ['', e.status])[1], e.date, e.follow, e.note]));
+            try { downloadCsv(`prospection-${today()}.csv`, rows); } catch (err) { console.warn(err); }
+          }
+        });
+        $('adminTabProspection').addEventListener('change', (e) => {
+          const s = e.target.dataset || {}, all = load();
+          const it = all.find(x => x.id === (s.prosStatus || s.prosFollow)); if (!it) return;
+          if (s.prosStatus) { it.status = e.target.value; if (!ACTIVE.includes(it.status)) it.follow = ''; else if (!it.follow) it.follow = addDays(today(), 3); }
+          if (s.prosFollow) it.follow = e.target.value;
+          save(all); render();
+        });
+        render();
+      })();
+
+      // --- ⏱️ Minuteur de montage par commande (un seul actif à la fois) : « Ajouter au temps passé » alimente
+      // la saisie du temps (michyy_time_log) déjà utilisée par les stats. ---
+      (function initOrderTimers() {
+        const KEY = 'michyy_timers';
+        const get = () => { try { return JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) { return {}; } };
+        const put = t => { try { localStorage.setItem(KEY, JSON.stringify(t)); } catch (e) { /* ignore */ } };
+        const elapsed = x => x ? (x.acc || 0) + (x.running ? Date.now() - x.start : 0) : 0;
+        const fmt = ms => { const s = Math.floor(ms / 1000); return [Math.floor(s / 3600), Math.floor(s / 60) % 60, s % 60].map(n => String(n).padStart(2, '0')).join(':'); };
+        function tick() {
+          const T = get();
+          document.querySelectorAll('.ord-timer').forEach(el => {
+            const x = T[el.dataset.orderId], d = el.querySelector('[data-timer-display]'), b = el.querySelector('[data-timer-toggle]');
+            if (d) d.textContent = fmt(elapsed(x));
+            if (b) b.textContent = x && x.running ? '⏸ Pause' : (x && x.acc ? '▶ Reprendre' : '▶ Démarrer');
+          });
+          const badge = document.getElementById('adminTimerBadge'), run = Object.entries(T).find(([, x]) => x.running);
+          if (badge) { badge.style.display = run ? '' : 'none'; if (run) badge.textContent = `⏱️ ${run[0]} ${fmt(elapsed(run[1]))}`; }
+        }
+        document.addEventListener('click', (e) => {
+          const b = e.target.closest ? e.target.closest('[data-timer-toggle],[data-timer-save]') : null;
+          if (!b) return;
+          const id = b.closest('.ord-timer').dataset.orderId, T = get(), now = Date.now();
+          if (b.hasAttribute('data-timer-toggle')) {
+            const wasRunning = !!(T[id] && T[id].running);
+            Object.values(T).forEach(x => { if (x.running) { x.acc = elapsed(x); x.running = false; } });
+            if (!wasRunning) { const x = T[id] || { acc: 0 }; x.running = true; x.start = now; T[id] = x; }
+          } else {
+            const h = Math.round(elapsed(T[id]) / 36000) / 100;
+            if (h > 0) {
+              try { const log = JSON.parse(localStorage.getItem('michyy_time_log') || '{}'); log[id] = Math.round(((log[id] || 0) + h) * 100) / 100; localStorage.setItem('michyy_time_log', JSON.stringify(log)); } catch (err) { /* ignore */ }
+              delete T[id]; b.textContent = `✅ +${h} h ajoutées`;
+              if (typeof renderAdminExtras2 === 'function') { try { renderAdminExtras2(lastAdminOrders); } catch (err) { /* ignore */ } }
+            }
+          }
+          put(T); tick();
+        });
+        setInterval(tick, 1000);
+      })();
+
+      // --- 🎯 Mode focus « aujourd'hui » : masque tout sauf ce qui est à faire aujourd'hui. ---
+      (function initFocusMode() {
+        const panel = document.getElementById('adminPanel'), btn = document.getElementById('adminFocusBtn'), box = document.getElementById('adminFocusPanel');
+        if (!panel || !btn || !box) return;
+        const KEY = 'michyy_admin_focus', esc = escapeHtml;
+        function build(rows) {
+          const d0 = new Date(); d0.setHours(0, 0, 0, 0);
+          const t0 = d0.getTime(), t1 = t0 + 864e5, todayIso = localIsoDate(d0);
+          const live = rows.filter(r => r[0] && !String(r[1] || '').includes('Test (pas'));
+          const open = live.filter(r => { const c = statusCategory(r[1] || ''); return c !== 'cancelled' && c !== 'delivered'; });
+          const ts = r => getEffectiveDeliveryTimestamp(r);
+          return [
+            { icon: '🚨', title: 'En retard', tone: 'red', rows: open.filter(r => ts(r) && ts(r) < t0) },
+            { icon: '📦', title: 'À livrer aujourd\'hui', tone: 'red', rows: open.filter(r => ts(r) && ts(r) >= t0 && ts(r) < t1) },
+            { icon: '⏰', title: 'Rappels du jour', tone: 'amber', rows: open.filter(r => { const o = getOrderOpts(r[0]); return o.remind && o.remind <= todayIso; }) },
+            { icon: '🔥', title: 'Prioritaires', tone: 'amber', rows: open.filter(r => getOrderOpts(r[0]).prio === 'haute') },
+            { icon: '🆕', title: 'Nouvelles demandes à traiter', tone: 'amber', rows: open.filter(r => /attente de r[ée]ponse/i.test(r[1] || '')) },
+            { icon: '💳', title: 'Acompte à relancer (3 j et +)', tone: 'amber', rows: open.filter(r => /attente de l.acompte/i.test(r[1] || '') && r[3] && Date.now() - new Date(r[3]).getTime() >= 3 * 864e5 && !getOrderOpts(r[0]).noRelance) },
+            { icon: '💸', title: 'Solde à encaisser', tone: 'green', rows: live.filter(r => statusCategory(r[1] || '') === 'delivered' && String(r[7] || '').toLowerCase() !== 'oui' && !getOrderOpts(r[0]).noRelance) },
+            { icon: '🎬', title: 'Montages en cours', tone: 'green', rows: open.filter(r => statusCategory(r[1] || '') === 'inProgress').slice(0, 6), soft: true }
+          ].filter(s => s.rows.length);
+        }
+        function render(rows) {
+          if (!panel.classList.contains('admin-focus-on')) return;
+          const secs = build(rows || []), pd = window.__prospectionDue ? window.__prospectionDue() : [], urgent = secs.filter(s => !s.soft).reduce((n, s) => n + s.rows.length, 0) + pd.length;
+          const dateTxt = new Date().toLocaleDateString('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' });
+          box.innerHTML = `<div class="focus-head"><div class="focus-title">🎯 ${esc(dateTxt)}</div><button type="button" class="filter-reset-btn" data-focus-exit>✖️ Quitter le mode focus</button></div>`
+            + (urgent === 0 ? '<div class="focus-empty">🎉 Rien d\'urgent aujourd\'hui. Profites-en pour avancer sur tes montages !</div>' : '')
+            + secs.map(s => `<div class="focus-sec tone-${s.tone}"><h4>${s.icon} ${esc(s.title)} <span class="ct-muted">(${s.rows.length})</span></h4>${s.rows.map(r => { const f = parseNoteQuickFields(r[2] || ''); return `<button type="button" class="focus-item" data-focus-id="${esc(r[0])}"><strong>${esc(f.nom || r[5] || r[0])}</strong><em>${esc(r[1] || '')}</em><span>${esc(s.title === 'Rappels du jour' ? ((getOrderOpts(r[0]).remindAt ? '⏰ ' + getOrderOpts(r[0]).remindAt.slice(11, 16) + ' ' : '') + (getOrderOpts(r[0]).remindNote ? '📝 ' + getOrderOpts(r[0]).remindNote : (f.nomCommande || r[0]))) : (f.nomCommande || r[0]))}</span><span>${esc(r[0])}</span></button>`; }).join('')}</div>`).join('')
+            + (pd.length ? `<div class="focus-sec tone-amber"><h4>📣 Prospection à relancer <span class="ct-muted">(${pd.length})</span></h4>${pd.map(p => `<button type="button" class="focus-item" data-focus-prospect><strong>${esc(p.name)}</strong><em>${esc(p.status)}</em><span>relance prévue le ${esc(new Date(p.follow + 'T00:00:00').toLocaleDateString('fr-FR'))}</span></button>`).join('')}</div>` : '');
+        }
+        function setFocus(on) {
+          panel.classList.toggle('admin-focus-on', on);
+          btn.classList.toggle('is-on', on);
+          btn.textContent = on ? '✖️ Quitter le focus' : '🎯 Mode focus';
+          try { localStorage.setItem(KEY, on ? '1' : ''); } catch (e) { /* ignore */ }
+          if (on) render(lastAdminOrders);
+        }
+        window.__renderFocus = render;
+        btn.addEventListener('click', () => setFocus(!panel.classList.contains('admin-focus-on')));
+        box.addEventListener('click', (e) => {
+          if (e.target.closest && e.target.closest('[data-focus-exit]')) return setFocus(false);
+          if (e.target.closest && e.target.closest('[data-focus-prospect]')) { setFocus(false); activateAdminTab('prospection'); return; }
+          const it = e.target.closest ? e.target.closest('[data-focus-id]') : null;
+          if (!it) return;
+          setFocus(false);
+          adminSearchInput.value = it.dataset.focusId; activateAdminTab('commandes'); renderAdminOrdersList(lastAdminOrders);
+        });
+        setTimeout(() => { try { if (localStorage.getItem(KEY) === '1') setFocus(true); } catch (e) { /* ignore */ } }, 0);
+      })();
 
       // --- Alerte "code promo déjà utilisé" : repère quand le même code promo (champ rapide 🎟️)
       // apparaît dans la note de plusieurs commandes portant le même nom/pseudo (champ rapide, en
@@ -20628,6 +21178,9 @@ Date limite :</pre>
             <div class="admin-template-buttons">
               ${CLIENT_MESSAGE_TEMPLATES.map(t => `<button type="button" class="admin-template-btn" data-order-id="${orderId}" data-template="${escapeHtml(t.text)}" title="Insérer ce modèle">➕ ${escapeHtml(t.label)}</button>`).join('')}
             </div>
+            <details class="admin-template-group"><summary>📣 Prospection &amp; fidélisation</summary><div class="admin-template-buttons">
+              ${PROSPECTION_TEMPLATES.filter(t => t.card).map(t => `<button type="button" class="admin-template-btn" data-order-id="${orderId}" data-template="${escapeHtml(t.text)}" title="Insérer ce modèle">➕ ${escapeHtml(t.label)}</button>`).join('')}
+            </div></details>
             <input type="text" class="admin-client-message-input" data-order-id="${orderId}" value="${currentClientMessage}" placeholder="ex : petit retard, désolé ! Livraison prévue demain matin." />
             <details class="admin-card-details">
               <summary class="admin-card-details-summary">Détails${contact ? ` · 📇 ${contact}` : ''}</summary>
@@ -20729,6 +21282,15 @@ Date limite :</pre>
         }
         if (tagVal) {
           filtered = filtered.filter(r => getCustomTags(r[0]).includes(tagVal));
+        }
+        {
+          const sBtn = document.getElementById('adminSilentBtn');
+          if (sBtn) {
+            const nD = silentDays();
+            sBtn.textContent = `🤐 Sans réponse client (${dataRows.filter(r => isSilentOrder(r, nD)).length})`;
+            sBtn.classList.toggle('is-on', !!window.__silentOn);
+            if (window.__silentOn) filtered = filtered.filter(r => isSilentOrder(r, nD));
+          }
         }
         if (dateFrom || dateTo) {
           filtered = filtered.filter(r => {
@@ -20912,7 +21474,7 @@ Date limite :</pre>
           // chargements non silencieux (ouverture du panneau, clic "Actualiser") — pas à chaque
           // sondage de fond toutes les 45s, pour ne jamais déclencher un téléchargement surprise
           // pendant que l'admin ne regarde même pas l'onglet.
-          if (!silent) maybeRunAutoExport(dataRows);
+          if (!silent) { try { maybeRunAutoExport(dataRows); } catch (e) { console.warn('Export automatique impossible :', e); } }
         } catch (err) {
           console.error('loadAdminOrders a échoué :', err);
           if (!silent) {
@@ -21065,7 +21627,7 @@ Date limite :</pre>
         const blob = new Blob([csvLines.join('\n')], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = `commandes-michyy-${new Date().toISOString().slice(0, 10)}${filenameSuffix ? '-' + filenameSuffix : ''}.csv`;
+        link.download = `commandes-michyy-${localIsoDate(new Date())}${filenameSuffix ? '-' + filenameSuffix : ''}.csv`;
         link.click();
       }
 
@@ -21107,7 +21669,7 @@ Date limite :</pre>
         const blob = new Blob([csvLines.join('\n')], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = `ratio-revisions-michyy-${new Date().toISOString().slice(0, 10)}.csv`;
+        link.download = `ratio-revisions-michyy-${localIsoDate(new Date())}.csv`;
         link.click();
         return keys.length;
       }
@@ -21119,7 +21681,7 @@ Date limite :</pre>
         const clients = buildClientGroups(dataRows).map(g => {
           const valid = g.orders.filter(r => statusCategory(r[1] || '') !== 'cancelled');
           const dates = valid.map(r => r[3] ? new Date(r[3]).getTime() : 0).filter(t => t > 0);
-          const fmt = t => t ? new Date(t).toISOString().slice(0, 10) : '';
+          const fmt = t => t ? localIsoDate(new Date(t)) : '';
           return { manual: g.manualRecurrent, name: g.displayName, n: valid.length, total: g.totalSpent, first: dates.length ? Math.min(...dates) : 0, last: g.lastOrderAt || 0, days: g.daysSinceLastOrder, fmt };
         }).sort((a, b) => b.total - a.total || b.n - a.n);
         const esc = v => `"${String(v ?? '').replace(/"/g, '""')}"`;
@@ -21128,7 +21690,7 @@ Date limite :</pre>
         const blob = new Blob(['\ufeff' + lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
         const a = document.createElement('a');
         a.href = URL.createObjectURL(blob);
-        a.download = `valeur-vie-client-michyy-${new Date().toISOString().slice(0, 10)}.csv`;
+        a.download = `valeur-vie-client-michyy-${localIsoDate(new Date())}.csv`;
         a.click();
         return clients.length;
       }
@@ -21390,7 +21952,7 @@ Date limite :</pre>
               const d = r[3] ? new Date(r[3]) : null;
               return d && d.getFullYear() === now.getFullYear() && d.getMonth() === now.getMonth();
             });
-            const ca = inMonth.reduce((t, r) => t + amount(r), 0);
+            const ca = inMonth.reduce((t, r) => t + (parseBudgetAmount(parseNoteQuickFields(r[2] || '')) || 0), 0);
             const delivered = inMonth.filter(r => (r[1] || '').includes('Livré')).length;
             const revStats = computeMonthlyRevisionStats(lastAdminOrders);
             const key = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
@@ -21568,7 +22130,7 @@ Date limite :</pre>
         const blob = new Blob([csvLines.join('\n')], { type: 'text/csv;charset=utf-8;' });
         const link = document.createElement('a');
         link.href = URL.createObjectURL(blob);
-        link.download = `delai-livraison-michyy-${new Date().toISOString().slice(0, 10)}.csv`;
+        link.download = `delai-livraison-michyy-${localIsoDate(new Date())}.csv`;
         link.click();
         return keys.length;
       }
@@ -22230,7 +22792,7 @@ Date limite :</pre>
       if (!card || !iconEl || !textEl) return;
       let count = 0;
       try {
-        const orders = JSON.parse(localStorage.getItem('michyy_orders') || '{}');
+        const orders = readOrders();
         count = Object.keys(orders).length;
       } catch (e) { count = 0; }
       if (count <= 0) return; // rien à afficher tant qu'aucune commande n'est enregistrée sur ce navigateur
@@ -23365,7 +23927,7 @@ Date limite :</pre>
           }
           // Remplace le libellé générique ("TikTok Gaming #N") par le vrai titre/légende de la vidéo,
           // récupéré automatiquement via l'oEmbed public — jamais inventé à la main.
-          const labelEl = card.querySelector('.portfolio-card-label[]');
+          const labelEl = card.querySelector('.portfolio-card-label[data-generic]');
           if (labelEl && json.title) {
             labelEl.textContent = json.title;
             labelEl.removeAttribute('data-generic');
@@ -24211,6 +24773,16 @@ Date limite :</pre>
       // Le titre/texte diffèrent selon la raison réelle : "complet" si aucun créneau, "affluence
       // élevée" si des créneaux techniques existent encore mais que les délais sont déjà tendus —
       // pas la même promesse faite au visiteur dans les deux cas.
+      (function showWaitlistTopBanner() {
+        if (document.getElementById('waitlistTopBanner')) return;
+        try { if (sessionStorage.getItem('michyy_waitlist_banner_closed') === '1') return; } catch (e) { /* ignore */ }
+        const bar = document.createElement('div');
+        bar.id = 'waitlistTopBanner'; bar.className = 'waitlist-top-banner'; bar.setAttribute('role', 'status');
+        bar.innerHTML = `<span class="waitlist-top-dot" aria-hidden="true"></span><strong>${isReallyFull ? 'Complet pour le moment' : 'Forte affluence'}</strong><span class="waitlist-top-text">— rejoins la liste d'attente, je te préviens dès qu'une place se libère.</span><a href="#waitlistBox" class="waitlist-top-cta">🔔 Rejoindre la liste</a><button type="button" class="waitlist-top-close" aria-label="Masquer le bandeau">✕</button>`;
+        document.body.insertBefore(bar, document.body.firstChild);
+        bar.querySelector('.waitlist-top-cta').addEventListener('click', (e) => { e.preventDefault(); waitlistBox.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+        bar.querySelector('.waitlist-top-close').addEventListener('click', () => { bar.remove(); try { sessionStorage.setItem('michyy_waitlist_banner_closed', '1'); } catch (e) { /* ignore */ } });
+      })();
       if (!isReallyFull) {
         const waitlistTitle = waitlistBox.querySelector('.waitlist-title');
         const waitlistText = waitlistBox.querySelector('.waitlist-text');
@@ -24452,7 +25024,7 @@ Date limite :</pre>
     //                       Le Client Secret, lui, ne se colle jamais ici : uniquement dans la
     //                       variable d'environnement Cloudflare Pages DISCORD_CLIENT_SECRET (voir
     //                       functions/api/auth-discord.js).
-    const GOOGLE_CLIENT_ID = 371606544224-gtq5dcc9urg7l4mg24v2psactskaeoj6.apps.googleusercontent.com;
+    const GOOGLE_CLIENT_ID = 'COLLE_TON_CLIENT_ID_GOOGLE_ICI';
     const DISCORD_CLIENT_ID = 'COLLE_TON_CLIENT_ID_DISCORD_ICI';
     const AUTH_API_URL = '/api/auth';
 
@@ -25215,7 +25787,7 @@ Date limite :</pre>
           doc.text(footerLines, 14, y);
 
           const slug = nom.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '') || 'client';
-          doc.save(`devis-michyy-${slug}-${new Date().toISOString().slice(0, 10)}.pdf`);
+          doc.save(`devis-michyy-${slug}-${localIsoDate(new Date())}.pdf`);
           btn.textContent = '✅ Téléchargé !';
         } catch (err) {
           btn.textContent = '⚠️ Échec, réessaie';
@@ -25325,9 +25897,14 @@ Date limite :</pre>
       });
       const average = total / cards.length;
       avgEl.innerHTML =
-        '<span class="testimonial-average-star">★</span>' +
+        `<span class="stars stars-lg" style="--rating:${average.toFixed(2)}" role="img" aria-label="Note moyenne ${average.toFixed(1)} sur 5">★★★★★</span>` +
         `<span class="testimonial-average-score">${average.toFixed(1)}/5</span>` +
-        `<span class="testimonial-average-count">sur ${cards.length} avis</span>`;
+        `<span class="testimonial-average-count">· ${cards.length} avis</span>`;
+      cards.forEach(card => {
+        if (card.querySelector('.testimonial-stars')) return;
+        const r = Math.max(0, Math.min(5, Number(card.dataset.rating) || 5));
+        card.insertAdjacentHTML('afterbegin', `<span class="stars testimonial-stars" style="--rating:${r}" role="img" aria-label="${r} étoiles sur 5">★★★★★</span>`);
+      });
       avgEl.style.display = 'flex';
       updateSchemaOrgData(average, cards.length);
 
@@ -26328,6 +26905,7 @@ Date limite :</pre>
       d.setDate(d.getDate() + days);
       return d;
     }
+    const delaiSelect = document.getElementById('delaiSelect');
     function updateDelayEstimate() {
       if (!delayEstimateText) return;
       const range = DELAY_RANGES[formatSelect.value] || DELAY_RANGES['Long (YouTube / Best-of)'];
@@ -26499,6 +27077,86 @@ Date limite :</pre>
         const pi = document.getElementById('parrainPseudoInput');
         if (pi) { pi.value = from; pi.dispatchEvent(new Event('input', { bubbles: true })); }
       }, 150);
+    })();
+
+    // --- 👆 Portfolio sur tactile : le survol n'existe pas, donc 1er tap = révèle le titre par-dessus la miniature,
+    // 2e tap = lance la vidéo. Les liens/boutons internes (lien externe, « Réserve un montage similaire ») gardent leur comportement. ---
+    (function initPortfolioTapReveal() {
+      if (!(window.matchMedia && window.matchMedia('(hover: none)').matches)) return;
+      const first = document.querySelector('.portfolio-card');
+      if (first && first.parentElement && !document.querySelector('.portfolio-touch-hint')) {
+        first.parentElement.insertAdjacentHTML('beforebegin', '<p class="portfolio-touch-hint">👆 Touche une vidéo pour voir son titre, touche encore pour la lancer.</p>');
+      }
+      document.addEventListener('click', (e) => {
+        const card = e.target.closest ? e.target.closest('.portfolio-card') : null;
+        document.querySelectorAll('.portfolio-card.is-revealed').forEach(c => { if (c !== card) c.classList.remove('is-revealed'); });
+        if (!card || card.classList.contains('is-playing')) return;
+        if (e.target.closest('a, .portfolio-card-external, .portfolio-reserve-link')) return;
+        if (!card.classList.contains('is-revealed')) { card.classList.add('is-revealed'); e.stopPropagation(); e.preventDefault(); }
+      }, true);
+    })();
+
+    // --- 🎞️ Avant / Après : rushs bruts → montage final. Remplis BEFORE_AFTER_ITEMS pour afficher la section
+    // (vide = section masquée). before/after : lien YouTube, ou fichier .mp4/.webm/.mov (Drive public, hébergé...). ---
+    const BEFORE_AFTER_ITEMS = [
+      // { title: 'Clip TikTok gaming', note: '8 min de rushs → 45 s', before: 'https://youtu.be/XXXXXXXXXXX', after: 'https://youtu.be/YYYYYYYYYYY' },
+    ];
+    (function initBeforeAfter() {
+      const sec = document.getElementById('avant-apres'), grid = document.getElementById('beforeAfterGrid');
+      if (!sec || !grid || !BEFORE_AFTER_ITEMS.length) return;
+      const media = (url) => {
+        const yt = /(?:youtu\.be\/|youtube\.com\/(?:watch\?v=|shorts\/|embed\/))([\w-]{11})/.exec(url || '');
+        if (yt) return `<iframe src="https://www.youtube-nocookie.com/embed/${yt[1]}" title="Vidéo" loading="lazy" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`;
+        if (/\.(mp4|webm|mov)(\?|$)/i.test(url || '')) return `<video src="${escapeHtml(url)}" controls preload="none" playsinline></video>`;
+        return url ? `<a class="inline-link" href="${escapeHtml(url)}" target="_blank" rel="noopener">▶ Voir la vidéo</a>` : '';
+      };
+      grid.innerHTML = BEFORE_AFTER_ITEMS.map((it, i) => `<div class="ba-card" data-ba="${i}">
+        <div class="ba-title">${escapeHtml(it.title || '')}${it.note ? ` <span class="ba-note">${escapeHtml(it.note)}</span>` : ''}</div>
+        <div class="ba-tabs" role="tablist"><button type="button" class="ba-tab" data-ba-side="before" aria-pressed="false">🎞️ Avant (rushs)</button><button type="button" class="ba-tab is-on" data-ba-side="after" aria-pressed="true">✨ Après (montage)</button></div>
+        <div class="ba-media"></div></div>`).join('');
+      const show = (card, side) => {
+        const it = BEFORE_AFTER_ITEMS[card.dataset.ba];
+        card.querySelectorAll('.ba-tab').forEach(b => { const on = b.dataset.baSide === side; b.classList.toggle('is-on', on); b.setAttribute('aria-pressed', on); });
+        card.querySelector('.ba-media').innerHTML = media(it[side]);
+      };
+      grid.querySelectorAll('.ba-card').forEach(c => show(c, 'after'));
+      grid.addEventListener('click', (e) => { const b = e.target.closest('.ba-tab'); if (b) show(b.closest('.ba-card'), b.dataset.baSide); });
+      sec.style.display = '';
+    })();
+
+    // --- ✍️ Exemples de briefs : un clic remplit le formulaire de commande (à personnaliser ensuite). ---
+    const BRIEF_EXAMPLES = [
+      { icon: '🎮', title: 'Clip gaming pour TikTok', format: 'Court (TikTok / Reels)', ambiance: 'Dynamique / énergique', objectifVideo: 'Vues / visibilité', sousTitresSouhaites: 'Oui, obligatoire', dureeVideo: '30 s – 1 min', plateformeVideo: 'TikTok',
+        description: "Je t'envoie ~8 min de gameplay. Je voudrais un clip de 30-45 s avec le meilleur moment en accroche dans les 2 premières secondes, des zooms sur les actions, sous-titres animés et sons d'impact. Rythme rapide, aucun temps mort, musique dynamique." },
+      { icon: '📺', title: 'Vlog / best-of YouTube', format: 'Long (YouTube / Best-of)', ambiance: 'Drôle / fun', objectifVideo: 'Engagement communauté', sousTitresSouhaites: 'Comme tu penses le mieux', dureeVideo: '3 – 10 min', plateformeVideo: 'YouTube (vidéo longue)',
+        description: "J'ai environ 25 min de rushs à ramener à ~8 min. Garde les moments drôles, coupe les silences et les redites, ajoute des titres de chapitres et une intro courte (moins de 15 s). Ambiance légère, quelques effets sonores pour appuyer les blagues." },
+      { icon: '🏢', title: 'Vidéo de marque / pro', format: 'Business / Sponsorisé', ambiance: 'Posée / sérieuse', objectifVideo: 'Image de marque / pro', sousTitresSouhaites: 'Oui, obligatoire', dureeVideo: '30 s – 1 min', plateformeVideo: 'Instagram Reels',
+        description: "Présentation de notre activité en 45 s pour Instagram. Ton sérieux mais accessible, logo et charte graphique fournis, sous-titres lisibles (beaucoup regardent sans le son), appel à l'action en fin de vidéo. Musique sobre libre de droits." },
+      { icon: '🎙️', title: 'Extraits de podcast / stream', format: 'Court (TikTok / Reels)', ambiance: 'Dynamique / énergique', objectifVideo: 'Engagement communauté', sousTitresSouhaites: 'Oui, obligatoire', dureeVideo: '30 s – 1 min', plateformeVideo: 'YouTube Shorts',
+        description: "Je fournis un épisode complet : repère 3 passages forts (débat, anecdote, punchline) et fais-en des extraits de moins d'1 min avec sous-titres animés et barre de progression. Format vertical, accroche dès la première phrase." },
+      { icon: '🎉', title: 'Souvenir (voyage, événement)', format: 'Long (YouTube / Best-of)', ambiance: 'Drôle / fun', objectifVideo: 'Souvenir / plaisir personnel', sousTitresSouhaites: 'Non merci', dureeVideo: '1 – 3 min', plateformeVideo: '',
+        description: "Résumé de notre week-end en 2-3 min : les meilleurs moments dans l'ordre chronologique, transitions fluides, musique ambiance vacances, quelques ralentis sur les moments forts. Pas de sous-titres, juste de l'émotion et de la bonne humeur." }
+    ];
+    (function initBriefExamples() {
+      const grid = document.getElementById('briefExamples'), form = document.getElementById('reserveForm');
+      if (!grid || !form) return;
+      grid.innerHTML = BRIEF_EXAMPLES.map((b, i) => `<div class="brief-card"><div class="brief-card-head"><span aria-hidden="true">${b.icon}</span><strong>${escapeHtml(b.title)}</strong></div>
+        <div class="brief-chips"><span>${escapeHtml(b.format)}</span><span>${escapeHtml(b.dureeVideo)}</span><span>${escapeHtml(b.ambiance)}</span></div>
+        <blockquote>${escapeHtml(b.description)}</blockquote>
+        <button type="button" class="brief-use-btn" data-brief="${i}">✍️ Utiliser ce brief</button></div>`).join('');
+      grid.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-brief]');
+        if (!btn) return;
+        const b = BRIEF_EXAMPLES[btn.dataset.brief];
+        ['format', 'ambiance', 'objectifVideo', 'sousTitresSouhaites', 'dureeVideo', 'plateformeVideo', 'description'].forEach(n => {
+          const el = form.elements[n], v = b[n];
+          if (!el || !v) return;
+          if (el.tagName === 'SELECT' && ![...el.options].some(o => o.value === v)) return;
+          el.value = v; el.dispatchEvent(new Event(el.tagName === 'SELECT' ? 'change' : 'input', { bubbles: true }));
+        });
+        btn.textContent = '✅ Brief copié dans le formulaire ↓';
+        const target = document.getElementById('reservation'); if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      });
     })();
 
     // --- Tous les liens "Je réserve ce format/pack →" de la section Tarifs (voir data-apply-format
@@ -26696,7 +27354,7 @@ Date limite :</pre>
       today.setHours(0, 0, 0, 0);
       const minDate = new Date(today);
       minDate.setDate(minDate.getDate() + 1);
-      dateLivraisonInput.min = minDate.toISOString().slice(0, 10);
+      dateLivraisonInput.min = localIsoDate(minDate);
 
       function updateDateLivraisonHint() {
         if (!dateLivraisonHint) return;
@@ -27233,7 +27891,7 @@ Date limite :</pre>
     }
 
     function saveOrder(order) {
-      const orders = JSON.parse(localStorage.getItem('michyy_orders') || '{}');
+      const orders = readOrders();
       orders[order.id] = order;
       localStorage.setItem('michyy_orders', JSON.stringify(orders));
     }
@@ -27692,7 +28350,7 @@ Date limite :</pre>
 
     function renderOrderHistory() {
       const filter = trackingInput.value.trim().toUpperCase();
-      const allOrders = Object.values(JSON.parse(localStorage.getItem('michyy_orders') || '{}'));
+      const allOrders = Object.values(readOrders());
       allOrders.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
       const visibleOrders = allOrders.filter(o => showHiddenClientOrders || !o.hidden);
       const hiddenCount = allOrders.filter(o => o.hidden).length;
@@ -27731,7 +28389,7 @@ Date limite :</pre>
       trackingResult.querySelectorAll('.tracking-add-local-btn').forEach(btn => {
         btn.addEventListener('click', () => {
           const orderId = btn.dataset.orderId;
-          const orders = JSON.parse(localStorage.getItem('michyy_orders') || '{}');
+          const orders = readOrders();
           if (!orders[orderId]) {
             orders[orderId] = {
               id: orderId,
@@ -27773,7 +28431,7 @@ Date limite :</pre>
               });
             }
           } catch (err) { /* on marque quand même comme annulée localement même si l'envoi échoue */ }
-          const orders = JSON.parse(localStorage.getItem('michyy_orders') || '{}');
+          const orders = readOrders();
           if (orders[orderId]) {
             orders[orderId].clientCancelled = true;
             localStorage.setItem('michyy_orders', JSON.stringify(orders));
@@ -27797,13 +28455,10 @@ Date limite :</pre>
             return;
           }
           const original = btn.textContent;
-          try {
-            await navigator.clipboard.writeText(url);
-            btn.textContent = '✅ Lien copié !';
-          } catch (err) {
-            prompt('Copie ce lien manuellement :', url);
-          }
-          if (note) note.textContent = '📋 Lien copié — valable 3 jours, à envoyer à qui tu veux (aucune info sensible dedans).';
+          const res = await shareOrCopyLink(url, { title: 'Suivi de ma commande', text: 'Voici où en est ma commande de montage vidéo 🎬' });
+          if (res === 'cancelled') return;
+          btn.textContent = res === 'shared' ? '✅ Partagé !' : '✅ Lien copié !';
+          if (note) note.textContent = (res === 'shared' ? '📤 Lien partagé' : '📋 Lien copié') + ' — valable 3 jours, à envoyer à qui tu veux (aucune info sensible dedans).';
           setTimeout(() => { btn.textContent = original; }, 2200);
         });
       });
@@ -27815,7 +28470,7 @@ Date limite :</pre>
         btn.addEventListener('click', () => {
           const orderId = btn.dataset.orderId;
           const isHidden = btn.dataset.hidden === '1';
-          const orders = JSON.parse(localStorage.getItem('michyy_orders') || '{}');
+          const orders = readOrders();
           if (!orders[orderId]) return;
           if (isHidden) {
             delete orders[orderId].hidden;
@@ -28165,7 +28820,7 @@ Date limite :</pre>
       if (!confirm('Effacer ton historique de suivi sur cet appareil ? Cette action est irréversible. Le numéro de ta dernière commande restera visible juste au-dessus (aperçu), lui n\'est pas effacé.')) return;
 
       // Prévient Michyy sur Discord des commandes annulées par le client avant de les effacer localement
-      const ordersBeforeWipe = Object.values(JSON.parse(localStorage.getItem('michyy_orders') || '{}'));
+      const ordersBeforeWipe = Object.values(readOrders());
       if (ordersBeforeWipe.length && !WEBHOOK_URL.includes('COLLE_TON_URL')) {
         const idsList = ordersBeforeWipe.map(o => o.id).join(', ');
         fetch(WEBHOOK_URL, {
@@ -28219,6 +28874,7 @@ Date limite :</pre>
     // Génère un devis PDF imprimable à partir des données de la commande confirmée
     function openDevisPdf(data, total, deposit) {
       const win = window.open('', '_blank');
+      if (!win) { alert('Ton navigateur a bloqué la fenêtre du devis : autorise les pop-ups pour ce site puis réessaie.'); return; }
       win.document.write(`
         <html>
         <head>
@@ -28341,19 +28997,41 @@ Date limite :</pre>
           ...(data.getAll('bonus').length ? [{ icon: '✨', label: 'Bonus', value: `${data.getAll('bonus').join(', ')} (+${bonusTotalFromValues(data.getAll('bonus'))}€)` }] : [])
         ];
 
-        recapContent.innerHTML = `
-          <div class="recap-card-rows">
-            ${recapRows.map(r => `
+        const GROUPS = [
+          ['👤 Contact', ['Client', 'Contact', 'Chaîne / compte']],
+          ['🎬 Commande', ['Nom de la commande', 'Format', 'Délai souhaité', 'Date voulue', 'Bonus']],
+          ['📁 Fichiers & paiement', ['Lien des rushs', 'Fichiers joints', 'Rushs', 'Preuve de paiement']]
+        ];
+        const rowsNoBudget = recapRows.filter(r => r.label !== 'Budget indicatif');
+        const used = new Set();
+        const groupHtml = (title, rows) => rows.length ? `<div class="recap-group"><p class="recap-group-title">${title}</p>${rows.map(r => `
               <div class="recap-card-row">
                 <span class="recap-card-icon">${r.icon}</span>
                 <div class="recap-card-body">
                   <span class="recap-card-label">${escapeHtml(r.label)}</span>
                   <span class="recap-card-value${r.warn ? ' recap-warn' : ''}">${escapeHtml(r.value)}</span>
                 </div>
-              </div>
-            `).join('')}
+              </div>`).join('')}</div>` : '';
+        const blocks = GROUPS.map(([title, labels]) => { const rows = rowsNoBudget.filter(r => labels.includes(r.label)); rows.forEach(r => used.add(r)); return [title, rows]; });
+        blocks.splice(2, 0, ['📝 Ton projet', rowsNoBudget.filter(r => !used.has(r))]);
+        const depositTxt = (document.getElementById('depositAmount') || {}).textContent || '';
+        const qtyN = parseInt(data.get('quantite'), 10);
+        const oneLine = [data.get('format'), qtyN > 1 ? `× ${qtyN}` : '', data.get('dateLivraisonSouhaitee') ? `pour le ${new Date(data.get('dateLivraisonSouhaitee') + 'T00:00:00').toLocaleDateString('fr-FR')}` : '', data.get('contact') ? `· réponse sur ${data.get('reseau') || 'ton contact'} (${data.get('contact')})` : ''].filter(Boolean).join(' ');
+        recapContent.innerHTML = `
+          ${oneLine ? `<p class="recap-oneline">📌 <strong>En résumé :</strong> ${escapeHtml(oneLine)}</p>` : ''}
+          <div class="recap-price-strip">
+            <div><small>Budget indicatif</small><strong>${escapeHtml(data.get('budget') || '—')}</strong></div>
+            ${depositTxt ? `<div><small>Acompte (50 %)</small><strong>${escapeHtml(depositTxt)}</strong></div>` : ''}
           </div>
+          ${blocks.map(([title, rows]) => groupHtml(title, rows)).join('')}
+          <button type="button" class="recap-edit-btn" data-recap-edit>✏️ Modifier ma demande</button>
         `;
+        recapContent.querySelector('[data-recap-edit]').addEventListener('click', () => {
+          recapBox.style.display = 'none'; reserveConfirmed = false;
+          reserveSubmitBtn.textContent = reserveSubmitBtn.dataset.origText || 'Vérifier ma demande';
+          reserveForm.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        if (!reserveSubmitBtn.dataset.origText) reserveSubmitBtn.dataset.origText = reserveSubmitBtn.textContent;
         recapBox.style.display = 'block';
         recapBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
         reserveConfirmed = true;
@@ -28617,9 +29295,10 @@ Date limite :</pre>
             const noteText = `Salut, j'ai déjà réglé l'acompte de ma commande ${orderId} (${data.get('nom') || ''}), voici la preuve de paiement :`;
             copyToClipboard(noteText).then(() => {
               const original = alreadyPaidLinkBtn.textContent;
+              // ✅ Lien direct restauré avec le vrai ID numérique Discord (495853844723662850).
               alreadyPaidLinkBtn.textContent = '✅ Message copié, colle-le sur Discord avec ta preuve !';
               setTimeout(() => { alreadyPaidLinkBtn.textContent = original; }, 3000);
-              window.open('https://discord.com/users/jlmichyy', '_blank', 'noopener');
+              window.open('https://discord.com/users/495853844723662850', '_blank', 'noopener');
             });
           };
         }
@@ -29313,6 +29992,8 @@ Date limite :</pre>
     <div class="admin-toolbar">
       <button type="button" id="adminRefreshBtn" class="paypal-quick-btn paypal-quick-btn-secondary">🔄 Actualiser la liste</button>
       <button type="button" id="adminNotifyToggleBtn" class="paypal-quick-btn paypal-quick-btn-secondary">🔔 Notifications commandes</button>
+      <button type="button" id="adminFocusBtn" class="paypal-quick-btn paypal-quick-btn-secondary" title="Masque tout sauf ce qui est à faire aujourd'hui">🎯 Mode focus</button>
+      <span id="adminTimerBadge" style="display:none;"></span>
       <a id="adminSheetLink" href="https://docs.google.com/spreadsheets/d/13jPRPQUOe8JNkxzkv_PIUE98iJz3hS2NSrEFDnT2bhE/edit?usp=sharing" target="_blank" rel="noopener" class="admin-btn-primary">📄 Ouvrir le Google Sheet</a>
       <div class="admin-toolbar-more" id="adminToolbarMore">
         <button type="button" id="adminMoreToggleBtn" class="admin-btn-primary" aria-haspopup="true" aria-expanded="false">⋯ Plus</button>
@@ -29331,8 +30012,12 @@ Date limite :</pre>
     <div class="admin-tab-row">
       <button type="button" class="admin-tab-btn active" data-admin-tab="commandes">📋 Commandes</button>
       <button type="button" class="admin-tab-btn" data-admin-tab="stats">📊 Stats & outils</button>
+      <button type="button" class="admin-tab-btn" data-admin-tab="prospection">📣 Prospection</button>
       <button type="button" class="admin-tab-btn" data-admin-tab="dispo">📅 Disponibilité</button>
+      <button type="button" class="admin-tab-btn" data-admin-tab="sections">🧩 Sections</button>
     </div>
+
+    <div id="adminFocusPanel"></div>
 
     <div id="adminTabCommandes" class="admin-tab-panel">
       <!-- 🆕 Rappel de livraison (J-1) déplacé ici depuis Stats & outils : c'est ce qu'il y a de plus
@@ -29379,6 +30064,10 @@ Date limite :</pre>
       <select id="adminTagFilter" class="admin-status-filter">
         <option value="">Tous les tags</option>
       </select>
+      <div class="admin-date-filter-row">
+        <button type="button" id="adminSilentBtn" class="filter-reset-btn" title="Commandes actives dont le client n'a rien écrit (retours, colonne J) depuis N jours">🤐 Sans réponse client</button>
+        <label class="admin-date-filter-label">depuis <input type="number" id="adminSilentDays" class="admin-date-input" min="1" max="90" value="3" style="width:64px;"> jours</label>
+      </div>
       <div class="admin-date-filter-row">
         <label class="admin-date-filter-label">📅 Créées entre
           <input type="date" id="adminDateFromInput" class="admin-date-input" />
@@ -29707,6 +30396,7 @@ Date limite :</pre>
           <p class="info-text" style="font-size:12px;">Aperçu local sur ce navigateur. Pour l'appliquer aux visiteurs : change <code>SITE_STATUS</code> dans le code (et <code>SITE_STATUS_REOPEN</code>).</p>
           <select id="siteStatusPreview"><option value="">Selon le code</option><option value="open">Ouvert</option><option value="full">Complet (liste d'attente)</option><option value="vacation">Vacances</option></select></div>
         <div class="price-log-card"><div class="info-title">📈 CA sur 12 mois</div><div id="adminCa12" class="ca-bars"></div></div>
+        <div class="price-log-card"><div class="info-title">🎞️ Revenus par format <select id="adminFmtPeriod" style="margin-left:8px;font-size:12px;"><option value="0">Depuis toujours</option><option value="12" selected>12 derniers mois</option><option value="3">3 derniers mois</option></select></div><div id="adminFmtRevenue"></div></div>
         <div class="price-log-card"><div class="info-title">🔔 Notifications</div>
           <p class="info-text" style="font-size:12px;">Alerte navigateur quand une nouvelle commande apparaît lors d'un chargement/rafraîchissement de l'admin (page ouverte).</p>
           <button type="button" id="notifBtn" class="admin-btn-primary">Activer les notifications</button> <span class="admin-promo-usage" id="notifStatus"></span></div>
@@ -29815,6 +30505,7 @@ Date limite :</pre>
             <span class="more-options-summary-hint">(à copier en un clic, à coller puis personnaliser)</span>
           </summary>
           <div class="more-options-content">
+            <details class="admin-quickreply-sub" open><summary>📣 Prospection <span class="ct-muted">(contacter de nouveaux clients — le prénom est remplacé automatiquement)</span></summary><div id="adminQuickReplyProspection"></div></details>
             <div class="admin-quickreply-list">
               <div class="admin-quickreply-item">
                 <div class="admin-quickreply-item-header">
@@ -30034,6 +30725,27 @@ Date limite :</pre>
          Ne couvre volontairement que les sections non-essentielles au tunnel de réservation
          (tarifs/reservation restent toujours visibles) — masquer celles-là casserait la page pour
          de vrai en aperçu, ce qui n'aiderait personne. -->
+  <div id="adminTabProspection" class="admin-tab-panel" style="display: none;">
+    <h4 class="admin-availability-title">📣 Prospection — journal de démarchage</h4>
+    <p class="info-text" style="font-size:12px;">Note chaque personne ou marque que tu contactes, son statut et la date de relance. Enregistré sur cet appareil ; les relances du jour apparaissent dans le mode focus.</p>
+    <p class="info-text" style="font-size:12px;">🔔 <strong>Les relances de ce journal sont des rappels pour toi</strong>, pas des messages envoyés au client : rien ne part automatiquement (différent de la file de relances des commandes).</p>
+    <div class="pros-stats" id="prosStats"></div>
+    <div class="pros-form">
+      <label>Nom / pseudo<input type="text" id="prosName" maxlength="80" placeholder="ex : @streamer42"></label>
+      <label>Plateforme<select id="prosPlatform"><option>Discord</option><option>TikTok</option><option>Instagram</option><option>YouTube</option><option>X / Twitter</option><option>Twitch</option><option>Email</option><option>Autre</option></select></label>
+      <label>Lien du profil<input type="text" id="prosLink" maxlength="300" placeholder="https://…"></label>
+      <label>Statut<select id="prosStatus"></select></label>
+      <label>Contacté le<input type="date" id="prosDate"></label>
+      <label>Relancer le<input type="date" id="prosFollow"></label>
+      <label>Note<input type="text" id="prosNote" maxlength="300" placeholder="ex : gros potentiel, 3 vidéos/sem"></label>
+      <button type="button" class="admin-btn-primary" id="prosAdd">➕ Ajouter au journal</button>
+    </div>
+    <div class="ct-filters" id="prosFilters"></div>
+    <div id="prosList"></div>
+    <details class="ct-settings"><summary>📝 Modèles de messages de démarchage</summary><div class="pros-tpl"><label class="admin-qr-name">Prénom du contact <input type="text" id="prosTplName" maxlength="40" placeholder="ex : Léo (remplace {prénom})"></label></div><div id="prosTemplates"></div></details>
+    <p style="margin-top:10px;"><button type="button" class="filter-reset-btn" id="prosExport">⬇️ Exporter le journal (CSV)</button></p>
+  </div>
+
   <div id="adminTabDispo" class="admin-tab-panel" style="display: none;">
       <h4 class="admin-availability-title">📅 Jours bloqués (vacances, pause…)</h4>
       <p class="info-text" style="font-size:12px;">Clique un jour pour le bloquer / le débloquer. S'ajoute au calcul automatique des commandes et s'affiche dans le calendrier public, la frise « Dispo 7 j » et le formulaire.</p>
@@ -30044,13 +30756,13 @@ Date limite :</pre>
   </div>
 
     <div id="adminTabSections" class="admin-tab-panel" style="display: none;">
+      <h4 class="admin-availability-title">🧩 Sections du site : afficher / masquer</h4>
       <p class="info-text" style="font-size: 12px;">
-        📍 C'est ici que se décide l'ajout ou la suppression d'une section du site. Coche/décoche
-        pour prévisualiser la page sans une section donnée, dans ton navigateur seulement — rien
-        n'est enregistré ni changé pour les visiteurs. Une fois le choix arrêté (garder, retirer,
-        ou ajouter une nouvelle partie), la suppression/l'ajout définitif se fait toujours par une
-        modification du code — demande-le simplement et ce sera fait directement dans le fichier.
+        Décoche une section pour la <strong>masquer à tous les visiteurs</strong> (elle reste dans le code, tu peux la réafficher quand tu veux).
+        Les sections marquées « nouveau » viennent d'être ajoutées. Ajouter une section qui n'existe pas encore ou en supprimer une pour de bon
+        se fait toujours dans le code : demande-le et ce sera fait.
       </p>
+      <p class="info-text" id="adminSectionsStatus" style="font-size:11.5px;"></p>
       <div class="admin-section-toggle-list" id="adminSectionToggleList"></div>
       <button type="button" id="adminSectionsResetBtn" class="filter-reset-btn">↺ Tout réafficher</button>
       <!-- 🧹 Les widgets "Suggestions & ma liste de demandes" (#adminSectionIdeas) ET "📝 Ma liste de
