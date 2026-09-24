@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <!-- Page 404 Cloudflare Pages : à déposer à la racine, à côté d'index.html, sous le nom exact 404.html.
+       Cloudflare la renvoie alors avec un vrai statut HTTP 404 pour toute URL inconnue.
+       Les liens commencent par « / » car cette page s'affiche à n'importe quelle profondeur d'URL. -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="robots" content="noindex" />
+  <title>Page introuvable · Michyy</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ff3c3c'/%3E%3Cstop offset='1' stop-color='%23ff9a00'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='44' font-family='Arial, sans-serif' font-weight='800' font-size='36' fill='white' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root { --bg: #0a0a0a; --text: #f4f4f5; --text-secondary: #a1a1aa; --border: #2a2a2e; }
+    html, body { height: 100%; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Manrope', system-ui, sans-serif;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem 1.5rem;
+    }
+    .logo {
+      width: 48px; height: 48px; border-radius: 12px;
+      background: linear-gradient(135deg, #FF4438, #FFB020);
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 800; font-size: 22px; color: #fff; margin-bottom: 28px;
+    }
+    .code {
+      font-weight: 800; font-size: clamp(3.5rem, 12vw, 6rem); line-height: 1; margin-bottom: 4px;
+      background: linear-gradient(135deg, #FF4438, #FFB020);
+      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    h1 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.4rem; margin-bottom: 10px; }
+    p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; max-width: 400px; margin-bottom: 28px; }
+    .actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
+    .btn { font-weight: 700; font-size: 0.9rem; padding: 12px 22px; border-radius: 12px; text-decoration: none; }
+    .btn-primary { color: #fff; background: linear-gradient(135deg, #FF4438, #FFB020); }
+    .btn-secondary { color: var(--text); border: 1px solid var(--border); }
+    .btn:hover { opacity: 0.9; }
+    .btn:focus-visible { outline: 2px solid #FFB020; outline-offset: 3px; }
+  </style>
+</head>
+<body>
+  <div class="logo" aria-hidden="true">M</div>
+  <div class="code" aria-hidden="true">404</div>
+  <h1>Cette page n'existe pas</h1>
+  <p>Le lien est cassé ou la page a été déplacée. Tu cherches un monteur ? Tu peux réserver ton montage directement, ou repartir de l'accueil.</p>
+  <div class="actions">
+    <a class="btn btn-primary" href="/#reservation">📅 Réserver un montage</a>
+    <a class="btn btn-secondary" href="/">Retour à l'accueil</a>
+  </div>
+</body>
+</html>
