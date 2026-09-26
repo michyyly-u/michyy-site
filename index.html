@@ -1823,41 +1823,6 @@
     }
     .hero-next-slot-badge .pulse-dot { display: none; }
 
-    /* --- Pastille d'urgence à côté du bouton "Réserver" (#heroReserveUrgencyChip) : même famille
-       visuelle que .hero-next-slot-badge (dérivée du même signal réel, jamais un chiffre différent),
-       en plus compact pour tenir à côté d'un bouton plutôt qu'en pleine largeur du hero. Variante
-       neutre (pas orange "urgent") quand le planning est complet : pas d'urgence à fabriquer dans ce
-       cas, juste une mention factuelle qui renvoie vers la liste d'attente. --- */
-    .hero-reserve-cta-group {
-      position: relative;
-      flex: 1;
-      min-width: 90px;
-      display: flex;
-    }
-    .hero-reserve-cta-group .hero-quick-link--primary { width: 100%; }
-    .hero-reserve-urgency-chip {
-      position: absolute;
-      top: -9px;
-      right: -6px;
-      font-family: 'Manrope', sans-serif;
-      font-weight: 700;
-      font-size: 9.5px;
-      line-height: 1.2;
-      white-space: nowrap;
-      color: #fff;
-      background: linear-gradient(135deg, #FF4438, #FFB020);
-      border: 1.5px solid var(--bg, #0a0a0a);
-      border-radius: 999px;
-      padding: 3px 8px;
-      box-shadow: 0 2px 6px rgba(0,0,0,.3);
-    }
-    .hero-reserve-urgency-chip.hero-reserve-urgency-chip--neutral {
-      background: var(--surface-soft);
-      color: var(--text-secondary);
-      border-color: var(--border-soft);
-      box-shadow: none;
-    }
-
     /* --- Mini-calendrier visuel des 7 prochains jours (hero) --- */
     .hero-availability-strip {
       display: flex;
@@ -2618,51 +2583,6 @@
       border: 0.5px solid var(--border-soft);
       background: #000;
       display: block;
-    }
-
-    /* Mode flottant : la vidéo "suit" quand on scrolle au-delà de sa position d'origine, au lieu de
-       disparaître — même élément <video> juste repositionné en CSS, donc la lecture ne redémarre
-       jamais. Voir initShowreel() dans le JS (IntersectionObserver sur #showreelSentinel). */
-    .showreel-block.is-floating {
-      position: fixed;
-      left: auto;
-      right: 16px;
-      bottom: 16px;
-      max-width: 220px;
-      margin: 0;
-      padding: 0;
-      z-index: 60;
-      animation: showreel-float-in 0.25s ease;
-    }
-    .showreel-block.is-floating .showreel-video {
-      border-radius: var(--radius-md);
-      box-shadow: var(--shadow-card-hover);
-    }
-    .showreel-float-close {
-      position: absolute;
-      top: -9px;
-      right: -9px;
-      width: 22px;
-      height: 22px;
-      border-radius: var(--radius-pill);
-      border: 0.5px solid var(--border-soft);
-      background: var(--surface);
-      color: var(--text);
-      font-size: 11px;
-      line-height: 1;
-      cursor: pointer;
-      z-index: 2;
-      box-shadow: var(--shadow-btn);
-      align-items: center;
-      justify-content: center;
-      padding: 0;
-    }
-    @media (max-width: 520px) {
-      .showreel-block.is-floating { max-width: 160px; right: 10px; bottom: 10px; }
-    }
-    @keyframes showreel-float-in {
-      from { opacity: 0; transform: translateY(16px); }
-      to { opacity: 1; transform: none; }
     }
 
     .portfolio-card[data-best-match="true"] {
@@ -5679,10 +5599,9 @@
     /* Barre de réservation collante sur mobile : donne un accès direct au formulaire
        depuis n'importe où sur la page, sans jamais chevaucher le bouton contact (gauche)
        ni le bouton "remonter en haut" (droite) — ceux-ci remontent légèrement quand la
-       barre est visible (voir règles .mobile-reserve-bar-active plus bas). 🆕 Visible dès
-       le tout début du scroll (plus le seuil à 500px) pour rester discrète mais présente
-       tout du long ; seule exception : masquée une fois que la section réservation est
-       déjà à l'écran, pour ne pas gêner inutilement un CTA qu'on voit déjà. */
+       barre est visible (voir règles .mobile-reserve-bar-active plus bas). Masquée
+       automatiquement une fois que la section réservation est déjà à l'écran, pour ne
+       pas gêner inutilement. */
     .mobile-reserve-bar {
       display: none;
       position: fixed;
@@ -6755,46 +6674,6 @@
     }
     .order-tracking-faq .faq-item-body p { margin: 0 0 10px; }
     .order-tracking-faq .faq-item-body p:last-child { margin-bottom: 0; }
-
-    /* --- Lookup "Suivi par code de commande" : bloc en tête du suivi pour rechercher sans historique
-       local (autre appareil, historique vidé) — mème résultat que le filtre #trackingInput existant,
-       juste plus visible et plus explicite pour un visiteur qui arrive sans commande pré-enregistrée. --- */
-    .order-tracking-lookup {
-      background: var(--surface-soft);
-      border: 1px solid var(--border-soft);
-      border-radius: 14px;
-      padding: 14px 16px;
-      margin-bottom: 18px;
-    }
-    .order-tracking-lookup-label {
-      font-weight: 700;
-      font-size: 13px;
-      margin: 0 0 10px;
-    }
-    .order-tracking-lookup-row {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .order-tracking-lookup-input {
-      flex: 1;
-      min-width: 160px;
-      background: var(--surface);
-      border: 1px solid var(--border-soft);
-      border-radius: 10px;
-      color: var(--text);
-      padding: 8px 12px;
-      font-size: 14px;
-      font-family: 'Manrope', sans-serif;
-      outline: none;
-      letter-spacing: 0.03em;
-    }
-    .order-tracking-lookup-input:focus { border-color: var(--accent); }
-    .order-tracking-lookup-hint {
-      font-size: 11px;
-      color: var(--text-secondary);
-      margin: 7px 0 0;
-    }
 
     .order-tracking-row {
       display: flex;
@@ -8980,79 +8859,6 @@
       position: relative;
     }
 
-    /* --- Barre de progression 4 étapes (acompte → montage → révision → livré) : injectée dans
-       chaque carte de suivi par trackingCardHtml (voir le bloc "tracking-steps-html" dans le JS).
-       Chaque étape est soit "done" (passée), "active" (en cours, point pulsé), soit grisée. --- */
-    .tracking-steps {
-      display: flex;
-      align-items: flex-start;
-      gap: 0;
-      margin: 12px 0 4px;
-      position: relative;
-    }
-    .tracking-step {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      position: relative;
-      z-index: 0;
-    }
-    /* ligne de connexion entre étapes */
-    .tracking-step:not(:last-child)::after {
-      content: '';
-      position: absolute;
-      top: 7px;
-      left: 50%;
-      width: 100%;
-      height: 2px;
-      background: var(--border-soft);
-      z-index: -1;
-      transition: background 0.3s;
-    }
-    .tracking-step.is-done:not(:last-child)::after { background: #34d399; }
-    .tracking-step-dot {
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: var(--surface);
-      border: 2px solid var(--border-soft);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 9px;
-      flex-shrink: 0;
-      transition: border-color 0.2s, background 0.2s;
-    }
-    .tracking-step.is-done .tracking-step-dot {
-      background: #34d399;
-      border-color: #34d399;
-      color: #fff;
-    }
-    .tracking-step.is-active .tracking-step-dot {
-      border-color: #60a5fa;
-      background: #1e3a5f;
-      box-shadow: 0 0 0 3px #60a5fa33;
-      animation: step-pulse 1.8s ease-in-out infinite;
-    }
-    @keyframes step-pulse {
-      0%, 100% { box-shadow: 0 0 0 3px #60a5fa33; }
-      50%       { box-shadow: 0 0 0 6px #60a5fa18; }
-    }
-    .tracking-step-label {
-      margin-top: 5px;
-      font-size: 9.5px;
-      color: var(--text-secondary);
-      text-align: center;
-      line-height: 1.25;
-      max-width: 56px;
-    }
-    .tracking-step.is-done  .tracking-step-label { color: #34d399; }
-    .tracking-step.is-active .tracking-step-label { color: #60a5fa; font-weight: 700; }
-    @media (prefers-reduced-motion: reduce) {
-      .tracking-step.is-active .tracking-step-dot { animation: none; }
-    }
-
     .tracking-delete-btn {
       position: absolute;
       top: 10px;
@@ -9817,301 +9623,6 @@
       border-color: transparent;
     }
 
-    /* --- 🆕 Page moins longue : 15 sections regroupées en 4 blocs (Portfolio / Offres / Rassurance /
-         Réserver), navigation par onglets. Un seul bloc affiché à la fois, et à l'intérieur d'un
-         bloc, un seul "item" (ex: Résultats = Portfolio + Avant/Après + Étude de cas, eux-mêmes
-         encore en onglets). Logique de bascule dans initPageBlocks() plus bas dans le JS ; les
-         sections masquées par l'admin (data-admin-hidden) restent masquées quel que soit l'onglet
-         actif. Classes dédiées (pas de réutilisation de .tab-btn) pour ne pas entrer en collision
-         avec les onglets FAQ/CGV, qui écoutent tous les .tab-btn de la page sans distinction. --- */
-    .page-block-nav {
-      display: flex;
-      gap: 8px;
-      margin: 0 0 20px;
-      flex-wrap: wrap;
-    }
-    .page-block-tab {
-      flex: 1;
-      min-width: 130px;
-      font-family: 'Manrope', sans-serif;
-      font-weight: 800;
-      font-size: 13.5px;
-      color: var(--text-tertiary);
-      background: var(--surface-soft);
-      border: 0.5px solid var(--border-soft);
-      padding: 13px 14px;
-      border-radius: 14px;
-      cursor: pointer;
-      transition: color 0.15s, background 0.15s, border-color 0.15s;
-    }
-    .page-block-tab:hover { color: var(--text); }
-    .page-block-tab.active {
-      color: #fff;
-      background: linear-gradient(135deg, #FF4438, #FFB020);
-      border-color: transparent;
-    }
-    .page-item-nav {
-      display: flex;
-      gap: 6px;
-      margin: 0 0 18px;
-      flex-wrap: wrap;
-    }
-    .page-item-tab {
-      font-family: 'Manrope', sans-serif;
-      font-weight: 700;
-      font-size: 12px;
-      color: var(--text-tertiary);
-      background: var(--surface-soft);
-      border: 0.5px solid var(--border-soft);
-      padding: 8px 13px;
-      border-radius: 999px;
-      cursor: pointer;
-      transition: color 0.15s, background 0.15s, border-color 0.15s;
-    }
-    .page-item-tab:hover { color: var(--text); }
-    .page-item-tab.active {
-      color: #fff;
-      background: linear-gradient(135deg, #FF4438, #FFB020);
-      border-color: transparent;
-    }
-    .page-restab-nav {
-      display: flex;
-      gap: 6px;
-      margin: 0 0 14px;
-      flex-wrap: wrap;
-    }
-    .page-restab-tab {
-      font-family: 'Manrope', sans-serif;
-      font-weight: 700;
-      font-size: 12px;
-      color: var(--text-tertiary);
-      background: transparent;
-      border: 0.5px dashed var(--border-soft);
-      padding: 7px 12px;
-      border-radius: 999px;
-      cursor: pointer;
-    }
-    .page-restab-tab:hover { color: var(--text); }
-    .page-restab-tab.active {
-      color: var(--text);
-      background: var(--surface-soft);
-      border-style: solid;
-      border-color: var(--text-faint);
-    }
-    @media (max-width: 480px) {
-      .page-block-tab { min-width: 44%; font-size: 12px; padding: 11px 8px; }
-    }
-
-    /* ═══════════════════════════════════════════════════════════════════
-       🎞️ RUBAN VIDÉO INFINI (video-ribbon)
-       Défile en boucle à l'infini, sans son, sans pause.
-       Chaque item est une miniature YouTube (img) cliquable → ouvre la
-       vidéo dans le portfolio. Les TikTok n'ont pas d'API thumbnail
-       publique sans token : on affiche leur logo stylé à la place.
-       Le ruban est dupliqué (aria-hidden) pour que la boucle CSS soit
-       parfaite sans JS. Interrompt l'animation si prefers-reduced-motion.
-       ═══════════════════════════════════════════════════════════════════ */
-    .video-ribbon-wrap {
-      width: 100%;
-      overflow: hidden;
-      background: var(--surface);
-      border-top: 0.5px solid var(--border);
-      border-bottom: 0.5px solid var(--border);
-      padding: 0;
-      position: relative;
-      /* Fondu sur les bords pour que ça disparaisse élégamment */
-      mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
-      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
-    }
-    .video-ribbon-track {
-      display: flex;
-      gap: 10px;
-      padding: 10px 5px;
-      width: max-content;
-      animation: ribbon-scroll 40s linear infinite;
-      will-change: transform;
-    }
-    .video-ribbon-wrap:hover .video-ribbon-track { animation-play-state: paused; }
-    @keyframes ribbon-scroll {
-      /* 🔧 Défile vers la droite (même sens que .proof-ticker-scroll, juste sous le bandeau
-         "Ils m'ont fait confiance") : on part de -50% pour revenir à 0, sens inverse du
-         ticker "par défaut" qui irait de 0 vers -50%. */
-      from { transform: translateX(-50%); }
-      to   { transform: translateX(0); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .video-ribbon-track { animation: none; }
-    }
-    .video-ribbon-item {
-      flex-shrink: 0;
-      width: 120px;
-      height: 68px;
-      border-radius: 8px;
-      overflow: hidden;
-      border: 0.5px solid var(--border-soft);
-      cursor: pointer;
-      position: relative;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-      text-decoration: none;
-    }
-    .video-ribbon-item:hover {
-      transform: scale(1.06);
-      box-shadow: 0 6px 18px rgba(0,0,0,.4);
-      border-color: var(--accent-2);
-      z-index: 2;
-    }
-    .video-ribbon-item img {
-      width: 100%; height: 100%; object-fit: cover; display: block;
-    }
-    .video-ribbon-item-tiktok {
-      background: linear-gradient(135deg, #1a2f2f, #2f1a26);
-      display: flex; align-items: center; justify-content: center;
-      width: 100%; height: 100%;
-    }
-    .video-ribbon-play {
-      position: absolute; inset: 0;
-      display: flex; align-items: center; justify-content: center;
-      background: rgba(0,0,0,0.3);
-      opacity: 0; transition: opacity 0.15s;
-    }
-    .video-ribbon-item:hover .video-ribbon-play { opacity: 1; }
-    .video-ribbon-play svg { width: 24px; height: 24px; fill: #fff; }
-    .video-ribbon-platform-badge {
-      position: absolute; bottom: 4px; right: 4px;
-      font-size: 10px; font-weight: 700;
-      background: rgba(0,0,0,.65); color: #fff;
-      padding: 1px 5px; border-radius: 4px;
-    }
-
-    /* ═══════════════════════════════════════════════════════════════════
-       🧩 SECTION PACK SUR-MESURE AUTONOME (#customPackSection)
-       Configurateur standalone, visible avant le formulaire (section
-       dédiée dans les blocs "Offres"). Réutilise PRICE_FIXED et
-       BUNDLE_DISCOUNTS définis dans le script principal.
-       ═══════════════════════════════════════════════════════════════════ */
-    .cpack-section { }
-    .cpack-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-    @media (max-width: 520px) { .cpack-grid { grid-template-columns: 1fr; } }
-    .cpack-format-row {
-      display: flex; align-items: center; justify-content: space-between;
-      gap: 10px;
-      background: var(--surface-soft);
-      border: 0.5px solid var(--border-soft);
-      border-radius: 12px;
-      padding: 12px 14px;
-    }
-    .cpack-format-label { font-size: 13px; font-weight: 700; color: var(--text); flex: 1; }
-    .cpack-format-price { font-size: 12px; color: var(--text-tertiary); }
-    .cpack-qty-ctrl {
-      display: flex; align-items: center; gap: 8px;
-    }
-    .cpack-qty-btn {
-      width: 28px; height: 28px; border-radius: 50%;
-      border: 0.5px solid var(--border); background: var(--surface);
-      color: var(--text); font-size: 16px; font-weight: 700;
-      display: flex; align-items: center; justify-content: center;
-      cursor: pointer; transition: background 0.15s;
-      flex-shrink: 0;
-    }
-    .cpack-qty-btn:hover { background: var(--surface-soft); }
-    .cpack-qty-val { min-width: 22px; text-align: center; font-weight: 800; font-size: 15px; }
-    .cpack-options-row {
-      display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 14px;
-    }
-    .cpack-option-check {
-      display: flex; align-items: center; gap: 6px;
-      font-size: 12.5px; color: var(--text-secondary);
-      background: var(--surface-soft); border: 0.5px solid var(--border-soft);
-      border-radius: 999px; padding: 6px 12px; cursor: pointer;
-      transition: border-color 0.15s, color 0.15s;
-    }
-    .cpack-option-check input { accent-color: var(--accent-1); }
-    .cpack-option-check:has(input:checked) { border-color: var(--accent-1); color: var(--text); }
-    .cpack-result {
-      background: linear-gradient(135deg, rgba(255,68,56,.08), rgba(255,176,32,.06));
-      border: 0.5px solid rgba(255,176,32,.3);
-      border-radius: 14px;
-      padding: 16px 18px;
-      display: flex; align-items: center; justify-content: space-between; gap: 12px;
-      flex-wrap: wrap;
-      margin-bottom: 14px;
-    }
-    .cpack-result-price {
-      font-size: 28px; font-weight: 900;
-      background: linear-gradient(135deg, #FF4438, #FFB020);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .cpack-result-detail { font-size: 12px; color: var(--text-tertiary); line-height: 1.6; max-width: 340px; }
-    .cpack-result-empty { font-size: 13px; color: var(--text-faint); font-style: italic; }
-    .cpack-cta {
-      display: inline-flex; align-items: center; gap: 8px;
-      background: linear-gradient(135deg, #FF4438, #FFB020);
-      color: #fff; font-weight: 800; font-size: 14px;
-      border-radius: 10px; padding: 12px 22px;
-      text-decoration: none; border: none; cursor: pointer;
-      transition: opacity 0.15s, transform 0.15s;
-    }
-    .cpack-cta:hover { opacity: 0.88; transform: translateY(-1px); }
-    .cpack-cta:disabled { opacity: 0.4; pointer-events: none; }
-    .cpack-breakdown {
-      font-size: 11.5px; color: var(--text-tertiary);
-      margin-top: 8px; line-height: 1.7;
-    }
-    .cpack-breakdown strong { color: var(--text-secondary); }
-
-    /* ═══════════════════════════════════════════════════════════════
-       🎬 ESSAI 15 SECONDES (#essai-15s)
-       Carte dédiée, tarif fixe, formulaire ultra-court (contact + lien
-       rushs + format). Aucune révision, aucune déduction sur commande
-       ultérieure. Masquable depuis l'admin (TOGGLEABLE_SECTIONS).
-       ═══════════════════════════════════════════════════════════════ */
-    .essai-card {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 20px;
-      align-items: start;
-    }
-    @media (max-width: 640px) { .essai-card { grid-template-columns: 1fr; } }
-    .essai-pitch {
-      display: flex; flex-direction: column; gap: 12px;
-    }
-    .essai-price-tag {
-      display: inline-flex; align-items: baseline; gap: 6px;
-    }
-    .essai-price-amount {
-      font-size: 48px; font-weight: 900; line-height: 1;
-      background: linear-gradient(135deg, #FF4438, #FFB020);
-      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .essai-price-unit { font-size: 14px; color: var(--text-tertiary); font-weight: 600; }
-    .essai-conditions {
-      display: flex; flex-direction: column; gap: 6px;
-    }
-    .essai-condition {
-      font-size: 12.5px; color: var(--text-secondary);
-      display: flex; align-items: flex-start; gap: 7px;
-    }
-    .essai-condition::before { content: '•'; color: var(--accent-1); font-weight: 800; flex-shrink: 0; margin-top: 1px; }
-    .essai-form { display: flex; flex-direction: column; gap: 10px; }
-    .essai-submit-btn {
-      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      background: linear-gradient(135deg, #FF4438, #FFB020);
-      color: #fff; font-weight: 800; font-size: 14px;
-      border-radius: 10px; padding: 13px 22px;
-      border: none; cursor: pointer; width: 100%;
-      transition: opacity 0.15s, transform 0.15s;
-    }
-    .essai-submit-btn:hover { opacity: 0.88; transform: translateY(-1px); }
-    .essai-submit-btn:disabled { opacity: 0.45; pointer-events: none; }
-    .essai-status { font-size: 12.5px; color: var(--text-tertiary); text-align: center; margin-top: 4px; min-height: 18px; }
-
     .faq-search-row input {
       width: 100%;
       background: var(--surface-soft);
@@ -10450,57 +9961,6 @@
       letter-spacing: 3px;
       color: var(--text-faint);
       margin-bottom: 4px;
-    }
-
-    /* --- 🆕 Photo du résultat final sur un avis (data-verified + <img class="testimonial-photo">
-       dans la carte, uploadée par le client depuis l'espace client post-livraison — voir le champ
-       photo dans .tracking-review-zone et #publicReviewForm). Optionnelle et choisie par toi : rien
-       n'oblige à publier une carte avec la photo jointe si tu préfères ne garder que le texte. Une
-       vraie capture du rendu final vaut largement plus qu'un texte seul pour un métier visuel — c'est
-       la preuve la plus directe que l'avis correspond à un vrai montage livré. --- */
-    .testimonial-photo {
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      object-fit: cover;
-      border-radius: 8px;
-      border: 0.5px solid var(--border-soft);
-      order: -1;
-      cursor: zoom-in;
-    }
-    .testimonial-verified-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      align-self: flex-start;
-      font-family: 'Manrope', sans-serif;
-      font-weight: 700;
-      font-size: 10.5px;
-      color: var(--success);
-      background: color-mix(in srgb, var(--success) 12%, transparent);
-      border: 0.5px solid color-mix(in srgb, var(--success) 35%, transparent);
-      border-radius: 999px;
-      padding: 3px 9px;
-      order: -2;
-    }
-    /* Lightbox plein écran pour agrandir une photo d'avis au clic — même pattern que les vignettes de
-       portfolio, en plus simple (une seule image, pas de navigation entre plusieurs). */
-    .testimonial-photo-lightbox {
-      display: none;
-      position: fixed;
-      inset: 0;
-      z-index: 9500;
-      background: rgba(0,0,0,.88);
-      align-items: center;
-      justify-content: center;
-      padding: 24px;
-      cursor: zoom-out;
-    }
-    .testimonial-photo-lightbox.is-open { display: flex; }
-    .testimonial-photo-lightbox img {
-      max-width: 100%;
-      max-height: 100%;
-      border-radius: 10px;
-      box-shadow: 0 20px 60px rgba(0,0,0,.5);
     }
 
     .testimonial-star.filled { color: #ffb020; text-shadow: 0 0 10px rgba(255, 176, 32, 0.35); }
@@ -12001,7 +11461,7 @@
     .waitlist-top-banner { position: sticky; top: 0; z-index: 90; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 12px; padding: 10px 44px 10px 14px; background: linear-gradient(90deg, #FF4438, #FFB020); color: #1a1208; font: 700 13.5px 'Manrope', sans-serif; box-shadow: 0 4px 18px rgba(0,0,0,.3); }
     .waitlist-top-banner strong { font-weight: 800; } .waitlist-top-text { font-weight: 600; }
     /* Bandeau d'annonce piloté depuis l'admin (voir applyAnnouncement dans le JS) */
-    .site-announcement { position: relative; display: flex; align-items: center; justify-content: center; padding: 9px 44px 9px 14px; background: var(--surface); border-bottom: 1px solid var(--border-soft); border-top: 3px solid var(--ann-color, var(--accent-2)); color: var(--text); font: 600 13.5px 'Manrope', sans-serif; text-align: center; }
+    .site-announcement { position: relative; display: flex; align-items: center; justify-content: center; padding: 9px 44px 9px 14px; background: var(--surface); border-bottom: 1px solid var(--border-soft); color: var(--text); font: 600 13.5px 'Manrope', sans-serif; text-align: center; }
     .site-announcement-close { position: absolute; right: 10px; top: 50%; transform: translateY(-50%); background: none; border: 0; color: var(--text-secondary); font-size: 20px; line-height: 1; cursor: pointer; padding: 4px 8px; }
     .site-announcement-close:hover { color: var(--text); }
     .site-announcement-close:focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; }
@@ -12240,299 +11700,6 @@
   </div>
 
   <style>
-    /* ==========================================================
-       🎪 BANDEAU DE PREUVE ANIMÉ — TICKER
-       Défile en boucle, css-only, no JS. Deux copies identiques
-       pour un défilement sans saut visible (technique "infinite
-       marquee" : 50% = fin du bloc 1 = début du bloc 2).
-       ========================================================== */
-    .proof-ticker-wrap {
-      overflow: hidden;
-      width: 100%;
-      background: linear-gradient(90deg, var(--surface) 0%, transparent 6%, transparent 94%, var(--surface) 100%);
-      padding: 10px 0;
-      margin: 10px 0 16px;
-      position: relative;
-      -webkit-mask-image: linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
-      mask-image:         linear-gradient(90deg, transparent 0%, black 8%, black 92%, transparent 100%);
-    }
-    .proof-ticker-track {
-      display: flex;
-      width: max-content;
-      animation: proof-ticker-scroll 32s linear infinite;
-    }
-    .proof-ticker-track:hover { animation-play-state: paused; }
-    @keyframes proof-ticker-scroll {
-      /* 🔧 Défile vers la droite : de -50% vers 0 (voir .video-ribbon-track, même logique
-         appliquée pour que les deux rubans du site défilent dans le même sens). */
-      from { transform: translateX(-50%); }
-      to   { transform: translateX(0); }
-    }
-    .proof-ticker-item {
-      display: inline-flex;
-      align-items: center;
-      gap: 7px;
-      padding: 4px 20px;
-      font-size: 13px;
-      color: var(--text-soft, var(--text));
-      white-space: nowrap;
-      flex-shrink: 0;
-    }
-    .proof-ticker-item::after {
-      content: '·';
-      color: var(--accent, #FF4438);
-      font-size: 18px;
-      margin-left: 16px;
-      opacity: .5;
-    }
-    .proof-ticker-item:last-child::after { display: none; }
-    .proof-ticker-stat {
-      font-weight: 700;
-      color: var(--text);
-    }
-    .proof-ticker-emoji { font-style: normal; }
-
-    /* ==========================================================
-       💬 CHAT RAPIDE FLOTTANT
-       Aucun SaaS, zéro dépendance : un bouton FAB qui révèle un
-       mini-formulaire. Envoie via mailto: (email) ou DM préfixé
-       (X/Discord). Le tout en CSS + JS inline, pas de fetch.
-       ========================================================== */
-    .quick-chat-fab {
-      position: fixed;
-      bottom: 24px;
-      right: 22px;
-      z-index: 9990;
-      display: flex;
-      flex-direction: column;
-      align-items: flex-end;
-      gap: 10px;
-      pointer-events: none; /* les enfants gèrent le pointer */
-    }
-    /* Panel */
-    .quick-chat-panel {
-      width: 300px;
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      box-shadow: 0 8px 40px rgba(0,0,0,.45);
-      padding: 18px;
-      opacity: 0;
-      transform: translateY(12px) scale(.97);
-      transition: opacity .2s, transform .2s;
-      pointer-events: none;
-    }
-    .quick-chat-panel.open {
-      opacity: 1;
-      transform: translateY(0) scale(1);
-      pointer-events: auto;
-    }
-    .quick-chat-panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 12px;
-    }
-    .quick-chat-title {
-      font-weight: 700;
-      font-size: 14px;
-      color: var(--text);
-    }
-    .quick-chat-close-btn {
-      background: none;
-      border: none;
-      color: var(--text-faint);
-      font-size: 18px;
-      cursor: pointer;
-      line-height: 1;
-      padding: 0;
-    }
-    .quick-chat-label {
-      font-size: 11.5px;
-      color: var(--text-faint);
-      margin-bottom: 10px;
-    }
-    /* Canaux */
-    .quick-chat-channels {
-      display: flex;
-      gap: 6px;
-      flex-wrap: wrap;
-      margin-bottom: 12px;
-    }
-    .quick-chat-channel-btn {
-      background: var(--surface-soft);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      color: var(--text);
-      font-size: 12px;
-      font-weight: 600;
-      padding: 5px 12px;
-      cursor: pointer;
-      transition: border-color .15s, background .15s;
-    }
-    .quick-chat-channel-btn:hover,
-    .quick-chat-channel-btn.active {
-      border-color: var(--accent, #FF4438);
-      background: #FF443812;
-      color: var(--accent, #FF4438);
-    }
-    /* Message */
-    .quick-chat-textarea {
-      width: 100%;
-      background: var(--surface-soft);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 9px 12px;
-      color: var(--text);
-      font-size: 13px;
-      resize: none;
-      box-sizing: border-box;
-      margin-bottom: 10px;
-      font-family: inherit;
-    }
-    .quick-chat-textarea:focus { outline: none; border-color: var(--accent, #FF4438); }
-    .quick-chat-send-btn {
-      width: 100%;
-      background: linear-gradient(135deg, #FF4438, #FFB020);
-      border: none;
-      border-radius: 10px;
-      color: #fff;
-      font-weight: 700;
-      font-size: 13px;
-      padding: 10px;
-      cursor: pointer;
-    }
-    .quick-chat-send-btn:hover { opacity: .88; }
-    .quick-chat-status {
-      font-size: 11px;
-      color: var(--text-faint);
-      margin-top: 6px;
-      min-height: 16px;
-      text-align: center;
-    }
-    /* Bouton FAB */
-    .quick-chat-toggle {
-      pointer-events: auto;
-      background: linear-gradient(135deg, #FF4438, #FFB020);
-      border: none;
-      border-radius: 50%;
-      width: 52px;
-      height: 52px;
-      font-size: 22px;
-      cursor: pointer;
-      box-shadow: 0 4px 20px rgba(255,68,56,.4);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: transform .15s, box-shadow .15s;
-    }
-    .quick-chat-toggle:hover { transform: scale(1.08); box-shadow: 0 6px 28px rgba(255,68,56,.55); }
-    .quick-chat-toggle .qc-icon-open  { display: block; }
-    .quick-chat-toggle .qc-icon-close { display: none; }
-    .quick-chat-toggle.is-open .qc-icon-open  { display: none; }
-    .quick-chat-toggle.is-open .qc-icon-close { display: block; }
-    /* Cache le FAB quand le bouton "Envoyer ma demande" du formulaire est visible */
-    @media (max-width: 860px) {
-      .quick-chat-fab { bottom: 80px; } /* au-dessus du FAB réservation mobile */
-    }
-
-    /* ==========================================================
-       🛒 UP-SELL POST-COMMANDE
-       Apparaît 800 ms après l'affichage de la confirmation,
-       disparaît avec un slide-up. Glissement CSS + JS, aucune lib.
-       ========================================================== */
-    .upsell-card {
-      margin-top: 18px;
-      background: linear-gradient(135deg, #1a1528, #12161e);
-      border: 1px solid #FFB02055;
-      border-radius: 16px;
-      padding: 18px 20px;
-      display: none; /* affiché via JS */
-      animation: upsell-slide-in .35s ease;
-    }
-    @keyframes upsell-slide-in {
-      from { opacity: 0; transform: translateY(10px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .upsell-tag {
-      display: inline-block;
-      background: linear-gradient(90deg, #FF4438, #FFB020);
-      color: #fff;
-      font-size: 10.5px;
-      font-weight: 800;
-      letter-spacing: .07em;
-      text-transform: uppercase;
-      border-radius: 100px;
-      padding: 3px 10px;
-      margin-bottom: 10px;
-    }
-    .upsell-title {
-      font-size: 15px;
-      font-weight: 700;
-      color: var(--text);
-      margin: 0 0 6px;
-    }
-    .upsell-sub {
-      font-size: 12.5px;
-      color: var(--text-faint);
-      margin: 0 0 14px;
-      line-height: 1.5;
-    }
-    .upsell-price-row {
-      display: flex;
-      align-items: baseline;
-      gap: 8px;
-      margin-bottom: 14px;
-    }
-    .upsell-price-new {
-      font-size: 22px;
-      font-weight: 800;
-      background: linear-gradient(90deg, #FF4438, #FFB020);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .upsell-price-old {
-      font-size: 14px;
-      color: var(--text-faint);
-      text-decoration: line-through;
-    }
-    .upsell-actions {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-    .upsell-cta-btn {
-      flex: 1;
-      min-width: 130px;
-      background: linear-gradient(135deg, #FF4438, #FFB020);
-      border: none;
-      border-radius: 10px;
-      color: #fff;
-      font-weight: 700;
-      font-size: 13px;
-      padding: 10px 16px;
-      cursor: pointer;
-      text-align: center;
-    }
-    .upsell-cta-btn:hover { opacity: .88; }
-    .upsell-dismiss-btn {
-      background: none;
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      color: var(--text-faint);
-      font-size: 12px;
-      padding: 10px 14px;
-      cursor: pointer;
-    }
-    .upsell-dismiss-btn:hover { color: var(--text); border-color: var(--text-faint); }
-    .upsell-timer {
-      font-size: 11px;
-      color: var(--accent, #FF4438);
-      margin-top: 10px;
-      font-weight: 600;
-    }
-
     .cookie-notice {
       position: fixed;
       left: 16px;
@@ -12861,18 +12028,6 @@
     </div>
   </div>
 
-  <!-- 🎞️ Ruban vidéo infini : miniatures cliquables de toutes les vidéos du portfolio,
-       défilant en boucle horizontale sans son. Les items sont doublés (aria-hidden=true sur
-       le second exemplaire) pour que l'animation CSS soit parfaitement seamless. Les vraies
-       URLs/thumbnails sont injectées par initVideoRibbon() dans le JS, qui lit les
-       data-yt-id et data-href directement depuis #portfolioGrid — une seule source de vérité,
-       pas besoin de maintenir deux listes de vidéos. -->
-  <div class="video-ribbon-wrap" id="videoRibbonWrap" aria-label="Aperçu de mes réalisations" role="region">
-    <div class="video-ribbon-track" id="videoRibbonTrack">
-      <!-- Rempli par initVideoRibbon() -->
-    </div>
-  </div>
-
   <nav class="mini-toc-bar" id="miniTocBar" aria-label="Sommaire rapide">
     <div class="mini-toc-links">
       <a href="#apropos"><span class="mini-toc-dot mini-toc-dot--apropos" aria-hidden="true"></span>À propos</a>
@@ -13093,13 +12248,13 @@
       <span id="availabilityText">Accepte de nouvelles commandes</span>
     </div>
     <span class="status-card-sub" id="statusSubline"></span>
-    <!-- 🔁 slotsBadge restauré : affiche désormais un chiffre calculé automatiquement (voir
-         renderSlotsBadge()/getAutoSlotsAvailableThisWeek() plus bas dans le JS) à partir de la même
-         charge réelle que la frise de dispo du hero juste en dessous (#heroAvailabilityStrip,
-         AUTO_DAY_WORKLOAD) — donc plus de risque de contredire la frise, les deux partagent la même
-         source. Repli sur MANUAL_SLOTS_AVAILABLE_THIS_WEEK tant que cette donnée n'a pas encore
-         chargé. Masqué automatiquement si le chiffre est 0/null (jamais de faux "0 créneau" affiché). -->
-    <span id="slotsBadge" class="slots-badge slots-badge-standalone" style="display: none;">
+    <!-- 🧹 slotsBadge retiré : ce chiffre était saisi à la main et faisait doublon avec la frise de
+         dispo du hero juste en dessous (#heroAvailabilityStrip), qui elle est calculée automatiquement
+         à partir des vraies commandes. Deux indicateurs de dispo différents, l'un manuel l'un auto, sur
+         la même carte, créaient un risque de se contredire. La frise reste la seule source visuelle de
+         dispo de la page d'accueil ; le JS d'initSlotsBadge() est laissé tel quel (il ne fait plus rien
+         faute d'élément #slotsBadge, aucune erreur), au cas où tu voudrais un jour le restaurer ailleurs. -->
+    <span id="slotsBadge" class="slots-badge slots-badge-standalone" style="display: none;" hidden>
       <span class="slots-badge-dot"></span>
       <span id="slotsBadgeText"></span>
     </span>
@@ -13236,17 +12391,7 @@
   <div class="hero-quick-links">
     <a href="#tarifs" class="hero-quick-link">💰 Voir les tarifs</a>
     <a href="#portfolio" class="hero-quick-link">🎬 Voir le portfolio</a>
-    <span class="hero-reserve-cta-group">
-      <a href="#reservation" class="hero-quick-link hero-quick-link--primary">📅 Réserver</a>
-      <!-- 🆕 Pastille d'urgence à côté du CTA principal : reprend EXACTEMENT le même signal que
-           #reservationAvailBanner et #heroNextSlotBadge juste au-dessus (AVAILABLE / SLOTS_AVAILABLE_THIS_WEEK
-           / isFullyBooked, eux-mêmes dérivés du calendrier réel des commandes, voir getAutoSlotsAvailableThisWeek())
-           — aucun chiffre inventé ici, juste rendu plus visible juste à côté du bouton lui-même plutôt que
-           seulement plus haut dans le hero. Masquée tant que ces variables n'ont pas encore été calculées, et
-           volontairement silencieuse (pas de "0 place") si le planning est complet : le badge devient alors une
-           mention neutre plutôt qu'une fausse urgence. Voir renderHeroReserveUrgencyChip() dans le JS. -->
-      <span class="hero-reserve-urgency-chip" id="heroReserveUrgencyChip" style="display: none;"></span>
-    </span>
+    <a href="#reservation" class="hero-quick-link hero-quick-link--primary">📅 Réserver</a>
   </div>
 
   </div>
@@ -13277,36 +12422,6 @@
     </div>
   </div>
 
-  <!-- 🆕 Bandeau de preuve animé façon ticker : défilement CSS-only, pas de JS, deux blocs
-       identiques pour le "loop sans saut". Chiffres issus du Sheet (héroDeliveredCounter) +
-       données réelles du portfolio. Modifier les items ici pour les garder à jour. -->
-  <div class="proof-ticker-wrap" aria-label="Quelques chiffres clés" role="region">
-    <div class="proof-ticker-track" aria-hidden="true">
-      <!-- Bloc 1 -->
-      <span class="proof-ticker-item"><span class="proof-ticker-emoji">🎬</span><span class="proof-ticker-stat">+150 vidéos</span> livrées</span>
-      <span class="proof-ticker-item"><span class="proof-ticker-emoji">⚡</span>Délai <span class="proof-ticker-stat">48h</span> sur les formats courts</span>
-      <span class="proof-ticker-item"><span class="proof-ticker-emoji">🏆</span>Org esport pro · <span class="proof-ticker-stat">KCorp</span></span>
-      <span class="proof-ticker-item"><span class="proof-ticker-emoji">👀</span>Créateurs jusqu'à <span class="proof-ticker-stat">500K</span> abonnés</span>
-      <span class="proof-ticker-item"><span class="proof-ticker-emoji">🔄</span><span class="proof-ticker-stat">3 révisions</span> incluses</span>
-      <span class="proof-ticker-item"><span class="proof-ticker-emoji">💳</span>Acompte <span class="proof-ticker-stat">50%</span> · solde à la livraison</span>
-      <span class="proof-ticker-item"><span class="proof-ticker-emoji">🎁</span><span class="proof-ticker-stat">-20%</span> sur la 1ère commande · code PREMIERE20</span>
-      <span class="proof-ticker-item"><span class="proof-ticker-emoji">📲</span>TikTok · Reels · YouTube Shorts · Long format</span>
-      <span class="proof-ticker-item"><span class="proof-ticker-emoji">🌟</span>@LaureValee · @Colomblbl · @juniorlej · Etostark</span>
-      <span class="proof-ticker-item"><span class="proof-ticker-emoji">📩</span>Réponse sous <span class="proof-ticker-stat">24h</span> garantie</span>
-      <!-- Bloc 2 — copie exacte pour l'animation infinie sans coupure -->
-      <span class="proof-ticker-item"><span class="proof-ticker-emoji">🎬</span><span class="proof-ticker-stat">+150 vidéos</span> livrées</span>
-      <span class="proof-ticker-item"><span class="proof-ticker-emoji">⚡</span>Délai <span class="proof-ticker-stat">48h</span> sur les formats courts</span>
-      <span class="proof-ticker-item"><span class="proof-ticker-emoji">🏆</span>Org esport pro · <span class="proof-ticker-stat">KCorp</span></span>
-      <span class="proof-ticker-item"><span class="proof-ticker-emoji">👀</span>Créateurs jusqu'à <span class="proof-ticker-stat">500K</span> abonnés</span>
-      <span class="proof-ticker-item"><span class="proof-ticker-emoji">🔄</span><span class="proof-ticker-stat">3 révisions</span> incluses</span>
-      <span class="proof-ticker-item"><span class="proof-ticker-emoji">💳</span>Acompte <span class="proof-ticker-stat">50%</span> · solde à la livraison</span>
-      <span class="proof-ticker-item"><span class="proof-ticker-emoji">🎁</span><span class="proof-ticker-stat">-20%</span> sur la 1ère commande · code PREMIERE20</span>
-      <span class="proof-ticker-item"><span class="proof-ticker-emoji">📲</span>TikTok · Reels · YouTube Shorts · Long format</span>
-      <span class="proof-ticker-item"><span class="proof-ticker-emoji">🌟</span>@LaureValee · @Colomblbl · @juniorlej · Etostark</span>
-      <span class="proof-ticker-item"><span class="proof-ticker-emoji">📩</span>Réponse sous <span class="proof-ticker-stat">24h</span> garantie</span>
-    </div>
-  </div>
-
   <!-- Bloc "Suis-moi ailleurs" : regroupe Twitter/X et Discord dans un bloc dédié, pour un visiteur
        qui hésite encore à commander mais veut suivre le travail au fil de l'eau. Reprend le dégradé
        du bouton FAB "Une question ?" (mobile) pour rester cohérent visuellement. -->
@@ -13332,7 +12447,7 @@
         </span>
         <span class="find-me-body">
           <span class="find-me-handle">X (Twitter) · @Michyyfn</span>
-          <span class="find-me-preview">Mes derniers montages, mon setup, et les behind-the-scenes du taf.</span>
+          <span class="find-me-preview">Mes derniers montages, mon setup, et les coulisses du taf.</span>
         </span>
       </a>
       <!-- 🔧 TikTok : décommente et remplace TON_HANDLE dès que tu as un compte perso à mettre en
@@ -13374,14 +12489,8 @@
     <span class="seasonal-promo-countdown" id="seasonalPromoCountdown"></span>
   </div>
 
-  <!-- Sentinelle invisible : marque la position d'origine du showreel. Observée en JS
-       (IntersectionObserver) pour savoir quand on a scrollé au-delà — c'est elle qui déclenche le
-       mode flottant, jamais #showreelBlock lui-même (qui passe en position:fixed une fois flottant,
-       donc toujours "visible" et inutilisable comme repère). -->
-  <div id="showreelSentinel" aria-hidden="true" style="height:0;"></div>
   <div id="showreelBlock" class="showreel-block reveal" style="display:none;">
-    <button type="button" id="showreelFloatClose" class="showreel-float-close" aria-label="Fermer la vidéo flottante" style="display:none;">✕</button>
-    <video id="showreelVideo" class="showreel-video" muted controls playsinline preload="none"></video>
+    <video id="showreelVideo" class="showreel-video" controls preload="none" playsinline></video>
   </div>
 
   <div class="full-divider"></div>
@@ -13389,35 +12498,7 @@
   
 
 <div class="key-figures" id="keyFigures" style="display:none;"></div>
-
-<!-- 🆕 Navigation par blocs (page raccourcie) : voir initPageBlocks() dans le JS. -->
-<nav class="page-block-nav" aria-label="Sections de la page">
-  <button type="button" class="page-block-tab" data-page-block="portfolio">🎬 Portfolio</button>
-  <button type="button" class="page-block-tab" data-page-block="offres">💰 Offres</button>
-  <button type="button" class="page-block-tab" data-page-block="rassurance">🛡️ Rassurance</button>
-  <button type="button" class="page-block-tab" data-page-block="reserver">📅 Réserver</button>
-</nav>
-<nav class="page-item-nav" data-page-block-for="portfolio" aria-label="Portfolio">
-  <button type="button" class="page-item-tab" data-page-block-for="portfolio" data-page-item="resultats">🎬 Résultats</button>
-  <button type="button" class="page-item-tab" data-page-block-for="portfolio" data-page-item="avis">⭐ Avis</button>
-  <button type="button" class="page-item-tab" data-page-block-for="portfolio" data-page-item="apropos">👋 À propos</button>
-</nav>
-<nav class="page-item-nav" data-page-block-for="offres" aria-label="Offres">
-  <button type="button" class="page-item-tab" data-page-block-for="offres" data-page-item="prestations">💶 Prestations</button>
-  <button type="button" class="page-item-tab" data-page-block-for="offres" data-page-item="pack-sur-mesure">🧩 Pack sur-mesure</button>
-  <button type="button" class="page-item-tab" data-page-block-for="offres" data-page-item="essai-15s">🎬 Essai 15s</button>
-  <button type="button" class="page-item-tab" data-page-block-for="offres" data-page-item="packs-creneau">📦 Packs créneau</button>
-  <button type="button" class="page-item-tab" data-page-block-for="offres" data-page-item="devis-marques">🤝 Devis marques</button>
-  <button type="button" class="page-item-tab" data-page-block-for="offres" data-page-item="marque-blanche">🏷️ Marque blanche</button>
-</nav>
-<nav class="page-item-nav" data-page-block-for="rassurance" aria-label="Rassurance">
-  <button type="button" class="page-item-tab" data-page-block-for="rassurance" data-page-item="garanties">🛡️ Garanties</button>
-  <button type="button" class="page-item-tab" data-page-block-for="rassurance" data-page-item="process">⚙️ Process</button>
-  <button type="button" class="page-item-tab" data-page-block-for="rassurance" data-page-item="fidelite">🔁 Fidélité</button>
-  <button type="button" class="page-item-tab" data-page-block-for="rassurance" data-page-item="faq">❓ FAQ</button>
-</nav>
-
-<section id="apropos" class="full-section about-section reveal" data-page-block="portfolio" data-page-item="apropos">
+<section id="apropos" class="full-section about-section reveal">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -13454,12 +12535,7 @@
   </section>
 
 <div class="section-wave section-wave--invert" aria-hidden="true"><svg viewBox="0 0 1200 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,24 C200,48 400,0 600,24 C800,48 1000,0 1200,24 L1200,48 L0,48 Z" fill="var(--bg-card,#161616)"/></svg></div>
-<nav class="page-restab-nav" data-page-block-for="portfolio" data-page-item-for="resultats" aria-label="Résultats">
-  <button type="button" class="page-restab-tab" data-page-restab="portfolio">🖼️ Portfolio</button>
-  <button type="button" class="page-restab-tab" data-page-restab="avant-apres">🎞️ Avant / Après</button>
-  <button type="button" class="page-restab-tab" data-page-restab="etude-de-cas">📊 Étude de cas</button>
-</nav>
-<section id="portfolio" class="full-section portfolio-section reveal" data-page-block="portfolio" data-page-item="resultats" data-page-restab="portfolio">
+<section id="portfolio" class="full-section portfolio-section reveal">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -13804,8 +12880,32 @@
 
   </section>
 
+<!-- 🎬 Coulisses : preuve du travail réel plutôt qu'une affirmation ("je monte vite/bien"), sur le
+     même principe que .style-consistency-proof plus bas (réutilise .hero-proof-card, aucun nouveau
+     composant). Lien externe (YouTube Short / TikTok) plutôt qu'un <video> intégré : garde le
+     fichier autonome et léger, cf. règle de publication n°4 en tête de fichier.
+     ⚠️ À FAIRE : remplace le href ci-dessous par le lien réel du time-lapse une fois mis en ligne. -->
+<section id="coulisses" class="full-section reveal">
+    <div class="info-header">
+      <div class="section-divider">
+        <div class="section-divider-line"></div>
+        <span class="section-divider-text">Coulisses</span>
+        <div class="section-divider-line"></div>
+      </div>
+      <div class="info-title">Un montage réel, en accéléré</div>
+    </div>
+    <p class="info-text">Pas besoin de te convaincre avec des mots : voici 20 secondes en time-lapse d'un montage du début à la fin (rushs → export), pour voir concrètement le travail derrière chaque vidéo livrée.</p>
+    <div class="hero-proof-cards">
+      <a href="#" target="_blank" rel="noopener" class="hero-proof-card" aria-label="Voir le time-lapse d'un montage en coulisses" data-coulisses-placeholder="true">
+        <span class="portfolio-thumb-fallback icon-tiktok-bg">🎬</span>
+        <span class="hero-proof-play">▶</span>
+      </a>
+    </div>
+    <p class="note-aside">🔧 Lien à mettre à jour : remplace le <code>href="#"</code> ci-dessus par l'URL du time-lapse une fois publié (YouTube Short, TikTok ou Reels).</p>
+</section>
+
 <!-- 🎞️ Avant / Après : rendu masqué tant que BEFORE_AFTER_ITEMS (dans le script) est vide. -->
-<section id="avant-apres" class="full-section reveal" style="display:none" data-page-block="portfolio" data-page-item="resultats" data-page-restab="avant-apres">
+<section id="avant-apres" class="full-section reveal" style="display:none">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -13818,7 +12918,7 @@
     <div class="ba-grid" id="beforeAfterGrid"></div>
 </section>
 
-<section id="etude-de-cas" class="full-section case-study-section reveal" data-page-block="portfolio" data-page-item="resultats" data-page-restab="etude-de-cas">
+<section id="etude-de-cas" class="full-section case-study-section reveal">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -14012,7 +13112,7 @@
   
   </section>
 
-<section id="avis" class="full-section testimonials-section reveal" data-page-block="portfolio" data-page-item="avis">
+<section id="avis" class="full-section testimonials-section reveal">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -14070,26 +13170,7 @@
          avis reçus ; le bouton apparaît tout seul dès qu'il y a au moins une carte à révéler (voir le
          JS plus bas, initTestimonialShowMore). Étoiles + avatar (initiale du nom) + puces de détail
          générés automatiquement, pas besoin de les écrire à la main (voir renderTestimonialStars()
-         dans le JS).
-
-         🆕 Avis vérifié + photo du résultat final : un client peut désormais joindre une capture de sa
-         vidéo livrée en déposant son avis depuis l'espace client post-livraison (voir
-         .tracking-review-zone) — la photo part avec l'avis sur Discord pour validation manuelle,
-         exactement comme le texte. Si tu choisis de publier cet avis ici, ajoute :
-           - data-verified="true" sur la .testimonial-card (uniquement si l'avis correspond à une vraie
-             commande que tu peux vérifier — jamais par défaut) → affiche le badge "✅ Avis vérifié" ;
-           - <img class="testimonial-photo" src="..." alt="Résultat du montage pour ..." loading="lazy" />
-             en 1er enfant de la carte, SEULEMENT si le client a fourni une photo ET que tu as son accord
-             pour la publier (upload = juste pour toi, pas une autorisation de publication automatique).
-         Exemple :
-           <div class="testimonial-card" data-rating="5" data-verified="true">
-             <img class="testimonial-photo" src="https://.../frame.jpg" alt="Frame de la vidéo livrée à ..." loading="lazy" />
-             <p class="testimonial-text">"..."</p>
-             <span class="testimonial-author">...</span>
-           </div>
-         Héberge l'image toi-même (ex : dans le même dossier Drive que les fichiers clients, lien
-         public en lecture seule) — ce site reste un fichier HTML autonome, aucune image ne doit être
-         collée en base64 ici (ça alourdirait le fichier pour rien, une simple URL suffit). -->
+         dans le JS). -->
     <div class="testimonial-grid testimonial-grid-more" id="testimonialGridMore"></div>
 
     <!-- Avis externes agrégés : renvoie vers des avis publiés ailleurs, vérifiables indépendamment
@@ -14156,7 +13237,7 @@
     </div>
   </section>
 
-<section id="garanties" class="full-section guarantees-page-section reveal" data-page-block="rassurance" data-page-item="garanties">
+<section id="garanties" class="full-section guarantees-page-section reveal">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -14226,7 +13307,7 @@
       <p class="info-text" style="text-align:center;margin-top:14px;">Le détail complet (clause par clause) reste dans les <a href="#cgv-remuneration" class="inline-link">CGV</a>, pour qui veut tout lire.</p>
   </section>
 
-<section id="prestations" class="full-section reveal" data-page-block="offres" data-page-item="prestations">
+<section id="prestations" class="full-section reveal">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -14739,95 +13820,7 @@
   
   </section>
 
-<!-- 🆕 Section Pack sur-mesure autonome : configurateur interactif standalone.
-     Réutilise PRICE_FIXED, BUNDLE_DISCOUNTS et les majorations du formulaire principal —
-     même logique de prix, juste une entrée différente, visible avant de s'engager dans
-     le formulaire. Le bouton CTA pré-remplit le formulaire de réservation via
-     goToReservationWithFormat() puis ouvre l'onglet Réserver. -->
-<section id="pack-sur-mesure" class="full-section reveal" data-page-block="offres" data-page-item="pack-sur-mesure">
-  <div class="info-header">
-    <div class="section-divider">
-      <div class="section-divider-line"></div>
-      <span class="section-divider-text">Pack sur-mesure</span>
-      <div class="section-divider-line"></div>
-    </div>
-    <div class="info-title">🧩 Compose ton pack</div>
-    <p class="info-subtitle">Mix de formats à la carte · remises volume automatiques · +10% sur-mesure · calculé en direct</p>
-  </div>
-
-  <div class="cpack-section" id="customPackStandalone">
-    <!-- Grille des formats -->
-    <div class="cpack-grid">
-      <div class="cpack-format-row">
-        <div>
-          <div class="cpack-format-label">🎬 Court</div>
-          <div class="cpack-format-price">TikTok / Reels · 45€/u</div>
-        </div>
-        <div class="cpack-qty-ctrl">
-          <button type="button" class="cpack-qty-btn" data-cpack-dec="court" aria-label="Enlever une vidéo courte">−</button>
-          <span class="cpack-qty-val" id="cpackQtyCourt">0</span>
-          <button type="button" class="cpack-qty-btn" data-cpack-inc="court" aria-label="Ajouter une vidéo courte">+</button>
-        </div>
-      </div>
-      <div class="cpack-format-row">
-        <div>
-          <div class="cpack-format-label">📺 Long</div>
-          <div class="cpack-format-price">YouTube / Best-of · 125€/u</div>
-        </div>
-        <div class="cpack-qty-ctrl">
-          <button type="button" class="cpack-qty-btn" data-cpack-dec="long" aria-label="Enlever une vidéo longue">−</button>
-          <span class="cpack-qty-val" id="cpackQtyLong">0</span>
-          <button type="button" class="cpack-qty-btn" data-cpack-inc="long" aria-label="Ajouter une vidéo longue">+</button>
-        </div>
-      </div>
-      <div class="cpack-format-row">
-        <div>
-          <div class="cpack-format-label">⚔️ Complexe / Esport</div>
-          <div class="cpack-format-price">200€/u</div>
-        </div>
-        <div class="cpack-qty-ctrl">
-          <button type="button" class="cpack-qty-btn" data-cpack-dec="complexe" aria-label="Enlever une vidéo complexe">−</button>
-          <span class="cpack-qty-val" id="cpackQtyComplexe">0</span>
-          <button type="button" class="cpack-qty-btn" data-cpack-inc="complexe" aria-label="Ajouter une vidéo complexe">+</button>
-        </div>
-      </div>
-      <div class="cpack-format-row">
-        <div>
-          <div class="cpack-format-label">💼 Business / Sponsorisé</div>
-          <div class="cpack-format-price">300€/u</div>
-        </div>
-        <div class="cpack-qty-ctrl">
-          <button type="button" class="cpack-qty-btn" data-cpack-dec="business" aria-label="Enlever une vidéo business">−</button>
-          <span class="cpack-qty-val" id="cpackQtyBusiness">0</span>
-          <button type="button" class="cpack-qty-btn" data-cpack-inc="business" aria-label="Ajouter une vidéo business">+</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Options -->
-    <div class="cpack-options-row">
-      <label class="cpack-option-check">
-        <input type="checkbox" id="cpackCommercial" /> Usage commercial / sponsorisé (+15%)
-      </label>
-      <label class="cpack-option-check">
-        <input type="checkbox" id="cpackUrgent" /> Mode urgent, livraison accélérée (+30%)
-      </label>
-    </div>
-
-    <!-- Résultat -->
-    <div class="cpack-result" id="cpackResult">
-      <div class="cpack-result-empty" id="cpackEmpty">← Ajoute au moins une vidéo pour voir le prix</div>
-      <div id="cpackPriceBlock" style="display:none;">
-        <div class="cpack-result-price" id="cpackTotal">—</div>
-        <div class="cpack-result-detail" id="cpackDetail"></div>
-      </div>
-      <button type="button" class="cpack-cta" id="cpackCtaBtn" disabled>📅 Réserver ce pack →</button>
-    </div>
-    <div class="cpack-breakdown" id="cpackBreakdown"></div>
-  </div>
-</section>
-
-<section id="packs-creneau" class="full-section reveal" data-page-block="offres" data-page-item="packs-creneau">
+<section id="packs-creneau" class="full-section reveal">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -14863,7 +13856,7 @@
     </div>
   </section>
 
-<section id="process" class="full-section process-section reveal" data-page-block="rassurance" data-page-item="process">
+<section id="process" class="full-section process-section reveal">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -14938,7 +13931,7 @@
      (mécanique #parrainage dans la FAQ, qui récompense l'apport d'un nouveau client, pas la fidélité).
      Réutilise .guarantees-grid/.guarantee-card, border-left passée en var(--accent-2) via
      .fidelite-grid ci-dessous (aucune nouvelle couleur, juste un token existant réutilisé). -->
-<section id="fidelite" class="full-section reveal" data-page-block="rassurance" data-page-item="fidelite">
+<section id="fidelite" class="full-section reveal">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -15012,7 +14005,7 @@
   </section>
 
 <div class="section-wave" aria-hidden="true"><svg viewBox="0 0 1200 48" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,24 C200,48 400,0 600,24 C800,48 1000,0 1200,24 L1200,48 L0,48 Z" fill="var(--bg-card,#161616)"/></svg></div>
-<section id="faq" class="full-section faq-conditions-section reveal" data-page-block="rassurance" data-page-item="faq">
+<section id="faq" class="full-section faq-conditions-section reveal">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -15422,7 +14415,7 @@
     </div>
   </section>
 
-<section id="devis-marques" class="full-section reveal" data-page-block="offres" data-page-item="devis-marques">
+<section id="devis-marques" class="full-section reveal">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -15487,78 +14480,7 @@
      sous son propre nom — donc formulaire volontairement plus court (peu de contexte créatif à
      donner, l'essentiel est le volume et le rythme), et livrables non brandés. Même pattern que
      #devisMarquesForm (webhook Discord, préfixe d'ID dédié MB- pour getOrderKind()). -->
-<!-- 🆕 Section Essai 15 secondes : tarif fixe 15€, formulaire court, aucune révision incluse,
-     aucune déduction sur une commande ultérieure. Masquable depuis l'admin (TOGGLEABLE_SECTIONS).
-     La soumission pousse une ligne dans le Sheet via Apps Script (action=submitEssai) et envoie
-     une notification Discord, comme les commandes normales. -->
-<section id="essai-15s" class="full-section reveal" data-page-block="offres" data-page-item="essai-15s">
-  <div class="info-header">
-    <div class="section-divider">
-      <div class="section-divider-line"></div>
-      <span class="section-divider-text">Tester avant de commander</span>
-      <div class="section-divider-line"></div>
-    </div>
-    <div class="info-title">🎬 Essai 15 secondes</div>
-    <p class="info-subtitle">Tu n'es pas encore sûr·e ? Je monte 15 secondes de tes rushs, pour de vrai.</p>
-  </div>
-
-  <div class="essai-card">
-    <div class="essai-pitch">
-      <div class="essai-price-tag">
-        <span class="essai-price-amount">15€</span>
-        <span class="essai-price-unit">fixe · payé à la réservation</span>
-      </div>
-      <div class="essai-conditions">
-        <div class="essai-condition">15 secondes montées sur <strong>tes propres rushs</strong> — tu vois mon style sur ton contenu, pas sur une vidéo générique.</div>
-        <div class="essai-condition"><strong>Aucune révision incluse</strong> — c'est un aperçu, pas une commande.</div>
-        <div class="essai-condition"><strong>Non déduit</strong> d'une commande ultérieure (voir conditions).</div>
-        <div class="essai-condition">Livré sous <strong>48h ouvrées</strong> après réception des rushs et paiement.</div>
-        <div class="essai-condition">Fichier MP4 livré via Google Drive ou WeTransfer.</div>
-      </div>
-      <p class="note-aside" style="margin-top:4px;">Convaincu·e après l'essai ? Le formulaire de réservation normal prend ensuite le relais, avec tous tes tarifs habituels.</p>
-    </div>
-
-    <div>
-      <form class="essai-form" id="essaiForm" novalidate>
-        <div class="hp-field" aria-hidden="true">
-          <label>Laisse vide<input type="text" name="website" tabindex="-1" autocomplete="off" /></label>
-        </div>
-        <div class="account-form-field">
-          <label for="essaiContact">Ton contact (email ou @pseudo réseaux) *</label>
-          <input type="text" id="essaiContact" name="contact" required maxlength="120" placeholder="email@exemple.com ou @tonpseudo" />
-        </div>
-        <div class="account-form-field">
-          <label for="essaiRushs">Lien vers tes rushs <span class="optional-tag">(ou joins directement tes fichiers juste en dessous)</span></label>
-          <input type="url" id="essaiRushs" name="rushs" maxlength="300" placeholder="Google Drive, WeTransfer, Dropbox…" />
-          <button type="button" class="attach-inline-btn" id="essaiAttachBtn">📎 Joindre un fichier</button>
-          <input type="file" id="essaiFileInput" multiple hidden />
-          <ul class="file-drop-list" id="essaiFileList" aria-live="polite"></ul>
-          <p class="note-aside" id="essaiFileNote" style="display:none;"></p>
-        </div>
-        <div class="account-form-field">
-          <label for="essaiFormat">Format souhaité *</label>
-          <select id="essaiFormat" name="format" required>
-            <option value="">Choisir un format…</option>
-            <option>TikTok / Reels (9:16 vertical)</option>
-            <option>YouTube (16:9 horizontal)</option>
-            <option>Short (1:1 carré)</option>
-          </select>
-        </div>
-        <div class="account-form-field">
-          <label for="essaiNotes">Indication de style <span class="optional-tag">(optionnel)</span></label>
-          <input type="text" id="essaiNotes" name="notes" maxlength="200" placeholder="ex : dynamique, dark, minimaliste…" />
-        </div>
-        <button type="submit" class="essai-submit-btn" id="essaiSubmitBtn">
-          🎬 Envoyer ma demande d'essai
-        </button>
-        <p class="essai-status" id="essaiStatus" role="status"></p>
-        <p style="font-size:11px;color:var(--text-faint);text-align:center;margin-top:2px;">Je t'enverrai un lien de paiement (15€) dès réception — le montage commence après paiement.</p>
-      </form>
-    </div>
-  </div>
-</section>
-
-<section id="marque-blanche" class="full-section reveal" data-page-block="offres" data-page-item="marque-blanche">
+<section id="marque-blanche" class="full-section reveal">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -15592,7 +14514,7 @@
     </form>
   </section>
 
-<section id="reservation" class="full-section reserve-section reveal" data-page-block="reserver" data-page-item="reservation">
+<section id="reservation" class="full-section reserve-section reveal">
     <div class="info-header">
       <div class="section-divider">
         <div class="section-divider-line"></div>
@@ -16476,24 +15398,6 @@
           <p class="order-journey-note">Dès l'acompte réglé, le montage démarre. Tu recevras une 1ère version à valider ou à corriger (3 révisions incluses) avant la livraison finale.</p>
         </div>
 
-        <!-- 🆕 Up-sell post-commande : affiché 800ms après la confirmation, propose d'ajouter une
-             2e vidéo au tarif -15%. S'affiche une seule fois par session (sessionStorage), disparaît
-             si le client le ferme ou clique "Ajouter maintenant". Le timer compte 5 min en JS. -->
-        <div class="upsell-card" id="upsellCard" role="complementary" aria-label="Offre spéciale">
-          <span class="upsell-tag">⚡ Offre exclusive — valable 5 min</span>
-          <div class="upsell-title">Ajoute une 2ᵉ vidéo maintenant et économise 15%</div>
-          <div class="upsell-sub">Ta demande est déjà envoyée — profites-en pour grouper un deuxième contenu.<br>Je m'occupe des deux en même temps, et tu paies moins sur le second.</div>
-          <div class="upsell-price-row">
-            <span class="upsell-price-new" id="upsellPriceNew">—€</span>
-            <span class="upsell-price-old" id="upsellPriceOld">au lieu de —€</span>
-          </div>
-          <div class="upsell-actions">
-            <button type="button" class="upsell-cta-btn" id="upsellAcceptBtn">🎬 Ajouter une 2ᵉ vidéo</button>
-            <button type="button" class="upsell-dismiss-btn" id="upsellDismissBtn">Non merci</button>
-          </div>
-          <div class="upsell-timer" id="upsellTimer"></div>
-        </div>
-
         <div id="confirmationShortcut" class="confirmation-shortcut"></div>
         <button type="button" id="confirmationClose" class="confirmation-close">Fermer</button>
       </div>
@@ -16585,23 +15489,6 @@
         </div>
         <div class="info-title" style="font-size: 18px;">📦 Historique de mes demandes</div>
       </div>
-      <!-- 🆕 Lookup "Suivi par code de commande" : le client saisit son numéro de commande (ex :
-           CMD-AB12CD) pour voir les 4 étapes et l'état, même s'il vient d'un autre appareil ou que
-           l'historique local a été vidé. Utilise le même remoteStatuses / trackingCardHtml que le
-           suivi automatique (la barre 4 étapes et le message admin s'affichent exactement pareil).
-           Le bouton "Chercher" n'est qu'un raccourci vers le champ #trackingInput déjà existant, pour
-           ne pas dupliquer la logique de recherche — il remplit le champ et déclenche l'input event. -->
-      <div class="order-tracking-lookup">
-        <p class="order-tracking-lookup-label">📦 Tu as déjà une commande ? Retrouve-la par son numéro</p>
-        <div class="order-tracking-lookup-row">
-          <input type="text" id="trackingLookupInput" class="order-tracking-lookup-input"
-            maxlength="20" placeholder="CMD-AB12CD" autocomplete="off" autocapitalize="characters"
-            aria-label="Numéro de commande (ex : CMD-AB12CD)" />
-          <button type="button" id="trackingLookupBtn" class="paypal-quick-btn">🔍 Suivre ma commande</button>
-        </div>
-        <p class="order-tracking-lookup-hint">Numéro reçu par e-mail à la confirmation de ta commande. Fonctionne depuis n'importe quel appareil.</p>
-      </div>
-
       <p class="info-text" style="font-size: 13px;">
         Toutes les demandes envoyées depuis cet appareil/navigateur s'affichent automatiquement ci-dessous
         (ça ne fonctionne pas si tu changes d'appareil ou de navigateur, rien n'est partagé entre visiteurs).
@@ -16670,84 +15557,6 @@
        chantier" en plein milieu du scroll public) vers un bouton flottant discret + modale, sur le
        même pattern que la popup de relance admin (.relance-preview-*). Le contenu et le comportement
        du formulaire sont identiques à avant, seul l'emplacement change. -->
-  <!-- ═══════════════════════════════════════════════════════════════════════
-       📊 PAGE DE STATUT PUBLIC (#status)
-       Partageable telle quelle (bouton "Copier le lien" ci-dessous → .../#status).
-       Les 3 chiffres sont recalculés à CHAQUE chargement depuis les mêmes sources que
-       le reste du site public (jamais une valeur dupliquée à la main) — voir
-       renderPublicStatusPage() dans le JS :
-         - Délai actuel moyen      → DELAY_RANGES (même source que le Hero / CGV / simulateur)
-         - Taux de satisfaction    → action Apps Script "publicNpsScore" (même source que #publicNpsBadge)
-         - Prochain créneau libre  → AUTO_DAY_WORKLOAD / SLOTS_AVAILABLE_THIS_WEEK (même source
-                                     que le badge du hero et le calendrier de #disponibilites)
-       🔧 Pour qu'une vraie URL /status (sans #) fonctionne sur Cloudflare Pages, ajoute une
-       règle dans functions/_redirects (ou public/_redirects) : "/status /#status 200".
-       Sans ce fichier, seule l'ancre #status (ex: michyy-portfolio.pages.dev/#status) fonctionne,
-       ce qui suffit largement pour un lien partagé en DM/Discord. ═══════════════════════════════════════════════════════════════════════ -->
-  <style>
-    .status-page-section { padding: 28px 0 8px; }
-    .status-metrics-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 12px;
-      margin: 16px 0 10px;
-    }
-    @media (max-width: 640px) {
-      .status-metrics-grid { grid-template-columns: 1fr; }
-    }
-    .status-metric-card {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-      gap: 4px;
-      padding: 18px 14px;
-      border-radius: 16px;
-      background: var(--surface);
-      border: 0.5px solid var(--border);
-    }
-    .status-metric-icon { font-size: 22px; }
-    .status-metric-label { font: 700 12px 'Manrope', sans-serif; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: .02em; }
-    .status-metric-value { font: 800 20px 'Manrope', sans-serif; color: var(--text); }
-    .status-metric-detail { font-size: 12px; color: var(--text-secondary); }
-    .status-updated-note { text-align: center; }
-    .status-copy-link-btn {
-      background: none; border: 1px dashed var(--border); border-radius: 999px;
-      color: var(--text-secondary); font: 700 11.5px 'Manrope', sans-serif;
-      padding: 5px 12px; cursor: pointer; margin-left: 4px;
-    }
-    .status-copy-link-btn:hover { border-color: var(--text-faint); color: var(--text); }
-  </style>
-  <section class="status-page-section" id="status">
-    <div class="section-divider">
-      <div class="section-divider-line"></div>
-      <span class="section-divider-text">📊 Statut en temps réel</span>
-      <div class="section-divider-line"></div>
-    </div>
-    <p class="info-subtitle">Trois chiffres recalculés à chaque visite, à partir des vraies commandes — jamais une estimation figée. <button type="button" class="status-copy-link-btn" id="statusCopyLinkBtn">🔗 Copier le lien de cette page</button></p>
-    <div class="status-metrics-grid">
-      <div class="status-metric-card">
-        <span class="status-metric-icon" aria-hidden="true">⏱️</span>
-        <span class="status-metric-label">Délai actuel moyen</span>
-        <span class="status-metric-value" id="statusDelayValue">…</span>
-        <span class="status-metric-detail" id="statusDelayDetail"></span>
-      </div>
-      <div class="status-metric-card">
-        <span class="status-metric-icon" aria-hidden="true">😊</span>
-        <span class="status-metric-label">Taux de satisfaction</span>
-        <span class="status-metric-value" id="statusSatisfactionValue">…</span>
-        <span class="status-metric-detail" id="statusSatisfactionDetail"></span>
-      </div>
-      <div class="status-metric-card">
-        <span class="status-metric-icon" aria-hidden="true">📅</span>
-        <span class="status-metric-label">Prochain créneau libre</span>
-        <span class="status-metric-value" id="statusSlotValue">…</span>
-        <span class="status-metric-detail" id="statusSlotDetail"></span>
-      </div>
-    </div>
-    <p class="note-aside status-updated-note">Dernière actualisation : <span id="statusUpdatedAt">…</span> · recalculé automatiquement, aucune action requise.</p>
-  </section>
-
   <footer class="site-footer">
     <a class="portfolio-link" id="portfolioOnlyLink" href="?portfolio=1" style="display: none;">Voir la version portfolio uniquement ↗</a>
     <a class="footer-legal-link" href="/mes-outils">🛠️ Mes outils (logiciels, plugins, presets)</a>
@@ -17128,8 +15937,6 @@
       { id: 'promo-hub', label: 'Bandeau des codes promo', selector: '#promoHub' },
       { id: 'abo-hero', label: 'Bloc « Abonnement créateur »', selector: '#aboHero', isNew: true },
       { id: 'avant-apres', label: 'Avant / Après (rushs → montage)', selector: '#avant-apres', isNew: true },
-      { id: 'essai-15s', label: 'Essai 15 secondes (15€)', selector: '#essai-15s', isNew: true },
-      { id: 'marque-blanche', label: 'Offre marque blanche (B2B)', selector: '#marque-blanche', isNew: true },
     ];
     const HIDDEN_SECTIONS_KEY = 'michyy_hidden_sections';
     function getHiddenSections() { try { const v = JSON.parse(localStorage.getItem(HIDDEN_SECTIONS_KEY) || '[]'); return Array.isArray(v) ? v : []; } catch (e) { return []; } }
@@ -17632,12 +16439,11 @@
     // flux normal. Retourne null pour tout ce qui sort de ce flux linéaire (litige, expirée,
     // annulée, test) — dans ce cas on n'affiche pas la frise, juste le badge de statut existant,
     // pour ne pas donner une fausse impression de progression sur une commande qui a un problème. ---
-    const PROGRESS_STEP_LABELS = ['Acompte', 'Montage', 'Révision', 'Livré'];
+    const PROGRESS_STEP_LABELS = ['Envoyée', 'Acompte', 'Montage', 'Révision', 'Livrée'];
     // Phrase claire sous la frise : répond à « t'en es où ? » sans avoir à me demander.
-    // "Envoyée" et "en attente de l'acompte" sont fusionnées dans la même 1ère étape (Acompte) :
-    // dans les deux cas, ce qui bloque la suite pour le client est le même geste (régler l'acompte).
     const PROGRESS_STEP_HINTS = [
-      "Ta demande est bien reçue. J'attends l'acompte pour lancer le montage.",
+      "Ta demande est bien reçue. Je la regarde et je te renvoie le lien d'acompte.",
+      "J'attends l'acompte pour lancer le montage.",
       "Acompte reçu : ton montage est en cours ou dans la file d'attente.",
       "Phase de révision : envoie-moi tes retours. Le solde restant se règle ici avant l'envoi du fichier final.",
       "Ta vidéo est livrée 🎉"
@@ -17645,10 +16451,11 @@
     function progressStepIndex(status) {
       const s = status || '';
       if (s.includes('Litige') || s.includes('Annulée') || s.includes('Expirée') || s.includes('Test')) return null;
-      if (s.includes('Livré')) return 3;
-      if (s.includes('retouches') || s.includes('Modifications demandées') || s.includes('solde') || s.includes('envoi en cours')) return 2;
-      if (s.includes('file d\'attente') || s.includes('montage') || s.includes('En pause') || s.includes('Acompte reçu')) return 1;
-      if (s.includes('acompte') || s.includes('Envoyée')) return 0;
+      if (s.includes('Livré')) return 4;
+      if (s.includes('retouches') || s.includes('Modifications demandées') || s.includes('solde') || s.includes('envoi en cours')) return 3;
+      if (s.includes('file d\'attente') || s.includes('montage') || s.includes('En pause') || s.includes('Acompte reçu')) return 2;
+      if (s.includes('acompte')) return 1;
+      if (s.includes('Envoyée')) return 0;
       return null;
     }
     function progressTimelineHtml(status) {
@@ -17797,56 +16604,15 @@
     // 🆕 Showreel : lecture de l'URL configurée (public ET admin, même raison que
     // getFaqVideoMap ci-dessus — définie hors du bloc admin pour rester accessible partout).
     const SHOWREEL_KEY = 'michyy_showreel_url';
-    // --- Showreel : lit une ou plusieurs URLs (une par ligne, champ admin #adminShowreelUrlInput) et
-    // les joue automatiquement l'une après l'autre, toujours dans le même ordre, en boucle à
-    // l'infini (comme avant : rien de configuré = bloc invisible, pas de placeholder vide). En plus,
-    // une fois qu'on scrolle au-delà de sa position d'origine, la vidéo "suit" dans un coin de
-    // l'écran au lieu de disparaître (mode flottant, fermable), sans jamais recréer l'élément
-    // <video> donc sans jamais couper la lecture en cours. ---
     (function initShowreel() {
-      const sentinel = document.getElementById('showreelSentinel');
       const block = document.getElementById('showreelBlock');
       const video = document.getElementById('showreelVideo');
-      const closeBtn = document.getElementById('showreelFloatClose');
       if (!block || !video) return;
-      let raw = '';
-      try { raw = (localStorage.getItem(SHOWREEL_KEY) || '').trim(); } catch (e) {}
-      if (!raw) return; // rien de configuré : le bloc reste caché, pas de placeholder vide
-      const playlist = raw.split('\n').map(s => s.trim()).filter(Boolean);
-      if (!playlist.length) return;
-
-      let idx = 0;
-      function playCurrent() {
-        video.src = playlist[idx];
-        video.play().catch(() => { /* autoplay muté refusé par le navigateur : pas grave, contrôles visibles */ });
-      }
-      video.addEventListener('ended', () => {
-        idx = (idx + 1) % playlist.length; // même ordre, en boucle infinie
-        playCurrent();
-      });
-      playCurrent();
+      let url = '';
+      try { url = (localStorage.getItem(SHOWREEL_KEY) || '').trim(); } catch (e) {}
+      if (!url) return; // rien de configuré : le bloc reste caché, pas de placeholder vide
+      video.src = url;
       block.style.display = 'block';
-
-      // Mode flottant au scroll : observe la sentinelle (position d'origine), jamais le bloc
-      // lui-même — une fois flottant, le bloc est position:fixed donc toujours "visible" et
-      // inutilisable comme repère de scroll.
-      if (sentinel && closeBtn && 'IntersectionObserver' in window) {
-        let dismissed = false;
-        const io = new IntersectionObserver((entries) => {
-          if (dismissed) return;
-          entries.forEach((entry) => {
-            const scrolledPast = !entry.isIntersecting && entry.boundingClientRect.top < 0;
-            block.classList.toggle('is-floating', scrolledPast);
-            closeBtn.style.display = scrolledPast ? 'flex' : 'none';
-          });
-        }, { threshold: 0 });
-        io.observe(sentinel);
-        closeBtn.addEventListener('click', () => {
-          dismissed = true;
-          block.classList.remove('is-floating');
-          closeBtn.style.display = 'none';
-        });
-      }
     })();
 
     // --- 🆕 Aperçu figé "brouillon partagé" (?brouillon=...) : décode le payload base64 généré
@@ -18190,7 +16956,6 @@
       // l'action Apps Script « setAnnouncement » (voir apps-script-annonce.gs), avec repli local + message clair. ---
       (function initAdminAnnouncementTool() {
         const typeEl = document.getElementById('adminAnnType'), msgEl = document.getElementById('adminAnnMsg');
-        const titleEl = document.getElementById('adminAnnTitle'), colorEl = document.getElementById('adminAnnColor');
         const startEl = document.getElementById('adminAnnStart'), endEl = document.getElementById('adminAnnEnd');
         const saveBtn = document.getElementById('adminAnnSave'), clearBtn = document.getElementById('adminAnnClear');
         const status = document.getElementById('adminAnnStatus');
@@ -18200,26 +16965,26 @@
           .then(r => r.json()).then(d => { if (!d || !d.success) throw new Error('bad-response'); return d; });
         const LOCAL_MSG = "⚠️ Enregistré seulement sur cet appareil : le Sheet n'a pas répondu à setAnnouncement. Colle le code du fichier apps-script-annonce.gs dans ton Apps Script (et autorise ces actions dans sheets-proxy.js s'il filtre).";
         const LABELS = { none: 'Aucun bandeau affiché', scheduled: '🕒 Programmé (pas encore affiché)', active: '🟢 Affiché en ce moment', expired: '⚪ Expiré (plus affiché)' };
-        const fill = (a) => { a = a || {}; typeEl.value = a.type || 'conges'; titleEl.value = a.title || ''; colorEl.value = a.color || '#ffb020'; msgEl.value = a.message || ''; startEl.value = a.start || ''; endEl.value = a.end || ''; };
+        const fill = (a) => { a = a || {}; typeEl.value = a.type || 'conges'; msgEl.value = a.message || ''; startEl.value = a.start || ''; endEl.value = a.end || ''; };
         const showState = (a, extra) => { status.textContent = [LABELS[window.__announcement.state(a)], extra].filter(Boolean).join(' — '); };
         function persist(a) {
           try { localStorage.setItem(window.__announcement.localKey, JSON.stringify(a)); } catch (e) { /* ignore */ }
           window.__announcement.apply(a);
           if (!configured()) { showState(a, LOCAL_MSG); return; }
           status.textContent = 'Enregistrement…';
-          const q = ['type', 'title', 'color', 'message', 'start', 'end'].map(k => `&${k}=${encodeURIComponent(a[k] || '')}`).join('');
+          const q = ['type', 'message', 'start', 'end'].map(k => `&${k}=${encodeURIComponent(a[k] || '')}`).join('');
           call('setAnnouncement', q)
             .then(() => showState(a, 'enregistré, visible par tout le monde'))
             .catch(() => showState(a, LOCAL_MSG));
         }
         saveBtn.addEventListener('click', () => {
-          const a = { type: typeEl.value, title: titleEl.value.trim(), color: colorEl.value, message: msgEl.value.trim(), start: startEl.value, end: endEl.value };
+          const a = { type: typeEl.value, message: msgEl.value.trim(), start: startEl.value, end: endEl.value };
           if (!a.message) { status.textContent = '⚠️ Écris un message.'; return; }
           if (a.type === 'promo' && !a.end) { status.textContent = '⚠️ Une promo doit avoir une date de fin.'; return; }
           if (a.start && a.end && a.end < a.start) { status.textContent = '⚠️ La date de fin est avant le début.'; return; }
           persist(a);
         });
-        clearBtn.addEventListener('click', () => { fill(null); persist({ type: 'conges', title: '', color: '', message: '', start: '', end: '' }); });
+        clearBtn.addEventListener('click', () => { fill(null); persist({ type: 'conges', message: '', start: '', end: '' }); });
         setTimeout(() => { // après la fin du script : window.__announcement est défini plus bas
           let local = null;
           try { local = JSON.parse(localStorage.getItem(window.__announcement.localKey) || 'null'); } catch (e) { /* ignore */ }
@@ -18258,44 +17023,6 @@
         if (!btn || !inp) return;
         btn.addEventListener('click', () => { window.__silentOn = !window.__silentOn; renderAdminOrdersList(lastAdminOrders); });
         inp.addEventListener('change', () => renderAdminOrdersList(lastAdminOrders));
-      })();
-
-      // --- 🆕 Statut public en temps réel (adminLiveStatusSaveBtn) ---------------
-      (function initLiveStatusAdmin() {
-        const sel  = document.getElementById('adminLiveStatusSelect');
-        const sub  = document.getElementById('adminLiveStatusSubline');
-        const btn  = document.getElementById('adminLiveStatusSaveBtn');
-        const note = document.getElementById('adminLiveStatusNote');
-        if (!sel || !btn) return;
-        // Pré-remplir depuis le cache local
-        try {
-          const cached = JSON.parse(localStorage.getItem('michyy_status_live') || 'null');
-          if (cached) { if (cached.status) sel.value = cached.status; if (cached.subline && sub) sub.value = cached.subline; }
-        } catch (e) {}
-        btn.addEventListener('click', async () => {
-          const status = sel.value;
-          const subline = sub ? sub.value.trim() : '';
-          // Appliquer immédiatement côté public (même page)
-          if (typeof applyLiveStatus === 'function') applyLiveStatus({ status, subline });
-          if (note) note.textContent = '⏳ Publication en cours…';
-          if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT')) {
-            if (note) note.textContent = '✅ Appliqué localement (Apps Script pas encore configuré — les visiteurs ne voient pas encore ce changement).';
-            return;
-          }
-          try {
-            const params = new URLSearchParams({ secret: APPS_SCRIPT_SECRET, action: 'setStatus', status, subline });
-            const res = await fetch(`${APPS_SCRIPT_URL}?${params}&_ts=${Date.now()}`);
-            const data = await res.json();
-            if (data && data.success) {
-              if (note) note.textContent = `✅ Statut « ${sel.options[sel.selectedIndex].text} » publié — visible par tous les visiteurs en < 5 min.`;
-              logActivity('🟢', `Statut public mis à jour → ${status}${subline ? ' · ' + subline : ''}`);
-            } else {
-              if (note) note.textContent = '⚠️ Apps Script a répondu mais sans succès — vérifie l\'action setStatus dans ton script.';
-            }
-          } catch (err) {
-            if (note) note.textContent = '⚠️ Impossible de joindre Apps Script. Appliqué localement uniquement.';
-          }
-        });
       })();
 
       // --- ⏰ Rappel personnalisé (date + heure) sur chaque carte : notification navigateur à l'heure choisie
@@ -18363,7 +17090,7 @@
         if (window.__renderFocus) { try { window.__renderFocus(dataRows); } catch (e) { console.warn('focus', e); } }
         const $ = id => document.getElementById(id);
         const amount = r => parseBudgetAmount(parseNoteQuickFields(r[2] || '')) || 0;
-        const money = n => Math.floor(n).toLocaleString('fr-FR') + ' €';
+        const money = n => Math.round(n).toLocaleString('fr-FR') + ' €';
         const live = dataRows.filter(r => statusCategory(r[1] || '') !== 'cancelled');
         try { renderRevenueByFormat(live); } catch (e) { console.warn('revenus par format', e); }
         if ($('adminCa12')) {
@@ -18420,7 +17147,7 @@
           const w = window.open('', '_blank'); if (!w) { alert('Autorise les pop-ups pour générer le PDF.'); return; }
           w.document.write(`<!doctype html><meta charset="utf-8"><title>${type} ${esc(r[0])}</title><style>body{font-family:Arial,sans-serif;max-width:720px;margin:40px auto;color:#111}h1{margin:0 0 4px}table{width:100%;border-collapse:collapse;margin:24px 0}td,th{border-bottom:1px solid #ccc;padding:10px;text-align:left}.r{text-align:right}pre{white-space:pre-wrap;font:inherit;font-size:12px;color:#555}</style>
             <h1>${type} n° ${esc(r[0])}</h1><p>Date : ${today}</p><pre>${esc(issuer)}</pre><p><strong>Client :</strong> ${esc(f.nom || r[5] || '')}</p>
-            <table><tr><th>Prestation</th><th class="r">Montant</th></tr><tr><td>${esc($('docLabel').value || f.nomCommande || 'Montage vidéo')}</td><td class="r">${Math.floor(amt)} €</td></tr><tr><th>Total</th><th class="r">${Math.floor(amt)} €</th></tr></table>
+            <table><tr><th>Prestation</th><th class="r">Montant</th></tr><tr><td>${esc($('docLabel').value || f.nomCommande || 'Montage vidéo')}</td><td class="r">${amt.toFixed(2)} €</td></tr><tr><th>Total</th><th class="r">${amt.toFixed(2)} €</th></tr></table>
             <p style="font-size:12px;color:#555">${type === 'Devis' ? 'Devis valable 30 jours. Acompte de 50% à la commande.' : 'Paiement à réception.'}</p><script>onload=()=>print()<\/script>`);
           w.document.close();
         });
@@ -18434,7 +17161,7 @@
         return Math.max(0, Math.floor((t - new Date(d + 'T00:00:00')) / 86400000));
       }
       function renderAdminExtras5(rows) {
-        const $ = id => document.getElementById(id), money = n => Math.floor(n).toLocaleString('fr-FR') + ' €';
+        const $ = id => document.getElementById(id), money = n => Math.round(n).toLocaleString('fr-FR') + ' €';
         const amount = r => parseBudgetAmount(parseNoteQuickFields(r[2] || '')) || 0;
         let last = 0; try { last = +localStorage.getItem('michyy_last_backup') || 0; } catch (e) {}
         if ($('backupReminder')) $('backupReminder').style.display = (!last || (Date.now() - last) / 864e5 >= 30) ? '' : 'none';
@@ -18463,7 +17190,7 @@
           const rows = real(), wk = Date.now() - 7 * 864e5, live = rows.filter(r => statusCategory(r[1] || '') !== 'cancelled');
           const recent = live.filter(r => r[3] && new Date(r[3]).getTime() >= wk), late = rows.filter(r => orderLateDays(r) > 0);
           const unpaid = rows.filter(r => statusCategory(r[1] || '') === 'delivered' && (r[7] || '').trim().toLowerCase() !== 'oui');
-          const w = computeNext7DaysWorkload(rows), tomorrow = w.days[1].orders.length, money = n => Math.floor(n).toLocaleString('fr-FR') + ' €';
+          const w = computeNext7DaysWorkload(rows), tomorrow = w.days[1].orders.length, money = n => Math.round(n).toLocaleString('fr-FR') + ' €';
           $('weeklyReportText').value = `📝 Rapport du ${new Date().toLocaleDateString('fr-FR')}\n• Nouvelles commandes (7 j) : ${recent.length} — ${money(recent.reduce((t, r) => t + amount(r), 0))}\n• En cours / en attente : ${rows.filter(r => ['pending', 'inProgress'].includes(statusCategory(r[1] || ''))).length}\n• En retard : ${late.length}${late.length ? ' (' + late.map(r => r[0]).join(', ') + ')' : ''}\n• À livrer demain : ${tomorrow}\n• Soldes non reçus : ${unpaid.length} — ${money(unpaid.reduce((t, r) => t + amount(r), 0))}`;
         });
         if ($('weeklyReportCopy')) $('weeklyReportCopy').addEventListener('click', () => { if (navigator.clipboard) navigator.clipboard.writeText($('weeklyReportText').value); });
@@ -18473,49 +17200,6 @@
         });
         if ($('satList')) $('satList').addEventListener('click', e => { const b = e.target.closest('[data-sdel]'); if (!b) return; let d = {}; try { d = JSON.parse(localStorage.getItem('michyy_satisfaction') || '{}'); delete d[b.dataset.sdel]; localStorage.setItem('michyy_satisfaction', JSON.stringify(d)); } catch (e) {} renderAdminExtras5(real()); });
         if ($('siteStatusPreview')) { try { $('siteStatusPreview').value = sessionStorage.getItem('michyy_status_preview') || ''; } catch (e) {} $('siteStatusPreview').addEventListener('change', e => { try { e.target.value ? sessionStorage.setItem('michyy_status_preview', e.target.value) : sessionStorage.removeItem('michyy_status_preview'); } catch (x) {} window.applySiteStatus(); }); }
-
-        // --- Panneau admin statut live : restore l'état depuis le cache, puis push vers Apps Script ---
-        (function initAdminLiveStatusPanel() {
-          const pushBtn = $('adminLiveStatusPush');
-          const sublineInput = $('adminLiveStatusSubline');
-          const resultEl = $('adminLiveStatusResult');
-          if (!pushBtn) return;
-          // Restore depuis le cache localStorage (même clé que applyLiveStatus côté visiteur)
-          try {
-            const cached = JSON.parse(localStorage.getItem('michyy_status_live') || 'null');
-            if (cached && cached.status) {
-              const radio = document.querySelector(`input[name="adminLiveStatus"][value="${cached.status}"]`);
-              if (radio) radio.checked = true;
-              if (sublineInput && cached.subline) sublineInput.value = cached.subline;
-            }
-          } catch (e) {}
-          pushBtn.addEventListener('click', async () => {
-            const status = (document.querySelector('input[name="adminLiveStatus"]:checked') || {}).value || 'open';
-            const subline = sublineInput ? sublineInput.value.trim() : '';
-            if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT')) {
-              if (resultEl) resultEl.textContent = '⚠️ Apps Script URL non configurée — modifie APPS_SCRIPT_URL dans le code.';
-              return;
-            }
-            pushBtn.disabled = true;
-            if (resultEl) resultEl.textContent = '⏳ Publication en cours…';
-            try {
-              const url = `${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=setStatus&status=${encodeURIComponent(status)}&subline=${encodeURIComponent(subline)}`;
-              const r = await fetch(url);
-              const d = await r.json();
-              if (d && d.success) {
-                if (resultEl) resultEl.textContent = '✅ Publié — les visiteurs voient le nouveau statut.';
-                // Applique aussi immédiatement en local (y compris dans la carte visiteur)
-                if (typeof applyLiveStatus === 'function') applyLiveStatus({ status, subline });
-              } else {
-                if (resultEl) resultEl.textContent = '⚠️ Réponse inattendue — vérifie que setStatus est bien dans ton doGet.';
-              }
-            } catch (err) {
-              if (resultEl) resultEl.textContent = '⚠️ Échec réseau — vérifie ta connexion et l\'URL Apps Script.';
-            } finally {
-              pushBtn.disabled = false;
-            }
-          });
-        })();
         // Modèles de devis : presets issus des tarifs du site + modèles enregistrés (localStorage)
         const tplKey = 'michyy_doc_templates', loadT = () => { try { return JSON.parse(localStorage.getItem(tplKey) || '[]'); } catch (e) { return []; } };
         function fillTpl() {
@@ -18562,7 +17246,7 @@
 
       // --- Objectif annuel + prévision, fiche client, relance, Kanban glisser-déposer ---
       function renderAdminExtras4(dataRows) {
-        const $ = id => document.getElementById(id), money = n => Math.floor(n).toLocaleString('fr-FR') + ' €';
+        const $ = id => document.getElementById(id), money = n => Math.round(n).toLocaleString('fr-FR') + ' €';
         const amount = r => parseBudgetAmount(parseNoteQuickFields(r[2] || '')) || 0;
         renderAdminCalendar(dataRows);
         if ($('yearGaugeFill')) {
@@ -20104,7 +18788,7 @@
       // --- Extras admin : jauge CA, relances, dashboard promos ---
       function renderAdminExtras(dataRows) {
         const $ = id => document.getElementById(id);
-        const money = n => Math.floor(n).toLocaleString('fr-FR') + ' €';
+        const money = n => Math.round(n).toLocaleString('fr-FR') + ' €';
         const now = new Date();
         const amount = r => parseBudgetAmount(parseNoteQuickFields(r[2] || '')) || 0;
         const live = dataRows.filter(r => statusCategory(r[1] || '') !== 'cancelled');
@@ -20135,7 +18819,7 @@
       const TARGET_HOURLY_RATE = 20;
       function renderAdminExtras2(dataRows) {
         const $ = id => document.getElementById(id);
-        const money = n => Math.floor(n).toLocaleString('fr-FR') + ' €';
+        const money = n => Math.round(n).toLocaleString('fr-FR') + ' €';
         const amount = r => parseBudgetAmount(parseNoteQuickFields(r[2] || '')) || 0;
         const row = (a, b) => `<div class="price-log-row"><span>${a}</span><span>${b}</span></div>`;
         const empty = t => `<p class="info-text" style="font-size:12px;">${t}</p>`;
@@ -20474,7 +19158,7 @@
         const filters = [['all', 'Par niveau'], ['watch', '⚠️ À surveiller'], ['dormant', '💤 À réveiller']].concat(usedTags.map(p => ['tag:' + p, p]));
         const passes = g => (ctState.filter === 'watch' && isWatch(g)) || (ctState.filter === 'dormant' && g.isDormant) || (ctState.filter.startsWith('tag:') && (tagMap[g.key] || []).includes(ctState.filter.slice(4)));
         const list = ctState.filter === 'all' ? buckets[ctState.tier] : groups.filter(passes);
-        const eur = n => Math.floor(n).toLocaleString('fr-FR') + ' €';
+        const eur = n => Math.round(n).toLocaleString('fr-FR') + ' €';
         const row = g => {
           const tags = tagMap[g.key] || [], open = ctState.tagOpen === g.key;
           return `<div class="ct-row">
@@ -20689,7 +19373,7 @@
         const $ = id => document.getElementById(id);
         const pad2 = n => String(n).padStart(2, '0');
         const median = arr => { const a = arr.slice().sort((x, y) => x - y); const m = Math.floor(a.length / 2); return a.length % 2 ? a[m] : (a[m - 1] + a[m]) / 2; };
-        const euro = n => Math.floor(n).toLocaleString('fr-FR') + ' €';
+        const euro = n => (Math.round(n * 100) / 100).toLocaleString('fr-FR', { maximumFractionDigits: 2 }) + ' €';
         const fmtShort = ts => new Date(ts).toLocaleString('fr-FR', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit' });
 
         // ------------------------------------------------------------------------------
@@ -25112,14 +23796,7 @@
         renderAvailabilityCalendar();
         renderHeroAvailabilityStrip();
         renderReservationWeekStrip();
-        // 🆕 Recalcule le badge "créneaux dispo cette semaine" du hero maintenant que la charge
-        // réelle (AUTO_DAY_WORKLOAD) est arrivée — remplace le chiffre de repli manuel affiché au
-        // tout premier rendu par le vrai compte à jour, sans recharger la page.
-        if (typeof renderSlotsBadge === 'function') renderSlotsBadge();
         if (typeof refreshDateLivraisonHint === 'function') refreshDateLivraisonHint();
-        // 🆕 Recalcule aussi la page de statut public (#status) avec la charge réelle qui vient
-        // d'arriver, plutôt que de laisser affiché le repli "Aujourd'hui" du tout premier rendu.
-        if (typeof renderPublicStatusPage === 'function') renderPublicStatusPage();
       }
 
       try {
@@ -25218,14 +23895,12 @@
       const old = document.getElementById('siteAnnouncementBar');
       if (old) old.remove();
       if (announcementState(a) !== 'active') return;
-      const key = [a.type, a.title, a.color, a.message, a.start, a.end].join('|'); // un texte, une couleur ou des dates modifiés ré-affichent le bandeau
+      const key = [a.type, a.message, a.start, a.end].join('|'); // un texte ou des dates modifiés ré-affichent le bandeau
       try { if (sessionStorage.getItem('michyy_announcement_closed') === key) return; } catch (e) { /* ignore */ }
       const bar = document.createElement('div');
       bar.id = 'siteAnnouncementBar'; bar.className = 'site-announcement'; bar.setAttribute('role', 'status');
-      if (a.color) bar.style.setProperty('--ann-color', a.color);
       const txt = document.createElement('span');
-      const titleHtml = a.title ? `<strong>${ANNOUNCEMENT_ICONS[a.type] || '📢'} ${escapeHtml(a.title)} —</strong> ` : `${ANNOUNCEMENT_ICONS[a.type] || '📢'} `;
-      txt.innerHTML = titleHtml + escapeHtml(a.message);
+      txt.textContent = `${ANNOUNCEMENT_ICONS[a.type] || '📢'} ${a.message}`;
       const close = document.createElement('button');
       close.type = 'button'; close.className = 'site-announcement-close'; close.setAttribute('aria-label', "Fermer l'annonce"); close.textContent = '×';
       close.addEventListener('click', () => { bar.remove(); try { sessionStorage.setItem('michyy_announcement_closed', key); } catch (e) { /* ignore */ } });
@@ -25563,17 +24238,16 @@
       }
     });
 
-    // Barre de réservation collante mobile : 🆕 visible tout le long du scroll (dès qu'on a
-    // quitté le tout haut de la page, plus le seuil à 500px), masquée seulement dès que la
-    // section réservation est déjà à l'écran (inutile de la pousser vers un formulaire
-    // qu'elle voit déjà). Fait aussi remonter légèrement les deux boutons flottants
-    // existants (contact + retour en haut) pour ne jamais les chevaucher.
+    // Barre de réservation collante mobile : visible dès qu'on a dépassé le hero, masquée
+    // dès que la section réservation est déjà à l'écran (inutile de la pousser vers un
+    // formulaire qu'elle voit déjà). Fait aussi remonter légèrement les deux boutons
+    // flottants existants (contact + retour en haut) pour ne jamais les chevaucher.
     const mobileReserveBar = document.getElementById('mobileReserveBar');
     const reservationSectionEl = document.getElementById('reservation');
     if (mobileReserveBar && reservationSectionEl) {
       let reservationInView = false;
       const updateReserveBar = () => {
-        const shouldShow = window.scrollY > 80 && !reservationInView;
+        const shouldShow = window.scrollY > 500 && !reservationInView;
         mobileReserveBar.classList.toggle('visible', shouldShow);
         document.body.classList.toggle('mobile-reserve-bar-active', shouldShow);
       };
@@ -27149,126 +25823,28 @@
 
     applyPortfolioDisplay();
 
-    // 🔧 Disponibilité : passe à false quand tu es complet (valeur de secours si le fetch échoue)
-    let AVAILABLE = true;
-    let _liveStatusApplied = false;
+    // 🔧 Disponibilité : passe à false quand tu es complet
+    const AVAILABLE = true;
     const statusCard = document.getElementById('statusCard');
     const badgeText = document.getElementById('availabilityText');
-
-    // --- Statut en temps réel depuis l'admin -----------------------------------
-    // L'admin pousse un champ { status: 'open'|'full'|'vacation', slots: N }
-    // via l'action setStatus (Apps Script). Ici on le lit toutes les 5 min.
-    // Fallback instantané sur localStorage ('michyy_status_live') s'il existe.
-    const STATUS_LIVE_KEY = 'michyy_status_live';
-    const STATUS_LABELS = {
-      open:     { text: 'Accepte de nouvelles commandes', busy: false },
-      full:     { text: 'Complet — liste d\'attente ouverte', busy: true  },
-      vacation: { text: 'En vacances — retour bientôt', busy: true  },
-    };
-    function applyLiveStatus(st) {
-      if (!st || !st.status) return;
-      const cfg = STATUS_LABELS[st.status] || STATUS_LABELS.open;
-      AVAILABLE = !cfg.busy;
-      if (badgeText) badgeText.textContent = cfg.text;
-      if (statusCard) statusCard.classList.toggle('busy', cfg.busy);
-      if (st.subline) {
-        const sub = document.getElementById('statusSubline');
-        if (sub && !_liveStatusApplied) sub.dataset.liveOverride = '1';
-        if (sub) sub.textContent = st.subline;
-      }
-      _liveStatusApplied = true;
-      try { localStorage.setItem(STATUS_LIVE_KEY, JSON.stringify(st)); } catch (e) {}
-    }
-    // Afficher le cache immédiatement
-    try { const cached = JSON.parse(localStorage.getItem(STATUS_LIVE_KEY) || 'null'); if (cached) applyLiveStatus(cached); } catch (e) {}
-    // Fetch depuis Apps Script (action=getStatus, à ajouter dans doGet — code prêt plus bas)
-    function fetchLiveStatus() {
-      if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT')) return;
-      fetch(`${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=getStatus&_ts=${Date.now()}`)
-        .then(r => r.json())
-        .then(d => { if (d && d.success && d.status) applyLiveStatus(d); })
-        .catch(() => {}); // silencieux si Apps Script pas encore mis à jour
-    }
-    fetchLiveStatus();
-    setInterval(fetchLiveStatus, 5 * 60 * 1000); // ré-interroge toutes les 5 min
-
-    /* ── Code à coller dans ton Apps Script (doGet) ──────────────────────────────
-       if (action === 'getStatus') {
-         var sheet = SpreadsheetApp.getActive().getSheetByName('Config')
-           || SpreadsheetApp.getActive().insertSheet('Config');
-         // Ligne 1 = en-têtes : status | slots | subline | updatedAt
-         var row = sheet.getRange(2, 1, 1, 4).getValues()[0];
-         return ContentService.createTextOutput(JSON.stringify({
-           success: true, status: row[0] || 'open', slots: row[1] || '',
-           subline: row[2] || '', updatedAt: row[3] || ''
-         })).setMimeType(ContentService.MimeType.JSON);
-       }
-       if (action === 'setStatus') {
-         // ⚠️ Protège avec la même vérification secret que 'update'
-         if (e.parameter.secret !== SECRET) throw new Error('Unauthorized');
-         var sheet = SpreadsheetApp.getActive().getSheetByName('Config')
-           || SpreadsheetApp.getActive().insertSheet('Config');
-         if (sheet.getLastRow() < 1) sheet.appendRow(['status','slots','subline','updatedAt']);
-         sheet.getRange(2, 1, 1, 4).setValues([[
-           e.parameter.status || 'open',
-           e.parameter.slots || '',
-           e.parameter.subline || '',
-           new Date().toISOString()
-         ]]);
-         return ContentService.createTextOutput(JSON.stringify({ success: true }))
-           .setMimeType(ContentService.MimeType.JSON);
-       }
-    ──────────────────────────────────────────────────────────────────────────── */
-
     if (!AVAILABLE) {
-      if (statusCard) statusCard.classList.add('busy');
-      if (badgeText && !_liveStatusApplied) badgeText.textContent = 'Complet cette semaine';
+      statusCard.classList.add('busy');
+      badgeText.textContent = 'Complet cette semaine';
     }
 
-    // 🔧 Créneaux dispo cette semaine — repli manuel : n'est utilisé QUE tant que le calcul
-    // automatique ci-dessous (getAutoSlotsAvailableThisWeek, à partir du calendrier réel des
-    // commandes) n'a pas encore abouti, ou si AUTO_DAY_WORKLOAD reste vide (Apps Script pas
-    // configuré, hors ligne...). Mets 0/null pour masquer complètement le badge dans ce cas
-    // (ne jamais laisser un faux chiffre affiché à la main indéfiniment).
-    const MANUAL_SLOTS_AVAILABLE_THIS_WEEK = 2;
-    // 🆕 Calcul automatique : reprend AUTO_DAY_WORKLOAD (déjà chargé par loadAutoBusyDays() à partir
-    // de l'action publique "publicDeliveryDates" — la même donnée que le calendrier et la frise du
-    // hero, aucune nouvelle source de vérité) et compte, sur les 7 prochains jours, combien ont
-    // encore de la capacité libre au sens de MAX_ORDERS_PER_DELIVERY_DAY. C'est un indicateur — pas
-    // un vrai système de créneaux nommés — donc volontairement simple : un jour = une place dispo,
-    // qu'il en reste une ou plusieurs sur ce jour précis.
-    function getAutoSlotsAvailableThisWeek() {
-      if (!AUTO_DAY_WORKLOAD) return null; // pas encore chargé (ou jamais chargé) : repli manuel
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      let free = 0;
-      for (let i = 0; i < 7; i++) {
-        const d = new Date(today);
-        d.setDate(d.getDate() + i);
-        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-        const load = AUTO_DAY_WORKLOAD[key] || 0;
-        if (load < MAX_ORDERS_PER_DELIVERY_DAY) free++;
-      }
-      return free;
-    }
-    function renderSlotsBadge() {
+    // 🔧 Créneaux dispo cette semaine : mets à jour ce chiffre à la main chaque semaine,
+    // ou mets 0/null pour masquer complètement le badge (ne jamais laisser un faux chiffre affiché).
+    const SLOTS_AVAILABLE_THIS_WEEK = 2;
+    (function initSlotsBadge() {
       const slotsBadge = document.getElementById('slotsBadge');
       const slotsBadgeText = document.getElementById('slotsBadgeText');
-      if (!slotsBadge || !slotsBadgeText || !AVAILABLE) return undefined;
-      const auto = getAutoSlotsAvailableThisWeek();
-      const slots = auto !== null ? auto : MANUAL_SLOTS_AVAILABLE_THIS_WEEK;
-      if (!slots || slots <= 0) { slotsBadge.style.display = 'none'; return slots; }
-      slotsBadgeText.textContent = slots === 1
+      if (!slotsBadge || !slotsBadgeText || !AVAILABLE) return;
+      if (!SLOTS_AVAILABLE_THIS_WEEK || SLOTS_AVAILABLE_THIS_WEEK <= 0) return;
+      slotsBadgeText.textContent = SLOTS_AVAILABLE_THIS_WEEK === 1
         ? '🔥 Dernier créneau dispo cette semaine'
-        : `🔥 ${slots} créneaux dispo cette semaine`;
+        : `🔥 ${SLOTS_AVAILABLE_THIS_WEEK} créneaux dispo cette semaine`;
       slotsBadge.style.display = 'inline-flex';
-      return slots;
-    }
-    // Valeur utilisée plus bas (mode liste d'attente...) : au 1er rendu (avant que loadAutoBusyDays()
-    // ait pu aboutir), donc encore le repli manuel à ce stade précis — recalculée automatiquement une
-    // fois les données réelles arrivées, voir l'appel à renderSlotsBadge() dans computeAndRender().
-    const _initialSlots = renderSlotsBadge();
-    const SLOTS_AVAILABLE_THIS_WEEK = (_initialSlots === undefined) ? MANUAL_SLOTS_AVAILABLE_THIS_WEEK : _initialSlots;
+    })();
 
     // --- Mode "liste d'attente" : si complet (AVAILABLE=false) ou 0 créneau affiché, remplace le
     // formulaire complet par un simple champ contact. Un visiteur qui tombe sur "complet" repart
@@ -28384,52 +26960,9 @@
     // l'attribut data-rating et du nom déjà présent dans .testimonial-author (voir commentaire HTML
     // au-dessus de #testimonialGridMore). Injectés en JS plutôt qu'écrits à la main dans le HTML,
     // pour rester cohérent si data-rating ou le nom changent un jour.
-    // 🆕 Lightbox plein écran pour les photos jointes aux avis (voir .testimonial-photo ci-dessus) :
-    // un clic agrandit, un clic n'importe où (ou Échap) referme. Un seul conteneur réutilisé pour
-    // toutes les photos plutôt qu'une lightbox par carte.
-    function openTestimonialPhotoLightbox(src, alt) {
-      let box = document.getElementById('testimonialPhotoLightbox');
-      if (!box) {
-        box = document.createElement('div');
-        box.id = 'testimonialPhotoLightbox';
-        box.className = 'testimonial-photo-lightbox';
-        box.innerHTML = '<img id="testimonialPhotoLightboxImg" alt="" />';
-        document.body.appendChild(box);
-        box.addEventListener('click', () => box.classList.remove('is-open'));
-        document.addEventListener('keydown', (e) => { if (e.key === 'Escape') box.classList.remove('is-open'); });
-      }
-      const img = document.getElementById('testimonialPhotoLightboxImg');
-      img.src = src;
-      img.alt = alt || 'Résultat final du montage';
-      box.classList.add('is-open');
-    }
-
     function renderTestimonialStars() {
       document.querySelectorAll('.testimonial-card').forEach(card => {
         if (card.querySelector('.testimonial-stars')) return; // déjà fait
-
-        // 🆕 Badge "Avis vérifié" : uniquement si la carte porte data-verified="true" — jamais ajouté
-        // par défaut, pour ne jamais laisser croire qu'un avis est vérifié alors qu'il ne l'est pas.
-        // Ne veut pas dire "avec photo" à tout prix : un avis peut être vérifié (rattaché à une vraie
-        // commande) sans photo jointe, si le client n'en a pas fourni.
-        if (card.dataset.verified === 'true' && !card.querySelector('.testimonial-verified-badge')) {
-          const badge = document.createElement('span');
-          badge.className = 'testimonial-verified-badge';
-          badge.innerHTML = '✅ Avis vérifié';
-          badge.title = 'Client ayant réellement passé commande — avis déposé depuis son espace de suivi';
-          card.insertBefore(badge, card.firstChild);
-        }
-
-        // 🆕 Photo du résultat final (frame de la vidéo livrée), optionnelle : <img class=
-        // "testimonial-photo"> déjà présente dans le HTML de la carte (ajoutée à la main lors de la
-        // publication d'un avis, voir la note au-dessus de #testimonialGridMore). On se contente ici
-        // de brancher le clic vers la lightbox plein écran — la photo elle-même n'est pas générée par
-        // ce script, contrairement aux étoiles/puces/avatar ci-dessous.
-        const photoEl = card.querySelector('.testimonial-photo');
-        if (photoEl && !photoEl.dataset.lightboxBound) {
-          photoEl.dataset.lightboxBound = '1';
-          photoEl.addEventListener('click', () => openTestimonialPhotoLightbox(photoEl.src, photoEl.alt));
-        }
 
         const rating = Math.max(0, Math.min(5, Number(card.dataset.rating) || 5));
         const starsEl = document.createElement('div');
@@ -29118,10 +27651,10 @@
       return null;
     }
 
-    // 🆕 Toujours arrondi À LA BAISSE (jamais à la hausse) au multiple de 5€ du dessous — jamais de
-    // centimes ni de prix "au pif" type 67€/89€. Minimum 5€ pour ne jamais afficher 0€.
+    // Arrondit toujours à un multiple de 5€ le plus proche — évite les totaux du type 67€ ou 89€
+    // qui donnent une impression de calcul "au pif". Un minimum de 5€ pour ne jamais afficher 0€.
     function roundToFive(value) {
-      return Math.max(5, Math.floor(value / 5) * 5);
+      return Math.max(5, Math.round(value / 5) * 5);
     }
 
     function applyPromo(total, hints) {
@@ -29407,148 +27940,6 @@
         }
         nextSlotBadge.style.display = 'inline-flex';
       }
-
-      // 🆕 Pastille d'urgence juste à côté du bouton "Réserver" (#heroReserveUrgencyChip) : reprend
-      // EXACTEMENT les mêmes variables que les deux badges ci-dessus (AVAILABLE / SLOTS_AVAILABLE_THIS_WEEK
-      // / isFullyBooked, dérivées du calendrier réel des commandes) — jamais un chiffre différent
-      // affiché à un autre endroit de la page. Volontairement pas de compte à rebours ni de "plus
-      // que X heures" (aucune donnée fiable de ce type côté site public) : juste le même nombre de
-      // places réelles, mis en avant au bon endroit (à côté du geste à faire, pas seulement plus haut).
-      const urgencyChip = document.getElementById('heroReserveUrgencyChip');
-      if (urgencyChip) {
-        if (isFullyBooked) {
-          urgencyChip.textContent = '📋 Liste d\'attente';
-          urgencyChip.classList.add('hero-reserve-urgency-chip--neutral');
-        } else if (SLOTS_AVAILABLE_THIS_WEEK) {
-          urgencyChip.textContent = SLOTS_AVAILABLE_THIS_WEEK === 1
-            ? '🔥 dernière place'
-            : `🔥 ${SLOTS_AVAILABLE_THIS_WEEK} places dispo`;
-        }
-        if (urgencyChip.textContent) urgencyChip.style.display = 'inline-flex';
-      }
-    })();
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // 📊 PAGE DE STATUT PUBLIC (#status, tout en bas de page) — renderPublicStatusPage()
-    // Recalcule les 3 indicateurs à partir des sources déjà existantes (jamais un chiffre
-    // dupliqué à la main) : voir le commentaire au-dessus de <section id="status"> dans le HTML.
-    // Rappelée automatiquement dès que la charge réelle (AUTO_DAY_WORKLOAD) arrive, voir
-    // computeAndRender() dans loadAutoBusyDays() plus haut. Déclarée en `function` (hoistée) pour
-    // pouvoir être appelée depuis du code placé plus haut dans le fichier sans souci d'ordre.
-    // ─────────────────────────────────────────────────────────────────────────
-    function renderPublicStatusDelay() {
-      const el = document.getElementById('statusDelayValue');
-      if (!el) return;
-      const keys = Object.keys(DELAY_RANGES);
-      const midpoints = keys.map(k => { const [min, max] = DELAY_RANGES[k].normal; return (min + max) / 2; });
-      const avgDays = midpoints.reduce((a, b) => a + b, 0) / midpoints.length;
-      const rounded = Math.round(avgDays * 10) / 10;
-      el.textContent = rounded < 1 ? 'moins d\'1 jour' : `~${daysLabel(Math.round(rounded))}`;
-      const detail = document.getElementById('statusDelayDetail');
-      if (detail) {
-        const courtMax = DELAY_RANGES['Court (TikTok / Reels)'].normal[1];
-        const longMax = DELAY_RANGES['Long (YouTube / Best-of)'].normal[1];
-        detail.textContent = `Court : jusqu'à ${courtMax} j · Long : jusqu'à ${daysLabel(longMax)}${(typeof AFFLUENCE_LEVEL !== 'undefined' && AFFLUENCE_LEVEL === 'moderate') ? ' · affluence modérée en ce moment' : ''}`;
-      }
-    }
-    function renderPublicStatusSlot() {
-      const el = document.getElementById('statusSlotValue');
-      const detail = document.getElementById('statusSlotDetail');
-      if (!el) return;
-      if (typeof isFullyBooked !== 'undefined' && isFullyBooked) {
-        el.textContent = 'Complet — liste d\'attente';
-        if (detail) detail.textContent = 'Laisse un contact dans le formulaire pour être recontacté·e dès qu\'une place se libère.';
-        return;
-      }
-      if (!AUTO_DAY_WORKLOAD) {
-        // Pas encore chargé (ou Apps Script non configuré) : même repli que le badge du hero,
-        // jamais un jour précis inventé.
-        el.textContent = 'Aujourd\'hui';
-        if (detail) detail.textContent = `${typeof SLOTS_AVAILABLE_THIS_WEEK !== 'undefined' ? SLOTS_AVAILABLE_THIS_WEEK : ''} créneau(x) dispo cette semaine (estimation)`;
-        return;
-      }
-      const today = new Date(); today.setHours(0, 0, 0, 0);
-      let found = null;
-      for (let i = 0; i < 30; i++) {
-        const d = new Date(today); d.setDate(d.getDate() + i);
-        const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-        if ((AUTO_DAY_WORKLOAD[key] || 0) < MAX_ORDERS_PER_DELIVERY_DAY) { found = d; break; }
-      }
-      if (!found) {
-        el.textContent = 'Complet — liste d\'attente';
-        if (detail) detail.textContent = 'Aucune place détectée sur les 30 prochains jours.';
-        return;
-      }
-      const isToday = found.getTime() === today.getTime();
-      el.textContent = isToday ? 'Aujourd\'hui' : new Intl.DateTimeFormat('fr-FR', { weekday: 'long', day: 'numeric', month: 'long' }).format(found);
-      if (detail) {
-        const slots = typeof SLOTS_AVAILABLE_THIS_WEEK !== 'undefined' ? SLOTS_AVAILABLE_THIS_WEEK : 0;
-        detail.textContent = slots ? `${slots} créneau${slots > 1 ? 'x' : ''} dispo cette semaine` : '';
-      }
-    }
-    function renderPublicStatusSatisfaction() {
-      const el = document.getElementById('statusSatisfactionValue');
-      const detail = document.getElementById('statusSatisfactionDetail');
-      if (!el) return;
-      if (!APPS_SCRIPT_URL || APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT')) {
-        el.textContent = 'Bientôt disponible';
-        return;
-      }
-      fetch(`${APPS_SCRIPT_URL}?secret=${encodeURIComponent(APPS_SCRIPT_SECRET)}&action=publicNpsScore&_ts=${Date.now()}`)
-        .then(res => res.json())
-        .then(data => {
-          if (!data || !data.success || !data.count) { el.textContent = 'Bientôt disponible'; return; }
-          el.textContent = `${data.avgScore}/10`;
-          if (detail) detail.textContent = `${data.count} note${data.count > 1 ? 's' : ''} sur les 30 derniers jours`;
-        })
-        .catch(() => { el.textContent = 'Bientôt disponible'; });
-    }
-    function renderPublicStatusPage() {
-      if (!document.getElementById('status')) return;
-      renderPublicStatusDelay();
-      renderPublicStatusSlot();
-      renderPublicStatusSatisfaction();
-      const stamp = document.getElementById('statusUpdatedAt');
-      if (stamp) stamp.textContent = new Intl.DateTimeFormat('fr-FR', { hour: '2-digit', minute: '2-digit' }).format(new Date());
-    }
-    renderPublicStatusPage();
-
-    // Bouton "Copier le lien" (page publique + raccourci admin) : même lien pour les deux,
-    // toujours basé sur l'URL réelle du site plutôt qu'écrit en dur (fonctionne aussi bien en
-    // local/preview qu'en prod).
-    function statusShareUrl() { return `${window.location.origin}${window.location.pathname}#status`; }
-    function wireStatusCopyBtn(btnId, msgSetter) {
-      const btn = document.getElementById(btnId);
-      if (!btn) return;
-      btn.addEventListener('click', async () => {
-        const url = statusShareUrl();
-        try {
-          await navigator.clipboard.writeText(url);
-          msgSetter('✅ Lien copié : ' + url);
-        } catch (e) {
-          msgSetter('⚠️ Impossible de copier automatiquement — voici le lien : ' + url);
-        }
-      });
-    }
-    wireStatusCopyBtn('statusCopyLinkBtn', (msg) => {
-      const btn = document.getElementById('statusCopyLinkBtn');
-      if (!btn) return;
-      const original = btn.textContent;
-      btn.textContent = '✅ Lien copié !';
-      setTimeout(() => { btn.textContent = original; }, 2200);
-    });
-    wireStatusCopyBtn('adminStatusCopyLinkBtn', (msg) => {
-      const el = document.getElementById('adminStatusMsg');
-      if (el) el.textContent = msg;
-    });
-    (function initAdminStatusRefresh() {
-      const btn = document.getElementById('adminStatusRefreshBtn');
-      const msg = document.getElementById('adminStatusMsg');
-      if (!btn) return;
-      btn.addEventListener('click', () => {
-        renderPublicStatusPage();
-        if (msg) msg.textContent = '✅ Statut public recalculé — les 3 chiffres sont à jour pour tous les visiteurs (aucune mise en cache côté site).';
-      });
     })();
 
     // --- Simulateur de délai en temps réel (carte sous le statut, en haut de page) : calcule une
@@ -31399,47 +29790,6 @@
       const isCancelled = order.clientCancelled || liveStatus.includes('Annulée') || liveStatus.includes('Expirée') || liveStatus.includes('Supprimée');
       const isConfirmed = !isCancelled && !isStillDefaultStatus && !liveStatus.includes('Envoyée');
       const statusClass = isCancelled ? 'status-cancelled' : (isConfirmed ? 'status-confirmed' : 'status-sent');
-
-      // --- Barre de progression 4 étapes ---
-      // Chaque étape = 'done' | 'active' | 'pending'. On ne génère la barre que pour les commandes
-      // actives (pas annulées/expirées) — une commande annulée n'a pas de "progression" à montrer.
-      // Les étapes s'appuient uniquement sur liveStatus : pas de source distante supplémentaire.
-      const trackingStepsHtml = (() => {
-        if (isCancelled) return ''; // pas de barre pour les commandes annulées / expirées
-        const s = liveStatus;
-        // Étape 1 — Acompte : reçu dès qu'on dépasse "En attente de l'acompte" ou "Envoyée"
-        const step1Done   = !s.includes("attente de l'acompte") && !s.includes('Envoyée') && !s.includes('Expirée');
-        const step1Active = s.includes("attente de l'acompte") || s.includes('Envoyée');
-        // Étape 2 — Montage : file d'attente, montage, pause, relecture, solde
-        const step2Done   = s.includes('retouches') || s.includes('Modifications') || s.includes('solde') || s.includes('Livré') || s.includes('Prête');
-        const step2Active = step1Done && !step2Done;
-        // Étape 3 — Révision : en relecture / retouches / modifications / attente du solde
-        const step3Done   = s.includes('Livré') || s.includes('Prête') || (s.includes('solde') && !s.includes('retouches'));
-        const step3Active = step2Done && !step3Done;
-        // Étape 4 — Livré
-        const step4Done   = s.includes('Livré');
-        const step4Active = step3Done && !step4Done;
-        const cls = (done, active) => done ? 'is-done' : active ? 'is-active' : '';
-        const check = done => done ? '✓' : '';
-        return `<div class="tracking-steps" aria-label="Étapes de la commande">
-          <div class="tracking-step ${cls(step1Done, step1Active)}">
-            <div class="tracking-step-dot">${check(step1Done)}</div>
-            <span class="tracking-step-label">Acompte</span>
-          </div>
-          <div class="tracking-step ${cls(step2Done, step2Active)}">
-            <div class="tracking-step-dot">${check(step2Done)}</div>
-            <span class="tracking-step-label">Montage</span>
-          </div>
-          <div class="tracking-step ${cls(step3Done, step3Active)}">
-            <div class="tracking-step-dot">${check(step3Done)}</div>
-            <span class="tracking-step-label">Révision</span>
-          </div>
-          <div class="tracking-step ${cls(step4Done, step4Active)}">
-            <div class="tracking-step-dot">${check(step4Done)}</div>
-            <span class="tracking-step-label">Livré ✅</span>
-          </div>
-        </div>`;
-      })();
       const clientMessage = remoteClientMessages[order.id.toUpperCase()] || '';
       const deliveryLink = remoteDeliveryLinks[order.id.toUpperCase()] || '';
       const isSoldeRecu = !!remoteSoldeRecu[order.id.toUpperCase()];
@@ -31531,7 +29881,6 @@
         <div class="tracking-card">
           <span class="tracking-status ${statusClass}${justChanged ? ' status-pulse' : ''}">${statusIconHtml(liveStatus, 13)}${escapeHtml(stripStatusEmoji(liveStatus))}</span>
           <span class="tracking-id">${escapeHtml(order.id)}</span>
-          ${trackingStepsHtml}
           ${progressTimelineHtml(liveStatus)}
           ${queuePositionHtml(order.id)}
           ${clientStatusHistoryHtml(order.id)}
@@ -31555,7 +29904,6 @@
         <button type="button" class="tracking-delete-btn" data-order-id="${escapeHtml(order.id)}" data-hidden="${opts.hidden ? '1' : '0'}" title="${opts.hidden ? 'Remettre cette commande dans mon suivi' : 'Retirer cette commande de mon suivi (récupérable ensuite)'}">${opts.hidden ? '↩️' : '🗑️'}</button>
         <span class="tracking-status ${statusClass}${justChanged ? ' status-pulse' : ''}">${statusIconHtml(liveStatus, 13)}${escapeHtml(stripStatusEmoji(liveStatus))}</span>
         <span class="tracking-id">${escapeHtml(order.id)}</span><br/>
-        ${trackingStepsHtml}
         ${progressTimelineHtml(liveStatus)}
         ${queuePositionHtml(order.id)}
         ${clientStatusHistoryHtml(order.id)}
@@ -31821,9 +30169,6 @@
                 ${[1,2,3,4,5].map(n => `<span class="review-star" data-star="${n}">★</span>`).join('')}
               </div>
               <textarea class="review-text" rows="2" placeholder="Ton avis en quelques mots (optionnel)"></textarea>
-              <input type="file" class="review-photo-input" accept="image/*" hidden />
-              <button type="button" class="attach-inline-btn review-photo-btn">📸 Joindre une capture du résultat final <span class="optional-tag">(optionnel)</span></button>
-              <ul class="file-drop-list review-photo-list"></ul>
               <button type="button" class="review-submit-btn">Envoyer mon avis</button>
               <p class="review-status"></p>
             </div>
@@ -31839,31 +30184,6 @@
             paintStars(Number(s.dataset.star));
           }));
 
-          // 🆕 Photo du résultat final, optionnelle : même mécanique d'attache que .attach-inline-btn
-          // ailleurs sur le site (voir initInlineAttach()), mais gardée locale à cette zone plutôt que
-          // globale — une seule photo à la fois (pas besoin d'un vrai gestionnaire multi-fichiers ici,
-          // contrairement à orderFiles pour le formulaire de réservation). Le client choisit lui-même
-          // s'il joint quelque chose ; rien n'est envoyé sans ce geste explicite.
-          let reviewPhoto = null;
-          const photoInput = zone.querySelector('.review-photo-input');
-          const photoBtn = zone.querySelector('.review-photo-btn');
-          const photoList = zone.querySelector('.review-photo-list');
-          photoBtn.addEventListener('click', () => photoInput.click());
-          photoInput.addEventListener('change', () => {
-            const file = photoInput.files && photoInput.files[0];
-            if (!file) return;
-            if (!file.type.startsWith('image/')) {
-              photoList.innerHTML = `<li><span class="n">⚠️ ${escapeHtml(file.name)} — seules les images sont acceptées</span></li>`;
-              photoInput.value = '';
-              return;
-            }
-            reviewPhoto = file;
-            photoList.innerHTML = `<li><span class="n">📸 ${escapeHtml(file.name)}</span><button type="button" class="file-drop-remove" data-remove-photo aria-label="Retirer la photo">✕</button></li>`;
-          });
-          photoList.addEventListener('click', (e) => {
-            if (e.target.closest('[data-remove-photo]')) { reviewPhoto = null; photoInput.value = ''; photoList.innerHTML = ''; }
-          });
-
           zone.querySelector('.review-submit-btn').addEventListener('click', async () => {
             const rating = starsEl.dataset.value;
             const text = zone.querySelector('.review-text').value.trim();
@@ -31871,35 +30191,25 @@
             statusEl.textContent = 'Envoi en cours...';
             try {
               if (WEBHOOK_URL.includes('COLLE_TON_URL')) throw new Error('not-configured');
-              const payload = {
-                content: '@everyone',
-                embeds: [{
-                  title: '⭐ Nouvel avis à valider',
-                  description: '🔧 Si tu veux le publier, copie-le manuellement dans la section Avis clients du site.' + (reviewPhoto ? '\n📸 Photo jointe ci-dessous — publie-la seulement si le client est OK pour l\'utiliser publiquement.' : ''),
-                  color: 16729344,
-                  fields: [
-                    { name: 'N° de commande', value: orderId },
-                    { name: 'Note', value: '⭐'.repeat(Number(rating)) },
-                    { name: 'Avis', value: text || '(pas de commentaire écrit)' }
-                  ]
-                }]
-              };
-              // Même pattern que l'envoi de fichiers du formulaire de réservation (voir orderFiles
-              // plus bas dans ce script) : multipart avec payload_json + files[n] uniquement si une
-              // photo a été jointe, sinon JSON simple comme avant.
-              let sendOptions = { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) };
-              if (reviewPhoto) {
-                const multipart = new FormData();
-                multipart.append('payload_json', JSON.stringify(payload));
-                multipart.append('files[0]', reviewPhoto, reviewPhoto.name);
-                sendOptions = { method: 'POST', body: multipart };
-              }
-              const res = await fetch(WEBHOOK_URL, sendOptions);
+              const res = await fetch(WEBHOOK_URL, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                  content: '@everyone',
+                  embeds: [{
+                    title: '⭐ Nouvel avis à valider',
+                    description: '🔧 Si tu veux le publier, copie-le manuellement dans la section Avis clients du site.',
+                    color: 16729344,
+                    fields: [
+                      { name: 'N° de commande', value: orderId },
+                      { name: 'Note', value: '⭐'.repeat(Number(rating)) },
+                      { name: 'Avis', value: text || '(pas de commentaire écrit)' }
+                    ]
+                  }]
+                })
+              });
               if (!res.ok) throw new Error('send-failed');
-              // Best-effort, comme pour les rushs/fichiers de commande : un échec de sauvegarde Drive
-              // ne bloque jamais l'avis, qui est déjà bien parti sur Discord dans tous les cas.
-              if (reviewPhoto && typeof uploadFilesToDrive === 'function') uploadFilesToDrive(orderId, [reviewPhoto]);
-              zone.innerHTML = '<p class="review-thanks">✅ Merci pour ton avis' + (reviewPhoto ? ' et la photo' : '') + ' !</p>';
+              zone.innerHTML = '<p class="review-thanks">✅ Merci pour ton avis !</p>';
             } catch (err) {
               statusEl.textContent = '⚠️ Envoi impossible pour le moment, contacte Michyy directement.';
             }
@@ -31981,28 +30291,6 @@
       });
     }
     trackingInput.addEventListener('input', renderOrderHistory);
-
-    // --- Lookup "Suivi par code de commande" : le bouton et le champ de saisie dédié (#trackingLookupInput)
-    // ne font qu'alimenter le #trackingInput existant (qui déclenche renderOrderHistory), pour ne pas
-    // dupliquer la logique de recherche. Un submit sur Enter est aussi supporté.
-    const trackingLookupInput = document.getElementById('trackingLookupInput');
-    const trackingLookupBtn   = document.getElementById('trackingLookupBtn');
-    function doLookup() {
-      const val = (trackingLookupInput.value || '').trim().toUpperCase();
-      if (!val) return;
-      trackingInput.value = val;
-      trackingInput.dispatchEvent(new Event('input'));
-      // Si la commande n'est pas dans l'historique local, fetchRemoteStatuses l'ajoutera à remoteStatuses
-      // et renderOrderHistory affichera la carte "remoteOnly" avec la barre 4 étapes.
-      if (!Object.values(readOrders()).find(o => o.id.toUpperCase() === val)) {
-        fetchRemoteStatuses().then(renderOrderHistory);
-      }
-      // Scroll vers les résultats
-      const result = document.getElementById('trackingResult');
-      if (result) result.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-    if (trackingLookupBtn)   trackingLookupBtn.addEventListener('click', doLookup);
-    if (trackingLookupInput) trackingLookupInput.addEventListener('keydown', e => { if (e.key === 'Enter') doLookup(); });
 
     refreshStatusBtn.addEventListener('click', async () => {
       refreshStatusBtn.textContent = '⏳ Actualisation...';
@@ -32978,470 +31266,6 @@
 
     restoreDraftIfAny();
     updateLiveRecap();
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // 🎬 FORMULAIRE ESSAI 15 SECONDES — initEssaiForm()
-    // Pousse vers Apps Script (action=submitEssai) et notifie Discord.
-    // En l'absence d'Apps Script configuré, envoie un mailto de secours.
-    // ─────────────────────────────────────────────────────────────────────────
-    // --- 📎 Fichiers joints au formulaire "Essai 15s" (même mécanique que .attach-inline-btn /
-    // orderFiles pour la réservation complète, voir plus haut) : le lien reste possible, mais un
-    // client peut désormais aussi joindre ses rushs directement via l'explorateur de fichiers,
-    // sans avoir à créer un lien SwissTransfer/Drive juste pour un essai à 15€. ---
-    const essaiFiles = [];
-    function renderEssaiFiles(msg) {
-      const list = document.getElementById('essaiFileList');
-      const note = document.getElementById('essaiFileNote');
-      if (list) list.innerHTML = essaiFiles.map((f, i) => `<li><span class="n">📎 ${escapeHtml(f.name)}</span><span>${formatFileSize(f.size)} <button type="button" class="file-drop-remove" data-essai-file-remove="${i}" aria-label="Retirer ${escapeHtml(f.name)}">✕</button></span></li>`).join('');
-      const rushsInput = document.getElementById('essaiRushs');
-      if (rushsInput) rushsInput.required = essaiFiles.length === 0; // fichiers joints = le lien n'est plus obligatoire
-      if (note) {
-        if (msg) { note.textContent = msg; note.style.display = 'block'; }
-        else if (!essaiFiles.length) { note.style.display = 'none'; }
-        else { note.style.display = 'none'; }
-      }
-    }
-    function addEssaiFiles(fileList) {
-      let msg = '';
-      Array.from(fileList).forEach(f => {
-        const total = essaiFiles.reduce((t, x) => t + x.size, 0);
-        if (ORDER_FILES_BLOCKED.test(f.name)) msg = `« ${f.name} » : ce type de fichier n'est pas accepté.`;
-        else if (essaiFiles.some(x => x.name === f.name && x.size === f.size)) return;
-        else if (essaiFiles.length >= ORDER_FILES_MAX) msg = `${ORDER_FILES_MAX} fichiers maximum.`;
-        else if (total + f.size > ORDER_FILES_MAX_BYTES) msg = `Trop lourd : ${formatFileSize(ORDER_FILES_MAX_BYTES)} au total. Pour les gros fichiers, utilise plutôt le lien SwissTransfer.`;
-        else essaiFiles.push(f);
-      });
-      renderEssaiFiles(msg);
-    }
-    (function initEssaiAttach() {
-      const btn = document.getElementById('essaiAttachBtn');
-      const input = document.getElementById('essaiFileInput');
-      const list = document.getElementById('essaiFileList');
-      if (!btn || !input) return;
-      btn.addEventListener('click', () => input.click());
-      input.addEventListener('change', () => { addEssaiFiles(input.files); input.value = ''; });
-      if (list) list.addEventListener('click', (e) => {
-        const b = e.target.closest('[data-essai-file-remove]');
-        if (b) { essaiFiles.splice(Number(b.dataset.essaiFileRemove), 1); renderEssaiFiles(); }
-      });
-    })();
-
-    (function initEssaiForm() {
-      const form    = document.getElementById('essaiForm');
-      const statusEl= document.getElementById('essaiStatus');
-      const submitBtn = document.getElementById('essaiSubmitBtn');
-      if (!form) return;
-      form.addEventListener('submit', async (e) => {
-        e.preventDefault();
-        if (form.querySelector('[name="website"]').value) return; // honeypot
-        const contact = document.getElementById('essaiContact').value.trim();
-        const rushs   = document.getElementById('essaiRushs').value.trim();
-        const format  = document.getElementById('essaiFormat').value;
-        const notes   = document.getElementById('essaiNotes').value.trim();
-        if (!contact || (!rushs && !essaiFiles.length) || !format) {
-          if (statusEl) statusEl.textContent = '⚠️ Remplis les champs obligatoires (contact, rushs — lien ou fichiers joints —, format).';
-          return;
-        }
-        submitBtn.disabled = true;
-        if (statusEl) statusEl.textContent = '⏳ Envoi en cours…';
-
-        // Tentative Apps Script — envoi multipart (payload_json + files[n]) dès qu'au moins un
-        // fichier est joint, exactement comme pour le formulaire de réservation complet ci-dessus ;
-        // sinon on garde le POST form-urlencodé existant, inchangé.
-        let sent = false;
-        if (APPS_SCRIPT_URL && !APPS_SCRIPT_URL.includes('COLLE_URL_APPS_SCRIPT')) {
-          try {
-            const payload = { action: 'submitEssai', contact, rushs, format, notes, filesCount: essaiFiles.length };
-            let r;
-            if (essaiFiles.length) {
-              const multipart = new FormData();
-              multipart.append('payload_json', JSON.stringify(payload));
-              essaiFiles.forEach((file, n) => multipart.append(`files[${n}]`, file, file.name));
-              r = await fetch(APPS_SCRIPT_URL, { method: 'POST', body: multipart });
-            } else {
-              const body = new URLSearchParams({ action: 'submitEssai', contact, rushs, format, notes });
-              r = await fetch(APPS_SCRIPT_URL, { method: 'POST', body });
-            }
-            const d = await r.json();
-            if (d && d.success) sent = true;
-          } catch (err) { /* fallback mailto */ }
-        }
-
-        if (sent) {
-          form.reset();
-          essaiFiles.length = 0; renderEssaiFiles();
-          if (statusEl) statusEl.textContent = '✅ Demande envoyée ! Je te contacte sous 24h avec le lien de paiement.';
-        } else {
-          // Fallback : mailto avec les données pré-remplies (les fichiers joints ne peuvent pas
-          // partir dans un mailto — on le précise pour éviter toute confusion côté client).
-          const subject = encodeURIComponent('[Essai 15s] Demande de montage');
-          const filesNote = essaiFiles.length ? `\n⚠️ ${essaiFiles.length} fichier(s) sélectionné(s) non joint(s) (impossible via mail) — réponds à ce mail avec tes rushs en pièce jointe ou un lien.` : '';
-          const body2 = encodeURIComponent(`Contact : ${contact}\nRushs : ${rushs || '(fichiers à renvoyer en pièce jointe)'}\nFormat : ${format}\nNotes : ${notes || '—'}${filesNote}`);
-          window.location.href = `mailto:?subject=${subject}&body=${body2}`;
-          if (statusEl) statusEl.textContent = '📧 Apps Script non configuré — ton client mail vient de s\'ouvrir.';
-        }
-        submitBtn.disabled = false;
-      });
-    })();
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // 🎞️ RUBAN VIDÉO INFINI — initVideoRibbon()
-    // Lit tous les .portfolio-card dans #portfolioGrid, construit les items
-    // du ruban (miniature YouTube via img.youtube.com/vi/ pour les YT,
-    // logo TikTok générique pour les TikTok car pas d'API thumbnail sans token),
-    // duplique la liste pour que l'animation CSS translateX(-50%) boucle parfaitement.
-    // ─────────────────────────────────────────────────────────────────────────
-    (function initVideoRibbon() {
-      const track = document.getElementById('videoRibbonTrack');
-      const wrap  = document.getElementById('videoRibbonWrap');
-      if (!track || !wrap) return;
-
-      const cards = Array.from(document.querySelectorAll('#portfolioGrid .portfolio-card'));
-      if (cards.length === 0) { wrap.style.display = 'none'; return; }
-
-      function makeItem(card, hidden) {
-        const href     = card.dataset.href || '#portfolio';
-        const ytId     = card.dataset.ytId;
-        const platform = card.dataset.platform || 'youtube';
-        const label    = card.querySelector('.portfolio-card-label')?.textContent?.trim() || 'Voir la vidéo';
-
-        const a = document.createElement('a');
-        a.className = 'video-ribbon-item';
-        a.href = href;
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-        a.title = label;
-        if (hidden) a.setAttribute('aria-hidden', 'true');
-        // Empêche d'ouvrir le lien si on clique depuis le site (préférer l'onglet portfolio)
-        a.addEventListener('click', (e) => {
-          e.preventDefault();
-          // Active l'onglet Preuves > Résultats > Portfolio
-          if (typeof window.activatePageSection === 'function') window.activatePageSection('portfolio');
-          document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-
-        if (ytId) {
-          // Miniature YouTube : mqdefault = 320×180, hqdefault = 480×360
-          const img = document.createElement('img');
-          img.src = `https://img.youtube.com/vi/${ytId}/mqdefault.jpg`;
-          img.alt = label;
-          img.loading = 'lazy';
-          img.decoding = 'async';
-          img.onerror = function() { this.src = `https://img.youtube.com/vi/${ytId}/default.jpg`; };
-          a.appendChild(img);
-        } else {
-          // TikTok : pas de thumbnail publique sans token → placeholder stylé
-          const placeholder = document.createElement('div');
-          placeholder.className = 'video-ribbon-item-tiktok';
-          placeholder.innerHTML = `<svg width="28" height="28" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg>`;
-          a.appendChild(placeholder);
-        }
-
-        // Badge plateforme
-        const badge = document.createElement('span');
-        badge.className = 'video-ribbon-platform-badge';
-        badge.textContent = ytId ? 'YT' : 'TK';
-        badge.setAttribute('aria-hidden', 'true');
-        a.appendChild(badge);
-
-        // Overlay play
-        const overlay = document.createElement('div');
-        overlay.className = 'video-ribbon-play';
-        overlay.setAttribute('aria-hidden', 'true');
-        overlay.innerHTML = `<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`;
-        a.appendChild(overlay);
-
-        return a;
-      }
-
-      // Premier exemplaire (visible)
-      cards.forEach(card => track.appendChild(makeItem(card, false)));
-      // Second exemplaire dupliqué pour la boucle seamless (aria-hidden, hors tab)
-      cards.forEach(card => track.appendChild(makeItem(card, true)));
-
-      // Ajuste la durée de l'animation au nombre de vidéos pour une vitesse constante
-      const SPEED_PX_PER_SEC = 80; // pixels/s — à ajuster si trop vite/lent
-      const totalWidth = cards.length * (120 + 10); // largeur item + gap
-      const duration = Math.max(10, Math.round(totalWidth / SPEED_PX_PER_SEC));
-      track.style.animationDuration = `${duration}s`;
-    })();
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // 🧩 CONFIGURATEUR PACK SUR-MESURE AUTONOME — initCustomPackStandalone()
-    // Même logique que computeCustomMixPrice() dans le formulaire, mais en
-    // standalone dans la section #pack-sur-mesure. Le bouton CTA pré-remplit
-    // le formulaire de réservation via goToReservationWithFormat() et bascule
-    // sur l'onglet Réserver (via activatePageSection).
-    // ─────────────────────────────────────────────────────────────────────────
-    (function initCustomPackStandalone() {
-      const wrap = document.getElementById('customPackStandalone');
-      if (!wrap) return;
-
-      // Attendre que PRICE_FIXED / BUNDLE_DISCOUNTS soient définis (ils le sont dans
-      // le même DOMContentLoaded, mais déclarés plus bas dans le script — setTimeout 0
-      // suffit car on est dans le même tick de flush, après le reste du listener).
-      setTimeout(() => {
-        if (typeof PRICE_FIXED === 'undefined' || typeof BUNDLE_DISCOUNTS === 'undefined') return;
-
-        const FORMATS = [
-          { key: 'court',    priceKey: 'Court (TikTok / Reels)',    label: 'Court' },
-          { key: 'long',     priceKey: 'Long (YouTube / Best-of)',   label: 'Long' },
-          { key: 'complexe', priceKey: 'Long Complexe / Esport',     label: 'Complexe' },
-          { key: 'business', priceKey: 'Business / Sponsorisé',      label: 'Business' },
-        ];
-        const qtys = { court: 0, long: 0, complexe: 0, business: 0 };
-
-        const totalEl    = document.getElementById('cpackTotal');
-        const detailEl   = document.getElementById('cpackDetail');
-        const emptyEl    = document.getElementById('cpackEmpty');
-        const priceBlock = document.getElementById('cpackPriceBlock');
-        const ctaBtn     = document.getElementById('cpackCtaBtn');
-        const breakdown  = document.getElementById('cpackBreakdown');
-        const commercial = document.getElementById('cpackCommercial');
-        const urgent     = document.getElementById('cpackUrgent');
-
-        function roundTo5(n) { return Math.round(n / 5) * 5; }
-
-        function compute() {
-          const totalQty = FORMATS.reduce((s, f) => s + qtys[f.key], 0);
-          if (totalQty === 0) return null;
-
-          let base = FORMATS.reduce((s, f) => s + qtys[f.key] * (PRICE_FIXED[f.priceKey] || 0), 0);
-          const steps = [];
-
-          // Détail par format
-          FORMATS.filter(f => qtys[f.key] > 0).forEach(f => {
-            steps.push(`${qtys[f.key]} × ${f.label} = ${qtys[f.key] * PRICE_FIXED[f.priceKey]}€`);
-          });
-
-          // Remise volume (BUNDLE_DISCOUNTS)
-          const bundle = BUNDLE_DISCOUNTS.find(b => totalQty >= b.minQty);
-          if (bundle) {
-            const disc = Math.round((1 - bundle.rate) * 100);
-            steps.push(`Pack volume (${totalQty} vidéos) : −${disc}%`);
-            base *= bundle.rate;
-          }
-
-          // Majoration sur-mesure
-          const SURCHARGE = typeof CUSTOM_PACK_SURCHARGE !== 'undefined' ? CUSTOM_PACK_SURCHARGE : 1.10;
-          base *= SURCHARGE;
-          steps.push(`Sur-mesure : +${Math.round((SURCHARGE - 1) * 100)}%`);
-
-          // Usage commercial
-          if (commercial.checked) {
-            const comm = typeof COMMERCIAL_SURCHARGE !== 'undefined' ? COMMERCIAL_SURCHARGE : 1.15;
-            base *= comm;
-            steps.push(`Usage commercial : +${Math.round((comm - 1) * 100)}%`);
-          }
-          // Urgent
-          if (urgent.checked) {
-            const urg = typeof URGENT_SURCHARGE !== 'undefined' ? URGENT_SURCHARGE : 1.30;
-            base *= urg;
-            steps.push(`Mode urgent : +${Math.round((urg - 1) * 100)}%`);
-          }
-
-          // Taxe 5%
-          const preTax = roundTo5(base);
-          const TAX = typeof CUSTOM_PACK_TAX_RATE !== 'undefined' ? CUSTOM_PACK_TAX_RATE : 0.05;
-          const taxAmt = Math.round(preTax * TAX * 100) / 100;
-          const grand  = Math.round((preTax + taxAmt) * 100) / 100;
-          steps.push(`Taxe ${Math.round(TAX * 100)}% : +${taxAmt}€`);
-
-          return { grand, steps, totalQty };
-        }
-
-        function render() {
-          const result = compute();
-          if (!result) {
-            emptyEl.style.display = '';
-            priceBlock.style.display = 'none';
-            ctaBtn.disabled = true;
-            breakdown.innerHTML = '';
-            return;
-          }
-          emptyEl.style.display = 'none';
-          priceBlock.style.display = '';
-          totalEl.textContent = `${result.grand}€`;
-          detailEl.textContent = `${result.totalQty} vidéo${result.totalQty > 1 ? 's' : ''} · Taxe incluse · Indicatif`;
-          ctaBtn.disabled = false;
-          breakdown.innerHTML = result.steps.map(s => `<span>${s}</span>`).join(' &nbsp;·&nbsp; ');
-        }
-
-        // Boutons +/−
-        wrap.querySelectorAll('[data-cpack-inc],[data-cpack-dec]').forEach(btn => {
-          btn.addEventListener('click', () => {
-            const key = btn.dataset.cpackInc || btn.dataset.cpackDec;
-            const dir = btn.dataset.cpackInc ? 1 : -1;
-            qtys[key] = Math.max(0, (qtys[key] || 0) + dir);
-            const valEl = document.getElementById(`cpackQty${key.charAt(0).toUpperCase() + key.slice(1)}`);
-            if (valEl) valEl.textContent = qtys[key];
-            render();
-          });
-        });
-        commercial.addEventListener('change', render);
-        urgent.addEventListener('change', render);
-
-        // CTA : pré-remplit le formulaire et bascule sur l'onglet Réserver
-        ctaBtn.addEventListener('click', () => {
-          // Construit un label descriptif pour le format select du formulaire
-          const lines = FORMATS.filter(f => qtys[f.key] > 0)
-            .map(f => `${qtys[f.key]}× ${f.label}`).join(' + ');
-          // Pré-remplit le champ projet
-          const descField = document.getElementById('projetDescription');
-          if (descField && lines) {
-            const prefix = `Pack sur-mesure : ${lines}.\n`;
-            if (!descField.value.startsWith('Pack sur-mesure')) descField.value = prefix;
-          }
-          // Bascule sur l'onglet Réserver via le système de blocs
-          if (typeof window.activatePageSection === 'function') {
-            window.activatePageSection('reservation');
-          }
-          // Scroll vers le formulaire
-          requestAnimationFrame(() => {
-            document.getElementById('reservation')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          });
-        });
-
-        render();
-      }, 0);
-    })();
-
-    // --- 🆕 Page moins longue : bascule entre les 4 blocs (Portfolio / Offres / Rassurance /
-    // Réserver) et, à l'intérieur d'un bloc, entre ses "items" (ex : Résultats = Portfolio +
-    // Avant/Après + Étude de cas, eux-mêmes en onglets). Placé en tout dernier dans le
-    // DOMContentLoaded pour s'exécuter APRÈS applyHiddenSections (respecte les sections masquées
-    // par l'admin) et APRÈS initBeforeAfter (respecte le fait que "Avant / Après" reste masqué tant
-    // que BEFORE_AFTER_ITEMS est vide, plutôt que de forcer une section vide à s'afficher). ---
-    (function initPageBlocks() {
-      const SECTION_INFO = {
-        'apropos':        { block: 'portfolio', item: 'apropos' },
-        'portfolio':      { block: 'portfolio', item: 'resultats', restab: 'portfolio' },
-        'avant-apres':    { block: 'portfolio', item: 'resultats', restab: 'avant-apres' },
-        'etude-de-cas':   { block: 'portfolio', item: 'resultats', restab: 'etude-de-cas' },
-        'avis':           { block: 'portfolio', item: 'avis' },
-        'prestations':    { block: 'offres', item: 'prestations' },
-        'pack-sur-mesure':{ block: 'offres', item: 'pack-sur-mesure' },
-        'essai-15s':      { block: 'offres', item: 'essai-15s' },
-        'packs-creneau':  { block: 'offres', item: 'packs-creneau' },
-        'devis-marques':  { block: 'offres', item: 'devis-marques' },
-        'marque-blanche': { block: 'offres', item: 'marque-blanche' },
-        'garanties':      { block: 'rassurance', item: 'garanties' },
-        'process':        { block: 'rassurance', item: 'process' },
-        'fidelite':       { block: 'rassurance', item: 'fidelite' },
-        'faq':            { block: 'rassurance', item: 'faq' },
-        'reservation':    { block: 'reserver', item: 'reservation' },
-      };
-      const STORAGE_KEY = 'michyy_active_page_block';
-      const DEFAULT_ITEM = { portfolio: 'resultats', offres: 'pack-sur-mesure', rassurance: 'garanties', reserver: 'reservation' };
-      const activeItem = Object.assign({}, DEFAULT_ITEM);
-      let activeResTab = 'portfolio';
-      let activeBlock = 'portfolio';
-
-      // Point de départ : lien direct vers une section (#faq, ?...#process...) prime sur le
-      // point cliqué sur "Portfolio" par défaut.
-      const hashId = (location.hash || '').replace('#', '');
-      if (SECTION_INFO[hashId]) {
-        const info = SECTION_INFO[hashId];
-        activeBlock = info.block; activeItem[info.block] = info.item;
-        if (info.restab) activeResTab = info.restab;
-      } else {
-        try { const saved = localStorage.getItem(STORAGE_KEY); if (saved && DEFAULT_ITEM[saved]) activeBlock = saved; } catch (e) {}
-        // 🆕 Si aucun historique sur cet appareil, alterner entre "Résultats" (portfolio)
-        // et "À propos" (présentation) d'une visite sur deux — variété sans logique serveur.
-        if (activeBlock === 'portfolio' && !localStorage.getItem(STORAGE_KEY)) {
-          try {
-            const visitCount = +(sessionStorage.getItem('michyy_visit_parity') || '0');
-            if (visitCount % 2 === 1) activeItem.portfolio = 'apropos';
-            sessionStorage.setItem('michyy_visit_parity', String(visitCount + 1));
-          } catch (e) { /* ignore */ }
-        }
-      }
-
-      // Alternance portfolio / présentation (apropos) : une visite sur deux, si aucun
-      // hash ni sauvegarde ne force déjà un choix. Utilise un compteur localStorage qui
-      // s'incrémente à chaque chargement — les visites paires voient "Résultats" (portfolio),
-      // les visites impaires voient "À propos" (présentation de Michyy).
-      if (!hashId && !(() => { try { return localStorage.getItem(STORAGE_KEY); } catch(e){} return null; })()) {
-        try {
-          const visitKey = 'michyy_visit_count';
-          const count = parseInt(localStorage.getItem(visitKey) || '0', 10);
-          localStorage.setItem(visitKey, String(count + 1));
-          if (count % 2 === 1) activeItem['portfolio'] = 'apropos';
-        } catch (e) {}
-      }
-
-      function avantApresHasContent() {
-        // initBeforeAfter() a déjà tourné avant nous : une section restée display:none dans le HTML
-        // veut dire "pas de contenu", on ne force jamais son affichage même si l'onglet est cliqué.
-        const el = document.getElementById('avant-apres');
-        return !!(el && el.style.display !== 'none');
-      }
-
-      function render() {
-        Object.keys(SECTION_INFO).forEach(id => {
-          const el = document.getElementById(id);
-          if (!el) return;
-          const info = SECTION_INFO[id];
-          let visible = info.block === activeBlock && info.item === activeItem[info.block];
-          if (visible && info.restab) visible = info.restab === activeResTab;
-          if (id === 'avant-apres' && !avantApresHasContent()) visible = false;
-          el.style.display = visible ? '' : 'none';
-          if (visible && el.classList.contains('reveal')) el.classList.add('visible');
-        });
-        document.querySelectorAll('.page-block-tab').forEach(b => b.classList.toggle('active', b.dataset.pageBlock === activeBlock));
-        document.querySelectorAll('.page-item-nav').forEach(nav => { nav.style.display = nav.dataset.pageBlockFor === activeBlock ? '' : 'none'; });
-        document.querySelectorAll('.page-item-tab').forEach(b => b.classList.toggle('active', b.dataset.pageBlockFor === activeBlock && b.dataset.pageItem === activeItem[activeBlock]));
-        const resultatsOn = activeBlock === 'portfolio' && activeItem.portfolio === 'resultats';
-        document.querySelectorAll('.page-restab-nav').forEach(nav => { nav.style.display = resultatsOn ? '' : 'none'; });
-        document.querySelectorAll('.page-restab-tab').forEach(b => {
-          if (b.dataset.pageRestab === 'avant-apres') b.style.display = avantApresHasContent() ? '' : 'none';
-          b.classList.toggle('active', b.dataset.pageRestab === activeResTab);
-        });
-      }
-
-      window.activatePageSection = function (id) {
-        const info = SECTION_INFO[id];
-        if (!info) return;
-        activeBlock = info.block;
-        activeItem[info.block] = info.item;
-        if (info.restab) activeResTab = info.restab;
-        render();
-        try { localStorage.setItem(STORAGE_KEY, activeBlock); } catch (e) {}
-      };
-
-      document.querySelectorAll('.page-block-tab').forEach(btn => {
-        btn.addEventListener('click', () => {
-          activeBlock = btn.dataset.pageBlock;
-          render();
-          try { localStorage.setItem(STORAGE_KEY, activeBlock); } catch (e) {}
-        });
-      });
-      document.querySelectorAll('.page-item-tab').forEach(btn => {
-        btn.addEventListener('click', () => { activeItem[btn.dataset.pageBlockFor] = btn.dataset.pageItem; render(); });
-      });
-      document.querySelectorAll('.page-restab-tab').forEach(btn => {
-        btn.addEventListener('click', () => { activeResTab = btn.dataset.pageRestab; render(); });
-      });
-
-      // Un lien interne (mini-sommaire, "Voir dans le portfolio →", "Je réserve ce format →"...)
-      // vers une section gérée par les blocs doit d'abord activer le bon bloc/onglet, sinon il
-      // pointerait vers une section actuellement display:none. Capture (et non bulle) pour passer
-      // avant les listeners déjà posés sur certains de ces liens (ex : data-apply-format).
-      document.addEventListener('click', (e) => {
-        const a = e.target.closest && e.target.closest('a[href^="#"]');
-        if (!a) return;
-        const id = a.getAttribute('href').slice(1);
-        if (!SECTION_INFO[id]) return;
-        e.preventDefault();
-        window.activatePageSection(id);
-        requestAnimationFrame(() => {
-          const target = document.getElementById(id);
-          if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-      }, true);
-
-      render();
-    })();
   }); // fin DOMContentLoaded
   </script>
 
@@ -33477,6 +31301,7 @@
         </div>
       </div>
       <span id="adminStatusNote" class="sync-note"></span>
+      <span class="admin-shortcuts-hint" title="Raccourcis clavier disponibles dans ce panneau">⌨️ Ctrl+F recherche · Ctrl+R actualiser · Ctrl+N nouvelle commande · Ctrl+D diagnostic · J/K naviguer · Entrée sauvegarder</span>
     </div>
 
     <div class="admin-tab-row">
@@ -33495,24 +31320,16 @@
            urgent à voir en ouvrant l'admin (en retard / à livrer aujourd'hui / demain), donc tout en
            haut de l'onglet par défaut plutôt qu'enterré dans un onglet secondaire. Toujours alimenté
            par renderAdminExtras2 (même id="adminDeliveryReminder", seul l'endroit dans la page change). -->
-      <!-- 🆕 Relances paiement : un seul bloc qui regroupe les soldes en attente (JS initRelanceSolde,
-           toggle sur #adminRelanceSoldeBanner) et les acomptes manquants depuis 3+ jours
-           (renderDepositReminderPanel), fusionnés ici pour éviter d'avoir deux listes de relances
-           séparées à des endroits différents de l'admin. -->
-      <div id="adminPaymentFollowupsWrap" class="admin-relance-solde-banner">
-        <div class="admin-relance-solde-title">🧾 Relances paiement</div>
-        <div id="adminRelanceSoldeBanner" style="display:none;">
-          <div class="admin-relance-solde-threshold-row">
-            Soldes en attente : afficher après
-            <input type="number" id="adminRelanceSoldeThreshold" min="1" max="30" value="3" />
-            jour(s) sans solde reçu
-          </div>
-          <div id="adminRelanceSoldeList"></div>
+      <!-- 🆕 Relances solde en attente : liste les commandes dont le solde n'est pas reçu
+           depuis plus de N jours, avec bouton copier le message pré-rempli. -->
+      <div id="adminRelanceSoldeBanner" class="admin-relance-solde-banner" style="display:none;">
+        <div class="admin-relance-solde-title">💰 Soldes en attente de règlement</div>
+        <div class="admin-relance-solde-threshold-row">
+          Afficher après
+          <input type="number" id="adminRelanceSoldeThreshold" min="1" max="30" value="3" />
+          jour(s) sans solde reçu
         </div>
-        <p class="admin-timeline-note" style="margin-top:8px;">
-          💳 Acomptes manquants depuis plus de <strong id="adminDepositReminderDaysLabel"></strong> — relance en 1 clic.
-        </p>
-        <div id="adminDepositReminderPanel" class="admin-dashboard"></div>
+        <div id="adminRelanceSoldeList"></div>
       </div>
       <div class="admin-delivery-reminder-banner" id="adminDeliveryReminderBanner">
         <div class="admin-delivery-reminder-title">📦 Rappel de livraison (J-1)</div>
@@ -33691,15 +31508,21 @@
       </div>
 
       <div id="adminSubtabStats" class="admin-subtab-panel">
-        <!-- 🆕 "Résumé du jour" et "Statistiques générales" fusionnés en un seul bloc : les deux
-             donnent une vue d'ensemble de l'activité, pas besoin de deux <details> séparés. -->
-        <details class="more-options admin-stats-group" id="adminGroupDashboard" open>
+        <details class="more-options admin-stats-group" id="adminGroupDaily" open>
           <summary class="more-options-summary">
-            <span class="more-options-summary-label">📊 Résumé &amp; statistiques</span>
-            <span class="more-options-summary-hint">(en un coup d'œil, puis commandes, revenus, 7 derniers jours...)</span>
+            <span class="more-options-summary-label">📅 Résumé du jour</span>
           </summary>
           <div class="more-options-content">
             <div id="adminDailySummary" class="admin-daily-summary"></div>
+          </div>
+        </details>
+
+        <details class="more-options admin-stats-group" id="adminGroupDashboard" open>
+          <summary class="more-options-summary">
+            <span class="more-options-summary-label">📊 Statistiques générales</span>
+            <span class="more-options-summary-hint">(commandes, revenus, 7 derniers jours...)</span>
+          </summary>
+          <div class="more-options-content">
             <!-- 🆕 Alerte "délai qui dérive" : compare le délai moyen de livraison du mois en cours à
                  celui du mois précédent (mêmes données que l'export CSV délai de livraison plus bas,
                  computeMonthlyDelayStats) — pour voir en un coup d'œil si ça dérive, sans devoir
@@ -33889,32 +31712,9 @@
              pour pouvoir le réutiliser en un clic. -->
         <div class="admin-logo-history" id="adminLogoHistory"></div>
 
-        <!-- 🆕 Statut en temps réel : change le statut public du site depuis ici — plus besoin de
-             retoucher le code. Le changement est visible pour tous les visiteurs en < 5 min
-             (fetch polling côté public). Nécessite d'avoir ajouté les actions getStatus/setStatus
-             dans ton Apps Script (code commenté dans le JS, rechercher "action=setStatus"). Sans
-             Apps Script, le changement reste local à cet appareil (preview uniquement). -->
-        <div class="price-log-card" style="margin-top:10px;">
-          <h4 class="admin-availability-title">🟢 Statut public en temps réel</h4>
-          <div style="display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px;">
-            <select id="adminLiveStatusSelect" class="admin-search-input" style="flex:1;min-width:160px;">
-              <option value="open">🟢 Ouvert — accepte des commandes</option>
-              <option value="full">🔴 Complet — liste d'attente</option>
-              <option value="vacation">🏖️ Vacances — retour bientôt</option>
-            </select>
-            <input type="text" id="adminLiveStatusSubline" class="admin-search-input" style="flex:2;min-width:180px;" placeholder="Sous-texte optionnel (ex : retour le 15 oct.)" />
-            <button type="button" id="adminLiveStatusSaveBtn" class="admin-filter-btn">💾 Publier</button>
-          </div>
-          <p class="admin-timeline-note" id="adminLiveStatusNote" style="margin-top:6px;"></p>
-        </div>
-
- (#showreelBlock) — vide = bloc invisible côté public.
-             Plusieurs URLs possibles (une par ligne) : lues automatiquement l'une après l'autre,
-             toujours dans le même ordre, en boucle infinie (voir initShowreel() dans le JS). La
-             compat avec l'ancien champ à une seule URL est gardée (une seule ligne = une seule
-             vidéo, comme avant). -->
-        <label style="display:block;margin-top:10px;">Vidéos du showreel (haut de page) <span class="optional-tag">(optionnel — une URL .mp4 par ligne, jouées en boucle dans l'ordre)</span>
-          <textarea id="adminShowreelUrlInput" class="admin-search-input" rows="3" style="resize:vertical;" placeholder="https://.../video1.mp4&#10;https://.../video2.mp4"></textarea>
+        <!-- 🆕 Showreel en haut de page (#showreelBlock) — vide = bloc invisible côté public. -->
+        <label style="display:block;margin-top:10px;">URL du showreel (haut de page) <span class="optional-tag">(optionnel — .mp4 hébergé quelque part)</span>
+          <input type="text" id="adminShowreelUrlInput" class="admin-search-input" placeholder="https://... (fichier .mp4)" />
         </label>
         <p class="admin-timeline-note" id="adminShowreelStatus" style="margin-top: 4px;"></p>
 
@@ -33960,29 +31760,9 @@
         <div class="price-log-card"><div class="info-title">⭐ Satisfaction après livraison</div>
           <div class="price-log-form"><select id="satOrder"></select><select id="satScore"><option>5</option><option>4</option><option>3</option><option>2</option><option>1</option></select><input type="text" id="satComment" placeholder="Commentaire" /><button type="button" id="satAdd" class="admin-btn-primary">Ajouter</button></div>
           <div id="satList"></div></div>
-        <div class="price-log-card" id="adminLiveStatusCard">
-          <div class="info-title">🟢 Statut en temps réel (vu par les visiteurs)</div>
-          <p class="info-text" style="font-size:12px;margin-bottom:10px;">Publié instantanément sur le site pour tous les visiteurs. Mis en cache 5 min côté client. Nécessite l'Apps Script configuré.</p>
-          <div class="price-log-form" style="flex-direction:column;gap:10px;">
-            <div style="display:flex;gap:8px;flex-wrap:wrap;">
-              <label style="font-size:12px;font-weight:700;color:var(--text-secondary);display:flex;align-items:center;gap:6px;">
-                <input type="radio" name="adminLiveStatus" value="open" id="adminStatusOpen" style="accent-color:#22c55e;" checked /> 🟢 Ouvert
-              </label>
-              <label style="font-size:12px;font-weight:700;color:var(--text-secondary);display:flex;align-items:center;gap:6px;">
-                <input type="radio" name="adminLiveStatus" value="full" id="adminStatusFull" style="accent-color:#ef4444;" /> 🔴 Complet
-              </label>
-              <label style="font-size:12px;font-weight:700;color:var(--text-secondary);display:flex;align-items:center;gap:6px;">
-                <input type="radio" name="adminLiveStatus" value="vacation" id="adminStatusVacation" style="accent-color:#f59e0b;" /> 🏖️ Vacances
-              </label>
-            </div>
-            <input type="text" id="adminLiveStatusSubline" placeholder="Sous-texte libre (ex : retour le 15 oct, 2 créneaux dispo…)" style="width:100%;box-sizing:border-box;" maxlength="120" />
-            <div style="display:flex;gap:8px;align-items:center;flex-wrap:wrap;">
-              <button type="button" id="adminLiveStatusPush" class="admin-btn-primary">💾 Publier le statut</button>
-              <span id="adminLiveStatusResult" style="font-size:12px;color:var(--text-tertiary);"></span>
-            </div>
-            <p style="font-size:11px;color:var(--text-faint);margin:0;">Aperçu local uniquement (ce navigateur) : <select id="siteStatusPreview" style="font-size:11px;"><option value="">Selon le code</option><option value="open">Ouvert</option><option value="full">Complet</option><option value="vacation">Vacances</option></select></p>
-          </div>
-        </div>
+        <div class="price-log-card"><div class="info-title">🏖️ Mode vacances / complet</div>
+          <p class="info-text" style="font-size:12px;">Aperçu local sur ce navigateur. Pour l'appliquer aux visiteurs : change <code>SITE_STATUS</code> dans le code (et <code>SITE_STATUS_REOPEN</code>).</p>
+          <select id="siteStatusPreview"><option value="">Selon le code</option><option value="open">Ouvert</option><option value="full">Complet (liste d'attente)</option><option value="vacation">Vacances</option></select></div>
         <div class="price-log-card"><div class="info-title">📈 CA sur 12 mois</div><div id="adminCa12" class="ca-bars"></div></div>
         <div class="price-log-card"><div class="info-title">🎞️ Revenus par format <select id="adminFmtPeriod" style="margin-left:8px;font-size:12px;"><option value="0">Depuis toujours</option><option value="12" selected>12 derniers mois</option><option value="3">3 derniers mois</option></select></div><div id="adminFmtRevenue"></div></div>
         <div class="price-log-card"><div class="info-title">🔔 Notifications</div>
@@ -34069,28 +31849,6 @@
       </div>
 
       <div id="adminSubtabOutils" class="admin-subtab-panel" style="display: none;">
-        <!-- 🆕 Page de statut public (#status, tout en bas de la page publique) : délai actuel
-             moyen, taux de satisfaction et prochain créneau libre, recalculés en direct à partir
-             des mêmes sources que le reste du site (DELAY_RANGES, action Apps Script
-             "publicNpsScore", AUTO_DAY_WORKLOAD) — voir renderPublicStatusPage() dans le JS. Ces
-             trois chiffres sont déjà à jour pour chaque visiteur sans action de ta part ; ce bouton
-             sert surtout à forcer un recalcul immédiat (utile juste après avoir changé un délai ou
-             ajouté un avis) et à récupérer le lien à partager. -->
-        <details class="more-options admin-status-group" id="adminStatusGroup">
-          <summary class="more-options-summary">
-            <span class="more-options-summary-label">📊 Page de statut public</span>
-            <span class="more-options-summary-hint">(lien partageable, mis à jour en 1 clic)</span>
-          </summary>
-          <div class="more-options-content">
-            <p class="admin-timeline-note">Cette page publique (accessible à n'importe qui, sans connexion) affiche le délai actuel moyen, le taux de satisfaction et le prochain créneau libre — toujours recalculés depuis les vraies données, jamais un chiffre figé à la main.</p>
-            <div class="admin-share-preview-row">
-              <button type="button" id="adminStatusCopyLinkBtn" class="admin-btn-primary">🔗 Copier le lien de la page de statut</button>
-              <button type="button" id="adminStatusRefreshBtn" class="admin-btn-primary">🔄 Recalculer maintenant</button>
-            </div>
-            <p id="adminStatusMsg" class="admin-save-msg"></p>
-          </div>
-        </details>
-
         <details class="more-options admin-stats-group" id="adminGroupEngagement">
           <summary class="more-options-summary">
             <span class="more-options-summary-label">⏱️ Temps jusqu'au premier focus sur le formulaire</span>
@@ -34241,6 +31999,19 @@
           </div>
         </details>
 
+        <details class="more-options admin-stats-group" id="adminGroupDepositReminder">
+          <summary class="more-options-summary">
+            <span class="more-options-summary-label">💳 Acompte manquant depuis 3+ jours</span>
+            <span class="more-options-summary-hint">(relance en 1 clic)</span>
+          </summary>
+          <div class="more-options-content">
+            <p class="admin-timeline-note">
+              Commandes au statut "🟡 En attente de l'acompte" depuis plus de <strong id="adminDepositReminderDaysLabel"></strong> — le résumé du matin (email) te les signale déjà chaque jour si tu l'as configuré ; ce panneau permet en plus de relancer en 1 clic depuis ici.
+            </p>
+            <div id="adminDepositReminderPanel" class="admin-dashboard"></div>
+          </div>
+        </details>
+
         <details class="more-options admin-stats-group" id="adminGroupDeliveredNoFeedback">
           <summary class="more-options-summary">
             <span class="more-options-summary-label">💬 Livrées sans retour client depuis 14+ jours</span>
@@ -34382,10 +32153,8 @@
       <p class="info-text" style="font-size:12px;">Bandeau affiché en haut du site du jour de début au jour de fin (inclus), puis retiré tout seul. Une promo doit avoir une date de fin.</p>
       <div class="pros-form">
         <label>Type<select id="adminAnnType"><option value="conges">🏖️ Congés</option><option value="rush">⏳ Rush de commandes</option><option value="promo">🔥 Promo</option></select></label>
-        <label>Couleur <input type="color" id="adminAnnColor" value="#ffb020" style="height:32px;padding:2px;"></label>
         <label>Début<input type="date" id="adminAnnStart"></label>
         <label>Fin<input type="date" id="adminAnnEnd"></label>
-        <label style="grid-column: 1 / -1;">Titre <span class="optional-tag">(optionnel, affiché en gras avant le message)</span><input type="text" id="adminAnnTitle" maxlength="40" placeholder="ex : Fermeture estivale"></label>
         <label style="grid-column: 1 / -1;">Message<input type="text" id="adminAnnMsg" maxlength="160" placeholder="ex : En congés du 10 au 20 août — je réponds à mon retour"></label>
         <button type="button" class="admin-btn-primary" id="adminAnnSave">💾 Enregistrer</button>
         <button type="button" class="filter-reset-btn" id="adminAnnClear">✕ Retirer le bandeau</button>
@@ -35064,212 +32833,6 @@
 
     // Exposer logActivity globalement pour que les autres modules JS puissent l'utiliser
     window.logActivity = logActivity;
-  </script>
-
-  <!-- ================================================================
-       💬 CHAT RAPIDE FLOTTANT — 100% HTML/CSS/JS, aucun SaaS
-       Le visiteur choisit son canal (X · Discord · Email), saisit son
-       message, et on ouvre le bon lien pré-rempli. Aucun serveur,
-       aucun cookie, aucune dépendance externe.
-       ================================================================ -->
-  <div class="quick-chat-fab" id="quickChatFab" aria-live="polite">
-    <div class="quick-chat-panel" id="quickChatPanel" role="dialog" aria-modal="false" aria-label="Envoie-moi un message rapide">
-      <div class="quick-chat-panel-header">
-        <span class="quick-chat-title">💬 Une question rapide ?</span>
-        <button type="button" class="quick-chat-close-btn" id="quickChatCloseBtn" aria-label="Fermer">✕</button>
-      </div>
-      <p class="quick-chat-label">Choisis comment tu veux me contacter&nbsp;:</p>
-      <div class="quick-chat-channels" role="group" aria-label="Canal de contact">
-        <button type="button" class="quick-chat-channel-btn active" data-qc-channel="x">🐦 X / Twitter</button>
-        <button type="button" class="quick-chat-channel-btn" data-qc-channel="discord">💬 Discord</button>
-        <button type="button" class="quick-chat-channel-btn" data-qc-channel="email">✉️ Email</button>
-      </div>
-      <textarea id="quickChatMsg" class="quick-chat-textarea" rows="3" maxlength="500"
-        placeholder="Ton message (ex : c'est combien pour 3 Reels ?)"></textarea>
-      <button type="button" class="quick-chat-send-btn" id="quickChatSendBtn">Envoyer →</button>
-      <div class="quick-chat-status" id="quickChatStatus"></div>
-    </div>
-    <button type="button" class="quick-chat-toggle" id="quickChatToggle" aria-expanded="false" aria-controls="quickChatPanel" aria-label="Ouvrir le chat rapide">
-      <span class="qc-icon-open">💬</span>
-      <span class="qc-icon-close">✕</span>
-    </button>
-  </div>
-
-  <script>
-  // ================================================================
-  // 💬 Chat rapide flottant
-  // ================================================================
-  (function initQuickChat() {
-    const fab     = document.getElementById('quickChatFab');
-    const panel   = document.getElementById('quickChatPanel');
-    const toggle  = document.getElementById('quickChatToggle');
-    const closeBtn= document.getElementById('quickChatCloseBtn');
-    const sendBtn = document.getElementById('quickChatSendBtn');
-    const msgEl   = document.getElementById('quickChatMsg');
-    const status  = document.getElementById('quickChatStatus');
-    const chBtns  = document.querySelectorAll('[data-qc-channel]');
-    if (!fab || !toggle) return;
-
-    let channel = 'x';
-
-    const CHANNELS = {
-      x:       { label: 'X / Twitter', hint: 'Ouvre mon profil X avec ton message dans le presse-papier.' },
-      discord: { label: 'Discord',     hint: 'Copie ton message et ouvre mon profil Discord.' },
-      email:   { label: 'Email',       hint: 'Ouvre ton client mail avec le message pré-rempli.' },
-    };
-
-    function open()  { panel.classList.add('open');  toggle.classList.add('is-open');  toggle.setAttribute('aria-expanded','true');  msgEl.focus(); }
-    function close() { panel.classList.remove('open'); toggle.classList.remove('is-open'); toggle.setAttribute('aria-expanded','false'); }
-
-    toggle.addEventListener('click', () => panel.classList.contains('open') ? close() : open());
-    closeBtn.addEventListener('click', close);
-
-    // Ferme en cliquant en dehors
-    document.addEventListener('click', e => {
-      if (!fab.contains(e.target)) close();
-    }, true);
-
-    // Sélection canal
-    chBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        chBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        channel = btn.dataset.qcChannel;
-        status.textContent = CHANNELS[channel].hint;
-      });
-    });
-
-    async function copyText(text) {
-      try { await navigator.clipboard.writeText(text); return true; } catch(e) { return false; }
-    }
-
-    sendBtn.addEventListener('click', async () => {
-      const msg = (msgEl.value || '').trim();
-      if (!msg) { status.textContent = '✏️ Écris un message d\'abord.'; return; }
-
-      if (channel === 'email') {
-        const subject = encodeURIComponent('Question via le site Michyy');
-        const body    = encodeURIComponent(msg);
-        window.open(`mailto:contact@michyy-portfolio.pages.dev?subject=${subject}&body=${body}`);
-        status.textContent = '✅ Ton client mail s\'est ouvert !';
-      } else if (channel === 'x') {
-        await copyText(msg);
-        window.open('https://x.com/Michyyfn', '_blank', 'noopener');
-        status.textContent = '✅ Message copié ! Colle-le en DM sur X.';
-      } else if (channel === 'discord') {
-        await copyText(msg);
-        window.open('https://discord.com/users/495853844723662850', '_blank', 'noopener');
-        status.textContent = '✅ Message copié ! Colle-le sur Discord.';
-      }
-      setTimeout(close, 2200);
-    });
-
-    // Masque le FAB si le formulaire de réservation est visible à l'écran (le bouton "Envoyer"
-    // du formulaire remplit déjà ce rôle — pas besoin de deux CTA flottants en même temps).
-    const reserveForm = document.getElementById('reserveForm');
-    if (reserveForm && 'IntersectionObserver' in window) {
-      const obs = new IntersectionObserver(entries => {
-        fab.style.opacity = entries[0].isIntersecting ? '0' : '1';
-        fab.style.pointerEvents = entries[0].isIntersecting ? 'none' : 'auto';
-      }, { threshold: 0.4 });
-      obs.observe(reserveForm);
-    }
-  })();
-
-  // ================================================================
-  // 🛒 Up-sell automatique post-commande
-  // Déclenché depuis handleFormSubmit (le code de confirmation qui
-  // appelle confirmationCard.style.display = 'block').
-  // ================================================================
-  (function initUpsell() {
-    const card       = document.getElementById('upsellCard');
-    const acceptBtn  = document.getElementById('upsellAcceptBtn');
-    const dismissBtn = document.getElementById('upsellDismissBtn');
-    const timerEl    = document.getElementById('upsellTimer');
-    const priceNew   = document.getElementById('upsellPriceNew');
-    const priceOld   = document.getElementById('upsellPriceOld');
-    if (!card) return;
-
-    let timerInterval = null;
-
-    // Surveille l'affichage de la confirmation via MutationObserver
-    const confirmationCard = document.getElementById('confirmationCard');
-    if (!confirmationCard) return;
-
-    function startUpsellTimer(seconds) {
-      clearInterval(timerInterval);
-      let remaining = seconds;
-      function tick() {
-        if (remaining <= 0) {
-          clearInterval(timerInterval);
-          card.style.display = 'none';
-          return;
-        }
-        const m = Math.floor(remaining / 60), s = remaining % 60;
-        timerEl.textContent = `⏳ Offre valable encore ${m > 0 ? m + 'm ' : ''}${String(s).padStart(2,'0')}s`;
-        remaining--;
-      }
-      tick();
-      timerInterval = setInterval(tick, 1000);
-    }
-
-    // Calcule le prix de la 2e vidéo avec -15% sur le dernier total connu
-    function showUpsell(baseTotal) {
-      if (sessionStorage.getItem('michyy_upsell_shown')) return;
-      sessionStorage.setItem('michyy_upsell_shown', '1');
-
-      // Réutilise roundToFive si disponible, sinon arrondi simple
-      const rfn = typeof roundToFive === 'function' ? roundToFive : v => Math.floor(v / 5) * 5 || Math.floor(v);
-      const discounted = rfn(baseTotal * 0.85);
-      priceNew.textContent = discounted + ' €';
-      priceOld.textContent = 'au lieu de ' + baseTotal + ' €';
-
-      card.style.display = 'block';
-      startUpsellTimer(5 * 60); // 5 minutes
-    }
-
-    // Observe les changements de style de #confirmationCard
-    const obs = new MutationObserver(mutations => {
-      for (const m of mutations) {
-        if (m.type === 'attributes' && m.attributeName === 'style') {
-          const visible = confirmationCard.style.display !== 'none';
-          if (visible) {
-            // Récupère le budget soumis depuis le champ caché de récap
-            const budgetEl = document.getElementById('confirmationRecap');
-            let total = 0;
-            if (budgetEl) {
-              const match = budgetEl.textContent.match(/(\d+)\s*€/);
-              if (match) total = parseInt(match[1], 10);
-            }
-            if (!total) total = 45; // fallback format court
-
-            setTimeout(() => showUpsell(total), 800);
-          } else {
-            clearInterval(timerInterval);
-            card.style.display = 'none';
-          }
-        }
-      }
-    });
-    obs.observe(confirmationCard, { attributes: true });
-
-    dismissBtn && dismissBtn.addEventListener('click', () => {
-      clearInterval(timerInterval);
-      card.style.display = 'none';
-    });
-
-    acceptBtn && acceptBtn.addEventListener('click', () => {
-      clearInterval(timerInterval);
-      card.style.display = 'none';
-      // Pré-remplit le code promo UPSELL15 dans le champ et ferme la confirmation
-      const promoInput = document.getElementById('promoCodeInput');
-      if (promoInput) { promoInput.value = 'UPSELL15'; promoInput.dispatchEvent(new Event('input')); }
-      document.getElementById('confirmationCard').style.display = 'none';
-      // Scroll vers le formulaire
-      const form = document.getElementById('reservation') || document.getElementById('reserveForm');
-      if (form) form.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    });
-  })();
   </script>
 
 </body>
