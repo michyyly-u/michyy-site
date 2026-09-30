@@ -2599,6 +2599,53 @@
       max-width: 720px;
       margin: 0 auto 20px;
       padding: 0 20px;
+      position: relative;
+    }
+    /* 🆕 Miniatures peek prev/next : posées dans la marge (padding 20px) du bloc, en léger
+       débord sur la vidéo active pour l'effet "carrousel", semi-transparentes pour rester
+       clairement secondaires. object-fit: cover pour remplir le rond/rectangle même si la
+       miniature YouTube n'est pas exactement au bon ratio. */
+    .showreel-peek {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 14px;
+      border: 0;
+      padding: 0;
+      margin: 0;
+      background: none;
+      cursor: pointer;
+      z-index: 3;
+      opacity: 0.38;
+      transition: opacity 0.2s ease;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    .showreel-peek:hover,
+    .showreel-peek:focus-visible {
+      opacity: 0.75;
+    }
+    .showreel-peek img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    .showreel-peek-prev {
+      left: 4px;
+      background: linear-gradient(to right, rgba(0,0,0,0.15), transparent);
+    }
+    .showreel-peek-next {
+      right: 4px;
+      background: linear-gradient(to left, rgba(0,0,0,0.15), transparent);
+    }
+    /* Mode flottant (petit lecteur en coin d'écran) : pas la place pour des miniatures peek,
+       et l'index n'est de toute façon plus le point d'attention à ce moment-là. */
+    .showreel-block.is-floating .showreel-peek {
+      display: none !important;
+    }
+    @media (max-width: 520px) {
+      .showreel-peek { width: 12px; }
     }
     .showreel-video {
       width: 100%;
@@ -10000,45 +10047,10 @@
     }
 
     /* ═══════════════════════════════════════════════════════════════════
-       🎞️ RUBAN VIDÉO INFINI (video-ribbon)
-       Défile en boucle à l'infini, sans son, sans pause.
-       Chaque item est une miniature YouTube (img) cliquable → ouvre la
-       vidéo dans le portfolio. Les TikTok n'ont pas d'API thumbnail
-       publique sans token : on affiche leur logo stylé à la place.
-       Le ruban est dupliqué (aria-hidden) pour que la boucle CSS soit
-       parfaite sans JS. Interrompt l'animation si prefers-reduced-motion.
+       🧹 Ruban vidéo infini (video-ribbon-wrap/track) retiré — doublon cassé du showreel.
+       .video-ribbon-item et ses sous-classes restent : toujours utilisées par le fil
+       Instagram/TikTok (#socialFeedGrid, .video-ribbon-static-grid) plus bas dans le fichier.
        ═══════════════════════════════════════════════════════════════════ */
-    .video-ribbon-wrap {
-      width: 100%;
-      overflow: hidden;
-      background: var(--surface);
-      border-top: 0.5px solid var(--border);
-      border-bottom: 0.5px solid var(--border);
-      padding: 0;
-      position: relative;
-      /* Fondu sur les bords pour que ça disparaisse élégamment */
-      mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
-      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
-    }
-    .video-ribbon-track {
-      display: flex;
-      gap: 10px;
-      padding: 10px 5px;
-      width: max-content;
-      animation: ribbon-scroll 40s linear infinite;
-      will-change: transform;
-    }
-    .video-ribbon-wrap:hover .video-ribbon-track { animation-play-state: paused; }
-    @keyframes ribbon-scroll {
-      /* 🔧 Défile vers la droite (même sens que .proof-ticker-scroll, juste sous le bandeau
-         "Ils m'ont fait confiance") : on part de -50% pour revenir à 0, sens inverse du
-         ticker "par défaut" qui irait de 0 vers -50%. */
-      from { transform: translateX(-50%); }
-      to   { transform: translateX(0); }
-    }
-    @media (prefers-reduced-motion: reduce) {
-      .video-ribbon-track { animation: none; }
-    }
     .video-ribbon-item {
       flex-shrink: 0;
       width: 120px;
@@ -11839,6 +11851,14 @@
     }
     .account-oauth-btn:hover { border-color: var(--text-faint); }
     .account-oauth-btn.is-discord { background: #5865F2; color: #fff; border-color: #5865F2; }
+    /* 🆕 Conteneur du vrai bouton Google (rendu par Google via renderButton) : centré, même marge
+       basse que les autres boutons oauth pour ne pas casser l'espacement de la modale. */
+    .account-google-real-btn {
+      display: flex;
+      justify-content: center;
+      width: 100%;
+      margin-bottom: 8px;
+    }
     .account-divider {
       display: flex;
       align-items: center;
@@ -13356,16 +13376,39 @@
     </div>
   </div>
 
-  <!-- 🎞️ Ruban vidéo infini : miniatures cliquables de toutes les vidéos du portfolio,
-       défilant en boucle horizontale sans son. Les items sont doublés (aria-hidden=true sur
-       le second exemplaire) pour que l'animation CSS soit parfaitement seamless. Les vraies
-       URLs/thumbnails sont injectées par initVideoRibbon() dans le JS, qui lit les
-       data-yt-id et data-href directement depuis #portfolioGrid — une seule source de vérité,
-       pas besoin de maintenir deux listes de vidéos. -->
-  <div class="video-ribbon-wrap" id="videoRibbonWrap" aria-label="Aperçu de mes réalisations" role="region">
-    <div class="video-ribbon-track" id="videoRibbonTrack">
-      <!-- Rempli par initVideoRibbon() -->
+  <!-- 🆕 Showreel : premier contact visuel, tout en haut de page (comme demandé), avant même le
+       menu. Vidéos YouTube intégrales (jamais de TikTok ici), une à la fois, qui s'enchaînent
+       automatiquement à l'infini — liste écrite en dur dans SHOWREEL_VIDEOS (voir initShowreel()
+       dans le JS) : plus de champ admin, il faut modifier ce tableau directement dans le code pour
+       changer les vidéos. Lecture automatique, muette (requis par les navigateurs pour
+       l'autoplay), en boucle infinie sur la liste. Remplace l'ancien ruban vidéo (plusieurs
+       iframes en autoplay simultané, qui s'affichait vide/blanc selon le navigateur) par cette
+       version fiable à une seule vidéo à la fois. -->
+  <!-- Sentinelle invisible : marque la position d'origine du showreel. Observée en JS
+       (IntersectionObserver) pour savoir quand on a scrollé au-delà — c'est elle qui déclenche le
+       mode flottant, jamais #showreelBlock lui-même (qui passe en position:fixed une fois flottant,
+       donc toujours "visible" et inutilisable comme repère). -->
+  <div id="showreelSentinel" aria-hidden="true" style="height:0;"></div>
+  <div id="showreelBlock" class="showreel-block reveal" style="display:none;">
+    <button type="button" id="showreelFloatClose" class="showreel-float-close" aria-label="Fermer la vidéo flottante" style="display:none;">✕</button>
+    <!-- 🆕 Miniatures "aperçu" de la vidéo précédente/suivante, en transparence de part et
+         d'autre de la vidéo active (effet carrousel). Utilisent les miniatures YouTube
+         standard (img.youtube.com/vi/ID/...), pas de fichier à héberger nous-mêmes. Cachées
+         par défaut (style inline), affichées par initShowreel() seulement s'il y a au moins
+         2 vidéos ET que le lecteur API est actif (pas en mode repli iframe simple, qui n'a
+         pas de suivi d'index). Cliquables pour sauter directement à cette vidéo. -->
+    <button type="button" id="showreelPeekPrev" class="showreel-peek showreel-peek-prev" aria-label="Vidéo précédente" style="display:none;">
+      <img id="showreelPeekPrevImg" src="" alt="" loading="lazy">
+    </button>
+    <div class="showreel-video">
+      <!-- Remplacé par l'iframe YouTube réelle par l'API IFrame (voir initShowreel()) : l'élément
+           avec cet id est entièrement remplacé, la classe .showreel-video (sur le parent) porte
+           donc le style (ratio, coins arrondis, bordure) plutôt que cet id. -->
+      <div id="showreelVideo"></div>
     </div>
+    <button type="button" id="showreelPeekNext" class="showreel-peek showreel-peek-next" aria-label="Vidéo suivante" style="display:none;">
+      <img id="showreelPeekNextImg" src="" alt="" loading="lazy">
+    </button>
   </div>
 
   <nav class="mini-toc-bar" id="miniTocBar" aria-label="Sommaire rapide">
@@ -13422,6 +13465,12 @@
       <p class="account-modal-sub" id="accountModalSub">Retrouve tes commandes plus vite la prochaine fois.</p>
 
       <button type="button" class="account-oauth-btn" id="accountGoogleBtn">🔵 Continuer avec Google</button>
+      <!-- 🆕 Rendu par Google lui-même (google.accounts.id.renderButton) une fois le script chargé :
+           un vrai bouton dans la page, pas une popup/overlay flottant à nous qui peut se retrouver
+           caché derrière la modale. #accountGoogleBtn (au-dessus) reste affiché tant que ce bouton
+           officiel n'a pas fini de se charger, puis s'efface à son profit — voir initGoogleButton()
+           dans le JS. -->
+      <div id="accountGoogleBtnReal" class="account-google-real-btn" style="display:none;"></div>
       <button type="button" class="account-oauth-btn is-discord" id="accountDiscordBtn">💬 Continuer avec Discord</button>
 
       <div class="account-divider" id="accountOauthDivider">ou par email</div>
@@ -13874,12 +13923,6 @@
     <div id="socialFeedGrid" class="video-ribbon-static-grid"></div>
   </div>
 
-  <!-- 🆕 Showreel : premier contact visuel avant même le portfolio détaillé. Vidéos YouTube
-       intégrales (jamais de TikTok ici), une à la fois, qui s'enchaînent automatiquement à
-       l'infini — liste écrite en dur dans SHOWREEL_VIDEOS (voir initShowreel() dans le JS, juste
-       au-dessus) : plus de champ admin, il faut modifier ce tableau directement dans le code pour
-       changer les vidéos. Lecture automatique, muette (requis par les navigateurs pour
-       l'autoplay), en boucle infinie sur la liste. -->
   <!-- 🆕 Bannière promo temporaire (offre limitée dans le temps) : affichée uniquement s'il existe
        un code promo actif avec une date d'expiration dans PROMO_CODES (donc jamais pour les codes
        permanents comme PREMIERE20/PARRAIN10) — voir initSeasonalPromoBanner() dans le JS, appelée
@@ -13888,21 +13931,6 @@
   <div id="seasonalPromoBanner" class="seasonal-promo-banner reveal" style="display:none;">
     <span class="seasonal-promo-text" id="seasonalPromoText"></span>
     <span class="seasonal-promo-countdown" id="seasonalPromoCountdown"></span>
-  </div>
-
-  <!-- Sentinelle invisible : marque la position d'origine du showreel. Observée en JS
-       (IntersectionObserver) pour savoir quand on a scrollé au-delà — c'est elle qui déclenche le
-       mode flottant, jamais #showreelBlock lui-même (qui passe en position:fixed une fois flottant,
-       donc toujours "visible" et inutilisable comme repère). -->
-  <div id="showreelSentinel" aria-hidden="true" style="height:0;"></div>
-  <div id="showreelBlock" class="showreel-block reveal" style="display:none;">
-    <button type="button" id="showreelFloatClose" class="showreel-float-close" aria-label="Fermer la vidéo flottante" style="display:none;">✕</button>
-    <div class="showreel-video">
-      <!-- Remplacé par l'iframe YouTube réelle par l'API IFrame (voir initShowreel()) : l'élément
-           avec cet id est entièrement remplacé, la classe .showreel-video (sur le parent) porte
-           donc le style (ratio, coins arrondis, bordure) plutôt que cet id. -->
-      <div id="showreelVideo"></div>
-    </div>
   </div>
 
   <div class="full-divider"></div>
@@ -14230,7 +14258,7 @@
         <div class="portfolio-play-icon">▶</div>
       </div>
       <div class="portfolio-card-info">
-        <span class="portfolio-card-label" data-generic="1">Vidéo TikTok</span>
+        <span class="portfolio-card-label">Pourquoi tu ne saute pas</span>
         <span class="portfolio-card-sub">@juniorlej_</span>
       </div>
     </div>
@@ -14290,7 +14318,7 @@
       </div>
     </div>
 
-    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="edit" data-sector="gaming" data-href="https://vm.tiktok.com/ZN8LfUJFY/" data-added="2026-08-10" data-objective="vues">
+    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="edit" data-sector="gaming" data-href="https://vm.tiktok.com/ZN8LfUJFY/" data-added="2026-08-10" data-objective="vues" data-fallback-img="thumbs/edit-openda.jpg">
       <div class="portfolio-thumb">
         <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
         <div class="portfolio-play-icon">▶</div>
@@ -14301,7 +14329,7 @@
       </div>
     </div>
 
-    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="conseils" data-sector="gaming" data-href="https://vm.tiktok.com/ZN8LD6EgW/" data-added="2026-08-05" data-objective="vues">
+    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="conseils" data-sector="gaming" data-href="https://vm.tiktok.com/ZN8LD6EgW/" data-added="2026-08-05" data-objective="vues" data-fallback-img="thumbs/conseils-nuit.jpg">
       <div class="portfolio-thumb">
         <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
         <div class="portfolio-play-icon">▶</div>
@@ -14319,12 +14347,12 @@
         
       </div>
       <div class="portfolio-card-info">
-        <span class="portfolio-card-label">Pourquoi tu ne saute pas et c'est du gaming</span>
+        <span class="portfolio-card-label">Pourquoi tu ne saute pas</span>
         <span class="portfolio-card-sub">vm.tiktok.com</span>
       </div>
     </div>
 
-    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="conseils" data-sector="gaming" data-href="https://vm.tiktok.com/ZN8ehL8VV/" data-objective="vues">
+    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="conseils" data-sector="gaming" data-href="https://vm.tiktok.com/ZN8ehL8VV/" data-objective="vues" data-fallback-img="thumbs/conseils-meta.jpg">
       <div class="portfolio-thumb">
         <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
         <div class="portfolio-play-icon">▶</div>
@@ -14335,7 +14363,7 @@
       </div>
     </div>
 
-    <div class="portfolio-card" data-category="business" data-platform="tiktok" data-style="business" data-sector="marque" data-href="https://www.tiktok.com/@arthurperticoz/video/7646109875503729942?is_from_webapp=1&amp;sender_device=pc&amp;web_id=7624840625351919126" data-objective="vente">
+    <div class="portfolio-card" data-category="business" data-platform="tiktok" data-style="business" data-sector="marque" data-href="https://www.tiktok.com/@arthurperticoz/video/7646109875503729942?is_from_webapp=1&amp;sender_device=pc&amp;web_id=7624840625351919126" data-objective="vente" data-fallback-img="thumbs/business-1.jpg">
       <div class="portfolio-thumb">
         <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
         <div class="portfolio-play-icon">▶</div>
@@ -14346,7 +14374,7 @@
       </div>
     </div>
 
-    <div class="portfolio-card" data-category="business" data-platform="tiktok" data-style="business" data-sector="marque" data-href="https://www.tiktok.com/@arthurperticoz/video/7647974060495818016?is_from_webapp=1&amp;sender_device=pc&amp;web_id=7624840625351919126" data-objective="vente">
+    <div class="portfolio-card" data-category="business" data-platform="tiktok" data-style="business" data-sector="marque" data-href="https://www.tiktok.com/@arthurperticoz/video/7647974060495818016?is_from_webapp=1&amp;sender_device=pc&amp;web_id=7624840625351919126" data-objective="vente" data-fallback-img="thumbs/business-2.jpg">
       <div class="portfolio-thumb">
         <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
         <div class="portfolio-play-icon">▶</div>
@@ -18626,18 +18654,89 @@
       const block = document.getElementById('showreelBlock');
       const mount = document.getElementById('showreelVideo');
       const closeBtn = document.getElementById('showreelFloatClose');
+      const peekPrev = document.getElementById('showreelPeekPrev');
+      const peekPrevImg = document.getElementById('showreelPeekPrevImg');
+      const peekNext = document.getElementById('showreelPeekNext');
+      const peekNextImg = document.getElementById('showreelPeekNextImg');
       if (!block || !mount) return;
       const playlist = SHOWREEL_VIDEOS.map(s => (s || '').trim()).filter(Boolean);
       if (!playlist.length) return; // rien de configuré : le bloc reste caché, pas de placeholder vide
 
       let idx = 0;
       let player = null;
+      let ready = false;
+
+      // 🆕 Miniatures peek prev/next : miniature YouTube standard (img.youtube.com), pas
+      // d'appel API supplémentaire. Seulement affichées si (a) plusieurs vidéos dans la
+      // playlist et (b) le lecteur API est actif (loadVideoById dispo pour sauter dessus) —
+      // pas en mode repli iframe simple (fallbackToPlainIframe), où il n'y a pas de suivi
+      // d'index à afficher.
+      function youtubeThumbUrl(id) { return `https://img.youtube.com/vi/${id}/mqdefault.jpg`; }
+      function updatePeeks() {
+        if (!peekPrev || !peekNext || playlist.length < 2 || !player || typeof player.loadVideoById !== 'function') {
+          if (peekPrev) peekPrev.style.display = 'none';
+          if (peekNext) peekNext.style.display = 'none';
+          return;
+        }
+        const prevIdx = (idx - 1 + playlist.length) % playlist.length;
+        const nextIdx = (idx + 1) % playlist.length;
+        peekPrevImg.src = youtubeThumbUrl(playlist[prevIdx]);
+        peekNextImg.src = youtubeThumbUrl(playlist[nextIdx]);
+        peekPrev.style.display = 'block';
+        peekNext.style.display = 'block';
+      }
+      if (peekPrev) peekPrev.addEventListener('click', () => {
+        if (!player || typeof player.loadVideoById !== 'function') return;
+        idx = (idx - 1 + playlist.length) % playlist.length;
+        player.loadVideoById(playlist[idx]);
+        updatePeeks();
+      });
+      if (peekNext) peekNext.addEventListener('click', () => {
+        if (!player || typeof player.loadVideoById !== 'function') return;
+        idx = (idx + 1) % playlist.length;
+        player.loadVideoById(playlist[idx]);
+        updatePeeks();
+      });
+
+      // 🆕 Robustesse : le bloc s'affiche tout de suite (cadre noir 16/9), sans attendre que
+      // l'API YouTube réponde — avant, le bloc restait display:none tant que onReady n'avait
+      // jamais été appelé, donc invisible EN PERMANENCE si l'API ne charge pas (réseau bloqué,
+      // bloqueur de pub, extension de vie privée...), sans aucun repli. Si l'API ne répond
+      // toujours pas après quelques secondes, on bascule sur un <iframe> classique (sans passer
+      // par window.YT) qui boucle sur la première vidéo — moins riche (pas d'enchaînement entre
+      // vidéos, qui a besoin de l'API JS pour détecter la fin de lecture) mais au moins visible.
+      block.style.display = 'block';
+      const apiFallbackTimer = setTimeout(() => {
+        if (!ready) fallbackToPlainIframe();
+      }, 6000);
+
+      function fallbackToPlainIframe() {
+        if (mount.querySelector('iframe')) return;
+        const first = playlist[0];
+        mount.innerHTML = '';
+        const iframe = document.createElement('iframe');
+        iframe.src = `https://www.youtube.com/embed/${first}?autoplay=1&mute=1&loop=1&playlist=${first}&controls=0&modestbranding=1&rel=0&playsinline=1`;
+        iframe.title = 'Showreel';
+        iframe.style.cssText = 'width:100%;height:100%;display:block;border:0;';
+        iframe.setAttribute('allow', 'autoplay; encrypted-media');
+        iframe.setAttribute('frameborder', '0');
+        mount.appendChild(iframe);
+        initFloating();
+      }
 
       function initFloating() {
+        // 🧹 Mode flottant désactivé à la demande explicite (ne doit plus suivre en bas à
+        // droite au scroll) : la vidéo reste simplement à sa place dans la page, comme un
+        // élément normal, une fois qu'on a scrollé au-delà. Fonction gardée en no-op plutôt
+        // que supprimée pour ne pas casser les deux appels existants (API + repli iframe) ;
+        // ré-active-la en retirant ce "return" si tu changes d'avis.
+        return;
         // Mode flottant au scroll : observe la sentinelle (position d'origine), jamais le bloc
         // lui-même — une fois flottant, le bloc est position:fixed donc toujours "visible" et
         // inutilisable comme repère de scroll.
         if (!sentinel || !closeBtn || !('IntersectionObserver' in window)) return;
+        if (block.dataset.floatingWired) return; // évite un double câblage (API + repli tous deux appellent initFloating)
+        block.dataset.floatingWired = '1';
         let dismissed = false;
         const io = new IntersectionObserver((entries) => {
           if (dismissed) return;
@@ -18669,12 +18768,20 @@
             rel: 0,
           },
           events: {
-            onReady: (e) => { e.target.mute(); e.target.playVideo(); block.style.display = 'block'; },
+            onReady: (e) => { ready = true; clearTimeout(apiFallbackTimer); e.target.mute(); e.target.playVideo(); updatePeeks(); },
             onStateChange: (e) => {
               if (e.data === YT.PlayerState.ENDED) {
                 idx = (idx + 1) % playlist.length; // même ordre, en boucle infinie
                 e.target.loadVideoById(playlist[idx]);
+                updatePeeks();
               }
+            },
+            // 🆕 Vidéo indisponible (privée/supprimée/non-intégrable) : on passe directement à la
+            // suivante plutôt que de rester bloqué en silence sur un lecteur qui ne jouera jamais.
+            onError: (e) => {
+              idx = (idx + 1) % playlist.length;
+              if (e.target && typeof e.target.loadVideoById === 'function') e.target.loadVideoById(playlist[idx]);
+              updatePeeks();
             },
           },
         });
@@ -26435,9 +26542,9 @@
     //
     //   var usersSheet = SpreadsheetApp.getActive().getSheetByName('Users')
     //     || SpreadsheetApp.getActive().insertSheet('Users');
-    //   // Colonnes, dans cet ordre : id | email | name | passwordHash | passwordSalt | googleId | discordId | createdAt
+    //   // Colonnes, dans cet ordre : id | email | name | passwordHash | passwordSalt | googleId | discordId | createdAt | resetToken | resetTokenExpiry
     //   if (usersSheet.getLastRow() === 0) {
-    //     usersSheet.appendRow(['id', 'email', 'name', 'passwordHash', 'passwordSalt', 'googleId', 'discordId', 'createdAt']);
+    //     usersSheet.appendRow(['id', 'email', 'name', 'passwordHash', 'passwordSalt', 'googleId', 'discordId', 'createdAt', 'resetToken', 'resetTokenExpiry']);
     //   }
     //   function findUserRow(field, value) {
     //     if (!value) return null;
@@ -26477,16 +26584,41 @@
     // une erreur claire côté site (rien n'est cassé), et Google/Discord répondent de même.
     //
     // 🆕 Mot de passe oublié : functions/api/auth.js a besoin de DEUX actions supplémentaires (même
-    // logique que ci-dessus, jamais appelées directement par le navigateur) :
-    //   - action "forgot" (POST {email}) : cherche l'utilisateur (authFindUser), génère un token
-    //     aléatoire à durée limitée (1h par ex.), l'enregistre quelque part (une colonne
-    //     "resetToken"/"resetTokenExpiry" dans l'onglet Users suffit), envoie un email contenant
-    //     un lien vers {site}/?page=reset-password&token=CE_TOKEN (Resend/SendGrid/MailChannels...),
-    //     et répond TOUJOURS { success: true } — que l'email existe ou non, pour ne jamais révéler
-    //     si une adresse a un compte ici.
-    //   - action "resetConfirm" (POST {token, password}) : retrouve l'utilisateur par resetToken,
-    //     vérifie qu'il n'a pas expiré, remplace passwordHash/passwordSalt, invalide le token, répond
-    //     { success: true } ou { success: false, error: "invalid-token" } si expiré/déjà utilisé.
+    // logique que ci-dessus, jamais appelées directement par le navigateur — génération du token et
+    // envoi de l'email se font ICI, côté Apps Script, via MailApp, sans clé d'API à configurer
+    // ailleurs) :
+    //
+    //   if (action === 'authForgotPassword') {
+    //     var foundF = findUserRow('email', e.parameter.email);
+    //     if (foundF) {
+    //       var tok = Utilities.getUuid();
+    //       var expiry = new Date(Date.now() + 60 * 60 * 1000).toISOString(); // valable 1h
+    //       var rowF = foundF.values.slice();
+    //       rowF[8] = tok; rowF[9] = expiry; // colonnes 9/10 : resetToken | resetTokenExpiry
+    //       usersSheet.getRange(foundF.row, 1, 1, rowF.length).setValues([rowF]);
+    //       try {
+    //         MailApp.sendEmail(e.parameter.email, 'Réinitialisation de ton mot de passe',
+    //           'Clique ici pour choisir un nouveau mot de passe : ' + (e.parameter.origin || '') + '/?page=reset-password&token=' + tok);
+    //       } catch (mailErr) { /* email non envoyé, mais rien à faire de plus ici */ }
+    //     }
+    //     // Toujours success:true, que l'email existe ou non (jamais révéler l'un ou l'autre) :
+    //     // c'est functions/api/auth.js qui renvoie ça au navigateur quoi qu'il arrive ici.
+    //     return ContentService.createTextOutput(JSON.stringify({ success: true })).setMimeType(ContentService.MimeType.JSON);
+    //   }
+    //   if (action === 'authResetPassword') {
+    //     var dataR = usersSheet.getDataRange().getValues();
+    //     for (var kR = 1; kR < dataR.length; kR++) {
+    //       if (dataR[kR][8] && String(dataR[kR][8]) === String(e.parameter.token)) {
+    //         if (new Date(dataR[kR][9]) < new Date()) break; // token expiré → invalid-token ci-dessous
+    //         var rowR = dataR[kR].slice();
+    //         rowR[3] = e.parameter.passwordHash; rowR[4] = e.parameter.passwordSalt;
+    //         rowR[8] = ''; rowR[9] = ''; // token à usage unique, invalidé après ce reset
+    //         usersSheet.getRange(kR + 1, 1, 1, rowR.length).setValues([rowR]);
+    //         return ContentService.createTextOutput(JSON.stringify({ success: true })).setMimeType(ContentService.MimeType.JSON);
+    //       }
+    //     }
+    //     return ContentService.createTextOutput(JSON.stringify({ success: false, error: 'invalid-token' })).setMimeType(ContentService.MimeType.JSON);
+    //   }
 
     // 🆕 Fichiers clients sur Google Drive (en plus de Discord, jamais à la place) : voir
     // uploadFilesToDrive() plus bas dans ce fichier (appelée à l'envoi de commande et à l'envoi de
@@ -31745,7 +31877,12 @@
           switchToRegister.style.display = 'none';
           switchToLogin.style.display = 'inline';
           switchFromForgot.style.display = 'none';
-          googleBtn.style.display = ''; discordBtn.style.display = ''; oauthDivider.style.display = '';
+          // 🩹 Ne réaffiche le faux bouton (#accountGoogleBtn) que si le vrai bouton Google n'a pas
+          // encore fini de charger — sinon les deux se retrouvaient visibles en même temps à chaque
+          // changement de mode de la modale (register/login), même après que le vrai bouton soit prêt.
+          googleBtn.style.display = googleButtonReady ? 'none' : '';
+          if (googleBtnReal) googleBtnReal.style.display = googleButtonReady ? 'flex' : 'none';
+          discordBtn.style.display = ''; oauthDivider.style.display = '';
         } else if (mode === 'forgot') {
           title.textContent = 'Mot de passe oublié';
           document.getElementById('accountModalSub').textContent = "Indique ton email, tu recevras un lien pour choisir un nouveau mot de passe.";
@@ -31757,7 +31894,7 @@
           switchToRegister.style.display = 'none';
           switchToLogin.style.display = 'none';
           switchFromForgot.style.display = 'inline';
-          googleBtn.style.display = 'none'; discordBtn.style.display = 'none'; oauthDivider.style.display = 'none';
+          googleBtn.style.display = 'none'; if (googleBtnReal) googleBtnReal.style.display = 'none'; discordBtn.style.display = 'none'; oauthDivider.style.display = 'none';
         } else if (mode === 'resetConfirm') {
           title.textContent = 'Nouveau mot de passe';
           document.getElementById('accountModalSub').textContent = 'Choisis un nouveau mot de passe pour ton compte.';
@@ -31770,7 +31907,7 @@
           switchToRegister.style.display = 'none';
           switchToLogin.style.display = 'none';
           switchFromForgot.style.display = 'none';
-          googleBtn.style.display = 'none'; discordBtn.style.display = 'none'; oauthDivider.style.display = 'none';
+          googleBtn.style.display = 'none'; if (googleBtnReal) googleBtnReal.style.display = 'none'; discordBtn.style.display = 'none'; oauthDivider.style.display = 'none';
         } else {
           title.textContent = 'Se connecter';
           document.getElementById('accountModalSub').textContent = 'Retrouve tes commandes plus vite la prochaine fois.';
@@ -31783,7 +31920,9 @@
           switchToRegister.style.display = 'inline';
           switchToLogin.style.display = 'none';
           switchFromForgot.style.display = 'none';
-          googleBtn.style.display = ''; discordBtn.style.display = ''; oauthDivider.style.display = '';
+          googleBtn.style.display = googleButtonReady ? 'none' : '';
+          if (googleBtnReal) googleBtnReal.style.display = googleButtonReady ? 'flex' : 'none';
+          discordBtn.style.display = ''; oauthDivider.style.display = '';
         }
       }
 
@@ -31919,9 +32058,15 @@
         }
       });
 
-      // --- Google : Google Identity Services, chargé à la demande (même principe que le SDK PayPal
-      // plus haut : rien n'est chargé tant que le bouton n'est pas cliqué). google.accounts.id.prompt()
-      // ouvre la fenêtre de connexion Google directement depuis ce clic.
+      // --- Google : 🆕 ton auth.js vérifie un idToken (endpoint tokeninfo de Google), pas une
+      // redirection comme Discord — donc pas de popup/serveur supplémentaire nécessaire ici. Le
+      // vrai souci était que le "One Tap" (google.accounts.id.prompt()) est une fenêtre flottante
+      // gérée par Google, qui peut s'afficher DERRIÈRE la modale de compte selon le navigateur
+      // (cookies tiers bloqués, FedCM, extensions de vie privée) — rien à cliquer, aucune erreur.
+      // Solution : afficher le VRAI bouton Google (google.accounts.id.renderButton), qui est un
+      // élément normal dans la page — jamais un overlay flottant, donc jamais caché par la modale.
+      // #accountGoogleBtn reste affiché tant que ce vrai bouton n'a pas fini de charger, pour ne
+      // jamais laisser un espace vide si le script Google est lent/bloqué.
       let googleScriptLoading = null;
       function loadGoogleScript() {
         if (window.google && window.google.accounts && window.google.accounts.id) return Promise.resolve();
@@ -31935,41 +32080,53 @@
         });
         return googleScriptLoading;
       }
-      googleBtn.addEventListener('click', async () => {
+      async function handleGoogleCredential(response) {
+        statusEl.style.color = 'var(--text-tertiary)';
+        statusEl.textContent = 'Un instant…';
+        try {
+          const res = await fetch(AUTH_API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action: 'google', idToken: response.credential })
+          });
+          const data = await res.json();
+          if (!data.success) throw new Error(data.error || 'server-error');
+          setSession({ token: data.token, email: data.email, name: data.name, method: 'google' });
+          if (elevateToAdminIfNeeded(data.email)) return;
+          closeModal();
+        } catch (err) {
+          statusEl.style.color = '#e28b8b';
+          statusEl.textContent = AUTH_ERROR_MESSAGES[err.message] || AUTH_ERROR_MESSAGES['server-error'];
+        }
+      }
+      const googleBtnReal = document.getElementById('accountGoogleBtnReal');
+      let googleButtonReady = false;
+      (async function initGoogleButton() {
+        if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID.includes('COLLE_TON_CLIENT_ID') || !googleBtnReal) return;
+        try {
+          await loadGoogleScript();
+          window.google.accounts.id.initialize({ client_id: GOOGLE_CLIENT_ID, callback: handleGoogleCredential });
+          window.google.accounts.id.renderButton(googleBtnReal, { theme: 'outline', size: 'large', width: 260, text: 'continue_with' });
+          googleBtnReal.style.display = 'flex';
+          googleBtn.style.display = 'none';
+          googleButtonReady = true;
+        } catch (e) {
+          // Script Google injoignable (réseau, bloqueur de pub) : #accountGoogleBtn reste affiché,
+          // son clic ci-dessous donne un message clair plutôt que de rester muet.
+        }
+      })();
+      googleBtn.addEventListener('click', () => {
         if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID.includes('COLLE_TON_CLIENT_ID')) {
           statusEl.style.color = '#e28b8b';
           statusEl.textContent = "⚠️ Connexion Google pas encore configurée (GOOGLE_CLIENT_ID).";
           return;
         }
-        try {
-          await loadGoogleScript();
-          window.google.accounts.id.initialize({
-            client_id: GOOGLE_CLIENT_ID,
-            callback: async (response) => {
-              statusEl.style.color = 'var(--text-tertiary)';
-              statusEl.textContent = 'Un instant…';
-              try {
-                const res = await fetch(AUTH_API_URL, {
-                  method: 'POST',
-                  headers: { 'Content-Type': 'application/json' },
-                  body: JSON.stringify({ action: 'google', idToken: response.credential })
-                });
-                const data = await res.json();
-                if (!data.success) throw new Error(data.error || 'server-error');
-                setSession({ token: data.token, email: data.email, name: data.name, method: 'google' });
-                if (elevateToAdminIfNeeded(data.email)) return;
-                closeModal();
-              } catch (err) {
-                statusEl.style.color = '#e28b8b';
-                statusEl.textContent = AUTH_ERROR_MESSAGES[err.message] || AUTH_ERROR_MESSAGES['server-error'];
-              }
-            }
-          });
-          window.google.accounts.id.prompt();
-        } catch (err) {
+        if (!googleButtonReady) {
           statusEl.style.color = '#e28b8b';
-          statusEl.textContent = "⚠️ Impossible de charger la connexion Google — réessaie ou utilise une autre méthode.";
+          statusEl.textContent = "⚠️ Impossible de charger la connexion Google (réseau ou bloqueur de pub) — réessaie ou utilise une autre méthode.";
         }
+        // Si googleButtonReady est vrai, ce bouton est de toute façon caché (voir initGoogleButton) :
+        // c'est le vrai bouton Google juste au-dessus qui reçoit le clic.
       });
 
       // --- Discord : 🆕 ouvert dans un nouvel onglet/popup plutôt qu'une redirection en pleine page,
@@ -32017,9 +32174,10 @@
         }
       });
 
-      // --- Retour de redirection (Discord réussi, ou erreur Google/Discord) : lu dans l'URL au
-      // chargement de la page, puis nettoyé immédiatement (history.replaceState) pour ne pas garder
-      // le token dans l'URL visible/partageable.
+      // --- Retour de redirection Discord (réussi ou erreur) : lu dans l'URL au chargement de la
+      // page, puis nettoyé immédiatement (history.replaceState) pour ne pas garder le token dans
+      // l'URL visible/partageable. (Google n'utilise pas cette redirection : il passe par un jeton
+      // vérifié directement dans la modale, voir handleGoogleCredential plus haut.)
       (function handleAccountRedirectParams() {
         const params = new URLSearchParams(window.location.search);
         const sessionToken = params.get('account_session');
@@ -32041,7 +32199,15 @@
         // 🆕 Si cette page tourne dans le popup Discord (ouverte par window.open depuis l'onglet
         // d'origine), on relaie juste le résultat au parent et on se referme, plutôt que de traiter
         // la session ici — la vraie session doit vivre dans l'onglet d'origine.
-        if (window.opener && window.opener !== window && window.name === DISCORD_POPUP_NAME) {
+        // 🩹 On ne teste plus window.name === DISCORD_POPUP_NAME : la plupart des navigateurs
+        // réinitialisent window.name après un aller-retour vers un domaine tiers (discord.com) pour
+        // isoler les sites (Site Isolation). C'est exactement ce qui causait le bug : le test
+        // échouait toujours au retour de Discord, donc la popup traitait la session sur elle-même
+        // au lieu de la relayer et de se fermer — d'où "ça m'ouvre le site dans la popup Discord".
+        // window.opener suffit : il n'est présent que sur une fenêtre ouverte via window.open, et ce
+        // bloc ne s'exécute de toute façon que si l'URL contient account_session/account_error, ce
+        // qui n'arrive que juste après ce flux Discord précis.
+        if (window.opener && window.opener !== window) {
           try {
             window.opener.postMessage({ source: 'michyy-discord-auth', sessionToken, accountError, name, email }, window.location.origin);
           } catch (e) { /* tant pis, l'onglet reste ouvert avec le résultat visible dans l'URL nettoyée ci-dessous */ }
@@ -34538,172 +34704,9 @@
     })();
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 🎞️ RUBAN VIDÉO INFINI — initVideoRibbon()
-    // Lit tous les .portfolio-card dans #portfolioGrid, construit les items du ruban :
-    // vraie vidéo YouTube (iframe autoplay + muet + boucle) pour les YT, logo TikTok
-    // stylé pour les TikTok (pas d'embed autoplay possible sans script tiers externe).
-    // Duplique la liste pour que l'animation CSS translateX(-50%) boucle parfaitement,
-    // défile en continu vers la droite (voir @keyframes ribbon-scroll).
-    // ─────────────────────────────────────────────────────────────────────────
-    (function initVideoRibbon() {
-      const track = document.getElementById('videoRibbonTrack');
-      const wrap  = document.getElementById('videoRibbonWrap');
-      if (!track || !wrap) return;
-
-      const cards = Array.from(document.querySelectorAll('#portfolioGrid .portfolio-card'));
-      if (cards.length === 0) { wrap.style.display = 'none'; return; }
-
-      function makeItem(card, hidden) {
-        const href     = card.dataset.href || '#portfolio';
-        const ytId     = card.dataset.ytId;
-        const platform = card.dataset.platform || 'youtube';
-        const label    = card.querySelector('.portfolio-card-label')?.textContent?.trim() || 'Voir la vidéo';
-
-        const a = document.createElement('a');
-        a.className = 'video-ribbon-item';
-        a.href = href;
-        a.target = '_blank';
-        a.rel = 'noopener noreferrer';
-        a.title = label;
-        if (hidden) a.setAttribute('aria-hidden', 'true');
-        // Empêche d'ouvrir le lien si on clique depuis le site (préférer l'onglet portfolio)
-        a.addEventListener('click', (e) => {
-          e.preventDefault();
-          // Active l'onglet Preuves > Résultats > Portfolio
-          if (typeof window.activatePageSection === 'function') window.activatePageSection('portfolio');
-          document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        });
-
-        if (ytId) {
-          // 🆕 Vraie vidéo qui joue, pas une simple miniature figée : iframe YouTube en
-          // autoplay + muet, limitée aux 90 premières secondes (1min30, allongé depuis les 30s
-          // d'origine) en boucle (start=0&end=90 + loop=1&playlist=<mêmeId>, seule façon de
-          // boucler un extrait précis via l'iframe YouTube). pointer-events:none sur l'iframe
-          // pour que le clic traverse jusqu'au <a> parent (sinon le clic serait "avalé" par
-          // l'iframe et n'ouvrirait plus l'onglet portfolio).
-          const iframe = document.createElement('iframe');
-          iframe.className = 'video-ribbon-item-frame';
-          iframe.src = `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&mute=1&start=0&end=90&loop=1&playlist=${ytId}&controls=0&showinfo=0&modestbranding=1&rel=0&iv_load_policy=3&playsinline=1`;
-          iframe.title = label;
-          iframe.loading = 'lazy';
-          iframe.tabIndex = -1;
-          iframe.setAttribute('aria-hidden', 'true');
-          iframe.setAttribute('allow', 'autoplay; encrypted-media');
-          iframe.setAttribute('frameborder', '0');
-          a.appendChild(iframe);
-        } else {
-          // 🆕 TikTok : embed vidéo (iframe tiktok.com/embed/v2/<id>) quand l'URL du portfolio
-          // est un lien canonique .../video/<id> dont on peut extraire l'ID numérique — pas
-          // possible pour les liens courts vm.tiktok.com/xxx (résolution du lien impossible
-          // côté client sans requête réseau, non fiable). Contrairement à YouTube, TikTok ne
-          // documente pas de paramètres d'URL pour forcer autoplay/mute/boucle sur son embed
-          // brut (pas de widget.js chargé ici, interdit par la règle "fichier autonome") :
-          // la lecture peut donc démarrer avec le son et ne pas boucler automatiquement selon
-          // le navigateur — c'est une limite de TikTok, pas un réglage qu'on peut fiabiliser.
-          const tkMatch = /\/video\/(\d+)/.exec(href);
-          if (tkMatch) {
-            const iframe = document.createElement('iframe');
-            iframe.className = 'video-ribbon-item-frame';
-            iframe.src = `https://www.tiktok.com/embed/v2/${tkMatch[1]}`;
-            iframe.title = label;
-            iframe.loading = 'lazy';
-            iframe.tabIndex = -1;
-            iframe.setAttribute('aria-hidden', 'true');
-            iframe.setAttribute('allow', 'autoplay; encrypted-media');
-            iframe.setAttribute('frameborder', '0');
-            a.appendChild(iframe);
-          } else {
-            // Lien court vm.tiktok.com sans ID exploitable → on garde le placeholder stylé.
-            const placeholder = document.createElement('div');
-            placeholder.className = 'video-ribbon-item-tiktok';
-            placeholder.innerHTML = `<svg width="28" height="28" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg>`;
-            a.appendChild(placeholder);
-          }
-        }
-
-        // Badge plateforme
-        const badge = document.createElement('span');
-        badge.className = 'video-ribbon-platform-badge';
-        badge.textContent = ytId ? 'YT' : 'TK';
-        badge.setAttribute('aria-hidden', 'true');
-        a.appendChild(badge);
-
-        // Overlay play — n'a de sens que sur le placeholder statique (lien court TikTok sans
-        // ID exploitable) : les vraies vidéos (YouTube, TikTok avec ID) jouent déjà toutes
-        // seules, un bouton "lecture" par-dessus serait trompeur.
-        if (a.querySelector('.video-ribbon-item-tiktok')) {
-          const overlay = document.createElement('div');
-          overlay.className = 'video-ribbon-play';
-          overlay.setAttribute('aria-hidden', 'true');
-          overlay.innerHTML = `<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`;
-          a.appendChild(overlay);
-        }
-
-        return a;
-      }
-
-      // 🔧 Un seul exemplaire de chaque item (pas de duplication) : contrairement au ruban de
-      // miniatures figées d'origine, ici chaque item contient une vraie vidéo qui joue (iframe
-      // YouTube/TikTok). Dupliquer les items casserait la boucle CSS habituelle : les deux
-      // copies d'une même vidéo ne jouent jamais exactement à la même seconde, donc au moment
-      // du raccord on la voit "sauter" en arrière (revenir au début) — exactement le problème
-      // remonté. Voir la boucle JS juste en dessous, qui gère un seul jeu d'items sans ce défaut.
-      cards.forEach(card => track.appendChild(makeItem(card, false)));
-    })();
-
-    // ─────────────────────────────────────────────────────────────────────────
-    // 🎞️ RUBAN VIDÉO — DÉFILEMENT SANS RACCORD (initVideoRibbonMotion)
-    // 🆕 Remplace l'animation CSS ribbon-scroll (pensée pour des miniatures figées dupliquées)
-    // par un défilement piloté en JS, item par item, SANS duplication : chaque item (donc
-    // chaque iframe vidéo) n'existe qu'une seule fois dans le DOM. Dès qu'un item sort
-    // entièrement à gauche, on le déplace (même noeud, pas de clone → la vidéo continue de
-    // jouer sans recharger) à la fin du ruban, en compensant le décalage — invisible à
-    // l'œil, et surtout aucun raccord entre deux copies désynchronisées d'une même vidéo.
-    // Toujours vers la droite, à l'infini, ne s'arrête jamais (sauf survol, comme avant).
-    // ─────────────────────────────────────────────────────────────────────────
-    (function initVideoRibbonMotion() {
-      const wrap  = document.getElementById('videoRibbonWrap');
-      const track = document.getElementById('videoRibbonTrack');
-      if (!wrap || !track) return;
-      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-
-      track.style.animation = 'none'; // on coupe l'animation CSS ribbon-scroll : pilotée en JS ici
-      track.style.willChange = 'transform';
-
-      // 🔧 Sens corrigé : la version précédente faisait glisser le contenu vers la GAUCHE (offset
-      // croissant en négatif), à l'opposé du "défile vers la droite" demandé dès le départ (voir
-      // .video-ribbon-track / @keyframes ribbon-scroll ci-dessus, qui allaient bien vers la droite
-      // avant ce passage en JS). Ici : offset croissant en POSITIF (translateX(+offset)) et, au
-      // lieu de renvoyer le 1er item à la fin quand il sort à gauche, on ramène le DERNIER item au
-      // début quand l'espace s'ouvre à gauche — effet miroir : le ruban avance vers la droite.
-      const ITEM_W = 120, GAP = 10, SPEED_PX_PER_SEC = 80; // mêmes valeurs que .video-ribbon-item / l'ancien réglage
-      let offset = 0;
-      let last = null;
-      let paused = false;
-      wrap.addEventListener('mouseenter', () => { paused = true; });
-      wrap.addEventListener('mouseleave', () => { paused = false; });
-
-      function frame(ts) {
-        if (track.children.length === 0) return; // pas de vidéos : rien à animer
-        if (last === null) last = ts;
-        const dt = Math.min((ts - last) / 1000, 0.1); // clamp pour éviter un saut après un onglet en veille
-        last = ts;
-        if (!paused) {
-          offset += SPEED_PX_PER_SEC * dt;
-          // Le "trou" qui s'ouvrirait à gauche à mesure que le ruban avance vers la droite est
-          // comblé en ramenant le dernier item au début (même nœud, pas de clone → la vidéo
-          // continue de jouer sans recharger), en compensant le décalage pour que ce soit invisible.
-          while (offset >= ITEM_W + GAP) {
-            track.insertBefore(track.lastElementChild, track.firstElementChild);
-            offset -= (ITEM_W + GAP);
-          }
-          track.style.transform = `translateX(${offset}px)`;
-        }
-        requestAnimationFrame(frame);
-      }
-      requestAnimationFrame(frame);
-    })();
-
+    // 🧹 initVideoRibbon() + initVideoRibbonMotion() retirés avec le ruban vidéo infini
+    // (#videoRibbonWrap/#videoRibbonTrack n'existent plus dans le DOM) — doublon cassé du
+    // showreel, voir le commentaire HTML là où se trouvait le ruban.
     // ─────────────────────────────────────────────────────────────────────────
     // 🧩 CONFIGURATEUR PACK SUR-MESURE AUTONOME — initCustomPackStandalone()
     // Même logique que computeCustomMixPrice() dans le formulaire, mais en
