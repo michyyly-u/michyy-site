@@ -320,12 +320,6 @@
       --accent-glow: rgba(255, 68, 56, 0.35);
       --glass-bg: linear-gradient(160deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015));
       --glass-border: rgba(255,255,255,0.09);
-      /* 🆕 Pastille de type de client (voir CLIENT_TYPE_INFO en JS) : couleurs en variables plutôt
-         qu'en dur, redéfinies plus bas en thème clair — sans ça le gris "particulier" et le vert
-         "abonné" perdent trop de contraste sur le fond clair (le violet "marque" passait déjà). */
-      --client-type-marque: #7c5cff;
-      --client-type-recurrent: #2ecc71;
-      --client-type-particulier: #9aa0a6;
       /* Sans ça, les contrôles natifs du navigateur (calendrier de l'input date, notamment
          "Date à laquelle tu veux recevoir la vidéo") gardent leur rendu clair par défaut — texte et
          icône peu visibles sur le fond sombre du site. color-scheme dit au navigateur d'adapter ses
@@ -352,11 +346,6 @@
       --accent-glow: rgba(255, 68, 56, 0.22);
       --glass-bg: linear-gradient(160deg, rgba(255,255,255,0.75), rgba(255,255,255,0.5));
       --glass-border: rgba(23,20,15,0.08);
-      /* Variantes plus foncées/saturées pour rester lisibles sur le fond clair (voir la note dans
-         :root ci-dessus) — le gris et le vert originaux étaient trop pâles sur ce fond. */
-      --client-type-marque: #5b3fd6;
-      --client-type-recurrent: #178a4a;
-      --client-type-particulier: #6b7280;
     }
 
     /* --- Scroll reveal animation (douce : fondu + léger déplacement, sans flou pour
@@ -1745,15 +1734,12 @@
       border-radius: 10px;
       padding: 10px 8px;
       text-decoration: none;
-      /* 🧹 transition complétée/déplacée : voir la règle .hero-quick-link, .hero-proof-card plus bas
-         dans le fichier, qui la redéfinissait déjà en l'écrasant (border-color y perdait sa
-         transition — corrigé là-bas plutôt que dupliqué ici). */
+      transition: border-color 0.15s, transform 0.1s;
     }
 
     .hero-quick-link:hover {
       border-color: var(--text-faint);
-      /* 🧹 transform (-1px) retiré ici : écrasé par le -2px !important défini plus bas dans le
-         fichier (voir "Boutons secondaires : pilule sobre"). */
+      transform: translateY(-1px);
     }
 
     .hero-quick-link--primary {
@@ -2111,9 +2097,9 @@
 
     .portfolio-card:hover {
       border-color: var(--text-faint);
+      transform: translateY(-4px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
     }
-    /* 🧹 transform (-4px) et box-shadow retirés ici : écrasés plus loin par l'inclinaison 3D et le
-       glow orange (voir "Relief des cartes" et "Tilt 3D sur cartes" plus bas dans le fichier). */
     .portfolio-card:active { transform: scale(0.98); }
     .portfolio-card.hidden { display: none; }
 
@@ -2599,53 +2585,6 @@
       max-width: 720px;
       margin: 0 auto 20px;
       padding: 0 20px;
-      position: relative;
-    }
-    /* 🆕 Miniatures peek prev/next : posées dans la marge (padding 20px) du bloc, en léger
-       débord sur la vidéo active pour l'effet "carrousel", semi-transparentes pour rester
-       clairement secondaires. object-fit: cover pour remplir le rond/rectangle même si la
-       miniature YouTube n'est pas exactement au bon ratio. */
-    .showreel-peek {
-      position: absolute;
-      top: 0;
-      bottom: 0;
-      width: 14px;
-      border: 0;
-      padding: 0;
-      margin: 0;
-      background: none;
-      cursor: pointer;
-      z-index: 3;
-      opacity: 0.38;
-      transition: opacity 0.2s ease;
-      border-radius: 14px;
-      overflow: hidden;
-    }
-    .showreel-peek:hover,
-    .showreel-peek:focus-visible {
-      opacity: 0.75;
-    }
-    .showreel-peek img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .showreel-peek-prev {
-      left: 4px;
-      background: linear-gradient(to right, rgba(0,0,0,0.15), transparent);
-    }
-    .showreel-peek-next {
-      right: 4px;
-      background: linear-gradient(to left, rgba(0,0,0,0.15), transparent);
-    }
-    /* Mode flottant (petit lecteur en coin d'écran) : pas la place pour des miniatures peek,
-       et l'index n'est de toute façon plus le point d'attention à ce moment-là. */
-    .showreel-block.is-floating .showreel-peek {
-      display: none !important;
-    }
-    @media (max-width: 520px) {
-      .showreel-peek { width: 12px; }
     }
     .showreel-video {
       width: 100%;
@@ -2654,16 +2593,6 @@
       border: 0.5px solid var(--border-soft);
       background: #000;
       display: block;
-      overflow: hidden;
-    }
-    /* 🆕 L'API IFrame YouTube remplace le <div id="showreelVideo"> par sa propre <iframe> : on la
-       fait remplir le conteneur .showreel-video (qui garde lui le ratio/les coins/la bordure)
-       plutôt que de dépendre d'attributs width/height figés sur l'iframe elle-même. */
-    .showreel-video iframe {
-      width: 100%;
-      height: 100%;
-      display: block;
-      border: 0;
     }
 
     /* Mode flottant : la vidéo "suit" quand on scrolle au-delà de sa position d'origine, au lieu de
@@ -2935,25 +2864,6 @@
       line-height: 1.65;
       color: var(--text-secondary);
     }
-
-    /* 🆕 État "vide" habillé pour les listes admin (commandes, clients...) plutôt qu'un simple
-       <p> perdu dans un cadre blanc. Un seul gabarit réutilisable (voir adminEmptyStateHtml() en
-       JS) pour rester cohérent quelle que soit la liste concernée. */
-    .admin-empty-state {
-      display: flex; flex-direction: column; align-items: center; text-align: center;
-      gap: 6px; padding: 40px 20px 36px; color: var(--text-secondary);
-    }
-    .admin-empty-state .admin-empty-icon { font-size: 34px; line-height: 1; opacity: 0.75; margin-bottom: 4px; }
-    .admin-empty-state .admin-empty-title { font-weight: 700; color: var(--text); font-size: 14.5px; }
-    .admin-empty-state .admin-empty-sub { font-size: 12.5px; max-width: 340px; line-height: 1.5; }
-    .admin-empty-state .admin-btn-ghost { margin-top: 8px; }
-    .admin-btn-ghost {
-      display: inline-flex; align-items: center; justify-content: center; gap: 6px;
-      font-family: 'Manrope', system-ui, sans-serif; font-weight: 700; font-size: 12.5px;
-      color: var(--text); background: transparent; border: 1px solid var(--border-soft);
-      padding: 8px 14px; border-radius: 10px; cursor: pointer; transition: background 0.15s ease, border-color 0.15s ease;
-    }
-    .admin-btn-ghost:hover { background: var(--surface-soft); border-color: var(--accent-1); }
 
     /* --- Style commun des "notes secondaires" : encarts d'info complémentaire, non
        obligatoires à lire (bio, formule de prix, acompte, checklist, fichiers, récap...).
@@ -3651,37 +3561,6 @@
     .style-gallery-tile.active .style-gallery-label {
       color: #ffc98a;
     }
-
-    /* 🆕 Miniatures de secours pour "Business", "Edit" et "Conseils" : ces 3 styles ne sont
-       représentés que par des vidéos TikTok dans le portfolio, dont l'oEmbed (utilisé pour
-       récupérer une vraie image) est souvent bloqué par TikTok lui-même pour les requêtes
-       externes (voir loadTiktokThumbnail plus bas dans le JS) — sans repli dédié, ces vignettes
-       restaient vides. Un dégradé + une icône par genre plutôt qu'une case vide, tant qu'aucune
-       vraie miniature n'a été trouvée (la classe .has-real-thumb, posée par initStyleGallery()
-       dès qu'une image réelle est disponible, désactive ce repli). */
-    .style-gallery-tile[data-style-filter="business"]:not(.has-real-thumb) {
-      background: linear-gradient(135deg, #241a0d, #2f1a1a) center / cover no-repeat;
-    }
-    .style-gallery-tile[data-style-filter="edit"]:not(.has-real-thumb) {
-      background: linear-gradient(135deg, #241a2f, #1a1a2f) center / cover no-repeat;
-    }
-    .style-gallery-tile[data-style-filter="conseils"]:not(.has-real-thumb) {
-      background: linear-gradient(135deg, #0d1f1f, #1a2a24) center / cover no-repeat;
-    }
-    .style-gallery-tile[data-style-filter="business"]:not(.has-real-thumb)::before,
-    .style-gallery-tile[data-style-filter="edit"]:not(.has-real-thumb)::before,
-    .style-gallery-tile[data-style-filter="conseils"]:not(.has-real-thumb)::before {
-      position: absolute;
-      inset: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 32px;
-      opacity: 0.4;
-    }
-    .style-gallery-tile[data-style-filter="business"]:not(.has-real-thumb)::before { content: '💼'; }
-    .style-gallery-tile[data-style-filter="edit"]:not(.has-real-thumb)::before { content: '✂️'; }
-    .style-gallery-tile[data-style-filter="conseils"]:not(.has-real-thumb)::before { content: '💡'; }
 
     .style-gallery-tile::after {
       content: '';
@@ -6056,13 +5935,11 @@
       border-radius: 12px;
       padding: 12px 16px;
       text-decoration: none;
-      transition: opacity 0.15s, transform 0.15s;
+      transition: opacity 0.15s;
       margin: 2px 0 4px;
     }
 
-    /* 🆕 Alignée sur .contact-cta / .essai-submit-btn (mêmes chiffres : opacité 0.88 + léger
-       soulèvement) — les 3 boutons d'action principaux du site doivent réagir pareil au survol. */
-    .deposit-paypal-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .deposit-paypal-btn:hover { opacity: 0.88; }
 
     /* --- Bouton "Payer par carte" (Stripe Checkout) : même gabarit que le bouton PayPal juste
        au-dessus (même hauteur, mêmes marges) pour que les deux s'alignent proprement côte à côte,
@@ -7770,9 +7647,7 @@
     .hero-quick-link, .hero-proof-card { transition: transform .2s ease, box-shadow .2s ease; }
     .hero-quick-link:hover, .hero-proof-card:hover { transform: translateY(-2px); box-shadow: 0 8px 22px rgba(0,0,0,.25); }
     .portfolio-card { border-radius: 14px; overflow: hidden; transition: transform .25s ease, box-shadow .25s ease; }
-    /* 🧹 .portfolio-card:hover { transform / box-shadow } retiré ici : entièrement écrasé plus loin
-       dans le fichier (glow orange au survol + inclinaison 3D dans le bloc "Tilt 3D sur cartes") —
-       ces valeurs (-4px + scale, ombre neutre) n'étaient jamais réellement affichées. */
+    .portfolio-card:hover { transform: translateY(-4px) scale(1.01); box-shadow: 0 14px 34px rgba(0,0,0,.3); }
     .portfolio-thumb { transition: transform .4s ease; }
     .portfolio-card:hover .portfolio-thumb { transform: scale(1.05); }
     .portfolio-card-label { font-weight: 700; letter-spacing: .01em; }
@@ -7782,8 +7657,7 @@
     ::selection { background: var(--accent-1); color: #fff; }
     :focus-visible { outline: 2px solid var(--accent-2); outline-offset: 2px; border-radius: 6px; }
     .format-card, .testimonial-card, .info-card { transition: transform .2s ease, box-shadow .2s ease; }
-    /* 🧹 .format-card:hover { transform / box-shadow } retiré ici : même chose, écrasé par le glow
-       orange + l'inclinaison 3D définis plus loin dans le fichier. */
+    .format-card:hover { transform: translateY(-3px); box-shadow: 0 10px 28px rgba(0,0,0,.22); }
     .abo-compare-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
     .abo-compare-table th, .abo-compare-table td { padding: 8px 6px; text-align: center; border-top: 1px solid var(--border-soft); }
     .abo-compare-table td:first-child { text-align: left; opacity: .8; }
@@ -10047,10 +9921,45 @@
     }
 
     /* ═══════════════════════════════════════════════════════════════════
-       🧹 Ruban vidéo infini (video-ribbon-wrap/track) retiré — doublon cassé du showreel.
-       .video-ribbon-item et ses sous-classes restent : toujours utilisées par le fil
-       Instagram/TikTok (#socialFeedGrid, .video-ribbon-static-grid) plus bas dans le fichier.
+       🎞️ RUBAN VIDÉO INFINI (video-ribbon)
+       Défile en boucle à l'infini, sans son, sans pause.
+       Chaque item est une miniature YouTube (img) cliquable → ouvre la
+       vidéo dans le portfolio. Les TikTok n'ont pas d'API thumbnail
+       publique sans token : on affiche leur logo stylé à la place.
+       Le ruban est dupliqué (aria-hidden) pour que la boucle CSS soit
+       parfaite sans JS. Interrompt l'animation si prefers-reduced-motion.
        ═══════════════════════════════════════════════════════════════════ */
+    .video-ribbon-wrap {
+      width: 100%;
+      overflow: hidden;
+      background: var(--surface);
+      border-top: 0.5px solid var(--border);
+      border-bottom: 0.5px solid var(--border);
+      padding: 0;
+      position: relative;
+      /* Fondu sur les bords pour que ça disparaisse élégamment */
+      mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+      -webkit-mask-image: linear-gradient(to right, transparent 0%, black 6%, black 94%, transparent 100%);
+    }
+    .video-ribbon-track {
+      display: flex;
+      gap: 10px;
+      padding: 10px 5px;
+      width: max-content;
+      animation: ribbon-scroll 40s linear infinite;
+      will-change: transform;
+    }
+    .video-ribbon-wrap:hover .video-ribbon-track { animation-play-state: paused; }
+    @keyframes ribbon-scroll {
+      /* 🔧 Défile vers la droite (même sens que .proof-ticker-scroll, juste sous le bandeau
+         "Ils m'ont fait confiance") : on part de -50% pour revenir à 0, sens inverse du
+         ticker "par défaut" qui irait de 0 vers -50%. */
+      from { transform: translateX(-50%); }
+      to   { transform: translateX(0); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .video-ribbon-track { animation: none; }
+    }
     .video-ribbon-item {
       flex-shrink: 0;
       width: 120px;
@@ -11136,19 +11045,18 @@
     .format-card {
       transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
     }
-    /* 🧹 transform retiré ici : plusieurs versions du lift au survol (-3px, -5px, -4px) s'étaient
-       accumulées à des endroits différents du fichier, chacune écrasant la précédente en cascade —
-       seul le -4px + inclinaison 3D du bloc "Tilt 3D sur cartes" en fin de feuille de style
-       s'appliquait réellement. border-color et box-shadow ci-dessous restent la source réelle. */
     .format-card:hover {
+      transform: translateY(-5px);
       border-color: #FFB02099;
       box-shadow: 0 1px 0 0 rgba(255,255,255,0.1) inset, 0 26px 46px -16px rgba(0,0,0,0.7), 0 0 40px -2px #FFB02066;
     }
 
-    /* 🧹 Bloc testimonial-card retiré : transition et transform ici étaient entièrement écrasés par
-       les mêmes propriétés du bloc "Tilt 3D sur cartes" plus bas (testimonial-card y est inclus),
-       donc jamais réellement appliqués — box-shadow/transition de repos viennent du bloc juste
-       au-dessus (.portfolio-card, .format-card, .info-panel, .testimonial-card...). */
+    .testimonial-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .testimonial-card:hover {
+      transform: translateY(-3px);
+    }
 
     /* Boutons d'action principaux : légère lueur couleur marque au survol, pour donner du poids
        aux appels à l'action plutôt qu'un simple assombrissement plat. Ciblés sur les VRAIS CTA
@@ -11298,16 +11206,9 @@
        pour accompagner le nouvel effet de verre des cartes qu'il contient. */
     .full-section { border-radius: 20px; }
 
-    /* 🧹 !important ajouté ici (et .hero-quick-link:hover / .contact-cta-secondary:hover ajoutés à
-       la liste) : le hover de ces boutons est lui-même fixé en !important plus haut (translateY
-       -2px), donc un simple "transform: none" sans !important ne l'annulait pas réellement pour
-       les visiteurs ayant activé "réduire les animations" — l'un des points d'incohérence trouvés
-       en uniformisant les micro-animations du site. */
     @media (prefers-reduced-motion: reduce) {
       .hero-quick-link--primary:hover,
-      .hero-quick-link:hover,
       .contact-cta:hover,
-      .contact-cta-secondary:hover,
       .reserve-submit:hover,
       .review-submit-btn:hover,
       .guarantee-card:hover,
@@ -11316,7 +11217,7 @@
       .hero-proof-card:hover,
       .format-card:hover,
       .find-me-card:hover {
-        transform: none !important;
+        transform: none;
       }
     }
 
@@ -11410,10 +11311,6 @@
        (Analytics & Logs > Web Analytics > Add a site). Tant que le token n'est pas
        renseigné, ce script ne fait rien d'utile mais ne casse rien. -->
   <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "COLLE_TON_TOKEN_ANALYTICS"}'></script>
-  <!-- 🆕 API IFrame YouTube, nécessaire pour le showreel (#showreelBlock) : joue des vidéos
-       YouTube entières l'une après l'autre sans lien cliquable ni page YouTube externe. Voir
-       initShowreel() dans le JS principal, plus bas dans le fichier. -->
-  <script src="https://www.youtube.com/iframe_api"></script>
 
   <style id="admin-readability-overrides">
     /* =====================================================================================
@@ -11851,14 +11748,6 @@
     }
     .account-oauth-btn:hover { border-color: var(--text-faint); }
     .account-oauth-btn.is-discord { background: #5865F2; color: #fff; border-color: #5865F2; }
-    /* 🆕 Conteneur du vrai bouton Google (rendu par Google via renderButton) : centré, même marge
-       basse que les autres boutons oauth pour ne pas casser l'espacement de la modale. */
-    .account-google-real-btn {
-      display: flex;
-      justify-content: center;
-      width: 100%;
-      margin-bottom: 8px;
-    }
     .account-divider {
       display: flex;
       align-items: center;
@@ -12093,21 +11982,6 @@
     #adminPanel .price-log-card, #adminPanel details { border: 1px solid var(--border-soft); border-radius: 14px; background: var(--surface); }
     #adminPanel details > summary { cursor: pointer; padding: 11px 14px; font-weight: 800; }
     #adminPanel .admin-order-card details { border-radius: 12px; }
-    /* 🆕 Vue "Aujourd'hui" : coup d'œil en 3 pastilles tout en haut de l'onglet Commandes, avant de
-         plonger dans la liste complète — à livrer sous 24h / en retard / paiement en attente. Cliquer
-         une pastille filtre la liste ci-dessous sur ce lot ; recliquer l'enlève. */
-    #adminTodayGlance { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
-    #adminTodayGlance .glance-pill {
-      flex: 1 1 150px; display: flex; flex-direction: column; gap: 2px; text-align: left;
-      border: 1px solid var(--border-soft); background: var(--surface); border-radius: 14px;
-      padding: 10px 14px; cursor: pointer; font-family: 'Manrope', sans-serif; transition: border-color .15s, box-shadow .15s;
-    }
-    #adminTodayGlance .glance-pill:hover { border-color: var(--text-faint); box-shadow: 0 4px 16px rgba(0,0,0,.14); }
-    #adminTodayGlance .glance-pill.is-active { border-color: var(--accent-1); box-shadow: 0 0 0 2px var(--accent-1) inset; }
-    #adminTodayGlance .glance-pill.is-empty { opacity: .55; }
-    #adminTodayGlance .glance-num { font: 800 22px 'Syne', 'Manrope', sans-serif; }
-    #adminTodayGlance .glance-label { font-size: 11.5px; color: var(--text-secondary); font-weight: 600; }
-    #adminTodayGlance .glance-pill[data-glance="late"] .glance-num { color: #ff6b6b; }
     /* 🎯 Mode focus */
     #adminFocusPanel { display: none; }
     #adminPanel.admin-focus-on #adminFocusPanel { display: block; }
@@ -13376,39 +13250,16 @@
     </div>
   </div>
 
-  <!-- 🆕 Showreel : premier contact visuel, tout en haut de page (comme demandé), avant même le
-       menu. Vidéos YouTube intégrales (jamais de TikTok ici), une à la fois, qui s'enchaînent
-       automatiquement à l'infini — liste écrite en dur dans SHOWREEL_VIDEOS (voir initShowreel()
-       dans le JS) : plus de champ admin, il faut modifier ce tableau directement dans le code pour
-       changer les vidéos. Lecture automatique, muette (requis par les navigateurs pour
-       l'autoplay), en boucle infinie sur la liste. Remplace l'ancien ruban vidéo (plusieurs
-       iframes en autoplay simultané, qui s'affichait vide/blanc selon le navigateur) par cette
-       version fiable à une seule vidéo à la fois. -->
-  <!-- Sentinelle invisible : marque la position d'origine du showreel. Observée en JS
-       (IntersectionObserver) pour savoir quand on a scrollé au-delà — c'est elle qui déclenche le
-       mode flottant, jamais #showreelBlock lui-même (qui passe en position:fixed une fois flottant,
-       donc toujours "visible" et inutilisable comme repère). -->
-  <div id="showreelSentinel" aria-hidden="true" style="height:0;"></div>
-  <div id="showreelBlock" class="showreel-block reveal" style="display:none;">
-    <button type="button" id="showreelFloatClose" class="showreel-float-close" aria-label="Fermer la vidéo flottante" style="display:none;">✕</button>
-    <!-- 🆕 Miniatures "aperçu" de la vidéo précédente/suivante, en transparence de part et
-         d'autre de la vidéo active (effet carrousel). Utilisent les miniatures YouTube
-         standard (img.youtube.com/vi/ID/...), pas de fichier à héberger nous-mêmes. Cachées
-         par défaut (style inline), affichées par initShowreel() seulement s'il y a au moins
-         2 vidéos ET que le lecteur API est actif (pas en mode repli iframe simple, qui n'a
-         pas de suivi d'index). Cliquables pour sauter directement à cette vidéo. -->
-    <button type="button" id="showreelPeekPrev" class="showreel-peek showreel-peek-prev" aria-label="Vidéo précédente" style="display:none;">
-      <img id="showreelPeekPrevImg" src="" alt="" loading="lazy">
-    </button>
-    <div class="showreel-video">
-      <!-- Remplacé par l'iframe YouTube réelle par l'API IFrame (voir initShowreel()) : l'élément
-           avec cet id est entièrement remplacé, la classe .showreel-video (sur le parent) porte
-           donc le style (ratio, coins arrondis, bordure) plutôt que cet id. -->
-      <div id="showreelVideo"></div>
+  <!-- 🎞️ Ruban vidéo infini : miniatures cliquables de toutes les vidéos du portfolio,
+       défilant en boucle horizontale sans son. Les items sont doublés (aria-hidden=true sur
+       le second exemplaire) pour que l'animation CSS soit parfaitement seamless. Les vraies
+       URLs/thumbnails sont injectées par initVideoRibbon() dans le JS, qui lit les
+       data-yt-id et data-href directement depuis #portfolioGrid — une seule source de vérité,
+       pas besoin de maintenir deux listes de vidéos. -->
+  <div class="video-ribbon-wrap" id="videoRibbonWrap" aria-label="Aperçu de mes réalisations" role="region">
+    <div class="video-ribbon-track" id="videoRibbonTrack">
+      <!-- Rempli par initVideoRibbon() -->
     </div>
-    <button type="button" id="showreelPeekNext" class="showreel-peek showreel-peek-next" aria-label="Vidéo suivante" style="display:none;">
-      <img id="showreelPeekNextImg" src="" alt="" loading="lazy">
-    </button>
   </div>
 
   <nav class="mini-toc-bar" id="miniTocBar" aria-label="Sommaire rapide">
@@ -13465,12 +13316,6 @@
       <p class="account-modal-sub" id="accountModalSub">Retrouve tes commandes plus vite la prochaine fois.</p>
 
       <button type="button" class="account-oauth-btn" id="accountGoogleBtn">🔵 Continuer avec Google</button>
-      <!-- 🆕 Rendu par Google lui-même (google.accounts.id.renderButton) une fois le script chargé :
-           un vrai bouton dans la page, pas une popup/overlay flottant à nous qui peut se retrouver
-           caché derrière la modale. #accountGoogleBtn (au-dessus) reste affiché tant que ce bouton
-           officiel n'a pas fini de se charger, puis s'efface à son profit — voir initGoogleButton()
-           dans le JS. -->
-      <div id="accountGoogleBtnReal" class="account-google-real-btn" style="display:none;"></div>
       <button type="button" class="account-oauth-btn is-discord" id="accountDiscordBtn">💬 Continuer avec Discord</button>
 
       <div class="account-divider" id="accountOauthDivider">ou par email</div>
@@ -13923,6 +13768,10 @@
     <div id="socialFeedGrid" class="video-ribbon-static-grid"></div>
   </div>
 
+  <!-- 🆕 Showreel : premier contact visuel avant même le portfolio détaillé. Les vidéos sont
+       écrites en dur dans SHOWREEL_VIDEOS (voir initShowreel() dans le JS, juste au-dessus) —
+       plus de champ admin, il faut modifier ce tableau directement dans le code pour changer
+       les vidéos. Lecture automatique, muette, sans contrôles, en boucle infinie sur la liste. -->
   <!-- 🆕 Bannière promo temporaire (offre limitée dans le temps) : affichée uniquement s'il existe
        un code promo actif avec une date d'expiration dans PROMO_CODES (donc jamais pour les codes
        permanents comme PREMIERE20/PARRAIN10) — voir initSeasonalPromoBanner() dans le JS, appelée
@@ -13931,6 +13780,16 @@
   <div id="seasonalPromoBanner" class="seasonal-promo-banner reveal" style="display:none;">
     <span class="seasonal-promo-text" id="seasonalPromoText"></span>
     <span class="seasonal-promo-countdown" id="seasonalPromoCountdown"></span>
+  </div>
+
+  <!-- Sentinelle invisible : marque la position d'origine du showreel. Observée en JS
+       (IntersectionObserver) pour savoir quand on a scrollé au-delà — c'est elle qui déclenche le
+       mode flottant, jamais #showreelBlock lui-même (qui passe en position:fixed une fois flottant,
+       donc toujours "visible" et inutilisable comme repère). -->
+  <div id="showreelSentinel" aria-hidden="true" style="height:0;"></div>
+  <div id="showreelBlock" class="showreel-block reveal" style="display:none;">
+    <button type="button" id="showreelFloatClose" class="showreel-float-close" aria-label="Fermer la vidéo flottante" style="display:none;">✕</button>
+    <video id="showreelVideo" class="showreel-video" muted autoplay playsinline preload="none"></video>
   </div>
 
   <div class="full-divider"></div>
@@ -14258,7 +14117,7 @@
         <div class="portfolio-play-icon">▶</div>
       </div>
       <div class="portfolio-card-info">
-        <span class="portfolio-card-label">Pourquoi tu ne saute pas</span>
+        <span class="portfolio-card-label" data-generic="1">Vidéo TikTok</span>
         <span class="portfolio-card-sub">@juniorlej_</span>
       </div>
     </div>
@@ -14318,7 +14177,7 @@
       </div>
     </div>
 
-    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="edit" data-sector="gaming" data-href="https://vm.tiktok.com/ZN8LfUJFY/" data-added="2026-08-10" data-objective="vues" data-fallback-img="thumbs/edit-openda.jpg">
+    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="edit" data-sector="gaming" data-href="https://vm.tiktok.com/ZN8LfUJFY/" data-added="2026-08-10" data-objective="vues">
       <div class="portfolio-thumb">
         <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
         <div class="portfolio-play-icon">▶</div>
@@ -14329,7 +14188,7 @@
       </div>
     </div>
 
-    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="conseils" data-sector="gaming" data-href="https://vm.tiktok.com/ZN8LD6EgW/" data-added="2026-08-05" data-objective="vues" data-fallback-img="thumbs/conseils-nuit.jpg">
+    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="conseils" data-sector="gaming" data-href="https://vm.tiktok.com/ZN8LD6EgW/" data-added="2026-08-05" data-objective="vues">
       <div class="portfolio-thumb">
         <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
         <div class="portfolio-play-icon">▶</div>
@@ -14347,12 +14206,12 @@
         
       </div>
       <div class="portfolio-card-info">
-        <span class="portfolio-card-label">Pourquoi tu ne saute pas</span>
+        <span class="portfolio-card-label">TikTok Gaming #3</span>
         <span class="portfolio-card-sub">vm.tiktok.com</span>
       </div>
     </div>
 
-    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="conseils" data-sector="gaming" data-href="https://vm.tiktok.com/ZN8ehL8VV/" data-objective="vues" data-fallback-img="thumbs/conseils-meta.jpg">
+    <div class="portfolio-card" data-category="gaming" data-platform="tiktok" data-style="conseils" data-sector="gaming" data-href="https://vm.tiktok.com/ZN8ehL8VV/" data-objective="vues">
       <div class="portfolio-thumb">
         <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
         <div class="portfolio-play-icon">▶</div>
@@ -14363,7 +14222,7 @@
       </div>
     </div>
 
-    <div class="portfolio-card" data-category="business" data-platform="tiktok" data-style="business" data-sector="marque" data-href="https://www.tiktok.com/@arthurperticoz/video/7646109875503729942?is_from_webapp=1&amp;sender_device=pc&amp;web_id=7624840625351919126" data-objective="vente" data-fallback-img="thumbs/business-1.jpg">
+    <div class="portfolio-card" data-category="business" data-platform="tiktok" data-style="business" data-sector="marque" data-href="https://www.tiktok.com/@arthurperticoz/video/7646109875503729942?is_from_webapp=1&amp;sender_device=pc&amp;web_id=7624840625351919126" data-objective="vente">
       <div class="portfolio-thumb">
         <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
         <div class="portfolio-play-icon">▶</div>
@@ -14374,7 +14233,7 @@
       </div>
     </div>
 
-    <div class="portfolio-card" data-category="business" data-platform="tiktok" data-style="business" data-sector="marque" data-href="https://www.tiktok.com/@arthurperticoz/video/7647974060495818016?is_from_webapp=1&amp;sender_device=pc&amp;web_id=7624840625351919126" data-objective="vente" data-fallback-img="thumbs/business-2.jpg">
+    <div class="portfolio-card" data-category="business" data-platform="tiktok" data-style="business" data-sector="marque" data-href="https://www.tiktok.com/@arthurperticoz/video/7647974060495818016?is_from_webapp=1&amp;sender_device=pc&amp;web_id=7624840625351919126" data-objective="vente">
       <div class="portfolio-thumb">
         <div class="portfolio-thumb-fallback icon-tiktok-bg"><svg width="26" height="26" viewBox="0 0 24 24" fill="white"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg></div>
         <div class="portfolio-play-icon">▶</div>
@@ -15762,32 +15621,10 @@
         </div>
       </details>
 
-      <!-- 🆕 Groupe "💳 Paiement" : avant, aucune question dédiée dans la FAQ elle-même — seulement
-           la clause CGV #cgv-acompte (pas forcément lue avant de réserver) et la mini-FAQ collée au
-           bouton d'acompte (.deposit-faq, seulement visible une fois arrivé au formulaire). Objectif :
-           lever la question du "comment ça se passe niveau paiement" dès la FAQ, sans avoir à
-           redemander en message. Mêmes chiffres/politiques que #cgv-acompte, rien de nouveau promis. -->
-      <details class="more-options faq-theme-group" id="faqGroupPaiement" data-group-theme="paiement">
-        <summary class="more-options-summary">
-          <span class="more-options-summary-label">💳 Paiement</span>
-          <span class="more-options-summary-hint">(2 questions)</span>
-        </summary>
-        <div class="more-options-content">
-      <details class="faq-item" id="faq-paiement-acompte-solde" data-theme="paiement">
-        <summary>Comment se passe le paiement (acompte / solde) ?</summary>
-        <p>En deux temps : un <strong>acompte de 50%</strong> à régler avant que je commence le montage (remboursable tant que je n'ai pas démarré), puis le <strong>solde (50% restant)</strong> dès ta toute première demande de retouche — pas besoin d'attendre la version finale. Le lien de paiement du solde apparaît directement dans le suivi de ta commande à ce moment-là. Détail complet : <a href="#cgv-acompte" class="inline-link">clause "Acompte" des CGV</a>.</p>
-      </details>
-      <details class="faq-item" id="faq-paiement-moyen" data-theme="paiement">
-        <summary>Quel moyen de paiement utilises-tu ?</summary>
-        <p>PayPal, via un lien que je t'envoie directement (rien à chercher de ton côté). Une seule chose à ne pas oublier : indique bien ton <strong>numéro de commande</strong> dans le champ note de PayPal en payant, sinon je ne peux pas relier automatiquement ton paiement à ta commande.</p>
-      </details>
-        </div>
-      </details>
-
       <details class="more-options faq-theme-group" id="faqGroupDelais" data-group-theme="delais">
         <summary class="more-options-summary">
           <span class="more-options-summary-label">⏳ Délais</span>
-          <span class="more-options-summary-hint">(2 questions)</span>
+          <span class="more-options-summary-hint">(1 questions)</span>
         </summary>
         <div class="more-options-content">
       <!-- 🧹 "Quels sont les délais de livraison exacts..." retirée : fusionnée dans la clause CGV
@@ -15797,12 +15634,6 @@
       <details class="faq-item" id="faq-devis" data-theme="delais">
         <summary>Combien de temps pour recevoir un devis ?</summary>
         <p>Je réponds sous 24h maximum à toute demande, avec un tarif indicatif basé sur le format et la quantité de vidéos.</p>
-      </details>
-      <!-- 🆕 Le délai annoncé (voir #tarifs et #cgvDelayCourt/#cgvDelayLong) est celui qui revient le
-           plus en question répétée : "à partir de quand" plutôt que "combien de temps". -->
-      <details class="faq-item" id="faq-delai-depart" data-theme="delais">
-        <summary>Le délai annoncé démarre à partir de quand exactement ?</summary>
-        <p>À partir du moment où j'ai <strong>à la fois</strong> ton acompte réglé <strong>et</strong> tes rushs (fichiers bruts) reçus — pas à la commande elle-même. Si l'un des deux arrive après l'autre, le délai démarre au plus tardif des deux : envoyer tes rushs en retard décale d'autant la livraison, même si l'acompte est déjà payé. Détail complet : <a href="#cgv-delais" class="inline-link">clause "Délais" des CGV</a>.</p>
       </details>
         </div>
       </details>
@@ -18568,21 +18399,12 @@
       });
     })();
 
-    // 🆕 Showreel : vidéos YouTube écrites en dur (plus de champ admin — retiré à la demande
-    // explicite). Toujours des vidéos YouTube entières, jamais de TikTok ici (demande explicite).
-    // 🔧 Pour changer les vidéos du showreel, modifie directement ce tableau (un ID de vidéo
-    // YouTube par ligne — la partie après "youtu.be/" ou "v=" dans l'URL — jouées automatiquement
-    // l'une après l'autre, toujours dans le même ordre, en boucle infinie). Repris ici des mêmes
-    // vidéos déjà présentes dans le portfolio (#portfolio) pour ne rien dupliquer/oublier.
+    // 🆕 Showreel : vidéos écrites en dur (plus de champ admin — retiré à la demande explicite).
+    // 🔧 Pour changer les vidéos du showreel, modifie directement ce tableau (une URL .mp4 par
+    // ligne, jouées automatiquement l'une après l'autre, toujours dans le même ordre).
     const SHOWREEL_VIDEOS = [
-      'brCloZQp_Es',
-      'Zt0km__7rco',
-      'pziVPi3tjzg',
-      '8x7ENcHBnPs',
-      'p9eMLJUqTm0',
-      'HOUeRPzgZVQ',
-      '_pG241Md7MM',
-      'KvMbW-Tdw6E',
+      // 'https://.../video1.mp4',
+      // 'https://.../video2.mp4',
     ];
 
     // ─────────────────────────────────────────────────────────────────────────
@@ -18640,103 +18462,37 @@
       band.style.display = 'block';
     })();
 
-    // --- Showreel : joue SHOWREEL_VIDEOS (des IDs YouTube, jamais de TikTok) automatiquement
-    // l'une après l'autre, toujours dans le même ordre, en boucle à l'infini (rien dans le
-    // tableau = bloc invisible, pas de placeholder vide). Une vidéo YouTube entière à la fois,
-    // muette (requis par les navigateurs pour l'autoplay), sans contrôles visibles. Utilise l'API
-    // IFrame officielle de YouTube (chargée juste en dessous) plutôt qu'un <video src=".mp4">, vu
-    // que les vidéos sont hébergées sur YouTube et pas des fichiers vidéo à nous. En plus, une
-    // fois qu'on scrolle au-delà de sa position d'origine, le lecteur "suit" dans un coin de
-    // l'écran au lieu de disparaître (mode flottant, fermable), sans jamais recréer l'iframe donc
+    // --- Showreel : joue SHOWREEL_VIDEOS automatiquement l'une après l'autre, toujours dans le
+    // même ordre, en boucle à l'infini (rien dans le tableau = bloc invisible, pas de
+    // placeholder vide). Muet, sans contrôles, aucune interaction requise. En plus, une fois
+    // qu'on scrolle au-delà de sa position d'origine, la vidéo "suit" dans un coin de l'écran au
+    // lieu de disparaître (mode flottant, fermable), sans jamais recréer l'élément <video> donc
     // sans jamais couper la lecture en cours. ---
     (function initShowreel() {
       const sentinel = document.getElementById('showreelSentinel');
       const block = document.getElementById('showreelBlock');
-      const mount = document.getElementById('showreelVideo');
+      const video = document.getElementById('showreelVideo');
       const closeBtn = document.getElementById('showreelFloatClose');
-      const peekPrev = document.getElementById('showreelPeekPrev');
-      const peekPrevImg = document.getElementById('showreelPeekPrevImg');
-      const peekNext = document.getElementById('showreelPeekNext');
-      const peekNextImg = document.getElementById('showreelPeekNextImg');
-      if (!block || !mount) return;
+      if (!block || !video) return;
       const playlist = SHOWREEL_VIDEOS.map(s => (s || '').trim()).filter(Boolean);
       if (!playlist.length) return; // rien de configuré : le bloc reste caché, pas de placeholder vide
 
       let idx = 0;
-      let player = null;
-      let ready = false;
-
-      // 🆕 Miniatures peek prev/next : miniature YouTube standard (img.youtube.com), pas
-      // d'appel API supplémentaire. Seulement affichées si (a) plusieurs vidéos dans la
-      // playlist et (b) le lecteur API est actif (loadVideoById dispo pour sauter dessus) —
-      // pas en mode repli iframe simple (fallbackToPlainIframe), où il n'y a pas de suivi
-      // d'index à afficher.
-      function youtubeThumbUrl(id) { return `https://img.youtube.com/vi/${id}/mqdefault.jpg`; }
-      function updatePeeks() {
-        if (!peekPrev || !peekNext || playlist.length < 2 || !player || typeof player.loadVideoById !== 'function') {
-          if (peekPrev) peekPrev.style.display = 'none';
-          if (peekNext) peekNext.style.display = 'none';
-          return;
-        }
-        const prevIdx = (idx - 1 + playlist.length) % playlist.length;
-        const nextIdx = (idx + 1) % playlist.length;
-        peekPrevImg.src = youtubeThumbUrl(playlist[prevIdx]);
-        peekNextImg.src = youtubeThumbUrl(playlist[nextIdx]);
-        peekPrev.style.display = 'block';
-        peekNext.style.display = 'block';
+      function playCurrent() {
+        video.src = playlist[idx];
+        video.play().catch(() => { /* autoplay muté refusé par le navigateur : pas grave, ça se relance au 1er tap */ });
       }
-      if (peekPrev) peekPrev.addEventListener('click', () => {
-        if (!player || typeof player.loadVideoById !== 'function') return;
-        idx = (idx - 1 + playlist.length) % playlist.length;
-        player.loadVideoById(playlist[idx]);
-        updatePeeks();
+      video.addEventListener('ended', () => {
+        idx = (idx + 1) % playlist.length; // même ordre, en boucle infinie
+        playCurrent();
       });
-      if (peekNext) peekNext.addEventListener('click', () => {
-        if (!player || typeof player.loadVideoById !== 'function') return;
-        idx = (idx + 1) % playlist.length;
-        player.loadVideoById(playlist[idx]);
-        updatePeeks();
-      });
-
-      // 🆕 Robustesse : le bloc s'affiche tout de suite (cadre noir 16/9), sans attendre que
-      // l'API YouTube réponde — avant, le bloc restait display:none tant que onReady n'avait
-      // jamais été appelé, donc invisible EN PERMANENCE si l'API ne charge pas (réseau bloqué,
-      // bloqueur de pub, extension de vie privée...), sans aucun repli. Si l'API ne répond
-      // toujours pas après quelques secondes, on bascule sur un <iframe> classique (sans passer
-      // par window.YT) qui boucle sur la première vidéo — moins riche (pas d'enchaînement entre
-      // vidéos, qui a besoin de l'API JS pour détecter la fin de lecture) mais au moins visible.
+      playCurrent();
       block.style.display = 'block';
-      const apiFallbackTimer = setTimeout(() => {
-        if (!ready) fallbackToPlainIframe();
-      }, 6000);
 
-      function fallbackToPlainIframe() {
-        if (mount.querySelector('iframe')) return;
-        const first = playlist[0];
-        mount.innerHTML = '';
-        const iframe = document.createElement('iframe');
-        iframe.src = `https://www.youtube.com/embed/${first}?autoplay=1&mute=1&loop=1&playlist=${first}&controls=0&modestbranding=1&rel=0&playsinline=1`;
-        iframe.title = 'Showreel';
-        iframe.style.cssText = 'width:100%;height:100%;display:block;border:0;';
-        iframe.setAttribute('allow', 'autoplay; encrypted-media');
-        iframe.setAttribute('frameborder', '0');
-        mount.appendChild(iframe);
-        initFloating();
-      }
-
-      function initFloating() {
-        // 🧹 Mode flottant désactivé à la demande explicite (ne doit plus suivre en bas à
-        // droite au scroll) : la vidéo reste simplement à sa place dans la page, comme un
-        // élément normal, une fois qu'on a scrollé au-delà. Fonction gardée en no-op plutôt
-        // que supprimée pour ne pas casser les deux appels existants (API + repli iframe) ;
-        // ré-active-la en retirant ce "return" si tu changes d'avis.
-        return;
-        // Mode flottant au scroll : observe la sentinelle (position d'origine), jamais le bloc
-        // lui-même — une fois flottant, le bloc est position:fixed donc toujours "visible" et
-        // inutilisable comme repère de scroll.
-        if (!sentinel || !closeBtn || !('IntersectionObserver' in window)) return;
-        if (block.dataset.floatingWired) return; // évite un double câblage (API + repli tous deux appellent initFloating)
-        block.dataset.floatingWired = '1';
+      // Mode flottant au scroll : observe la sentinelle (position d'origine), jamais le bloc
+      // lui-même — une fois flottant, le bloc est position:fixed donc toujours "visible" et
+      // inutilisable comme repère de scroll.
+      if (sentinel && closeBtn && 'IntersectionObserver' in window) {
         let dismissed = false;
         const io = new IntersectionObserver((entries) => {
           if (dismissed) return;
@@ -18752,53 +18508,6 @@
           block.classList.remove('is-floating');
           closeBtn.style.display = 'none';
         });
-      }
-
-      function createPlayer() {
-        player = new YT.Player(mount.id, {
-          videoId: playlist[idx],
-          playerVars: {
-            autoplay: 1,
-            mute: 1,
-            controls: 0,
-            disablekb: 1,
-            fs: 0,
-            modestbranding: 1,
-            playsinline: 1,
-            rel: 0,
-          },
-          events: {
-            onReady: (e) => { ready = true; clearTimeout(apiFallbackTimer); e.target.mute(); e.target.playVideo(); updatePeeks(); },
-            onStateChange: (e) => {
-              if (e.data === YT.PlayerState.ENDED) {
-                idx = (idx + 1) % playlist.length; // même ordre, en boucle infinie
-                e.target.loadVideoById(playlist[idx]);
-                updatePeeks();
-              }
-            },
-            // 🆕 Vidéo indisponible (privée/supprimée/non-intégrable) : on passe directement à la
-            // suivante plutôt que de rester bloqué en silence sur un lecteur qui ne jouera jamais.
-            onError: (e) => {
-              idx = (idx + 1) % playlist.length;
-              if (e.target && typeof e.target.loadVideoById === 'function') e.target.loadVideoById(playlist[idx]);
-              updatePeeks();
-            },
-          },
-        });
-        initFloating();
-      }
-
-      // L'API s'appelle elle-même via window.onYouTubeIframeAPIReady une fois chargée (voir la
-      // balise <script src="https://www.youtube.com/iframe_api">) ; si un autre widget de la page
-      // l'a déjà déclenchée avant nous (peu probable mais possible), window.YT est déjà prêt.
-      if (window.YT && window.YT.Player) {
-        createPlayer();
-      } else {
-        const previous = window.onYouTubeIframeAPIReady;
-        window.onYouTubeIframeAPIReady = function () {
-          if (typeof previous === 'function') previous();
-          createPlayer();
-        };
       }
     })();
 
@@ -18850,18 +18559,6 @@
       const adminRefreshBtn = document.getElementById('adminRefreshBtn');
       const adminDashboard = document.getElementById('adminDashboard');
       adminPanel.style.display = 'block';
-
-      // 🆕 Petit gabarit réutilisable pour les états "vide" des listes admin (commandes, clients…) :
-      // icône + titre + sous-texte + action optionnelle, plutôt qu'un simple <p class="info-text">
-      // perdu dans un cadre blanc.
-      function adminEmptyStateHtml({ icon, title, sub, actionHtml }) {
-        return `<div class="admin-empty-state">
-          <div class="admin-empty-icon" aria-hidden="true">${icon}</div>
-          <div class="admin-empty-title">${escapeHtml(title)}</div>
-          ${sub ? `<div class="admin-empty-sub">${escapeHtml(sub)}</div>` : ''}
-          ${actionHtml || ''}
-        </div>`;
-      }
 
       // --- Onglets admin : "Stats & outils" ouvert par défaut (idée affinée : le résumé
       // "Aujourd'hui" — commandes du jour, alertes, litiges, rappels dus — s'affiche dès l'ouverture
@@ -19006,6 +18703,69 @@
         }, 0);
       })();
 
+      // --- 💡 Idées à construire (#adminIdeasList) : niveau "léger" choisi plutôt qu'un vrai éditeur
+      // de blocs côté Sheet — une checklist de commande, stockée uniquement sur cet appareil, jamais
+      // envoyée ni construite automatiquement. Coché + "Copier ma sélection" → à coller dans une
+      // conversation avec Claude pour que ce soit codé. Liste éditable ici même : ajoute/retire un
+      // objet du tableau IDEAS_LIST le jour où une idée est traitée ou une nouvelle proposée.
+      const IDEAS_LIST = [
+        { id: 'idea-showreel', group: '🎬 Nouvelles sections', label: 'Showreel', desc: 'Une vidéo de 30-60s en tout début de page, best-of ultra-dynamique de tes meilleurs montages toutes catégories confondues.' },
+        { id: 'idea-avant-apres-page', group: '🎬 Nouvelles sections', label: 'Page "Avant / Après" dédiée', desc: 'Rush brut vs montage final, côte à côte — argument de vente très concret, actuellement juste une section parmi d\'autres.' },
+        { id: 'idea-onboarding', group: '🎬 Nouvelles sections', label: 'Page "Après ta commande"', desc: 'Ce qui se passe une fois la commande envoyée, étape par étape (accusé, acompte, montage, révisions, livraison) — réduit l\'anxiété du "et maintenant ?".' },
+        { id: 'idea-comparateur', group: '🎬 Nouvelles sections', label: 'Tableau comparatif "Pourquoi moi vs un autre monteur"', desc: 'Délai, révisions, prix, communication — un tableau visuel plutôt qu\'un argumentaire en texte, très efficace pour convertir.' },
+        { id: 'idea-outils-badges', group: '🎬 Nouvelles sections', label: 'Bandeau "Outils utilisés"', desc: 'Logos Premiere Pro / DaVinci / After Effects etc. en bas de page ou dans #apropos — petit signal de sérieux/pro, coûte rien à ajouter.' },
+        { id: 'idea-feed-social', group: '🎬 Nouvelles sections', label: 'Fil Instagram/TikTok embarqué', desc: 'Dernières miniatures postées, mises à jour automatiquement — montre que c\'est actif sans avoir à uploader manuellement.' },
+        { id: 'idea-avis-video', group: '🎬 Nouvelles sections', label: 'Témoignages en vidéo courte', desc: 'Quelques clients qui parlent 15-20s face caméra, à côté des avis écrits — bien plus convaincant qu\'un texte pour un métier visuel.' },
+        { id: 'idea-badges-hero', group: '🎬 Nouvelles sections', label: 'Badges de confiance dans le hero', desc: '"+X vidéos livrées", "Réponse sous 24h", "Satisfait ou repris" juste sous le titre principal — rassure avant même de scroller.' },
+        { id: 'idea-anim-sectiontransition', group: '🎨 Animations / esthétique', label: 'Transition visuelle entre sections au scroll', desc: 'Un masque/dégradé qui accompagne le passage d\'une section à l\'autre plutôt qu\'une coupe nette — plus fluide sur un site aussi long.' },
+        { id: 'idea-anim-loader', group: '🎨 Animations / esthétique', label: 'Petite animation de chargement à la première visite', desc: 'Un court écran de "bienvenue" animé (logo qui se dessine) avant que la page n\'apparaisse — à garder très bref pour ne pas ralentir.' },
+        { id: 'idea-anim-parallax', group: '🎨 Animations / esthétique', label: 'Léger parallax dans le hero', desc: 'Le fond du hero bouge un peu plus lentement que le texte au scroll — profondeur subtile, juste sur cette première section pour ne pas alourdir tout le site.' },
+        { id: 'idea-newsletter', group: '⚙️ Options / améliorations', label: 'Newsletter / liste d\'attente créneaux', desc: 'Un simple champ email pour prévenir quand un créneau se libère plus tôt que prévu.' },
+        { id: 'idea-multilang', group: '⚙️ Options / améliorations', label: 'Site en anglais (toggle FR/EN)', desc: 'Pour les marques/orgs esport hors France déjà mentionnées ailleurs sur le site — élargit le marché.' },
+        { id: 'idea-avis-google', group: '⚙️ Options / améliorations', label: 'Widget avis Google/Trustpilot', desc: 'Si tu as des avis ailleurs que sur le site, les afficher renforce la preuve sociale (avis tiers vs témoignages maison).' },
+        { id: 'idea-remove-abo-hero', group: '🧹 À supprimer / simplifier', label: 'Bloc "Abonnement créateur" (#aboHero)', desc: 'À retirer si l\'offre d\'abonnement n\'est plus active en ce moment — évite de promettre un service que tu ne vends pas.' },
+        { id: 'idea-remove-promo-hub', group: '🧹 À supprimer / simplifier', label: 'Bandeau des codes promo', desc: 'Si aucun code promo n\'est actif en ce moment, ce bandeau vide/générique n\'aide à rien — à masquer jusqu\'à la prochaine promo plutôt que laissé vide.' }
+      ];
+      (function initAdminIdeasChecklist() {
+        const list = document.getElementById('adminIdeasList');
+        const copyBtn = document.getElementById('adminIdeasCopyBtn');
+        const status = document.getElementById('adminIdeasStatus');
+        if (!list) return;
+        const KEY = 'michyy_admin_ideas_checked';
+        const readChecked = () => { try { return JSON.parse(localStorage.getItem(KEY)) || {}; } catch (e) { return {}; } };
+        const writeChecked = (obj) => { try { localStorage.setItem(KEY, JSON.stringify(obj)); } catch (e) {} };
+        let checked = readChecked();
+        let currentGroup = '';
+        list.innerHTML = IDEAS_LIST.map(idea => {
+          const groupHeader = idea.group !== currentGroup ? (currentGroup = idea.group, `<div class="admin-stat-group-label" style="margin-top:10px;">${idea.group}</div>`) : '';
+          return `${groupHeader}
+            <label class="admin-section-toggle-item">
+              <input type="checkbox" data-idea-id="${idea.id}" ${checked[idea.id] ? 'checked' : ''} />
+              <span><strong>${idea.label}</strong><br /><small style="color:var(--text-tertiary);">${idea.desc}</small></span>
+            </label>`;
+        }).join('');
+        list.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+          cb.addEventListener('change', () => {
+            checked[cb.dataset.ideaId] = cb.checked;
+            writeChecked(checked);
+          });
+        });
+        if (copyBtn) {
+          copyBtn.addEventListener('click', () => {
+            const picked = IDEAS_LIST.filter(idea => checked[idea.id]);
+            if (!picked.length) {
+              status.textContent = '⚠️ Aucune idée cochée pour l\'instant.';
+              return;
+            }
+            const text = '🧩 Idées à construire (cochées dans l\'admin) :\n' + picked.map(i => `- ${i.label}`).join('\n');
+            navigator.clipboard.writeText(text).then(() => {
+              status.textContent = '✅ Copié ! Colle-le dans une conversation avec Claude.';
+            }).catch(() => {
+              status.textContent = '⚠️ Copie impossible ici — voici le texte à copier à la main :\n' + text;
+            });
+          });
+        }
+      })();
 
       // --- 📅 Disponibilité (onglet dédié) : on clique un jour du calendrier pour le bloquer/débloquer.
       // Enregistré dans le Sheet via l'action Apps Script "setBlockedDays" (voir apps-script-jours-bloques.gs).
@@ -19149,35 +18909,6 @@
         return last > 0 && Date.now() - last > nDays * 864e5;
       }
       function silentDays() { const el = document.getElementById('adminSilentDays'); return Math.max(1, parseInt(el && el.value, 10) || 3); }
-      // 🆕 Notif Discord "en attente client" : complète le badge (voir 'client-silent' dans les
-      // badgeEntries de la carte admin) et le filtre manuel 🤐 ci-dessus par une alerte qui n'exige pas
-      // d'ouvrir l'admin pour la voir. ⚠️ Ne fonctionne QUE pendant que l'admin est ouvert dans un
-      // navigateur (chargement manuel ou le setInterval 45s plus bas) : ce site n'a pas de tâche
-      // planifiée côté serveur, donc rien ne se déclenche si l'onglet admin reste fermé.
-      // michyy_silent_notified (localStorage, cet appareil) retient la dernière activité client connue
-      // pour chaque commande déjà notifiée, afin de n'envoyer qu'UNE notif par silence (pas une toutes
-      // les 45s) et de renotifier si le client répond puis se tait à nouveau.
-      function notifySilentOrdersDiscord(dataRows) {
-        let map; try { map = JSON.parse(localStorage.getItem('michyy_silent_notified') || '{}'); } catch (e) { map = {}; }
-        const nDays = silentDays(), toNotify = [];
-        let changed = false;
-        dataRows.forEach(r => {
-          const id = r[0], lastTs = lastClientActivityTs(r);
-          if (isSilentOrder(r, nDays)) {
-            if (map[id] !== lastTs) { toNotify.push(r); map[id] = lastTs; changed = true; }
-          } else if (id in map) { delete map[id]; changed = true; }
-        });
-        if (changed) try { localStorage.setItem('michyy_silent_notified', JSON.stringify(map)); } catch (e) {}
-        if (!toNotify.length) return;
-        toNotify.forEach(r => {
-          const days = Math.floor((Date.now() - lastClientActivityTs(r)) / 86400000);
-          const nom = parseNoteQuickFields(r[2] || '').nom || 'Client';
-          fetch('/api/notify-discord', {
-            method: 'POST', headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ content: `🤐 **${r[0]}** — ${nom} : en attente client depuis ${days} j (statut « ${r[1] || ''} »).` })
-          }).catch(() => { /* silencieux — retentera au prochain chargement tant que la commande reste en attente */ });
-        });
-      }
       (function initSilentFilter() {
         const btn = document.getElementById('adminSilentBtn'), inp = document.getElementById('adminSilentDays');
         if (!btn || !inp) return;
@@ -19358,21 +19089,6 @@
         if (!d) return 0; const t = new Date(); t.setHours(0, 0, 0, 0);
         return Math.max(0, Math.floor((t - new Date(d + 'T00:00:00')) / 86400000));
       }
-      // 🆕 Pour la vue "Aujourd'hui" (#adminTodayGlance) : due aujourd'hui même (pas encore en retard,
-      // voir orderLateDays juste au-dessus) = "à livrer dans les 24h". Basée sur la même date
-      // effective que le Kanban/rappel de livraison (getEffectiveDeliveryTimestamp).
-      function isDueWithin24h(r) {
-        const cat = statusCategory(r[1] || ''); if (cat === 'delivered' || cat === 'cancelled') return false;
-        const ts = getEffectiveDeliveryTimestamp(r); if (ts === null) return false;
-        const today = new Date(); today.setHours(0, 0, 0, 0);
-        const due = new Date(ts); due.setHours(0, 0, 0, 0);
-        return due.getTime() === today.getTime();
-      }
-      // 🆕 Même définition que "Livrées, solde non reçu" (renderAdminExtras) : livrée mais le solde
-      // (colonne H, soldeRecu) n'a pas été coché reçu.
-      function isAwaitingPayment(r) {
-        return statusCategory(r[1] || '') === 'delivered' && (r[7] || '').trim().toLowerCase() !== 'oui';
-      }
       function renderAdminExtras5(rows) {
         const $ = id => document.getElementById(id), money = n => Math.floor(n).toLocaleString('fr-FR') + ' €';
         const amount = r => parseBudgetAmount(parseNoteQuickFields(r[2] || '')) || 0;
@@ -19522,32 +19238,6 @@
           sel.value = cur && groups[cur] ? cur : ''; renderClientCard();
         }
       }
-      // 🆕 Mini-CRM : fusionne les échanges client (retours horodatés, colonne J = r[9]) de TOUTES
-      // les commandes d'un client en une seule frise chronologique, directement sur sa fiche — avant,
-      // seule la commande en cours affichait ses propres retours (voir #adminOrdersList plus bas),
-      // impossible de voir d'un coup d'œil l'historique complet d'un client récurrent.
-      function buildClientExchangeTimeline(g) {
-        const esc = t => String(t == null ? '' : t).replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
-        const entries = [];
-        g.orders.forEach(r => {
-          String(r[9] || '').split('\n').filter(l => l.trim()).forEach(line => {
-            const m = line.match(/^\[([^\]]+)\]\s*(.*)$/);
-            entries.push({ ts: m ? m[1] : '', text: m ? m[2] : line, orderId: r[0] });
-          });
-        });
-        entries.sort((a, b) => (b.ts || '').localeCompare(a.ts || ''));
-        const timeline = entries.length ? entries.map(e => `<div class="admin-client-chat-msg">
-            <span class="admin-client-chat-msg-icon">💬</span>
-            <div>
-              <div class="admin-client-chat-msg-text"><strong>${esc(e.orderId)}</strong> — ${esc(e.text)}</div>
-              ${e.ts ? `<div class="admin-client-chat-msg-date">${esc(e.ts)}</div>` : ''}
-            </div>
-          </div>`).join('') : '<p class="info-text" style="font-size:12px;">Aucun échange enregistré pour ce client.</p>';
-        const lastMsgs = g.orders.filter(r => (r[4] || '').trim())
-          .map(r => `<div class="price-log-row"><span><strong>${esc(r[0])}</strong> : ${esc(r[4])}</span></div>`).join('');
-        return `<div class="admin-client-chat-log">${timeline}</div>` +
-          (lastMsgs ? `<strong style="font-size:11px;display:block;margin-top:6px;color:var(--text-secondary);">✍️ Dernier message envoyé côté suivi (par commande)</strong>${lastMsgs}` : '');
-      }
       function renderClientCard() {
         const body = document.getElementById('clientCardBody'), g = (window.__clients || [])[document.getElementById('clientCardSel').value];
         if (!body) return; if (!g) { body.innerHTML = ''; return; }
@@ -19557,7 +19247,6 @@
         const orders = g.orders.map(r => `<div class="price-log-row"><span>${esc(r[0])} · ${esc(r[1])}</span><span>${(parseBudgetAmount(parseNoteQuickFields(r[2] || '')) || 0)} €</span></div>`).join('');
         const back = g.orders.filter(r => r[9]).map(r => `<div class="price-log-row"><span><strong>${esc(r[0])}</strong> : ${esc(String(r[9]).replace(/\n/g, ' / '))}</span></div>`).join('');
         body.innerHTML = `<p class="admin-promo-usage"><strong>${esc(g.displayName)}</strong> · ${g.count} commande(s) · ${Math.round(g.totalSpent)} € dépensés${g.daysSinceLastOrder != null ? ' · dernière il y a ' + g.daysSinceLastOrder + ' j' : ''}</p>${orders}
-          <strong style="font-size:12px;display:block;margin-top:8px;">💬 Historique des échanges (toutes ses commandes, mini-CRM)</strong>${buildClientExchangeTimeline(g)}
           <strong style="font-size:12px;display:block;margin-top:8px;">🔁 Historique des retours</strong>${back || '<p class="info-text" style="font-size:12px;">Aucun retour écrit.</p>'}
           <strong style="font-size:12px;display:block;margin-top:8px;">📝 Notes (ce navigateur)</strong><textarea id="clientNoteArea" rows="3" style="width:100%;" placeholder="Style préféré, contraintes, ton…">${esc(notes[key] || '')}</textarea>
           <p class="info-text" style="font-size:11px;margin-top:4px;">Ces notes restent dans ce navigateur — utilise l'export JSON de sauvegarde (Stats &amp; outils → Sauvegarde) régulièrement pour ne pas les perdre.</p>`;
@@ -19979,16 +19668,6 @@
       let knownOrderIds = null; // null = pas encore initialisé (on ne notifie jamais au tout premier chargement)
       let knownAdminBadgeKeys = new Set(); // badges déjà vus (stale/auto-tags) — pour n'animer que les nouveaux
       adminStatusFilter.addEventListener('change', () => renderAdminOrdersList(lastAdminOrders));
-      // 🆕 Vue "Aujourd'hui" (#adminTodayGlance) : clic sur une pastille = filtre en plus des autres
-      // filtres déjà actifs (même principe que window.__silentOn ci-dessous pour "Sans réponse
-      // client") ; recliquer sur la pastille déjà active l'enlève. Un seul lot actif à la fois.
-      const adminTodayGlanceEl = document.getElementById('adminTodayGlance');
-      if (adminTodayGlanceEl) adminTodayGlanceEl.addEventListener('click', e => {
-        const btn = e.target.closest('.glance-pill'); if (!btn) return;
-        const key = btn.dataset.glance;
-        window.__glanceFilter = window.__glanceFilter === key ? null : key;
-        renderAdminOrdersList(lastAdminOrders);
-      });
       const adminSearchInput = document.getElementById('adminSearchInput');
       adminSearchInput.addEventListener('input', () => renderAdminOrdersList(lastAdminOrders));
       const adminPromoFilterEl = document.getElementById('adminPromoFilter');
@@ -21343,9 +21022,9 @@
       // "Client récurrent" (onglet Clients) pour les abonnés récurrents/abonnements. Tout le reste =
       // particulier. ---
       const CLIENT_TYPE_INFO = {
-        marque: { color: 'var(--client-type-marque)', label: 'Marque / agence' },
-        recurrent: { color: 'var(--client-type-recurrent)', label: 'Abonné récurrent' },
-        particulier: { color: 'var(--client-type-particulier)', label: 'Particulier' }
+        marque: { color: '#7c5cff', label: 'Marque / agence' },
+        recurrent: { color: '#2ecc71', label: 'Abonné récurrent' },
+        particulier: { color: '#9aa0a6', label: 'Particulier' }
       };
       function clientTypeKey(r) {
         const kind = getOrderKind(r[0]);
@@ -21596,11 +21275,7 @@
         if (!adminClientsList) return;
         const groups = buildClientGroups(dataRows);
         if (groups.length === 0) {
-          adminClientsList.innerHTML = adminEmptyStateHtml({
-            icon: '🧑\u200d🤝\u200d🧑',
-            title: 'Aucun client identifiable pour l\'instant',
-            sub: 'Le nom ou le contact renseigné dans la note d\'une commande sert à regrouper les clients — ils apparaîtront ici dès la première commande.',
-          });
+          adminClientsList.innerHTML = '<p class="info-text">Aucun client identifiable pour l\'instant (le nom ou le contact renseigné dans la note sert à regrouper les commandes).</p>';
           return;
         }
         // 🆕 Radar de clients : 4 axes normalisés relativement aux AUTRES clients affichés (pas une
@@ -24342,11 +24017,6 @@
           ...(manualRecurrent ? [manualRecurrent] : []),
           ...(revisionBadge ? [revisionBadge] : []),
           ...(pausedTooLong ? [{ key: 'paused-too-long', html: `⏸️ En pause depuis ${daysSincePaused(r)}j, sans réponse`, cls: 'admin-order-badge-stale' }] : []),
-          // 🆕 Même seuil que le filtre "🤐 Sans réponse client" (#adminSilentDays, voir isSilentOrder) : un
-          // badge visible directement sur la carte, sans avoir à activer le filtre pour s'en rendre compte.
-          // Voir aussi notifySilentOrdersDiscord() plus bas : notif Discord la 1ère fois qu'une commande
-          // franchit ce seuil (pas à chaque rechargement).
-          ...(isSilentOrder(r, silentDays()) ? [{ key: 'client-silent', html: `🤐 En attente client depuis ${Math.floor((Date.now() - lastClientActivityTs(r)) / 86400000)}j`, cls: 'admin-order-badge-stale' }] : []),
           ...(stuckInProgress ? [{ key: 'stuck-in-progress', html: `🐌 Bloquée sur "${escapeHtml(r[1] || '')}" depuis ${daysStuckInProgress(r)}j`, cls: 'admin-order-badge-stale' }] : []),
           ...(noteFields.difficulte === 'Difficile' ? [{ key: 'difficulte', html: '🔴 Client difficile', cls: 'admin-order-badge-warning' }] : []),
           ...(noteFields.urgence === 'Très urgent' ? [{ key: 'urgence', html: '🔴 Très urgent', cls: 'admin-order-badge-warning' }] : (noteFields.urgence === 'Urgent' ? [{ key: 'urgence', html: '🟠 Urgent', cls: 'admin-order-badge-tag' }] : [])),
@@ -24497,22 +24167,6 @@
 
       function renderAdminOrdersList(dataRows) {
         updateTagFilterOptions();
-        // 🆕 Vue "Aujourd'hui" (#adminTodayGlance) : recalculée à chaque rendu de la liste, donc
-        // toujours à jour après un changement de statut/date/solde. Les 3 lots sont mutuellement
-        // exclusifs (voir isDueWithin24h/orderLateDays/isAwaitingPayment) donc pas de double-compte.
-        if (document.getElementById('adminTodayGlance')) {
-          const glanceCounts = {
-            due24h: dataRows.filter(isDueWithin24h).length,
-            late: dataRows.filter(r => orderLateDays(r) > 0).length,
-            unpaid: dataRows.filter(isAwaitingPayment).length
-          };
-          document.querySelectorAll('#adminTodayGlance .glance-pill').forEach(btn => {
-            const key = btn.dataset.glance, n = glanceCounts[key] || 0;
-            const numEl = btn.querySelector('.glance-num'); if (numEl) numEl.textContent = String(n);
-            btn.classList.toggle('is-empty', n === 0);
-            btn.classList.toggle('is-active', window.__glanceFilter === key);
-          });
-        }
         const filterVal = adminStatusFilter.value;
         const progressVal = adminProgressFilter.value;
         const tagVal = adminTagFilter.value;
@@ -24561,10 +24215,6 @@
             if (window.__silentOn) filtered = filtered.filter(r => isSilentOrder(r, nD));
           }
         }
-        // 🆕 Filtre depuis la vue "Aujourd'hui" (#adminTodayGlance), s'ajoute aux autres filtres actifs.
-        if (window.__glanceFilter === 'due24h') filtered = filtered.filter(isDueWithin24h);
-        else if (window.__glanceFilter === 'late') filtered = filtered.filter(r => orderLateDays(r) > 0);
-        else if (window.__glanceFilter === 'unpaid') filtered = filtered.filter(isAwaitingPayment);
         if (dateFrom || dateTo) {
           filtered = filtered.filter(r => {
             if (!r[3]) return false;
@@ -24602,30 +24252,7 @@
           );
         }
         if (filtered.length === 0) {
-          adminOrdersList.innerHTML = dataRows.length === 0
-            ? adminEmptyStateHtml({
-                icon: '📭',
-                title: 'Aucune commande pour l\'instant',
-                sub: 'Elles apparaîtront ici automatiquement dès qu\'un client validera une réservation.',
-              })
-            : adminEmptyStateHtml({
-                icon: '🔍',
-                title: 'Aucun résultat avec ces filtres',
-                sub: 'Essaie d\'élargir ta recherche, ou réinitialise les filtres pour retrouver toutes les commandes.',
-                actionHtml: '<button type="button" class="admin-btn-ghost" id="adminOrdersEmptyResetBtn">↺ Réinitialiser les filtres</button>',
-              });
-          const emptyResetBtn = document.getElementById('adminOrdersEmptyResetBtn');
-          if (emptyResetBtn) {
-            emptyResetBtn.addEventListener('click', () => {
-              adminStatusFilter.value = ''; adminProgressFilter.value = ''; adminTagFilter.value = '';
-              adminSearchInput.value = ''; adminDateFromInput.value = ''; adminDateToInput.value = '';
-              adminDeliveryDateFromInput.value = ''; adminDeliveryDateToInput.value = '';
-              if (promoSel) promoSel.value = '';
-              if (adminKindFilter) adminKindFilter.value = '';
-              updateDateFilterResetVisibility(); updateDeliveryDateFilterResetVisibility();
-              renderAdminOrdersList(lastAdminOrders);
-            });
-          }
+          adminOrdersList.innerHTML = `<p class="info-text">${dataRows.length === 0 ? 'Aucune commande dans le Sheet pour l\'instant.' : 'Aucune commande ne correspond à ces filtres.'}</p>`;
         } else {
           let active = filtered.filter(r => !isArchivable(r));
           const archived = filtered.filter(isArchivable);
@@ -24756,10 +24383,6 @@
             if (newIds.length > 0) notifyNewOrders(newIds);
           }
           knownOrderIds = currentIds;
-          // 🆕 Rappel Discord "en attente client" : voir notifySilentOrdersDiscord() (déclaration plus
-          // bas dans ce fichier) — pas besoin d'attendre sa déclaration, les fonctions sont hissées.
-          // Ne bloque jamais le chargement de la liste (fire-and-forget, erreurs avalées à l'intérieur).
-          notifySilentOrdersDiscord(dataRows);
 
           lastAdminOrders = dataRows;
           extras33Call('prepare', dataRows); // alertes prix bas + liens d'aperçu : avant le dashboard qui les compte
@@ -26542,9 +26165,9 @@
     //
     //   var usersSheet = SpreadsheetApp.getActive().getSheetByName('Users')
     //     || SpreadsheetApp.getActive().insertSheet('Users');
-    //   // Colonnes, dans cet ordre : id | email | name | passwordHash | passwordSalt | googleId | discordId | createdAt | resetToken | resetTokenExpiry
+    //   // Colonnes, dans cet ordre : id | email | name | passwordHash | passwordSalt | googleId | discordId | createdAt
     //   if (usersSheet.getLastRow() === 0) {
-    //     usersSheet.appendRow(['id', 'email', 'name', 'passwordHash', 'passwordSalt', 'googleId', 'discordId', 'createdAt', 'resetToken', 'resetTokenExpiry']);
+    //     usersSheet.appendRow(['id', 'email', 'name', 'passwordHash', 'passwordSalt', 'googleId', 'discordId', 'createdAt']);
     //   }
     //   function findUserRow(field, value) {
     //     if (!value) return null;
@@ -26584,41 +26207,16 @@
     // une erreur claire côté site (rien n'est cassé), et Google/Discord répondent de même.
     //
     // 🆕 Mot de passe oublié : functions/api/auth.js a besoin de DEUX actions supplémentaires (même
-    // logique que ci-dessus, jamais appelées directement par le navigateur — génération du token et
-    // envoi de l'email se font ICI, côté Apps Script, via MailApp, sans clé d'API à configurer
-    // ailleurs) :
-    //
-    //   if (action === 'authForgotPassword') {
-    //     var foundF = findUserRow('email', e.parameter.email);
-    //     if (foundF) {
-    //       var tok = Utilities.getUuid();
-    //       var expiry = new Date(Date.now() + 60 * 60 * 1000).toISOString(); // valable 1h
-    //       var rowF = foundF.values.slice();
-    //       rowF[8] = tok; rowF[9] = expiry; // colonnes 9/10 : resetToken | resetTokenExpiry
-    //       usersSheet.getRange(foundF.row, 1, 1, rowF.length).setValues([rowF]);
-    //       try {
-    //         MailApp.sendEmail(e.parameter.email, 'Réinitialisation de ton mot de passe',
-    //           'Clique ici pour choisir un nouveau mot de passe : ' + (e.parameter.origin || '') + '/?page=reset-password&token=' + tok);
-    //       } catch (mailErr) { /* email non envoyé, mais rien à faire de plus ici */ }
-    //     }
-    //     // Toujours success:true, que l'email existe ou non (jamais révéler l'un ou l'autre) :
-    //     // c'est functions/api/auth.js qui renvoie ça au navigateur quoi qu'il arrive ici.
-    //     return ContentService.createTextOutput(JSON.stringify({ success: true })).setMimeType(ContentService.MimeType.JSON);
-    //   }
-    //   if (action === 'authResetPassword') {
-    //     var dataR = usersSheet.getDataRange().getValues();
-    //     for (var kR = 1; kR < dataR.length; kR++) {
-    //       if (dataR[kR][8] && String(dataR[kR][8]) === String(e.parameter.token)) {
-    //         if (new Date(dataR[kR][9]) < new Date()) break; // token expiré → invalid-token ci-dessous
-    //         var rowR = dataR[kR].slice();
-    //         rowR[3] = e.parameter.passwordHash; rowR[4] = e.parameter.passwordSalt;
-    //         rowR[8] = ''; rowR[9] = ''; // token à usage unique, invalidé après ce reset
-    //         usersSheet.getRange(kR + 1, 1, 1, rowR.length).setValues([rowR]);
-    //         return ContentService.createTextOutput(JSON.stringify({ success: true })).setMimeType(ContentService.MimeType.JSON);
-    //       }
-    //     }
-    //     return ContentService.createTextOutput(JSON.stringify({ success: false, error: 'invalid-token' })).setMimeType(ContentService.MimeType.JSON);
-    //   }
+    // logique que ci-dessus, jamais appelées directement par le navigateur) :
+    //   - action "forgot" (POST {email}) : cherche l'utilisateur (authFindUser), génère un token
+    //     aléatoire à durée limitée (1h par ex.), l'enregistre quelque part (une colonne
+    //     "resetToken"/"resetTokenExpiry" dans l'onglet Users suffit), envoie un email contenant
+    //     un lien vers {site}/?page=reset-password&token=CE_TOKEN (Resend/SendGrid/MailChannels...),
+    //     et répond TOUJOURS { success: true } — que l'email existe ou non, pour ne jamais révéler
+    //     si une adresse a un compte ici.
+    //   - action "resetConfirm" (POST {token, password}) : retrouve l'utilisateur par resetToken,
+    //     vérifie qu'il n'a pas expiré, remplace passwordHash/passwordSalt, invalide le token, répond
+    //     { success: true } ou { success: false, error: "invalid-token" } si expiré/déjà utilisé.
 
     // 🆕 Fichiers clients sur Google Drive (en plus de Discord, jamais à la place) : voir
     // uploadFilesToDrive() plus bas dans ce fichier (appelée à l'envoi de commande et à l'envoi de
@@ -28517,26 +28115,9 @@
       const tiles = gallery.querySelectorAll('.style-gallery-tile');
       tiles.forEach(tile => {
         const styleKey = tile.dataset.styleThumb;
-        function applyFromCard() {
-          const sourceImg = document.querySelector(`.portfolio-card[data-style="${styleKey}"] .portfolio-thumb-img`);
-          const src = sourceImg ? (sourceImg.getAttribute('data-src') || sourceImg.getAttribute('src')) : null;
-          if (!src) return false;
-          tile.style.backgroundImage = `url('${src}')`;
-          tile.classList.add('has-real-thumb');
-          return true;
-        }
-        // Pour les styles uniquement représentés par des vidéos TikTok (business/edit/conseils),
-        // la vraie image n'existe pas encore à ce stade : elle n'apparaît qu'après coup si l'oEmbed
-        // TikTok réussit (voir loadTiktokThumbnail, souvent bloqué par TikTok — dans ce cas la
-        // vignette garde son dégradé + icône de repli posé en CSS, ce qui reste un état correct).
-        if (!applyFromCard()) {
-          const grid = document.getElementById('portfolioGrid');
-          if (grid && 'MutationObserver' in window) {
-            const mo = new MutationObserver(() => { if (applyFromCard()) mo.disconnect(); });
-            mo.observe(grid, { childList: true, subtree: true });
-            setTimeout(() => mo.disconnect(), 15000); // pas la peine d'observer indéfiniment
-          }
-        }
+        const sourceImg = document.querySelector(`.portfolio-card[data-style="${styleKey}"] .portfolio-thumb-img`);
+        const src = sourceImg ? (sourceImg.getAttribute('data-src') || sourceImg.getAttribute('src')) : null;
+        if (src) tile.style.backgroundImage = `url('${src}')`;
 
         tile.addEventListener('click', () => {
           trackToolUsage('style-gallery');
@@ -31877,12 +31458,7 @@
           switchToRegister.style.display = 'none';
           switchToLogin.style.display = 'inline';
           switchFromForgot.style.display = 'none';
-          // 🩹 Ne réaffiche le faux bouton (#accountGoogleBtn) que si le vrai bouton Google n'a pas
-          // encore fini de charger — sinon les deux se retrouvaient visibles en même temps à chaque
-          // changement de mode de la modale (register/login), même après que le vrai bouton soit prêt.
-          googleBtn.style.display = googleButtonReady ? 'none' : '';
-          if (googleBtnReal) googleBtnReal.style.display = googleButtonReady ? 'flex' : 'none';
-          discordBtn.style.display = ''; oauthDivider.style.display = '';
+          googleBtn.style.display = ''; discordBtn.style.display = ''; oauthDivider.style.display = '';
         } else if (mode === 'forgot') {
           title.textContent = 'Mot de passe oublié';
           document.getElementById('accountModalSub').textContent = "Indique ton email, tu recevras un lien pour choisir un nouveau mot de passe.";
@@ -31894,7 +31470,7 @@
           switchToRegister.style.display = 'none';
           switchToLogin.style.display = 'none';
           switchFromForgot.style.display = 'inline';
-          googleBtn.style.display = 'none'; if (googleBtnReal) googleBtnReal.style.display = 'none'; discordBtn.style.display = 'none'; oauthDivider.style.display = 'none';
+          googleBtn.style.display = 'none'; discordBtn.style.display = 'none'; oauthDivider.style.display = 'none';
         } else if (mode === 'resetConfirm') {
           title.textContent = 'Nouveau mot de passe';
           document.getElementById('accountModalSub').textContent = 'Choisis un nouveau mot de passe pour ton compte.';
@@ -31907,7 +31483,7 @@
           switchToRegister.style.display = 'none';
           switchToLogin.style.display = 'none';
           switchFromForgot.style.display = 'none';
-          googleBtn.style.display = 'none'; if (googleBtnReal) googleBtnReal.style.display = 'none'; discordBtn.style.display = 'none'; oauthDivider.style.display = 'none';
+          googleBtn.style.display = 'none'; discordBtn.style.display = 'none'; oauthDivider.style.display = 'none';
         } else {
           title.textContent = 'Se connecter';
           document.getElementById('accountModalSub').textContent = 'Retrouve tes commandes plus vite la prochaine fois.';
@@ -31920,9 +31496,7 @@
           switchToRegister.style.display = 'inline';
           switchToLogin.style.display = 'none';
           switchFromForgot.style.display = 'none';
-          googleBtn.style.display = googleButtonReady ? 'none' : '';
-          if (googleBtnReal) googleBtnReal.style.display = googleButtonReady ? 'flex' : 'none';
-          discordBtn.style.display = ''; oauthDivider.style.display = '';
+          googleBtn.style.display = ''; discordBtn.style.display = ''; oauthDivider.style.display = '';
         }
       }
 
@@ -32058,15 +31632,9 @@
         }
       });
 
-      // --- Google : 🆕 ton auth.js vérifie un idToken (endpoint tokeninfo de Google), pas une
-      // redirection comme Discord — donc pas de popup/serveur supplémentaire nécessaire ici. Le
-      // vrai souci était que le "One Tap" (google.accounts.id.prompt()) est une fenêtre flottante
-      // gérée par Google, qui peut s'afficher DERRIÈRE la modale de compte selon le navigateur
-      // (cookies tiers bloqués, FedCM, extensions de vie privée) — rien à cliquer, aucune erreur.
-      // Solution : afficher le VRAI bouton Google (google.accounts.id.renderButton), qui est un
-      // élément normal dans la page — jamais un overlay flottant, donc jamais caché par la modale.
-      // #accountGoogleBtn reste affiché tant que ce vrai bouton n'a pas fini de charger, pour ne
-      // jamais laisser un espace vide si le script Google est lent/bloqué.
+      // --- Google : Google Identity Services, chargé à la demande (même principe que le SDK PayPal
+      // plus haut : rien n'est chargé tant que le bouton n'est pas cliqué). google.accounts.id.prompt()
+      // ouvre la fenêtre de connexion Google directement depuis ce clic.
       let googleScriptLoading = null;
       function loadGoogleScript() {
         if (window.google && window.google.accounts && window.google.accounts.id) return Promise.resolve();
@@ -32080,53 +31648,41 @@
         });
         return googleScriptLoading;
       }
-      async function handleGoogleCredential(response) {
-        statusEl.style.color = 'var(--text-tertiary)';
-        statusEl.textContent = 'Un instant…';
-        try {
-          const res = await fetch(AUTH_API_URL, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ action: 'google', idToken: response.credential })
-          });
-          const data = await res.json();
-          if (!data.success) throw new Error(data.error || 'server-error');
-          setSession({ token: data.token, email: data.email, name: data.name, method: 'google' });
-          if (elevateToAdminIfNeeded(data.email)) return;
-          closeModal();
-        } catch (err) {
-          statusEl.style.color = '#e28b8b';
-          statusEl.textContent = AUTH_ERROR_MESSAGES[err.message] || AUTH_ERROR_MESSAGES['server-error'];
-        }
-      }
-      const googleBtnReal = document.getElementById('accountGoogleBtnReal');
-      let googleButtonReady = false;
-      (async function initGoogleButton() {
-        if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID.includes('COLLE_TON_CLIENT_ID') || !googleBtnReal) return;
-        try {
-          await loadGoogleScript();
-          window.google.accounts.id.initialize({ client_id: GOOGLE_CLIENT_ID, callback: handleGoogleCredential });
-          window.google.accounts.id.renderButton(googleBtnReal, { theme: 'outline', size: 'large', width: 260, text: 'continue_with' });
-          googleBtnReal.style.display = 'flex';
-          googleBtn.style.display = 'none';
-          googleButtonReady = true;
-        } catch (e) {
-          // Script Google injoignable (réseau, bloqueur de pub) : #accountGoogleBtn reste affiché,
-          // son clic ci-dessous donne un message clair plutôt que de rester muet.
-        }
-      })();
-      googleBtn.addEventListener('click', () => {
+      googleBtn.addEventListener('click', async () => {
         if (!GOOGLE_CLIENT_ID || GOOGLE_CLIENT_ID.includes('COLLE_TON_CLIENT_ID')) {
           statusEl.style.color = '#e28b8b';
           statusEl.textContent = "⚠️ Connexion Google pas encore configurée (GOOGLE_CLIENT_ID).";
           return;
         }
-        if (!googleButtonReady) {
+        try {
+          await loadGoogleScript();
+          window.google.accounts.id.initialize({
+            client_id: GOOGLE_CLIENT_ID,
+            callback: async (response) => {
+              statusEl.style.color = 'var(--text-tertiary)';
+              statusEl.textContent = 'Un instant…';
+              try {
+                const res = await fetch(AUTH_API_URL, {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ action: 'google', idToken: response.credential })
+                });
+                const data = await res.json();
+                if (!data.success) throw new Error(data.error || 'server-error');
+                setSession({ token: data.token, email: data.email, name: data.name, method: 'google' });
+                if (elevateToAdminIfNeeded(data.email)) return;
+                closeModal();
+              } catch (err) {
+                statusEl.style.color = '#e28b8b';
+                statusEl.textContent = AUTH_ERROR_MESSAGES[err.message] || AUTH_ERROR_MESSAGES['server-error'];
+              }
+            }
+          });
+          window.google.accounts.id.prompt();
+        } catch (err) {
           statusEl.style.color = '#e28b8b';
-          statusEl.textContent = "⚠️ Impossible de charger la connexion Google (réseau ou bloqueur de pub) — réessaie ou utilise une autre méthode.";
+          statusEl.textContent = "⚠️ Impossible de charger la connexion Google — réessaie ou utilise une autre méthode.";
         }
-        // Si googleButtonReady est vrai, ce bouton est de toute façon caché (voir initGoogleButton) :
-        // c'est le vrai bouton Google juste au-dessus qui reçoit le clic.
       });
 
       // --- Discord : 🆕 ouvert dans un nouvel onglet/popup plutôt qu'une redirection en pleine page,
@@ -32174,10 +31730,9 @@
         }
       });
 
-      // --- Retour de redirection Discord (réussi ou erreur) : lu dans l'URL au chargement de la
-      // page, puis nettoyé immédiatement (history.replaceState) pour ne pas garder le token dans
-      // l'URL visible/partageable. (Google n'utilise pas cette redirection : il passe par un jeton
-      // vérifié directement dans la modale, voir handleGoogleCredential plus haut.)
+      // --- Retour de redirection (Discord réussi, ou erreur Google/Discord) : lu dans l'URL au
+      // chargement de la page, puis nettoyé immédiatement (history.replaceState) pour ne pas garder
+      // le token dans l'URL visible/partageable.
       (function handleAccountRedirectParams() {
         const params = new URLSearchParams(window.location.search);
         const sessionToken = params.get('account_session');
@@ -32199,15 +31754,7 @@
         // 🆕 Si cette page tourne dans le popup Discord (ouverte par window.open depuis l'onglet
         // d'origine), on relaie juste le résultat au parent et on se referme, plutôt que de traiter
         // la session ici — la vraie session doit vivre dans l'onglet d'origine.
-        // 🩹 On ne teste plus window.name === DISCORD_POPUP_NAME : la plupart des navigateurs
-        // réinitialisent window.name après un aller-retour vers un domaine tiers (discord.com) pour
-        // isoler les sites (Site Isolation). C'est exactement ce qui causait le bug : le test
-        // échouait toujours au retour de Discord, donc la popup traitait la session sur elle-même
-        // au lieu de la relayer et de se fermer — d'où "ça m'ouvre le site dans la popup Discord".
-        // window.opener suffit : il n'est présent que sur une fenêtre ouverte via window.open, et ce
-        // bloc ne s'exécute de toute façon que si l'URL contient account_session/account_error, ce
-        // qui n'arrive que juste après ce flux Discord précis.
-        if (window.opener && window.opener !== window) {
+        if (window.opener && window.opener !== window && window.name === DISCORD_POPUP_NAME) {
           try {
             window.opener.postMessage({ source: 'michyy-discord-auth', sessionToken, accountError, name, email }, window.location.origin);
           } catch (e) { /* tant pis, l'onglet reste ouvert avec le résultat visible dans l'URL nettoyée ci-dessous */ }
@@ -33872,10 +33419,17 @@
       e.preventDefault();
       if (isLikelySpam(reserveForm)) return;
 
-      // 🧹 Compte obligatoire pour valider une commande : retiré à la demande explicite (compte
-      // pas encore fonctionnel pour l'instant) — une commande peut de nouveau être validée sans
-      // compte, comme avant. Rien d'autre n'a changé : le brief reste sauvegardé localement
-      // (saveDraft()) que la personne ait un compte ou non.
+      // 🆕 Compte obligatoire pour valider une commande (le brief reste visible/modifiable sans
+      // compte, et saveDraft() a déjà tout sauvegardé localement — rien n'est perdu en créant le
+      // compte). On ne bloque que l'ENVOI, pas la consultation ni le remplissage du formulaire.
+      const accSession = (typeof window.getAccountSession === 'function') ? window.getAccountSession() : null;
+      if (!accSession || !accSession.token) {
+        reserveStatus.style.color = '#e28b8b';
+        reserveStatus.textContent = "Crée un compte gratuit (30 secondes) pour valider ta demande — tout ce que tu as déjà rempli est sauvegardé, rien à retaper.";
+        if (typeof window.openAccountModal === 'function') window.openAccountModal('register');
+        reserveStatus.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        return;
+      }
 
       const data = new FormData(reserveForm);
 
@@ -34704,9 +34258,172 @@
     })();
 
     // ─────────────────────────────────────────────────────────────────────────
-    // 🧹 initVideoRibbon() + initVideoRibbonMotion() retirés avec le ruban vidéo infini
-    // (#videoRibbonWrap/#videoRibbonTrack n'existent plus dans le DOM) — doublon cassé du
-    // showreel, voir le commentaire HTML là où se trouvait le ruban.
+    // 🎞️ RUBAN VIDÉO INFINI — initVideoRibbon()
+    // Lit tous les .portfolio-card dans #portfolioGrid, construit les items du ruban :
+    // vraie vidéo YouTube (iframe autoplay + muet + boucle) pour les YT, logo TikTok
+    // stylé pour les TikTok (pas d'embed autoplay possible sans script tiers externe).
+    // Duplique la liste pour que l'animation CSS translateX(-50%) boucle parfaitement,
+    // défile en continu vers la droite (voir @keyframes ribbon-scroll).
+    // ─────────────────────────────────────────────────────────────────────────
+    (function initVideoRibbon() {
+      const track = document.getElementById('videoRibbonTrack');
+      const wrap  = document.getElementById('videoRibbonWrap');
+      if (!track || !wrap) return;
+
+      const cards = Array.from(document.querySelectorAll('#portfolioGrid .portfolio-card'));
+      if (cards.length === 0) { wrap.style.display = 'none'; return; }
+
+      function makeItem(card, hidden) {
+        const href     = card.dataset.href || '#portfolio';
+        const ytId     = card.dataset.ytId;
+        const platform = card.dataset.platform || 'youtube';
+        const label    = card.querySelector('.portfolio-card-label')?.textContent?.trim() || 'Voir la vidéo';
+
+        const a = document.createElement('a');
+        a.className = 'video-ribbon-item';
+        a.href = href;
+        a.target = '_blank';
+        a.rel = 'noopener noreferrer';
+        a.title = label;
+        if (hidden) a.setAttribute('aria-hidden', 'true');
+        // Empêche d'ouvrir le lien si on clique depuis le site (préférer l'onglet portfolio)
+        a.addEventListener('click', (e) => {
+          e.preventDefault();
+          // Active l'onglet Preuves > Résultats > Portfolio
+          if (typeof window.activatePageSection === 'function') window.activatePageSection('portfolio');
+          document.getElementById('portfolio')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        if (ytId) {
+          // 🆕 Vraie vidéo qui joue, pas une simple miniature figée : iframe YouTube en
+          // autoplay + muet, limitée aux 90 premières secondes (1min30, allongé depuis les 30s
+          // d'origine) en boucle (start=0&end=90 + loop=1&playlist=<mêmeId>, seule façon de
+          // boucler un extrait précis via l'iframe YouTube). pointer-events:none sur l'iframe
+          // pour que le clic traverse jusqu'au <a> parent (sinon le clic serait "avalé" par
+          // l'iframe et n'ouvrirait plus l'onglet portfolio).
+          const iframe = document.createElement('iframe');
+          iframe.className = 'video-ribbon-item-frame';
+          iframe.src = `https://www.youtube-nocookie.com/embed/${ytId}?autoplay=1&mute=1&start=0&end=90&loop=1&playlist=${ytId}&controls=0&showinfo=0&modestbranding=1&rel=0&iv_load_policy=3&playsinline=1`;
+          iframe.title = label;
+          iframe.loading = 'lazy';
+          iframe.tabIndex = -1;
+          iframe.setAttribute('aria-hidden', 'true');
+          iframe.setAttribute('allow', 'autoplay; encrypted-media');
+          iframe.setAttribute('frameborder', '0');
+          a.appendChild(iframe);
+        } else {
+          // 🆕 TikTok : embed vidéo (iframe tiktok.com/embed/v2/<id>) quand l'URL du portfolio
+          // est un lien canonique .../video/<id> dont on peut extraire l'ID numérique — pas
+          // possible pour les liens courts vm.tiktok.com/xxx (résolution du lien impossible
+          // côté client sans requête réseau, non fiable). Contrairement à YouTube, TikTok ne
+          // documente pas de paramètres d'URL pour forcer autoplay/mute/boucle sur son embed
+          // brut (pas de widget.js chargé ici, interdit par la règle "fichier autonome") :
+          // la lecture peut donc démarrer avec le son et ne pas boucler automatiquement selon
+          // le navigateur — c'est une limite de TikTok, pas un réglage qu'on peut fiabiliser.
+          const tkMatch = /\/video\/(\d+)/.exec(href);
+          if (tkMatch) {
+            const iframe = document.createElement('iframe');
+            iframe.className = 'video-ribbon-item-frame';
+            iframe.src = `https://www.tiktok.com/embed/v2/${tkMatch[1]}`;
+            iframe.title = label;
+            iframe.loading = 'lazy';
+            iframe.tabIndex = -1;
+            iframe.setAttribute('aria-hidden', 'true');
+            iframe.setAttribute('allow', 'autoplay; encrypted-media');
+            iframe.setAttribute('frameborder', '0');
+            a.appendChild(iframe);
+          } else {
+            // Lien court vm.tiktok.com sans ID exploitable → on garde le placeholder stylé.
+            const placeholder = document.createElement('div');
+            placeholder.className = 'video-ribbon-item-tiktok';
+            placeholder.innerHTML = `<svg width="28" height="28" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.27 6.27 0 00-.79-.05 6.34 6.34 0 00-6.34 6.34 6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.33-6.34V8.79a8.18 8.18 0 004.78 1.52V6.88a4.85 4.85 0 01-1.01-.19z"/></svg>`;
+            a.appendChild(placeholder);
+          }
+        }
+
+        // Badge plateforme
+        const badge = document.createElement('span');
+        badge.className = 'video-ribbon-platform-badge';
+        badge.textContent = ytId ? 'YT' : 'TK';
+        badge.setAttribute('aria-hidden', 'true');
+        a.appendChild(badge);
+
+        // Overlay play — n'a de sens que sur le placeholder statique (lien court TikTok sans
+        // ID exploitable) : les vraies vidéos (YouTube, TikTok avec ID) jouent déjà toutes
+        // seules, un bouton "lecture" par-dessus serait trompeur.
+        if (a.querySelector('.video-ribbon-item-tiktok')) {
+          const overlay = document.createElement('div');
+          overlay.className = 'video-ribbon-play';
+          overlay.setAttribute('aria-hidden', 'true');
+          overlay.innerHTML = `<svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>`;
+          a.appendChild(overlay);
+        }
+
+        return a;
+      }
+
+      // 🔧 Un seul exemplaire de chaque item (pas de duplication) : contrairement au ruban de
+      // miniatures figées d'origine, ici chaque item contient une vraie vidéo qui joue (iframe
+      // YouTube/TikTok). Dupliquer les items casserait la boucle CSS habituelle : les deux
+      // copies d'une même vidéo ne jouent jamais exactement à la même seconde, donc au moment
+      // du raccord on la voit "sauter" en arrière (revenir au début) — exactement le problème
+      // remonté. Voir la boucle JS juste en dessous, qui gère un seul jeu d'items sans ce défaut.
+      cards.forEach(card => track.appendChild(makeItem(card, false)));
+    })();
+
+    // ─────────────────────────────────────────────────────────────────────────
+    // 🎞️ RUBAN VIDÉO — DÉFILEMENT SANS RACCORD (initVideoRibbonMotion)
+    // 🆕 Remplace l'animation CSS ribbon-scroll (pensée pour des miniatures figées dupliquées)
+    // par un défilement piloté en JS, item par item, SANS duplication : chaque item (donc
+    // chaque iframe vidéo) n'existe qu'une seule fois dans le DOM. Dès qu'un item sort
+    // entièrement à gauche, on le déplace (même noeud, pas de clone → la vidéo continue de
+    // jouer sans recharger) à la fin du ruban, en compensant le décalage — invisible à
+    // l'œil, et surtout aucun raccord entre deux copies désynchronisées d'une même vidéo.
+    // Toujours vers la droite, à l'infini, ne s'arrête jamais (sauf survol, comme avant).
+    // ─────────────────────────────────────────────────────────────────────────
+    (function initVideoRibbonMotion() {
+      const wrap  = document.getElementById('videoRibbonWrap');
+      const track = document.getElementById('videoRibbonTrack');
+      if (!wrap || !track) return;
+      if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      track.style.animation = 'none'; // on coupe l'animation CSS ribbon-scroll : pilotée en JS ici
+      track.style.willChange = 'transform';
+
+      // 🔧 Sens corrigé : la version précédente faisait glisser le contenu vers la GAUCHE (offset
+      // croissant en négatif), à l'opposé du "défile vers la droite" demandé dès le départ (voir
+      // .video-ribbon-track / @keyframes ribbon-scroll ci-dessus, qui allaient bien vers la droite
+      // avant ce passage en JS). Ici : offset croissant en POSITIF (translateX(+offset)) et, au
+      // lieu de renvoyer le 1er item à la fin quand il sort à gauche, on ramène le DERNIER item au
+      // début quand l'espace s'ouvre à gauche — effet miroir : le ruban avance vers la droite.
+      const ITEM_W = 120, GAP = 10, SPEED_PX_PER_SEC = 80; // mêmes valeurs que .video-ribbon-item / l'ancien réglage
+      let offset = 0;
+      let last = null;
+      let paused = false;
+      wrap.addEventListener('mouseenter', () => { paused = true; });
+      wrap.addEventListener('mouseleave', () => { paused = false; });
+
+      function frame(ts) {
+        if (track.children.length === 0) return; // pas de vidéos : rien à animer
+        if (last === null) last = ts;
+        const dt = Math.min((ts - last) / 1000, 0.1); // clamp pour éviter un saut après un onglet en veille
+        last = ts;
+        if (!paused) {
+          offset += SPEED_PX_PER_SEC * dt;
+          // Le "trou" qui s'ouvrirait à gauche à mesure que le ruban avance vers la droite est
+          // comblé en ramenant le dernier item au début (même nœud, pas de clone → la vidéo
+          // continue de jouer sans recharger), en compensant le décalage pour que ce soit invisible.
+          while (offset >= ITEM_W + GAP) {
+            track.insertBefore(track.lastElementChild, track.firstElementChild);
+            offset -= (ITEM_W + GAP);
+          }
+          track.style.transform = `translateX(${offset}px)`;
+        }
+        requestAnimationFrame(frame);
+      }
+      requestAnimationFrame(frame);
+    })();
+
     // ─────────────────────────────────────────────────────────────────────────
     // 🧩 CONFIGURATEUR PACK SUR-MESURE AUTONOME — initCustomPackStandalone()
     // Même logique que computeCustomMixPrice() dans le formulaire, mais en
@@ -35039,25 +34756,6 @@
     <div id="adminFocusPanel"></div>
 
     <div id="adminTabCommandes" class="admin-tab-panel">
-      <!-- 🆕 Vue "Aujourd'hui" : 3 pastilles cliquables, tout en haut, avant tout le reste — l'idée
-           est de donner le coup d'œil (à livrer sous 24h / en retard / paiement en attente) avant de
-           plonger dans les bannières détaillées et la liste complète ci-dessous. Alimentée par
-           renderAdminOrdersList (voir isDueWithin24h/orderLateDays/isAwaitingPayment dans le JS) :
-           cliquer une pastille filtre la liste plus bas sur ce lot, recliquer dessus l'enlève. -->
-      <div id="adminTodayGlance">
-        <button type="button" class="glance-pill" data-glance="due24h">
-          <span class="glance-num" id="glanceDue24hNum">0</span>
-          <span class="glance-label">🚚 À livrer sous 24h</span>
-        </button>
-        <button type="button" class="glance-pill" data-glance="late">
-          <span class="glance-num" id="glanceLateNum">0</span>
-          <span class="glance-label">⏰ En retard</span>
-        </button>
-        <button type="button" class="glance-pill" data-glance="unpaid">
-          <span class="glance-num" id="glanceUnpaidNum">0</span>
-          <span class="glance-label">💳 Paiement en attente</span>
-        </button>
-      </div>
       <!-- 🆕 Rappel de livraison (J-1) déplacé ici depuis Stats & outils : c'est ce qu'il y a de plus
            urgent à voir en ouvrant l'admin (en retard / à livrer aujourd'hui / demain), donc tout en
            haut de l'onglet par défaut plutôt qu'enterré dans un onglet secondaire. Toujours alimenté
@@ -36015,9 +35713,16 @@
       </div>
       <p class="info-text" id="adminRemovalStatus" style="font-size:11.5px;"></p>
 
-      <!-- 🧹 Bloc "➕ Nouvelles sections / idées à construire" (avec ses groupes "🎬 Nouvelles
-           sections", "🎨 Animations / esthétique", "⚙️ Options / améliorations" et "🧹 À supprimer
-           / simplifier") retiré pour de bon à la demande explicite : ne plus jamais le remettre. -->
+      <!-- 🆕 "Niveau léger" choisi (plutôt qu'un vrai éditeur de blocs côté Sheet, plus gros travail
+           et plus de risque de bugs vu la taille du fichier) : une checklist de commande claire entre
+           toi et Claude, stockée uniquement sur cet appareil (aucune donnée envoyée, rien construit
+           automatiquement). Coche ce que tu veux, clique "Copier ma sélection", colle-la dans une
+           conversation avec Claude — chaque case cochée est construite dans le code à ce moment-là. -->
+      <h5 style="font-size:13px; margin:20px 0 4px;">➕ Nouvelles sections / idées à construire</h5>
+      <p class="info-text" style="font-size: 12px;">Coche ce qui t'intéresse, clique "Copier ma sélection", et colle le résultat dans une conversation avec moi (Claude) pour que je le code.</p>
+      <div id="adminIdeasList" class="admin-section-toggle-list"></div>
+      <button type="button" id="adminIdeasCopyBtn" class="filter-reset-btn">📋 Copier ma sélection</button>
+      <p class="info-text" id="adminIdeasStatus" style="font-size:11.5px;"></p>
 
     </div>
   </section>
