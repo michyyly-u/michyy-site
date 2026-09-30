@@ -21,7 +21,8 @@ const json = (o, status = 200, extra = {}) =>
   new Response(JSON.stringify(o), { status, headers: { "Content-Type": "application/json", ...extra } });
 
 export async function onRequestPost({ request, env }) {
-  if (!env.ADMIN_CODE || !env.SESSION_SECRET) return json({ ok: false, error: "not-configured" }, 500);
+  const missing = ["ADMIN_CODE", "SESSION_SECRET"].filter(k => !env[k]);
+  if (missing.length) return json({ ok: false, error: "not-configured", missing }, 500);
   let code = "";
   try { code = String((await request.json()).code || ""); } catch (e) {}
   const good = safeEqual(await sign(env.SESSION_SECRET, "c:" + code), await sign(env.SESSION_SECRET, "c:" + env.ADMIN_CODE));
