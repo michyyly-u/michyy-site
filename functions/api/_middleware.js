@@ -2,13 +2,19 @@
 // S'exécute AVANT chaque fonction /api/* (donc avant sheets-proxy.js, sans le modifier).
 // Les actions "admin" sont refusées (401) tant que la session admin n'est pas valide.
 
-// ⚠️ À ADAPTER : liste des actions réservées à l'admin (voir le guide).
+// Liste FINALE (déduite de ton index.html) : actions réservées au panneau admin.
 const ADMIN_ACTIONS = new Set([
-  "list", "update", "delete", "setStatus", "saveBackup",
+  "list", "delete", "setStatus", "saveBackup",
   "setAnnouncement", "setBlockedDays", "setHiddenSections",
-  "npsList", "toolStats", "previewOpens", "rushsReceived",
-  "promoList", "promoDelete", "promoDisabledList",
+  "npsList", "previewOpens", "listClientFiles",
+  "promoCreate", "promoDelete",
 ]);
+// "update" sert aux DEUX : tes clients l'utilisent pour envoyer une commande (toujours avec ce statut),
+// et toi pour modifier une commande. Sans session, seul ce statut de création est accepté.
+const CLIENT_UPDATE_STATUS = "🟠 Envoyée, en attente de réponse";
+// Restent publiques (utilisées par les visiteurs) : getStatus, getAnnouncement, getBlockedDays, getHiddenSections,
+// promoList, promoDisabledList, saveDraft, getDraft, clientFeedback, npsLog, previewOpen, rushsReceived,
+// emailNotifyOptIn, submitEssai, uploadClientFile, toolStats, public*.
 
 const enc = new TextEncoder();
 async function sign(secret, msg) {
@@ -34,10 +40,12 @@ export async function onRequest({ request, env, next }) {
   const url = new URL(request.url);
   if (url.pathname === "/api/sheets-proxy") {
     let action = url.searchParams.get("action");
+    let status = url.searchParams.get("status");
     if (!action && request.method === "POST") {
-      try { action = (await request.clone().json()).action; } catch (e) {}
+      try { const b = await request.clone().json(); action = b.action; status = b.status; } catch (e) {}
     }
-    if (ADMIN_ACTIONS.has(action) && !(await sessionOk(request, env))) {
+    const needsAuth = ADMIN_ACTIONS.has(action) || (action === "update" && status !== CLIENT_UPDATE_STATUS);
+    if (needsAuth && !(await sessionOk(request, env))) {
       return new Response(JSON.stringify({ success: false, error: "unauthorized" }), {
         status: 401, headers: { "Content-Type": "application/json" },
       });
