@@ -74,6 +74,34 @@ export async function onRequestGet(context) {
     });
   }
 
+  // Auto-diagnostic : teste chaque maillon (variables, Apps Script, secret, action « list ») et dit où ça casse.
+  // Ne renvoie aucune donnée de commande ni aucune valeur secrète. À retirer une fois le problème réglé.
+  if (incomingUrl.searchParams.get('action') === '_selftest') {
+    const cfg0 = config(env);
+    if (cfg0.error) return cfg0.error;
+    const probe = async (action) => {
+      const u = new URL(cfg0.scriptUrl); u.searchParams.set('action', action); u.searchParams.set('secret', cfg0.secret);
+      try {
+        const r = await fetch(u.toString(), { redirect: 'follow' }); const t = await r.text(); let j = null;
+        try { j = JSON.parse(t); } catch (e) { /* pas du JSON */ }
+        return { http: r.status, json: j !== null, pageHtml: t.trim().slice(0, 1) === '<',
+          success: j && !Array.isArray(j) ? j.success : undefined,
+          erreurApps: j && !Array.isArray(j) && j.error ? String(j.error).slice(0, 140) : undefined,
+          lignesRenvoyees: Array.isArray(j) ? j.length : undefined };
+      } catch (e) { return { reseau: String(e).slice(0, 140) }; }
+    };
+    const getStatus = await probe('getStatus'), list = await probe('list');
+    let diagnostic = 'Tout répond correctement.';
+    const bad = (x) => x.reseau || x.pageHtml || !x.json || x.success === false;
+    if (getStatus.pageHtml || list.pageHtml) diagnostic = "Google renvoie une page HTML : déploiement Apps Script non public (« Tout le monde »), URL qui ne finit pas par /exec, ou nouvelle version non déployée.";
+    else if (/non autoris/i.test(getStatus.erreurApps || list.erreurApps || '')) diagnostic = "Apps Script refuse le secret : GOOGLE_SCRIPT_SECRET (Cloudflare) doit être identique à SECRET dans le script.";
+    else if (/inconnue/i.test(getStatus.erreurApps || '')) diagnostic = "getStatus est inconnu : le bloc AJOUTS n'est pas branché dans doGet, ou aucune « Nouvelle version » n'a été déployée.";
+    else if (bad(getStatus)) diagnostic = "Apps Script ne répond pas correctement à getStatus (voir détails).";
+    else if (bad(list) || list.lignesRenvoyees === undefined) diagnostic = "Le script répond, mais l'action « list » ne renvoie pas un tableau de commandes : c'est elle (doGet principal) qui est en cause (voir détails).";
+    else if (list.lignesRenvoyees <= 1) diagnostic = "Tout répond, mais l'onglet des commandes est vide (en-tête seul) : les commandes ne sont pas écrites par « update » (voir ORDERS_SHEET_NAME et le doGet principal).";
+    return jsonResponse({ success: true, diagnostic, variables: { GOOGLE_SCRIPT_URL: true, GOOGLE_SCRIPT_SECRET: true }, getStatus, list });
+  }
+
   const cfg = config(env);
   if (cfg.error) return cfg.error;
 
