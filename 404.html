@@ -1,61 +1,54 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
 <head>
-  <!-- Page 404 Cloudflare Pages : à déposer à la racine, à côté d'index.html, sous le nom exact 404.html.
-       Cloudflare la renvoie alors avec un vrai statut HTTP 404 pour toute URL inconnue.
-       Les liens commencent par « / » car cette page s'affiche à n'importe quelle profondeur d'URL. -->
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="robots" content="noindex" />
-  <title>Page introuvable · Michyy</title>
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23ff3c3c'/%3E%3Cstop offset='1' stop-color='%23ff9a00'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='64' height='64' rx='16' fill='url(%23g)'/%3E%3Ctext x='32' y='44' font-family='Arial, sans-serif' font-weight='800' font-size='36' fill='white' text-anchor='middle'%3EM%3C/text%3E%3C/svg%3E" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-    :root { --bg: #0a0a0a; --text: #f4f4f5; --text-secondary: #a1a1aa; --border: #2a2a2e; }
-    html, body { height: 100%; }
-    body {
-      background: var(--bg);
-      color: var(--text);
-      font-family: 'Manrope', system-ui, sans-serif;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 2rem 1.5rem;
-    }
-    .logo {
-      width: 48px; height: 48px; border-radius: 12px;
-      background: linear-gradient(135deg, #FF4438, #FFB020);
-      display: flex; align-items: center; justify-content: center;
-      font-weight: 800; font-size: 22px; color: #fff; margin-bottom: 28px;
-    }
-    .code {
-      font-weight: 800; font-size: clamp(3.5rem, 12vw, 6rem); line-height: 1; margin-bottom: 4px;
-      background: linear-gradient(135deg, #FF4438, #FFB020);
-      -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
-    }
-    h1 { font-family: 'Syne', sans-serif; font-weight: 700; font-size: 1.4rem; margin-bottom: 10px; }
-    p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6; max-width: 400px; margin-bottom: 28px; }
-    .actions { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; }
-    .btn { font-weight: 700; font-size: 0.9rem; padding: 12px 22px; border-radius: 12px; text-decoration: none; }
-    .btn-primary { color: #fff; background: linear-gradient(135deg, #FF4438, #FFB020); }
-    .btn-secondary { color: var(--text); border: 1px solid var(--border); }
-    .btn:hover { opacity: 0.9; }
-    .btn:focus-visible { outline: 2px solid #FFB020; outline-offset: 3px; }
-  </style>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Page introuvable · Michyy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script>try{if(localStorage.getItem("michyy_public_theme")==="light")document.documentElement.setAttribute("data-theme","light")}catch(e){}</script>
+<meta name="theme-color" content="#0e0f12">
+<style>
+:root{--bg:#0e0f12;--bg-2:#15171c;--surface:#16181d;--text:#f5f4f1;--text-2:#b9bdc5;--border:#262931;--border-soft:#2c2f38;--grad:linear-gradient(135deg,#FF4537 0%,#FF8A28 100%);--r:12px;--sh:0 1px 2px rgba(0,0,0,.4),0 8px 24px -16px rgba(0,0,0,.55);--font-d:'Space Grotesk','Inter',system-ui,sans-serif;--font-b:'Inter',system-ui,sans-serif}
+:root[data-theme="light"]{--bg:#f7f5f2;--bg-2:#efece7;--surface:#ffffff;--text:#17140f;--text-2:#4a463f;--border:#e4e1dc;--border-soft:#ddd9d2;--sh:0 1px 2px rgba(23,20,15,.08),0 8px 24px -16px rgba(23,20,15,.2)}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%}
+body{background:var(--bg);color:var(--text);font:400 16px/1.6 var(--font-b);display:flex;flex-direction:column;min-height:100vh;-webkit-font-smoothing:antialiased}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;opacity:.045;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+header{display:flex;align-items:center;gap:12px;padding:12px max(16px,calc((100% - 1240px)/2));border-bottom:1px solid var(--border)}
+.logo{display:flex;align-items:center;gap:8px;color:var(--text);text-decoration:none;font:700 16px var(--font-b)}
+.mark{width:32px;height:32px;border-radius:50%;background:#c9cbd1;color:#1a1b1f;display:grid;place-items:center;font-weight:700}
+main{flex:1;display:grid;place-items:center;padding:48px 16px}
+.card{width:min(560px,100%);text-align:center}
+.code{font:700 clamp(96px,22vw,168px)/1 var(--font-d);letter-spacing:-.04em;background:var(--grad);-webkit-background-clip:text;background-clip:text;color:transparent;margin:0 0 8px}
+h1{font:700 clamp(26px,4.4vw,36px)/1.15 var(--font-d);letter-spacing:-.02em;margin:0 0 12px}
+p{margin:0 0 24px;color:var(--text-2)}
+.actions{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+.btn{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:0 24px;border-radius:var(--r);font:700 15px var(--font-b);text-decoration:none;border:1px solid var(--border-soft);color:var(--text);background:transparent}
+.btn:hover{border-color:var(--text-2)}
+.btn.p{background:var(--grad);color:#1a0f08;border:0}.btn.p:hover{filter:brightness(1.07)}
+.btn:focus-visible{outline:3px solid #ff8a28;outline-offset:3px}
+.steps{list-style:none;margin:0 0 32px;padding:0;display:grid;gap:12px;text-align:left}
+.steps li{display:flex;gap:16px;align-items:flex-start;padding:16px;border:1px solid var(--border);border-radius:var(--r);background:var(--surface)}
+.steps b{flex:none;width:28px;height:28px;border-radius:50%;display:grid;place-items:center;font:700 14px var(--font-b);color:#1a0f08;background:var(--grad)}
+.steps strong{display:block;font-weight:600}.steps span{color:var(--text-2);font-size:14px}
+.ref{display:inline-block;margin:0 0 24px;padding:4px 12px;border:1px solid var(--border-soft);border-radius:var(--r);font:600 14px var(--font-b);letter-spacing:.04em;color:var(--text)}
+.ref[hidden]{display:none}
+footer{padding:16px;text-align:center;color:var(--text-2);font-size:13px;border-top:1px solid var(--border)}
+</style>
 </head>
 <body>
-  <div class="logo" aria-hidden="true">M</div>
-  <div class="code" aria-hidden="true">404</div>
-  <h1>Cette page n'existe pas</h1>
-  <p>Le lien est cassé ou la page a été déplacée. Tu cherches un monteur ? Tu peux réserver ton montage directement, ou repartir de l'accueil.</p>
-  <div class="actions">
-    <a class="btn btn-primary" href="/#reservation">📅 Réserver un montage</a>
-    <a class="btn btn-secondary" href="/">Retour à l'accueil</a>
-  </div>
-</body>
-</html>
+<header><a class="logo" href="./"><span class="mark">M</span>Michyy</a></header>
+<main><div class="card">
+<div class="code" aria-hidden="true">404</div>
+<h1>Cette page n'existe pas.</h1>
+<p>Le lien est peut-être cassé, ou la page a bougé. Tu peux repartir de l'accueil, voir les prix ou m'écrire directement.</p>
+<div class="actions">
+<a class="btn p" href="./">Retour à l'accueil</a>
+<a class="btn" href="./#prestations">Voir les offres</a>
+<a class="btn" href="./#faq">Voir la FAQ</a>
+</div>
+</div></main>
+<footer>Michyy · Montage vidéo TikTok, Reels et YouTube</footer>
+</body></html>
