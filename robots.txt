@@ -1,6 +1,0 @@
-User-agent: *
-Allow: /
-Disallow: /?admin=
-Disallow: /?nf=1
-
-Sitemap: https://TON-DOMAINE-A-COMPLETER/sitemap.xml
