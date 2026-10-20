@@ -1,3 +1,8 @@
+// À GARDER SYNCHRONISÉ avec index.html : la table ROUTES ci-dessous doit rester
+// identique à « var META » (script id="tabx-js") et aux chemins de « var PATHS ».
+// Une nouvelle page = une entrée ici, une dans PATHS/META, une dans sitemap.xml.
+// Ce fichier est à la racine de functions/ ; functions/api/_middleware.js est un
+// autre fichier (routes /api/*), les deux cohabitent.
 // Cloudflare Pages Function : sert le bon <title>, la description et l'URL de partage
 // pour chaque page, afin que les aperçus (WhatsApp, Discord, Facebook, Google) soient
 // corrects même sans JavaScript. Le site reste une seule page index.html.
@@ -15,6 +20,7 @@ const ROUTES = {
   "/faq": ["FAQ · Michyy, monteur vidéo", "Délais, révisions, paiement, formats, droits : les réponses aux questions les plus fréquentes."],
   "/conditions": ["Conditions générales · Michyy", "Conditions de vente et de service pour les commandes de montage vidéo."],
   "/commander": ["Commander un montage vidéo · Michyy", "Décris ton projet et réserve ton montage en ligne : court dès 45 €, long dès 125 €. Devis sous 24 h."],
+  "/kit-de-depart": ["Kit de départ : avant d'envoyer tes rushes · Michyy", "Nommage des fichiers, lien Drive et modèle de brief à copier : prépare ta commande de montage en trois minutes."],
   "/suivi": ["Suivi de commande · Michyy", "Suis l'avancement de ta commande de montage vidéo avec ton code de suivi."],
 };
 
