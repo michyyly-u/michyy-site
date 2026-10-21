@@ -29,8 +29,8 @@ function jsonResponse(obj, status) {
 }
 
 function config(env) {
-  const scriptUrl = env.GOOGLE_SCRIPT_URL;
-  const secret = env.GOOGLE_SCRIPT_SECRET;
+  const scriptUrl = String(env.GOOGLE_SCRIPT_URL || '').trim().replace(/^["']|["']$/g, '');
+  const secret = String(env.GOOGLE_SCRIPT_SECRET || '').trim().replace(/^["']|["']$/g, '');
   if (!scriptUrl || !secret) {
     return {
       error: jsonResponse({
